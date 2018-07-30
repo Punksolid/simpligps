@@ -13,6 +13,15 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/me', function (Request $request) {
     return $request->user();
 });
+
+Route::resource("users", "UsersController",["only" => "store"]);
+
+Route::post('login', 'Auth\LoginController@login');
+
+Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+Route::post('password/change', 'UsersController@changePassword');
+
+
