@@ -17,11 +17,16 @@ Route::middleware('auth:api')->get('/me', function (Request $request) {
     return $request->user();
 });
 
-Route::resource("users", "UsersController",["only" => "store"]);
+Route::resource("users", "UsersController",["only" => ["store", "index"]]);
+Route::resource("permissions", "PermissionController",["only" => ["index"]]);
+Route::post("roles/{role}/user", "RolesController@assignToUser");
+Route::resource("roles", "RolesController",["only" => ["index", "store", "show","update"]]);
 
 Route::post('login', 'Auth\LoginController@login');
 
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/change', 'UsersController@changePassword');
+
+
 
 

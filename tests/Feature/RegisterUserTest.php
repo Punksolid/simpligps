@@ -78,4 +78,20 @@ class RegisterUserTest extends TestCase
 
         $call->assertStatus(200);
     }
+
+    public function test_listar_usuarios()
+    {
+        $users = factory(User::class,2)->create();
+        $response = $this->actingAs($this->user)->json('GET', '/api/v1/users');
+
+        $response
+            ->assertJsonFragment([
+                "email" => $users->first()->email
+            ])
+            ->assertJsonFragment([
+                "email" => $users->last()->email
+            ])
+            ->assertStatus(200);
+
+    }
 }
