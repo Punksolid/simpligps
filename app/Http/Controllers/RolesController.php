@@ -71,14 +71,24 @@ class RolesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Elimina rol aka perfiles de permisos
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Role $role)
     {
-        //
+
+        if ($role->delete()){
+            return response([
+                "message" => "rol eliminado"
+            ]);
+        }
+        return response([
+            "message" => "falló al eliminar el rol"
+        ]); //todo cambiar por thwrow exception
+
+
     }
 
     public function assignToUser(Role $role, Request $request){

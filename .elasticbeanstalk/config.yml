@@ -1,7 +1,10 @@
 branch-defaults:
   develop:
-    environment: trm-dev
+    environment: devel
 environment-defaults:
+  develop:
+    branch: null
+    repository: null
   trm-dev:
     branch: null
     repository: null

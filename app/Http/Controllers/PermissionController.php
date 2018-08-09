@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PermissionResource;
 use App\Permission;
+use App\User;
 use Illuminate\Http\Request;
 
 class PermissionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista todos los permisos
      *
      * @return \Illuminate\Http\Response
      */
@@ -21,28 +22,7 @@ class PermissionController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
+     * Muestra
      *
      * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
@@ -64,15 +44,16 @@ class PermissionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Actualiza los permisos individuales de un usuario
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Permission  $permission
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Permission $permission)
+    public function userSync(Request $request, User $user)
     {
-        //
+        $user->syncPermissions($request->permissions);
+        return response($user->getAllPermissions()->pluck("name"));
     }
 
     /**

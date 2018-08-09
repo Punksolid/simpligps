@@ -93,4 +93,30 @@ class PermissionsTest extends TestCase
 
 
     }
+
+    public function test_usuario_puede_eliminar_rol_de_permisos()
+    {
+        $user = factory(User::class)->create();
+        $role = factory(Role::class)->create();
+        $call = $this->actingAs($user)
+            ->json("DELETE", "/api/v1/roles/$role->id");
+        $call->assertJsonStructure([
+          "message"
+        ]);
+        $call->assertStatus(200);
+    }
+
+    public function test_usuario_puede_editar_permisos_por_usuario()
+    {
+        $user = factory(User::class)->create();
+        $call = $this->actingAs(factory(User::class)->create())
+            ->json("PUT", "/api/v1/permissions/user_sync/$user->id",[
+                "permissions" => [
+                    "list-users",
+                    "add-user"
+                ]
+            ]);
+
+        $call->assertStatus(200);
+    }
 }
