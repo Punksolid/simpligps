@@ -18,3 +18,5 @@ yarn-error.log
 !.elasticbeanstalk/*.global.yml
 
 composer\.lock
+
+_ide_helper\.php

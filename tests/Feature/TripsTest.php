@@ -113,4 +113,35 @@ class TripsTest extends TestCase
         $call->assertJson($trip);
     }
 
+    public function test_ver_viajes_activos()
+    {
+
+    }
+
+    public function test_ver_planes_de_viaje_por_etiqueta()
+    {
+        $user = factory(User::class)->create();
+        $trip = factory(Trip::class)->create(["tag" => "riesgo"]);
+
+        $call = $this->actingAs($user)->json("POST", "/api/v1/trips/filtered_with_tags", [
+            "tag" => "riesgo"
+        ]);
+
+        $call->assertSee($trip->rp);
+
+    }
+    public function test_ver_asignar_etiqueta_a_viaje()
+    {
+        $user = factory(User::class)->create();
+        $trip = factory(Trip::class)->create();
+
+        $etiqueta = "riesgo";
+        $call = $this->actingAs($user)->json("POST", "/api/v1/trips/{$trip->id}/tags", [
+            "tag" => $etiqueta
+        ]);
+
+        $call->assertSee("riesgo");
+        $call->assertStatus(200);
+    }
+
 }

@@ -1,6 +1,7 @@
 
 <?php
 
+use App\Http\Controllers\ConvoyController;
 use Illuminate\Http\Request;
 
 /*
@@ -29,10 +30,16 @@ Route::post('login', 'Auth\LoginController@login');
 
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/change', 'UsersController@changePassword');
-
+//CONVOYS
+Route::post("trips/convoys", "ConvoyController@store");
+Route::get("trips/convoys", "ConvoyController@index");
+Route::get("trips/convoys/{convoy}", "ConvoyController@show");
 //TRIPS
 Route::post("trips/upload", "TripsController@upload");
+Route::post("trips/{trip}/tags", "TripsController@assignTag");
+Route::any("trips/filtered_with_tags", "TripsController@filteredWithTags");
 Route::resource("trips", "TripsController",["only" => ["store", "update", "destroy"]]);
+
 
 
 
