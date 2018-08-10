@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Place;
 use Illuminate\Http\Request;
 
+/**
+ * Class PlaceController
+ * @package App\Http\Controllers
+ * @resource Place
+ */
 class PlaceController extends Controller
 {
     /**

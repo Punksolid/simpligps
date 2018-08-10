@@ -7,6 +7,11 @@ use App\Permission;
 use App\User;
 use Illuminate\Http\Request;
 
+/**
+ * Class PermissionController
+ * @package App\Http\Controllers
+ * @resource Permission
+ */
 class PermissionController extends Controller
 {
     /**

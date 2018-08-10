@@ -7,10 +7,15 @@ use App\User;
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
 
+/**
+ * Class RolesController
+ * @package App\Http\Controllers
+ * @resource Role
+ */
 class RolesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the Role.
      *
      * @return \Illuminate\Http\Response
      */
@@ -21,7 +26,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created Role in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -38,7 +43,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified Role.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -53,7 +58,7 @@ class RolesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified Role in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id

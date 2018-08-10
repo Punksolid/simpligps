@@ -6,10 +6,15 @@ use App\Convoy;
 use App\Trip;
 use Illuminate\Http\Request;
 
+/**
+ * Class ConvoyController
+ * @package App\Http\Controllers
+ * @resource Convoy
+ */
 class ConvoyController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the convoy.
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,7 +27,7 @@ class ConvoyController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created convoy in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -39,7 +44,7 @@ class ConvoyController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified convoy.
      *
      * @param  \App\Convoy  $convoy
      * @return \Illuminate\Http\Response
@@ -52,7 +57,7 @@ class ConvoyController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified convoy in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Convoy  $convoy
@@ -64,7 +69,7 @@ class ConvoyController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified convoy from storage.
      *
      * @param  \App\Convoy  $convoy
      * @return \Illuminate\Http\Response

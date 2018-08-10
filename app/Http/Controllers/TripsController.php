@@ -8,6 +8,11 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationData;
 
+/**
+ * Class TripsController
+ * @package App\Http\Controllers
+ * @resource Trips
+ */
 class TripsController extends Controller
 {
     /**
