@@ -106,10 +106,9 @@ class TripsController extends Controller
             "*.fecha_programada_cita_cliente" => "required",
             "*.hora_programada_cita_cliente" => "required",
         ]);
-//        if ($validator->fails()){
-//            dd($validator->messages());
-//            return response($validator->messages());
-//        }
+        if ($validator->fails()){
+            return response($validator->messages());
+        }
 
         foreach ($trips_obj as $trip) {
 

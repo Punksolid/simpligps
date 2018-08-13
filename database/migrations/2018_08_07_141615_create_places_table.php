@@ -15,6 +15,12 @@ class CreatePlacesTable extends Migration
     {
         Schema::create('places', function (Blueprint $table) {
             $table->increments('id');
+            $table->string("name")->nullable();
+            $table->string("address")->nullable();
+            $table->string("phone")->nullable();
+            $table->string("person_in_charge")->nullable();
+
+            $table->text("bulk")->nullable();
             $table->timestamps();
         });
     }
