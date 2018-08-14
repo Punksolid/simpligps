@@ -33,7 +33,8 @@ class TripRequest extends FormRequest
             "mon_type" => "required",
             "line" => "required",
 
-            "scheduled_load" => "required|date", //@todo preguntar si la carga es antes de la salida o hay salida antes
+            "scheduled_load" => "required|date",
+            //@todo preguntar si la carga es antes de la salida o hay salida antes
             "scheduled_departure" => "required|date|before:scheduled_arrival",
             "scheduled_arrival" => "required|date|after:scheduled_departure",
             "scheduled_unload" => "required|date|after:scheduled_arrival",

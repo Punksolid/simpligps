@@ -1,5 +1,6 @@
 <?php
 
+use App\Place;
 use Faker\Generator as Faker;
 
 $factory->define(App\Trip::class, function (Faker $faker) {
@@ -8,8 +9,8 @@ $factory->define(App\Trip::class, function (Faker $faker) {
         "invoice" => $this->faker->randomNumber(5),
         "client" => $this->faker->company,
         "intermediary" => $this->faker->company,
-        "origin" => $this->faker->address,
-        "destination" => $this->faker->address,
+        "origin_id" => factory(Place::class)->create()->id,
+        "destination_id" => factory(Place::class)->create()->id,
         "mon_type" => $this->faker->randomNumber(1),
         "line" => $this->faker->company,
 
