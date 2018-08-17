@@ -67,4 +67,8 @@ class Trip extends Model
         return $this->belongsTo(Device::class, "device_id");
     }
 
+    public function traces()
+    {
+        return $this->hasMany(Trace::class,"trip_id");
+    }
 };

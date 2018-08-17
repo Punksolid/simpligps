@@ -38,8 +38,19 @@ Route::get("trips/convoys/{convoy}", "ConvoyController@show");
 Route::post("trips/upload", "TripsController@upload");
 Route::post("trips/{trip}/tags", "TripsController@assignTag");
 Route::any("trips/filtered_with_tags", "TripsController@filteredWithTags");
+Route::resource("trips/{trip}/traces", "TraceController")->only(["index","store"]);
 Route::resource("trips", "TripsController",["only" => ["store", "update", "destroy"]]);
 
+//OPERATORS
+Route::resource("operators", "OperatorController", [
+    "only" => ["store", "update", "show", "index", "destroy"]
+]);
+
+//NOTIFICATIONS
+Route::get("notification_activate/{notification_type}", "NotificationTypeController@activate");
+Route::resource("notification_types", "NotificationTypeController", [
+    "only" => ["store", "update"]
+]);
 
 
 
