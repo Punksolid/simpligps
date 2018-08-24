@@ -13,4 +13,13 @@ class Operator extends Model
         "phone",
         "active"
     ];
+
+    /**
+     * Un operador pertenece a un carrier
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function carrier()
+    {
+        return $this->belongsTo(Carrier::class,"carrier_id");
+    }
 }

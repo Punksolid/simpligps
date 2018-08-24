@@ -12,4 +12,9 @@ class Carrier extends Model
       "phone",
       "email"
     ];
+
+    public function operators()
+    {
+        return $this->hasMany(Operator::class);
+    }
 }

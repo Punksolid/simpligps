@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Carrier;
 use App\Operator;
 use App\User;
 use Tests\TestCase;
@@ -20,8 +21,8 @@ class OperatorTest extends TestCase
         $operator_data = [
             "name" => $this->faker->name,
             "phone" => $this->faker->phoneNumber,
-            "active" => $this->faker->boolean
-            //@TODO hace falta el atributo lineas que refiere "line"
+            "active" => $this->faker->boolean,
+            "carrier_id" => factory(Carrier::class)->create()->id
         ];
         $call = $this->actingAs(factory(User::class)->create())
             ->json("POST", "/api/v1/operators", $operator_data);
@@ -36,6 +37,7 @@ class OperatorTest extends TestCase
     {
         $operator = factory(Operator::class)->create(["name" => "pedro"]);
         $operator_modified = factory(Operator::class)->make();
+        $operator_modified->carrier_id = factory(Carrier::class)->create()->id;
         $call = $this->actingAs(factory(User::class)->create())
             ->json("PUT", "api/v1/operators/$operator->id",
                 $operator_modified->toArray()
@@ -51,12 +53,15 @@ class OperatorTest extends TestCase
 
     public function test_ver_detalle_de_un_solo_operador()
     {
-        $operator = factory(Operator::class)->create();
+        $operator = factory(Operator::class)->create([
+            "carrier_id" => factory(Carrier::class)->create()->id
+        ]);
 
         $call = $this->actingAs(factory(User::class)->create())
             ->json("GET", "api/v1/operators/$operator->id");
 
-        $call->assertJson([
+        $call
+            ->assertJson([
             "data" => [
                 "name" => $operator->name,
                 "phone" => $operator->phone,

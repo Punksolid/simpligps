@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Carrier;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OperatorResource extends JsonResource
@@ -18,7 +19,8 @@ class OperatorResource extends JsonResource
         return [
             "name" => $this->name,
             "phone" => $this->phone,
-            "active" => (bool)$this->active
+            "active" => (bool)$this->active,
+            "carrier" => CarrierResource::make($this->whenLoaded("carrier"))
         ];
 
     }

@@ -36,7 +36,8 @@ class OperatorController extends Controller
     public function store(OperatorRequest $request)
     {
         $operator = Operator::create($request->all());
-
+        $operator->carrier_id = $request->carrier_id;
+        $operator->save();
         return response($operator);
     }
 
@@ -48,7 +49,8 @@ class OperatorController extends Controller
      */
     public function show(Operator $operator)
     {
-        return OperatorResource::make($operator);
+
+        return OperatorResource::make($operator->load("carrier"));
     }
 
 

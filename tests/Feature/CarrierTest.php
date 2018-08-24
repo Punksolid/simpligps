@@ -79,4 +79,21 @@ class CarrierTest extends TestCase
         ]);
         $call->assertStatus(200);
     }
+
+    public function test_ver_detalle_de_una_linea_de_transporte()
+    {
+        $carrier = factory(Carrier::class)->create();
+
+        $call = $this->actingAs($this->user)->json("GET","api/v1/carriers", $carrier);
+
+        $call->assertJson([
+            "data" => [
+                "carrier_name" => $carrier->carrier_name,
+                "contact_name" => $carrier->contact_name,
+                "phone" => $carrier->phone,
+                "email" => $carrier->email
+            ]
+        ]);
+        $call->assertStatus(201);
+    }
 }

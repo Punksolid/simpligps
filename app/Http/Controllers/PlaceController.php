@@ -15,7 +15,7 @@ use Illuminate\Http\Request;
 class PlaceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the PLACE.
      *
      * @return \Illuminate\Http\Response
      */
@@ -28,7 +28,7 @@ class PlaceController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created PLACE in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -41,7 +41,7 @@ class PlaceController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified PLACE.
      *
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
@@ -54,7 +54,7 @@ class PlaceController extends Controller
 
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified PLACE in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Place  $place
@@ -70,7 +70,7 @@ class PlaceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified PLACE from storage.
      *
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response

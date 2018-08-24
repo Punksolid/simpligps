@@ -7,10 +7,15 @@ use App\Http\Requests\CarrierRequest;
 use App\Http\Resources\CarrierResource;
 use Illuminate\Http\Request;
 
+/**
+ * Class CarriersController
+ * @package App\Http\Controllers
+ * @resource Carrier
+ */
 class CarriersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the CARRIER.
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,7 +27,7 @@ class CarriersController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created CARRIER in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -34,18 +39,18 @@ class CarriersController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Display the specified CARRIER.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Carrier $carrier)
     {
-        //
+        return CarrierResource::make($carrier);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified CARRIER in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -61,7 +66,7 @@ class CarriersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified CARRIER from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response

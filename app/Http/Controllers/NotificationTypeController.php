@@ -21,7 +21,6 @@ class NotificationTypeController extends Controller
      */
     public function store(Request $request)
     {
-        dump($request->all());
         $notification_type = NotificationType::create($request->all());
 
         return \response([

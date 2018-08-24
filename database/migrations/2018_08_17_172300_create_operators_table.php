@@ -18,6 +18,8 @@ class CreateOperatorsTable extends Migration
             $table->string("name");
             $table->string("phone");
             $table->boolean("active");
+
+
             $table->timestamps();
         });
     }
