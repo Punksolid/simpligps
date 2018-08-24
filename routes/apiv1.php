@@ -57,3 +57,5 @@ Route::resource("carriers", "CarriersController", [
     "only" => ["index","store", "update","destroy"]
 ]);
 
+//Places (origenes y destinos)
+Route::resource("places", "PlaceController");
