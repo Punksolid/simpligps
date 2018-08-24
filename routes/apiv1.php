@@ -52,5 +52,8 @@ Route::resource("notification_types", "NotificationTypeController", [
     "only" => ["store", "update"]
 ]);
 
-
+//Carriers
+Route::resource("carriers", "CarriersController", [
+    "only" => ["index","store", "update","destroy"]
+]);
 

@@ -21,6 +21,7 @@ class OperatorTest extends TestCase
             "name" => $this->faker->name,
             "phone" => $this->faker->phoneNumber,
             "active" => $this->faker->boolean
+            //@TODO hace falta el atributo lineas que refiere "line"
         ];
         $call = $this->actingAs(factory(User::class)->create())
             ->json("POST", "/api/v1/operators", $operator_data);
