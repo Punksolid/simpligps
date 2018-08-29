@@ -84,7 +84,7 @@ class CarrierTest extends TestCase
     {
         $carrier = factory(Carrier::class)->create();
 
-        $call = $this->actingAs($this->user)->json("GET","api/v1/carriers", $carrier);
+        $call = $this->actingAs($this->user)->json("GET","api/v1/carriers/$carrier->id");
 
         $call->assertJson([
             "data" => [
@@ -94,6 +94,6 @@ class CarrierTest extends TestCase
                 "email" => $carrier->email
             ]
         ]);
-        $call->assertStatus(201);
+        $call->assertStatus(200);
     }
 }

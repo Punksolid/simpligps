@@ -54,7 +54,7 @@ Route::resource("notification_types", "NotificationTypeController", [
 
 //Carriers
 Route::resource("carriers", "CarriersController", [
-    "only" => ["index","store", "update","destroy"]
+    "only" => ["index","store", "show", "update","destroy"]
 ]);
 
 //Places (origenes y destinos)

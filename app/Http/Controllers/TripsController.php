@@ -22,7 +22,7 @@ class TripsController extends Controller
      */
     public function index()
     {
-        $trips = Trip::all();
+        $trips = Trip::paginate();
 
         return response($trips);
     }

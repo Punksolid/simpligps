@@ -74,7 +74,9 @@ class TripsTest extends TestCase
         $call->assertJson([
             "message" => "eliminado"
         ]);
-        $this->assertDatabaseMissing("trips",$trip_arr["client"]);
+        $this->assertDatabaseMissing("trips",[
+            "client" => $trip_arr["client"]
+        ]);
         $call->assertStatus(200);
 
     }
@@ -115,7 +117,13 @@ class TripsTest extends TestCase
 
     public function test_ver_viajes_activos()
     {
+        $trip = factory(Trip::class)->create();
+        $call = $this->actingAs(factory(User::class)->create())->json("GET", "api/v1/trips?filter=active");
+        dd($trip->toArray());
+        $call->assertStatus(200)
+            ->assertJsonFragment([
 
+            ]);
     }
 
     public function test_ver_planes_de_viaje_por_etiqueta()
@@ -143,5 +151,10 @@ class TripsTest extends TestCase
         $call->assertSee("riesgo");
         $call->assertStatus(200);
     }
-
+    public function test_stringvacio()
+    {
+        $call = $this->json("PUT", "api/stringvacio", [
+            "hola" => ""
+        ])->dump();
+    }
 }
