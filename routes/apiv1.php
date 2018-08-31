@@ -59,3 +59,7 @@ Route::resource("carriers", "CarriersController", [
 
 //Places (origenes y destinos)
 Route::resource("places", "PlaceController");
+
+//Devices
+Route::resource("devices", "DevicesController")->only("index","store","show","destroy","update");
+Route::resource("contacts", "ContactController")->only("index","store","show","destroy","update");

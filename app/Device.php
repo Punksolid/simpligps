@@ -14,7 +14,7 @@ class Device extends Model
         "gps",
         "model",
         "wialon_id",
-        "line",
+        "carrier_id",
         "group_id",
 
         "bulk"
@@ -30,5 +30,14 @@ class Device extends Model
     public function trips()
     {
         return $this->hasMany(Trip::class);
+    }
+
+    /**
+     * Relación, un dispositivo pertenece a un carrier, antes linea
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function carrier()
+    {
+        return $this->belongsTo(Carrier::class,"carrier_id");
     }
 }

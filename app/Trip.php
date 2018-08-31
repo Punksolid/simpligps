@@ -68,6 +68,10 @@ class Trip extends Model
         return $this->belongsTo(Device::class, "device_id");
     }
 
+    /**
+     * Traces son todos los registros que va dejando el plan de viaje, antes Bitacora
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function traces()
     {
         return $this->hasMany(Trace::class,"trip_id");

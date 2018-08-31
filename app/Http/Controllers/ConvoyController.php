@@ -56,17 +56,6 @@ class ConvoyController extends Controller
     }
 
 
-    /**
-     * Update the specified convoy in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Convoy  $convoy
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Convoy $convoy)
-    {
-        //
-    }
 
     /**
      * Remove the specified convoy from storage.
