@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Tags\HasTags;
 
 class Trip extends Model
@@ -70,5 +71,18 @@ class Trip extends Model
     public function traces()
     {
         return $this->hasMany(Trace::class,"trip_id");
+    }
+
+//    Override Tag class para aceptar mariadb
+    public static function getTagClassName(): string
+    {
+        return MariadbTag::class;
+    }
+
+    public function tags(): MorphToMany
+    {
+        return $this
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
     }
 };

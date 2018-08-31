@@ -39,7 +39,7 @@ Route::post("trips/upload", "TripsController@upload");
 Route::post("trips/{trip}/tags", "TripsController@assignTag");
 Route::any("trips/filtered_with_tags", "TripsController@filteredWithTags");
 Route::resource("trips/{trip}/traces", "TraceController")->only(["index","store"]);
-Route::resource("trips", "TripsController",["only" => ["store", "update", "destroy"]]);
+Route::resource("trips", "TripsController",["only" => ["index","store", "update", "destroy"]]);
 
 //OPERATORS
 Route::resource("operators", "OperatorController", [

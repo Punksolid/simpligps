@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\TripRequest;
+use App\Http\Resources\TripResource;
 use App\Trip;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -20,11 +21,16 @@ class TripsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $trips = Trip::paginate();
 
-        return response($trips);
+        $query = Trip::query();
+        if ($request->has("filter")){
+            $query = $query->withAnyTags($request->filter);
+        }
+        $trips = $query->paginate();
+        return TripResource::collection($trips);
+
     }
 
     /**
