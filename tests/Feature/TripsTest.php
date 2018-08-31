@@ -117,6 +117,7 @@ class TripsTest extends TestCase
 
     public function test_ver_viajes_activos()
     {
+
         $trip = factory(Trip::class)->create();
         $trip->attachTag("active");
         $call = $this
@@ -144,6 +145,7 @@ class TripsTest extends TestCase
         $call->assertSee($trip->rp);
 
     }
+
     public function test_ver_asignar_etiqueta_a_viaje()
     {
         $user = factory(User::class)->create();
