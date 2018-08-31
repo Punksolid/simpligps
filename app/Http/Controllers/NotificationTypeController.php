@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NotificationTypeRequest;
 use App\Notifications\DynamicNotification;
 use App\NotificationType;
 use App\User;
@@ -19,7 +20,7 @@ class NotificationTypeController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(NotificationTypeRequest $request)
     {
         $notification_type = NotificationType::create($request->all());
 

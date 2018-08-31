@@ -22,10 +22,11 @@ class CreateDevicesTable extends Migration
             $table->string('gps')->nullable();
             $table->string('model')->nullable();
             $table->integer('wialon_id')->nullable();
-            $table->string('line')->nullable();
+            $table->integer('carrier_id')->nullable();
+
             $table->integer('group_id')->nullable();
 
-            $table->text("bulk")->nullable();
+            $table->json("bulk")->nullable();
             $table->timestamps();
         });
     }
