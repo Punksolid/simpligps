@@ -83,4 +83,20 @@ class ContactController extends Controller
 
         return response("Aconteció un error");
     }
+
+    public function attachtags(Contact $contact)
+    {
+        $contact->syncTags(\request()->tags);
+
+        return ContactResource::make($contact->load("tags"));
+    }
+
+    public function filterTags(Request $request)
+    {
+
+        $contacts = Contact::query();
+        $contacts->withAllTags($request->tags);
+
+        return ContactResource::collection($contacts->paginate());
+    }
 }

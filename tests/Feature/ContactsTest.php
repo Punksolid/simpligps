@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Contact;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -94,5 +95,38 @@ class ContactsTest extends TestCase
         ]);
         $call->assertStatus(200);
 
+    }
+
+    public function test_agregar_etiqueta_a_contacto()
+    {
+        $contact = $this->test_registrar_un_nuevo_contacto();
+        $call = $this->actingAs(factory(User::class)->create())->json("POST","api/v1/contacts/$contact->id/tags",[
+            "tags" => [
+                "autoridad",
+                "federal"
+            ]
+        ]);
+
+        $call->assertStatus(200);
+
+        return $call->getOriginalContent();
+    }
+
+    public function test_filtrar_por_etiqueta()
+    {
+        $contact = factory(Contact::class)->create();
+        $contact->attachTags(["autoridad","federal"]);
+
+        $call = $this->actingAs(factory(User::class)->create())->json("GET","api/v1/contacts/filter_tags",[
+            "tags" => [
+                "autoridad",
+                "federal"
+            ]
+        ]);
+        $call->assertJsonFragment([
+            "name" => $contact->name,
+            "company" => $contact->company
+        ]);
+        $call->assertStatus(200);
     }
 }

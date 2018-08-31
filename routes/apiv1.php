@@ -62,4 +62,8 @@ Route::resource("places", "PlaceController");
 
 //Devices
 Route::resource("devices", "DevicesController")->only("index","store","show","destroy","update");
+
+//Contacts
+Route::get("contacts/filter_tags", "ContactController@filterTags");
+Route::post("contacts/{contact}/tags", "ContactController@attachtags");
 Route::resource("contacts", "ContactController")->only("index","store","show","destroy","update");
