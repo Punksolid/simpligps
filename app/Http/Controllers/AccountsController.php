@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\UsersResource;
-use App\Profile;
-use App\User;
+use App\Account;
+use function foo\func;
+use Hyn\Tenancy\Models\Website;
+use Illuminate\Database\Connection;
+use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Ramsey\Uuid\Uuid;
 
-/**
- * Class UsersController
- * @package App\Http\Controllers
- * @resource User
- */
-class UsersController extends Controller
+class AccountsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -22,8 +20,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::paginate();
-        return UsersResource::collection($users);
+        //
     }
 
     /**
@@ -35,26 +32,17 @@ class UsersController extends Controller
     public function store(Request $request)
     {
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+        $tenant = Account::create([
+            "easy_name" => $request->easy_name,
+            "uuid" => \Illuminate\Support\Str::uuid()
         ]);
-        $user->profile()->save(new Profile($request->all()));
 
-        return UsersResource::make($user->fresh());
+        \Artisan::call("trm:new_account",["easyname" => $request->easy_name]);
+
+
+        return response()->json(["data" => $tenant]);
     }
 
-    public function changePassword(Request $request)
-    {
-        $request->validate([
-            "password" => "required|confirmed"
-        ]);
-        $user = Auth::user();
-        $user->password = bcrypt($request->password);
-        return response()->json($user->save());
-
-    }
     /**
      * Display the specified resource.
      *

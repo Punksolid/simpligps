@@ -11,8 +11,6 @@ class MillionSeeder extends Seeder
      */
     public function run()
     {
-        info("xxx");
-
         factory(\App\Contact::class,10000)->create();
         factory(\App\Carrier::class,10000)->create();
         factory(\App\Convoy::class,10000)->create();
