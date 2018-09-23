@@ -37,9 +37,11 @@ Route::get("trips/convoys/{convoy}", "ConvoyController@show");
 //TRIPS
 Route::post("trips/upload", "TripsController@upload");
 Route::post("trips/{trip}/tags", "TripsController@assignTag");
-Route::any("trips/filtered_with_tags", "TripsController@filteredWithTags");
+Route::post("trips/filtered_with_tags", "TripsController@filteredWithTags");
 Route::resource("trips/{trip}/traces", "TraceController")->only(["index","store"]);
-Route::resource("trips", "TripsController",["only" => ["index","store", "update", "destroy"]]);
+Route::resource("trips", "TripsController",[
+    "only" => ["index","store", "update", "destroy"]
+    ]);
 
 //OPERATORS
 Route::resource("operators", "OperatorController", [
@@ -58,7 +60,9 @@ Route::resource("carriers", "CarriersController", [
 ]);
 
 //Places (origenes y destinos)
-Route::resource("places", "PlaceController");
+Route::resource("places", "PlaceController",[
+    "only" => ["index","store","show","update","delete"]
+]);
 
 //Devices
 Route::resource("devices", "DevicesController")->only("index","store","show","destroy","update");
@@ -68,5 +72,3 @@ Route::get("contacts/filter_tags", "ContactController@filterTags");
 Route::post("contacts/{contact}/tags", "ContactController@attachtags");
 Route::resource("contacts", "ContactController")->only("index","store","show","destroy","update");
 
-//Accounts
-Route::resource("accounts", "AccountsController")->only("store");

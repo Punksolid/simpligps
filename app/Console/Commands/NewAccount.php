@@ -51,6 +51,8 @@ class NewAccount extends Command
                 "--database" => "temporal"
             ]);
 
+            \Config::set("database.default","mysql");
+
         }
 
     }

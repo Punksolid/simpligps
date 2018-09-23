@@ -23,6 +23,7 @@ class TripRequest extends FormRequest
      */
     public function rules()
     {
+        \Log::emergency($this);
         return [
             "rp" => "required",
             "invoice" => "required",
@@ -34,10 +35,13 @@ class TripRequest extends FormRequest
             "line" => "required",
 
             "scheduled_load" => "required|date",
-            //@todo preguntar si la carga es antes de la salida o hay salida antes
-            "scheduled_departure" => "required|date|before:scheduled_arrival",
+            "scheduled_departure" => [
+                "required",
+                "date",
+                "after:scheduled_load"
+            ],
             "scheduled_arrival" => "required|date|after:scheduled_departure",
-            "scheduled_unload" => "required|date|after:scheduled_arrival",
+            "scheduled_unload" => "required|date|after:scheduled_arrival"
         ];
     }
 }

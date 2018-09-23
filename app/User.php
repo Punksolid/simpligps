@@ -36,7 +36,7 @@ class User extends Authenticatable
             ->withDefault([
                 "name" => "default",
                 "lastname" => "default",
-                "username" => "default"
+                "username" => "defaultx"
             ]);
     }
 }

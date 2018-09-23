@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class Account extends Model
 {
     protected $fillable = [
-        "easy_name",
-        "uuid"
+        "easyname",
+        "uuid",
+        "bulk"
+    ];
+
+    protected $casts = [
+        "bulk" => "array"
     ];
 
     public function users()

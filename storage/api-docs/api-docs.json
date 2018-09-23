@@ -1,0 +1,23 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "My First API",
+        "version": "0.1"
+    },
+    "paths": {
+        "/api/sysadminv1/dashboard/accounts": {
+            "get": {
+                "summary": "Store a newly created resource in storage.",
+                "operationId": "App\\Http\\Controllers\\Admin\\DashboardController::accounts",
+                "responses": {
+                    "200": {
+                        "description": "Numero de cuentas instaladas",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

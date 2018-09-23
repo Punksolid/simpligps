@@ -70,80 +70,83 @@ class TripsController extends Controller
 
     /**
      * Subir archivo excel
-     * @param Request $request
+     *
      */
-    public function upload(Request $request)
+    public function upload()
     {
-        $path = $request->viajes->getRealPath();
-
-        $data = \Excel::selectSheetsByIndex(0)->load($path, function ($reader) {
-            // Format the date
-            $reader->formatDates(false);
-
-
-        })->get([
-            "rp",
-            "folio",
-            "origen",
-            "linea_transportista",
-            "cliente",
-            "tipo_de_carga",
-            "fecha_carga",
-            "hora_carga",
-            "fecha_salida_programada",
-            "hora_salida_programada",
-            "fecha_programada_cita_cliente",
-            "hora_programada_cita_cliente",
-        ]);
-
-        $trips_obj = $data->all();
-        $trips_arr = $data->toArray();
-        $validator = \Validator::make($trips_arr, [
-            "*.rp" => "required",
-            "*.folio" => "required",
-            "*.origen" => "required",
-            "*.linea_transportista" => "required",
-            "*.cliente" => "required",
-            "*.tipo_de_carga" => "required",
-            "*.fecha_carga" => "required",
-            "*.hora_carga" => "required",
-            "*.fecha_salida_programada" => "required",
-            "*.hora_salida_programada" => "required",
-            "*.fecha_programada_cita_cliente" => "required",
-            "*.hora_programada_cita_cliente" => "required",
-        ]);
-        if ($validator->fails()){
-            return response($validator->messages());
-        }
-
-        foreach ($trips_obj as $trip) {
-
-
-            $scheduled_load = Carbon::createFromFormat("d/m/Y H:i", "$trip->fecha_carga $trip->hora_carga");
-            $scheduled_departure = Carbon::createFromFormat("d/m/Y H:i", "$trip->fecha_salida_programada $trip->hora_salida_programada");
-            $scheduled_arrival = Carbon::createFromFormat("d/m/Y H:i", "$trip->fecha_programada_cita_cliente $trip->hora_programada_cita_cliente");
-
-            $trip_obj = new Trip([
-                "rp" => $trip->rp,
-                "invoice" => $trip->folio,
-                "client" => $trip->cliente,
-                "origin" => $trip->origen,
-                "line" => $trip->linea_transportista,
-                "mon_type" => $trip->tipo_de_carga,
-
-                "scheduled_load" => $scheduled_load,
-                "scheduled_departure" => $scheduled_departure,
-                "scheduled_arrival" => $scheduled_arrival
-            ]);
-            $trip_obj->save();
-        }
-
-        return response([
-            "succesful" => "Almacenado"
-        ]);
-
 
     }
+//    public function upload(Request $request)
+//    {
+//        $path = $request->viajes->getRealPath();
+//
+//        $data = \Excel::selectSheetsByIndex(0)->load($path, function ($reader) {
+//            // Format the date
+//            $reader->formatDates(false);
+//
+//
+//        })->get([
+//            "rp",
+//            "folio",
+//            "origen",
+//            "linea_transportista",
+//            "cliente",
+//            "tipo_de_carga",
+//            "fecha_carga",
+//            "hora_carga",
+//            "fecha_salida_programada",
+//            "hora_salida_programada",
+//            "fecha_programada_cita_cliente",
+//            "hora_programada_cita_cliente",
+//        ]);
+//
+//        $trips_obj = $data->all();
+//        $trips_arr = $data->toArray();
+//        $validator = \Validator::make($trips_arr, [
+//            "*.rp" => "required",
+//            "*.folio" => "required",
+//            "*.origen" => "required",
+//            "*.linea_transportista" => "required",
+//            "*.cliente" => "required",
+//            "*.tipo_de_carga" => "required",
+//            "*.fecha_carga" => "required",
+//            "*.hora_carga" => "required",
+//            "*.fecha_salida_programada" => "required",
+//            "*.hora_salida_programada" => "required",
+//            "*.fecha_programada_cita_cliente" => "required",
+//            "*.hora_programada_cita_cliente" => "required",
+//        ]);
+//        if ($validator->fails()){
+//            return response($validator->messages());
+//        }
+//
+//        foreach ($trips_obj as $trip) {
+//
+//            $scheduled_load = Carbon::createFromFormat("d/m/Y H:i", "$trip->fecha_carga $trip->hora_carga");
+//            $scheduled_departure = Carbon::createFromFormat("d/m/Y H:i", "$trip->fecha_salida_programada $trip->hora_salida_programada");
+//            $scheduled_arrival = Carbon::createFromFormat("d/m/Y H:i", "$trip->fecha_programada_cita_cliente $trip->hora_programada_cita_cliente");
+//
+//            $trip_obj = new Trip([
+//                "rp" => $trip->rp,
+//                "invoice" => $trip->folio,
+//                "client" => $trip->cliente,
+//                "origin" => $trip->origen,
+//                "line" => $trip->linea_transportista,
+//                "mon_type" => $trip->tipo_de_carga,
+//
+//                "scheduled_load" => $scheduled_load,
+//                "scheduled_departure" => $scheduled_departure,
+//                "scheduled_arrival" => $scheduled_arrival
+//            ]);
+//            $trip_obj->save();
+//        }
+//
+//        return response([
+//            "succesful" => "Almacenado"
+//        ]);
+//
+//
+//    }
 
     /**
      * Display the specified resource.

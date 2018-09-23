@@ -34,6 +34,8 @@ class Handler extends ExceptionHandler
      */
     public function report(Exception $exception)
     {
+//        \Log::error(request()->fullUrl());
+//        \Log::error(request()->method());
         parent::report($exception);
     }
 

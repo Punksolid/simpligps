@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\UsersResource;
 use App\Profile;
 use App\User;
@@ -25,14 +26,14 @@ class UsersController extends Controller
         $users = User::paginate();
         return UsersResource::collection($users);
     }
-
+ 
     /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
 
         $user = User::create([
