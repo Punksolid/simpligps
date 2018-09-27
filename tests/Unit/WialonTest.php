@@ -19,7 +19,7 @@ class WialonTest extends TestCase
     public function test_wialon_response()
     {
         $wialon_api = new Wialon();
-        $wialon_api->call()
+
         $result = $wialon_api->login(config('services.wialon.token'));
 
         $json = json_decode($result,true);

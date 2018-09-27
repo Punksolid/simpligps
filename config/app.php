@@ -150,7 +150,6 @@ return [
         /*
          * Package Service Providers...
          */
-
         /*
          * Application Service Providers...
          */
@@ -161,6 +160,8 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
+        Punksolid\Wialon\WialonServiceProvider::class,
+
     ],
 
     /*

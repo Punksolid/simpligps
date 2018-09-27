@@ -22,3 +22,5 @@ composer\.lock
 _ide_helper\.php
 
 graph\.png
+/vendor/punksolid/laravel-wialon/.idea/
+/punksolid/
