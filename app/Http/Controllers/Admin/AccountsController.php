@@ -123,4 +123,15 @@ class AccountsController extends Controller
 
         return AccountResource::collection($accounts);
     }
+
+    /**
+     * Próximos a expirar en 7 dias
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function nearToExpire()
+    {
+        $accounts = Account::with("activeLicenses")->nearToExpire()->get();
+
+        return AccountResource::collection($accounts);
+    }
 }

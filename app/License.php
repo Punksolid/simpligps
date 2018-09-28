@@ -21,7 +21,8 @@ class License extends Model
 
     public function accounts()
     {
-        return $this->belongsToMany(Account::class,"licenses_accounts");
+        return $this->belongsToMany(Account::class,"licenses_accounts")
+            ->withPivot(["expires_at","created_at"]);
     }
 
     public function assignToAccount(Account $account):bool

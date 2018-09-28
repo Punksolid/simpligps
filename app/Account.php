@@ -30,7 +30,8 @@ class Account extends Model
     {
         return $this->belongsToMany(License::class, "licenses_accounts")
             ->withPivot([
-                "expires_at"
+                "expires_at",
+                "created_at"
             ]);
     }
 
@@ -40,10 +41,12 @@ class Account extends Model
      * @return bool
      * @throws \Exception
      */
-    public function addLicense(License $license):bool
+    public function addLicense(License $license): bool
     {
         try {
-            $this->licenses()->attach($license->id,["expires_at" => Carbon::now()->addDays($license->lapse)->endOfDay()]);
+            $this->licenses()->attach($license->id, [
+                "expires_at" => Carbon::now()->addDays($license->lapse)->endOfDay()->toDateTimeString()
+            ]);
             return true;
         } catch (\Exception $exception) {
             \Log::info($exception);
@@ -55,6 +58,7 @@ class Account extends Model
     {
         $now = Carbon::now();
         return $this->belongsToMany(License::class, "licenses_accounts")
+            ->withPivot(["expires_at", "created_at"])
             ->wherePivot('expires_at', ">=", $now);
     }
 
@@ -62,6 +66,20 @@ class Account extends Model
     {
         return $query->whereHas("activeLicenses");
 
+    }
 
+    public function nearToExpireLicenses($days = 7)
+    {
+        $now = Carbon::now();
+        return $this->belongsToMany(License::class, "licenses_accounts")->withPivot(["expires_at"])
+            ->withPivot(["expires_at", "created_at"])
+            ->wherePivot('expires_at', ">=", $now->toDateTimeString())
+            ->wherePivot("expires_at", "<=", $now->addDays($days)->toDateTimeString());
+
+    }
+
+    public function scopeNearToExpire($query)
+    {
+        return $query->whereHas("nearToExpireLicenses");
     }
 }

@@ -17,7 +17,12 @@ class AccountResource extends JsonResource
         return [
             "id" => $this->id,
             "easyname" => $this->easyname,
-            "uuid" => $this->uuid
+            "uuid" => $this->uuid,
+            //@todo agregar contador de dias faltantes para expirar
+//            "expires_in" => $this->whenPivotLoaded("licenses_accounts", function (){
+//
+//                return $this->pivot->expires_at;
+//            })
         ];
     }
 }

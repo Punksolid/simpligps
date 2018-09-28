@@ -137,13 +137,34 @@ class AccountTest extends TestCase
 
         $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/active_accounts");
 
-        
+
         $call->assertJsonFragment([
             "id" => $active_account->id,
             "easyname" => $active_account->easyname,
             "uuid" => $active_account->uuid
 
         ]);
+    }
+
+    public function test_ver_cuentas_proximas_a_expirar_dentro_de_7_dias()
+    {
+        $near_to_expire = factory(Account::class)->create();
+        $license = factory(License::class)->create(["lapse" => 3]);
+        $near_to_expire->addLicense($license);
+
+        $active_account = factory(Account::class)->create();
+        $license = factory(License::class)->create(["lapse" => 30]);
+        $active_account->addLicense($license);
+
+        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/near_to_expire");
+        $call->dump();
+        $call->assertJsonFragment([
+            "id" => $near_to_expire->id,
+            "easyname" => $near_to_expire->easyname,
+            "uuid" => $near_to_expire->uuid
+
+        ]);
+        $call->assertDontSee($active_account->uuid);
     }
 
 }
