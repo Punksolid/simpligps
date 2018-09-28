@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Account;
+use App\License;
 use App\Sysadmin;
 use App\User;
 use Tests\TestCase;
@@ -12,7 +13,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class AccountTest extends TestCase
 {
 
-    private  $sysadmin;
+    private $sysadmin;
 
     protected function setUp()
     {
@@ -47,7 +48,6 @@ class AccountTest extends TestCase
 
     public function test_sysadmin_puede_ver_listado_de_cuentas()
     {
-
 
 
         $call = $this->actingAs($this->sysadmin)->call("GET", 'api/sysadminv1/accounts');
@@ -116,14 +116,33 @@ class AccountTest extends TestCase
 
     }
 
-    public function test_dasboard_account_counts()
+    public function test_dashboard_account_counts()
     {
-        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/dashboard/accounts");
+        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/active_accounts");
 
         $call->assertStatus(200);
 
         $call->assertJsonStructure([
             "data"
+        ]);
+    }
+
+    public function test_ver_cuentas_activas()
+    {
+        $active_account = factory(Account::class)->create();
+        $license = factory(License::class)->create(["lapse" => 30]);
+        $active_account->addLicense($license);
+
+        $some_account = factory(Account::class)->create();
+
+        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/active_accounts");
+
+        
+        $call->assertJsonFragment([
+            "id" => $active_account->id,
+            "easyname" => $active_account->easyname,
+            "uuid" => $active_account->uuid
+
         ]);
     }
 

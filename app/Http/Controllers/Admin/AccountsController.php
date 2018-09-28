@@ -116,4 +116,11 @@ class AccountsController extends Controller
 
         return response($account->fresh()->bulk);
     }
+
+    public function activeAccounts()
+    {
+        $accounts = Account::active()->get();
+
+        return AccountResource::collection($accounts);
+    }
 }

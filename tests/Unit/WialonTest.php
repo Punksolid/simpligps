@@ -22,16 +22,22 @@ class WialonTest extends TestCase
 
         $result = $wialon_api->login(config('services.wialon.token'));
 
-        $json = json_decode($result,true);
+        $json = json_decode($result);
         //print_r($json);
+        $sid = $json->eid;
+        $this->assertNotNull($sid);
 
-        if(!isset($json['error'])){
-
-            echo $wialon_api->core_search_item('{"id":717359,"flags":0x1}');
-            $wialon_api->logout();
-        } else {
-
-            echo WialonError::error($json['error']);
-        }
     }
+
+    public function test_recoleccion_de_unidades_api_wialon()
+    {
+        $wialon_api = new Wialon();
+
+        $units = $wialon_api->listUnits();
+
+        $this->assertObjectHasAttribute("nm", $units->first(), "No cumplió con tener al menos una unidad y su nombre");
+
+    }
+
+
 }

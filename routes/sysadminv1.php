@@ -19,7 +19,8 @@ Route::post('login', 'AdminLoginController@login');
 
 
 //Accounts
-Route::put("accounts/{account}/fiscal", "AccountsController@fiscal");
+Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");
+Route::get("accounts/active_accounts", "Admin\AccountsController@activeAccounts");
 Route::resource("accounts", "Admin\AccountsController")->only("store","index", "destroy");
 Route::group(["middleware" => "api"], function (){
 
