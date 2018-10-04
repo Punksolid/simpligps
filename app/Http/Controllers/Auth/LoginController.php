@@ -44,12 +44,16 @@ class LoginController extends Controller
     /**
      * Login user and create token
      *
+     * Recibe 'email', 'password'
+     *
      * @param  [string] email
      * @param  [string] password
      * @param  [boolean] remember_me
      * @return [string] access_token
      * @return [string] token_type
      * @return [string] expires_at
+     *
+     *
      */
     public function login(Request $request)
     {

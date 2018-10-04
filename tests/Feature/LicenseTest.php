@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Account;
+use App\Http\Resources\AccountResource;
 use App\License;
 use App\Sysadmin;
 use Tests\TestCase;
@@ -37,7 +38,7 @@ class LicenseTest extends TestCase
         $call = $this->actingAs($this->admin)->json("POST", "api/sysadminv1/licenses", $licencia);
 
 
-        $call->dump()->assertJsonStructure([
+        $call->assertJsonStructure([
             "data" => [
                 "lapse",
                 "modules" => "*",
@@ -53,13 +54,32 @@ class LicenseTest extends TestCase
         $license = factory(License::class)->create();
         $account = factory(Account::class)->create();
 
-        $call = $this->actingAs($this->admin)->json("POST", "api/sysadminv1/licenses/$license->id/assign_to_account",[
+        $call = $this->actingAs($this->admin)->json("POST", "api/sysadminv1/licenses/$license->id/assign_to_account", [
             "account_id" => $account->id
         ]);
 
         $call->assertSuccessful();
 
     }
+
+    public function test_licencia_puede_ser_revocada()
+    {
+        $account = factory(Account::class)->create();
+        $licencia = factory(License::class)->create();
+        $account->addLicense($licencia);
+
+        $call = $this->actingAs($this->admin)
+            ->json("POST", "api/sysadminv1/licenses/{$licencia->id}/revoke", [
+                "account_id" => $account->id
+            ]);
+
+        $call->assertSee("La licencia ha sido revocada");
+        $this->assertDatabaseMissing("licenses_accounts", [
+            "account_id" => $account->id,
+            "license_id" => $licencia->id
+        ]);
+    }
+
 
 
 }

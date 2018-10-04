@@ -2,6 +2,8 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\LimitExpiredLicenseAccess;
+use App\Http\Middleware\LimitSimoultaneousAccess;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
@@ -64,5 +66,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    ];
+        'limit_simoultaneous_access' => LimitSimoultaneousAccess::class,
+        "limit_expired_license_access" => LimitExpiredLicenseAccess::class
+     ];
 }

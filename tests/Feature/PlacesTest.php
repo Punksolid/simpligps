@@ -62,6 +62,7 @@ class PlacesTest extends TestCase
         $place = factory(Place::class)->create();
         $call = $this->actingAs($this->user)->json("DELETE", "api/v1/places/$place->id");
 
+        $call->assertSee("Se ha eliminado el registro del lugar");
         $this->assertDatabaseMissing("places", [
             "name" => $place->name
         ]);

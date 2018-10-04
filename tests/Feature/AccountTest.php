@@ -157,7 +157,7 @@ class AccountTest extends TestCase
         $active_account->addLicense($license);
 
         $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/near_to_expire");
-        $call->dump();
+
         $call->assertJsonFragment([
             "id" => $near_to_expire->id,
             "easyname" => $near_to_expire->easyname,

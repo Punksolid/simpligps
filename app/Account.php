@@ -22,6 +22,19 @@ class Account extends Model
         return $this->belongsToMany(User::class, "users_accounts");
     }
 
+    public function addUser(User $user): bool
+    {
+        try{
+            $this->users()->attach($user->id);
+            return true;
+        } catch (\Exception $e) {
+            info("Error en addUser");
+            log($e);
+            return false;
+        }
+
+    }
+
     /**
      * An account has some licenses
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -81,5 +94,11 @@ class Account extends Model
     public function scopeNearToExpire($query)
     {
         return $query->whereHas("nearToExpireLicenses");
+    }
+
+    //TODO Añadir más validaciones
+    public function isActive(): bool
+    {
+        return (bool)$this->licenses()->first();
     }
 }

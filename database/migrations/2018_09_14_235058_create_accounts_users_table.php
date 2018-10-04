@@ -13,8 +13,10 @@ class CreateAccountsUsersTable extends Migration
      */
     public function up()
     {
-        Schema::create('accounts_users', function (Blueprint $table) {
+        Schema::create('users_accounts', function (Blueprint $table) {
             $table->increments('id');
+            $table->integer("account_id");
+            $table->integer("user_id");
             $table->timestamps();
         });
     }

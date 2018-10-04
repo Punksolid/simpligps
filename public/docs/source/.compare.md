@@ -51,7 +51,26 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": [],
+    "data": [
+        {
+            "carrier_name": "Hodkiewicz LLC",
+            "contact_name": "Prof. Luis Ratke DDS",
+            "phone": "665-268-6687 x92836",
+            "email": "freilly@collins.net"
+        },
+        {
+            "carrier_name": "Terry, Harber and Schiller",
+            "contact_name": "Mr. Adrien Ankunding I",
+            "phone": "445.675.8452 x4502",
+            "email": "luettgen.colton@hane.com"
+        },
+        {
+            "carrier_name": "Wintheiser, Wehner and Mertz",
+            "contact_name": "Miss Genevieve Medhurst",
+            "phone": "1-584-207-1684",
+            "email": "alfred17@schamberger.com"
+        }
+    ],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/carriers?page=1",
         "last": "http:\/\/localhost\/api\/v1\/carriers?page=1",
@@ -60,12 +79,12 @@ $.ajax(settings).done(function (response) {
     },
     "meta": {
         "current_page": 1,
-        "from": null,
+        "from": 1,
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/carriers",
         "per_page": 15,
-        "to": null,
-        "total": 0
+        "to": 3,
+        "total": 3
     }
 }
 ```
@@ -1031,112 +1050,21 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": [
-        {
-            "name": "Minerva Hoeger",
-            "person_in_charge": "Mr. Andrew Larkin",
-            "address": "973 Agnes Hills\nSouth Terrance, MT 40715-2744",
-            "phone": "1-574-703-8066"
-        },
-        {
-            "name": "Morgan Simonis",
-            "person_in_charge": "Joannie Crooks Jr.",
-            "address": "43042 Domenic Burg Suite 384\nNovaton, NC 53647",
-            "phone": "983.736.5917"
-        },
-        {
-            "name": "Jairo Crist",
-            "person_in_charge": "Norma Luettgen",
-            "address": "8502 Mikel Glen\nSchambergerview, MT 01698-0935",
-            "phone": "979-747-6440"
-        },
-        {
-            "name": "Dr. Emma Jenkins",
-            "person_in_charge": "Malinda Schimmel",
-            "address": "867 Jacobson Mountain Suite 122\nWest Oswaldburgh, DC 33261-7444",
-            "phone": "798.297.4473"
-        },
-        {
-            "name": "Jamar Rowe",
-            "person_in_charge": "Miss Jennyfer Hand II",
-            "address": "848 Fiona Hill\nWest Micah, AZ 09485-0681",
-            "phone": "(625) 984-3730 x29609"
-        },
-        {
-            "name": "Daniela Hoeger",
-            "person_in_charge": "Miss Earnestine Grant",
-            "address": "3216 Chester Grove\nElistad, VT 67565",
-            "phone": "470.859.2492 x591"
-        },
-        {
-            "name": "Magali Nienow",
-            "person_in_charge": "Caleigh Shields",
-            "address": "8109 Melody Mountains\nNorth Alycia, MD 36726-6808",
-            "phone": "201-380-5963"
-        },
-        {
-            "name": "Dr. Oceane Ullrich",
-            "person_in_charge": "Stefan Kub",
-            "address": "571 Smitham Lodge Suite 817\nEast Violaside, LA 19302",
-            "phone": "(430) 823-4379 x89177"
-        },
-        {
-            "name": "Ms. Rosalinda Krajcik Jr.",
-            "person_in_charge": "Ms. Fleta McLaughlin Sr.",
-            "address": "4697 Teresa Ridge Suite 403\nKennedytown, NV 54252-2539",
-            "phone": "+1 (715) 801-1044"
-        },
-        {
-            "name": "Jay DuBuque",
-            "person_in_charge": "Mr. Eldred Maggio IV",
-            "address": "851 Skiles Overpass Apt. 407\nNienowburgh, NJ 96306",
-            "phone": "(549) 865-9953"
-        },
-        {
-            "name": "Krystal Strosin V",
-            "person_in_charge": "Hal Legros",
-            "address": "6083 Kiera Inlet\nLake Jeffry, WA 12569-0345",
-            "phone": "472-352-7882 x3437"
-        },
-        {
-            "name": "Leanne Pagac",
-            "person_in_charge": "Maida Sawayn",
-            "address": "78237 Swift Union Apt. 478\nEast Nikoburgh, SD 28890-5981",
-            "phone": "538.824.4510 x149"
-        },
-        {
-            "name": "Erin Quitzon",
-            "person_in_charge": "Dr. Leland Roberts",
-            "address": "5106 Altenwerth Roads\nNorth Jacklynville, IA 32673",
-            "phone": "+1.359.763.0371"
-        },
-        {
-            "name": "Danika Hahn",
-            "person_in_charge": "Isadore Sanford",
-            "address": "3167 O'Hara Mill Suite 210\nPort Clairstad, LA 32091-7199",
-            "phone": "(297) 793-4648 x74614"
-        },
-        {
-            "name": "Ressie Larkin IV",
-            "person_in_charge": "Madisyn Tremblay I",
-            "address": "92245 Merlin Land Suite 162\nNew Kyra, MS 42117-3577",
-            "phone": "1-829-619-7090"
-        }
-    ],
+    "data": [],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/places?page=1",
-        "last": "http:\/\/localhost\/api\/v1\/places?page=2",
+        "last": "http:\/\/localhost\/api\/v1\/places?page=1",
         "prev": null,
-        "next": "http:\/\/localhost\/api\/v1\/places?page=2"
+        "next": null
     },
     "meta": {
         "current_page": 1,
-        "from": 1,
-        "last_page": 2,
+        "from": null,
+        "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/places",
         "per_page": 15,
-        "to": 15,
-        "total": 18
+        "to": null,
+        "total": 0
     }
 }
 ```
@@ -1279,6 +1207,39 @@ Parameter | Type | Status | Description
 
 <!-- END_b56be722e336bfc4fa3205bf01342e6a -->
 
+<!-- START_67089b85994e8be447782521433b1039 -->
+## Remove the specified PLACE from storage.
+
+> Example request:
+
+```bash
+curl -X DELETE "http://localhost:8000/api/v1/places/{place}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/places/{place}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`DELETE api/v1/places/{place}`
+
+
+<!-- END_67089b85994e8be447782521433b1039 -->
+
 #Role
 <!-- START_953afc9014630b1a7b008b86bde4414e -->
 ## api/v1/roles/{role}/user
@@ -1347,8 +1308,8 @@ $.ajax(settings).done(function (response) {
         "id": 1,
         "name": "monitorista",
         "guard_name": "web",
-        "created_at": "2018-09-15 03:45:56",
-        "updated_at": "2018-09-15 03:45:56"
+        "created_at": "2018-09-28 22:49:14",
+        "updated_at": "2018-09-28 22:49:14"
     }
 ]
 ```
@@ -1631,483 +1592,7 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": [
-        {
-            "id": 1,
-            "rp": "Jarred Casper",
-            "invoice": "50872",
-            "client": "Berge-White",
-            "intermediary": "Kihn, Ebert and Ferry",
-            "origin_id": "1",
-            "destination_id": "2",
-            "mon_type": "3",
-            "line": "Nienow Group",
-            "scheduled_load": {
-                "date": "1994-09-19 19:17:29.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2014-10-01 19:32:49.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1993-05-10 23:59:31.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "2009-08-26 15:46:59.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 2,
-            "rp": "Eli Goyette",
-            "invoice": "62272",
-            "client": "Bartell-Hyatt",
-            "intermediary": "Breitenberg-Mosciski",
-            "origin_id": "3",
-            "destination_id": "4",
-            "mon_type": "9",
-            "line": "Yundt and Sons",
-            "scheduled_load": {
-                "date": "1990-08-20 19:26:18.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2005-06-04 09:21:09.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1998-01-19 02:24:25.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1978-11-09 10:46:37.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": "riesgo",
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 3,
-            "rp": "Dr. Lenora VonRueden DVM",
-            "invoice": "48026",
-            "client": "VonRueden, Turcotte and Treutel",
-            "intermediary": "Prosacco, Turcotte and Lockman",
-            "origin_id": "5",
-            "destination_id": "6",
-            "mon_type": "6",
-            "line": "Cronin Inc",
-            "scheduled_load": {
-                "date": "1994-09-12 05:57:54.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2015-12-18 15:03:20.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1979-01-06 05:29:58.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1981-09-15 11:40:13.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": "riesgo",
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 4,
-            "rp": null,
-            "invoice": null,
-            "client": null,
-            "intermediary": null,
-            "origin_id": null,
-            "destination_id": null,
-            "mon_type": null,
-            "line": null,
-            "scheduled_load": null,
-            "scheduled_departure": null,
-            "scheduled_arrival": null,
-            "scheduled_unload": null,
-            "bulk": {
-                "rp": "Gage Lang",
-                "invoice": 26407,
-                "client": "Beer Group",
-                "intermediary": "Sawayn Group",
-                "origin": "958 Carlo Throughway Suite 517\nEmiliomouth, GA 29192-1849",
-                "destination": "551 Braun Circles\nCollinville, VT 05774-2397",
-                "mon_type": 8,
-                "line": "Wolf, Mayer and Emmerich",
-                "scheduled_load": "2018-09-19 09:20:45",
-                "scheduled_departure": "2018-09-19 09:20:45",
-                "scheduled_arrival": "2018-09-21 09:20:45",
-                "scheduled_unload": "2018-09-22 09:20:45"
-            },
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 5,
-            "rp": null,
-            "invoice": null,
-            "client": null,
-            "intermediary": null,
-            "origin_id": null,
-            "destination_id": null,
-            "mon_type": null,
-            "line": null,
-            "scheduled_load": null,
-            "scheduled_departure": null,
-            "scheduled_arrival": null,
-            "scheduled_unload": null,
-            "bulk": {
-                "rp": "Ramona Cole",
-                "invoice": 29218,
-                "client": "Corkery, Crona and Lowe",
-                "intermediary": "Schuppe PLC",
-                "origin": "68247 Nienow Groves\nChristianstad, AK 23534",
-                "destination": "826 Gerhold Pass Suite 625\nNew Alex, AZ 96039-3554",
-                "mon_type": 4,
-                "line": "Schneider, Raynor and Smitham",
-                "scheduled_load": "2018-09-19 09:21:02",
-                "scheduled_departure": "2018-09-19 09:21:02",
-                "scheduled_arrival": "2018-09-21 09:21:02",
-                "scheduled_unload": "2018-09-22 09:21:02"
-            },
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 6,
-            "rp": null,
-            "invoice": null,
-            "client": null,
-            "intermediary": null,
-            "origin_id": null,
-            "destination_id": null,
-            "mon_type": null,
-            "line": null,
-            "scheduled_load": null,
-            "scheduled_departure": null,
-            "scheduled_arrival": null,
-            "scheduled_unload": null,
-            "bulk": {
-                "rp": "Dr. Fanny Shields PhD",
-                "invoice": 81716,
-                "client": "Kreiger, Brekke and Kuhic",
-                "intermediary": "Welch, Hartmann and Mertz",
-                "origin": "456 Janet Hill Suite 874\nNew Timothy, KY 05217-2314",
-                "destination": "567 Abshire Brook Apt. 672\nMohamedfort, KY 53518",
-                "mon_type": 9,
-                "line": "Johnson-Padberg",
-                "scheduled_load": "2018-09-19 09:21:02",
-                "scheduled_departure": "2018-09-19 09:21:02",
-                "scheduled_arrival": "2018-09-21 09:21:02",
-                "scheduled_unload": "2018-09-22 09:21:02"
-            },
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 8,
-            "rp": "Matilda King",
-            "invoice": "45026",
-            "client": "Corkery-Brekke",
-            "intermediary": "Walsh, Ledner and Terry",
-            "origin_id": "7",
-            "destination_id": "8",
-            "mon_type": "5",
-            "line": "Bogisich, Robel and Mayert",
-            "scheduled_load": {
-                "date": "2010-03-22 03:55:21.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2013-01-22 07:22:41.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1998-11-27 17:12:11.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1999-01-23 10:05:11.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 9,
-            "rp": "Etha Hammes",
-            "invoice": "37222",
-            "client": "Kutch, Berge and Cormier",
-            "intermediary": "Cremin, Leuschke and McCullough",
-            "origin_id": "9",
-            "destination_id": "10",
-            "mon_type": "1",
-            "line": "Schmeler-Collier",
-            "scheduled_load": {
-                "date": "1971-08-23 12:21:03.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2014-08-25 15:43:05.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2018-08-16 14:38:25.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "2000-11-27 04:10:13.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": "riesgo",
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 10,
-            "rp": "Mariane McCullough DVM",
-            "invoice": "57376",
-            "client": "Block-Reichel",
-            "intermediary": "Beahan, Rutherford and Gutmann",
-            "origin_id": "11",
-            "destination_id": "12",
-            "mon_type": "6",
-            "line": "Muller-Halvorson",
-            "scheduled_load": {
-                "date": "1992-03-29 09:14:00.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1999-01-09 09:04:42.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2018-07-01 21:28:52.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1972-02-04 06:16:39.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": "riesgo",
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 11,
-            "rp": null,
-            "invoice": null,
-            "client": null,
-            "intermediary": null,
-            "origin_id": null,
-            "destination_id": null,
-            "mon_type": null,
-            "line": null,
-            "scheduled_load": null,
-            "scheduled_departure": null,
-            "scheduled_arrival": null,
-            "scheduled_unload": null,
-            "bulk": {
-                "rp": "Darion Grant PhD",
-                "invoice": 63965,
-                "client": "Murphy Group",
-                "intermediary": "Prosacco and Sons",
-                "origin": "2095 Deshaun Dale Apt. 774\nEast Mireyachester, MS 47958-2521",
-                "destination": "294 Durward Courts Apt. 257\nPort Koby, NJ 68428",
-                "mon_type": 3,
-                "line": "Mante-Schamberger",
-                "scheduled_load": "2018-09-19 09:21:34",
-                "scheduled_departure": "2018-09-19 09:21:34",
-                "scheduled_arrival": "2018-09-21 09:21:34",
-                "scheduled_unload": "2018-09-22 09:21:34"
-            },
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 12,
-            "rp": null,
-            "invoice": null,
-            "client": null,
-            "intermediary": null,
-            "origin_id": null,
-            "destination_id": null,
-            "mon_type": null,
-            "line": null,
-            "scheduled_load": null,
-            "scheduled_departure": null,
-            "scheduled_arrival": null,
-            "scheduled_unload": null,
-            "bulk": {
-                "rp": "Elmira Ullrich",
-                "invoice": 8200,
-                "client": "Morissette PLC",
-                "intermediary": "Donnelly-Doyle",
-                "origin": "1662 Jaren Course\nNorth Duanebury, NE 06152-9105",
-                "destination": "57549 Pacocha Loop\nWest Henriette, PA 19436",
-                "mon_type": 3,
-                "line": "O'Hara, McDermott and Sporer",
-                "scheduled_load": "2018-09-19 09:21:34",
-                "scheduled_departure": "2018-09-19 09:21:34",
-                "scheduled_arrival": "2018-09-21 09:21:34",
-                "scheduled_unload": "2018-09-22 09:21:34"
-            },
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 14,
-            "rp": "Baylee Thompson III",
-            "invoice": "14966",
-            "client": "Harvey PLC",
-            "intermediary": "Hintz-Gerlach",
-            "origin_id": "13",
-            "destination_id": "14",
-            "mon_type": "0",
-            "line": "Cartwright, Moore and Borer",
-            "scheduled_load": {
-                "date": "2006-11-18 20:41:05.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1989-05-15 19:55:35.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1978-11-11 20:18:18.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1992-09-06 21:55:01.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 15,
-            "rp": "Mrs. Katharina Hayes III",
-            "invoice": "69801",
-            "client": "Raynor-Nader",
-            "intermediary": "Zulauf-Mertz",
-            "origin_id": "15",
-            "destination_id": "16",
-            "mon_type": "1",
-            "line": "Harris, Kris and Howell",
-            "scheduled_load": {
-                "date": "1980-09-18 19:11:57.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1997-05-15 00:08:44.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2013-03-01 19:09:04.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "2015-04-12 06:34:45.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": "riesgo",
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 16,
-            "rp": "Tia Pfeffer I",
-            "invoice": "27687",
-            "client": "Howe PLC",
-            "intermediary": "Fay, Littel and Conn",
-            "origin_id": "17",
-            "destination_id": "18",
-            "mon_type": "1",
-            "line": "Miller-Hoppe",
-            "scheduled_load": {
-                "date": "1977-07-09 11:41:31.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1999-09-07 10:11:05.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1981-10-27 23:35:14.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1983-02-02 07:50:41.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": "riesgo",
-            "device_id": null,
-            "convoy_id": null
-        }
-    ],
+    "data": [],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/trips?page=1",
         "last": "http:\/\/localhost\/api\/v1\/trips?page=1",
@@ -2116,12 +1601,12 @@ $.ajax(settings).done(function (response) {
     },
     "meta": {
         "current_page": 1,
-        "from": 1,
+        "from": null,
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/trips",
         "per_page": 15,
-        "to": 14,
-        "total": 14
+        "to": null,
+        "total": 0
     }
 }
 ```
@@ -2147,10 +1632,10 @@ curl -X POST "http://localhost:8000/api/v1/trips" \
     -d "destination"="provident" \
     -d "mon_type"="provident" \
     -d "line"="provident" \
-    -d "scheduled_load"="1995-11-11" \
-    -d "scheduled_departure"="Sunday, 12-Nov-95 00:00:00 UTC" \
-    -d "scheduled_arrival"="Monday, 13-Nov-95 00:00:00 UTC" \
-    -d "scheduled_unload"="Tuesday, 14-Nov-95 00:00:00 UTC" \
+    -d "scheduled_load"="1995-11-18" \
+    -d "scheduled_departure"="Sunday, 19-Nov-95 00:00:00 UTC" \
+    -d "scheduled_arrival"="Monday, 20-Nov-95 00:00:00 UTC" \
+    -d "scheduled_unload"="Tuesday, 21-Nov-95 00:00:00 UTC" \
 
 ```
 
@@ -2168,10 +1653,10 @@ var settings = {
         "destination": "provident",
         "mon_type": "provident",
         "line": "provident",
-        "scheduled_load": "1995-11-11",
-        "scheduled_departure": "Sunday, 12-Nov-95 00:00:00 UTC",
-        "scheduled_arrival": "Monday, 13-Nov-95 00:00:00 UTC",
-        "scheduled_unload": "Tuesday, 14-Nov-95 00:00:00 UTC"
+        "scheduled_load": "1995-11-18",
+        "scheduled_departure": "Sunday, 19-Nov-95 00:00:00 UTC",
+        "scheduled_arrival": "Monday, 20-Nov-95 00:00:00 UTC",
+        "scheduled_unload": "Tuesday, 21-Nov-95 00:00:00 UTC"
 },
     "headers": {
         "accept": "application/json"
@@ -2220,10 +1705,10 @@ curl -X PUT "http://localhost:8000/api/v1/trips/{trip}" \
     -d "destination"="commodi" \
     -d "mon_type"="commodi" \
     -d "line"="commodi" \
-    -d "scheduled_load"="1987-09-13" \
-    -d "scheduled_departure"="Monday, 14-Sep-87 00:00:00 UTC" \
-    -d "scheduled_arrival"="Tuesday, 15-Sep-87 00:00:00 UTC" \
-    -d "scheduled_unload"="Wednesday, 16-Sep-87 00:00:00 UTC" \
+    -d "scheduled_load"="1987-09-18" \
+    -d "scheduled_departure"="Saturday, 19-Sep-87 00:00:00 UTC" \
+    -d "scheduled_arrival"="Sunday, 20-Sep-87 00:00:00 UTC" \
+    -d "scheduled_unload"="Monday, 21-Sep-87 00:00:00 UTC" \
 
 ```
 
@@ -2241,10 +1726,10 @@ var settings = {
         "destination": "commodi",
         "mon_type": "commodi",
         "line": "commodi",
-        "scheduled_load": "1987-09-13",
-        "scheduled_departure": "Monday, 14-Sep-87 00:00:00 UTC",
-        "scheduled_arrival": "Tuesday, 15-Sep-87 00:00:00 UTC",
-        "scheduled_unload": "Wednesday, 16-Sep-87 00:00:00 UTC"
+        "scheduled_load": "1987-09-18",
+        "scheduled_departure": "Saturday, 19-Sep-87 00:00:00 UTC",
+        "scheduled_arrival": "Sunday, 20-Sep-87 00:00:00 UTC",
+        "scheduled_unload": "Monday, 21-Sep-87 00:00:00 UTC"
 },
     "headers": {
         "accept": "application/json"
@@ -2346,75 +1831,9 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "name": "Mrs. Kaelyn Parisian DDS",
+            "name": "Ayana Romaguera",
             "lastname": "default",
-            "email": "christop.hodkiewicz@example.net",
-            "username": "defaultx"
-        },
-        {
-            "name": "Johnson Leffler",
-            "lastname": "default",
-            "email": "halvorson.felicia@example.net",
-            "username": "defaultx"
-        },
-        {
-            "name": "Prof. Santino Denesik Sr.",
-            "lastname": "default",
-            "email": "romaguera.ian@example.com",
-            "username": "defaultx"
-        },
-        {
-            "name": "Anabel Rutherford",
-            "lastname": "default",
-            "email": "retha.gleichner@example.net",
-            "username": "defaultx"
-        },
-        {
-            "name": "Alexandria Will",
-            "lastname": "default",
-            "email": "watsica.robin@example.com",
-            "username": "defaultx"
-        },
-        {
-            "name": "Ephraim Harber",
-            "lastname": "default",
-            "email": "kiehn.dominic@example.org",
-            "username": "defaultx"
-        },
-        {
-            "name": "Lindsey Ferry",
-            "lastname": "default",
-            "email": "diana.doyle@example.net",
-            "username": "defaultx"
-        },
-        {
-            "name": "Michelle Hessel",
-            "lastname": "default",
-            "email": "darby20@example.net",
-            "username": "defaultx"
-        },
-        {
-            "name": "Ronny King DVM",
-            "lastname": "default",
-            "email": "pollich.ozella@example.org",
-            "username": "defaultx"
-        },
-        {
-            "name": "Mr. Desmond Hodkiewicz Jr.",
-            "lastname": "default",
-            "email": "llewellyn.haley@example.com",
-            "username": "defaultx"
-        },
-        {
-            "name": "Samanta Leuschke",
-            "lastname": "default",
-            "email": "mccullough.tamara@example.net",
-            "username": "defaultx"
-        },
-        {
-            "name": "Xavier Predovic",
-            "lastname": "default",
-            "email": "whammes@example.net",
+            "email": "punksolid@gmail.com",
             "username": "defaultx"
         }
     ],
@@ -2430,8 +1849,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/users",
         "per_page": 15,
-        "to": 12,
-        "total": 12
+        "to": 1,
+        "total": 1
     }
 }
 ```
@@ -2562,6 +1981,8 @@ null
 
 <!-- START_8c0e48cd8efa861b308fc45872ff0837 -->
 ## Login user and create token
+
+Recibe 'email', 'password'
 
 > Example request:
 

@@ -95,4 +95,16 @@ class LicenseController extends Controller
 
         return response()->status(500);
     }
+
+    public function revoke(License $license, Request $request)
+    {
+        $account = Account::findOrFail($request->account_id);
+
+
+        if ($license->revoke($account)){
+            return response(["data" =>  "La licencia ha sido revocada"]);
+        }
+
+        return response()->status(500);
+    }
 }

@@ -34,6 +34,7 @@ Route::get('dashboard/accounts', 'Admin\DashboardController@accounts');
 
 //Licenses
 Route::post("licenses/{license}/assign_to_account", "LicenseController@assignToAccount");
+Route::post("licenses/{license}/revoke", "LicenseController@revoke");
 Route::resource("licenses", "LicenseController");
 
 

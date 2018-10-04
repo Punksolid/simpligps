@@ -35,4 +35,15 @@ class License extends Model
             return false;
         }
     }
+
+    public function revoke(Account $account):bool
+    {
+        try {
+            $this->accounts()->detach($account->id);
+            return true;
+        } catch (\Exception $exception){
+            logger($exception);
+            return false;
+        }
+    }
 }

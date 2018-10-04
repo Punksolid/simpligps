@@ -27,7 +27,7 @@ class TripsTest extends TestCase
             "line" => $this->faker->company,
 
             "scheduled_load" => Carbon::now()->toDateTimeString(),
-            "scheduled_departure" => Carbon::now()->toDateTimeString(),
+            "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
             "scheduled_arrival" => Carbon::now()->addDays(2)->toDateTimeString(),
             "scheduled_unload" => Carbon::now()->addDays(3)->toDateTimeString()
 
@@ -54,7 +54,7 @@ class TripsTest extends TestCase
             "line" => $this->faker->company,
 
             "scheduled_load" => Carbon::now()->toDateTimeString(),
-            "scheduled_departure" => Carbon::now()->toDateTimeString(),
+            "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
             "scheduled_arrival" => Carbon::now()->addDays(2)->toDateTimeString(),
             "scheduled_unload" => Carbon::now()->addDays(3)->toDateTimeString()
 
@@ -95,7 +95,7 @@ class TripsTest extends TestCase
             "line" => $this->faker->company,
 
             "scheduled_load" => Carbon::now()->toDateTimeString(),
-            "scheduled_departure" => Carbon::now()->toDateTimeString(),
+            "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
             "scheduled_arrival" => Carbon::now()->addDays(2)->toDateTimeString(),
             "scheduled_unload" => Carbon::now()->addDays(3)->toDateTimeString()
 

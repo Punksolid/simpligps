@@ -39,5 +39,14 @@ class WialonTest extends TestCase
 
     }
 
+    public function test_lectura_de_notificaciones_de_api_wialon()
+    {
+        $wialon_api = new Wialon();
+
+        $notificaciones = $wialon_api->listNotifications();
+
+        dump($notificaciones);
+    }
+
 
 }
