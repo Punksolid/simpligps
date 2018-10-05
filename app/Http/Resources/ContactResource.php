@@ -19,7 +19,8 @@ class ContactResource extends JsonResource
             "company" => $this->company,
             "phone" => $this->phone,
             "email" => $this->email,
-            "address" => $this->address
+            "address" => $this->address,
+            "created_at" => $this->created_at->diffForHumans()
         ];
     }
 }

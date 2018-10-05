@@ -46,4 +46,5 @@ class License extends Model
             return false;
         }
     }
+
 }

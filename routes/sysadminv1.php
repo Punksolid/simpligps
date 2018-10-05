@@ -1,4 +1,3 @@
-
 <?php
 
 use App\Http\Controllers\ConvoyController;
@@ -17,24 +16,22 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'AdminLoginController@login');
 
-
-//Accounts
-Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");
-Route::get("accounts/active_accounts", "Admin\AccountsController@activeAccounts");
-Route::get("accounts/near_to_expire", "Admin\AccountsController@nearToExpire");
-Route::resource("accounts", "Admin\AccountsController")->only("store","index", "destroy");
-Route::group(["middleware" => "api"], function (){
-
-
-});
-
+Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
+    Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");
+    Route::get("accounts/active_accounts", "Admin\AccountsController@activeAccounts");
+    Route::get("accounts/near_to_expire", "Admin\AccountsController@nearToExpire");
+    Route::resource("accounts", "Admin\AccountsController")->only("store", "index", "destroy");
 
 //Dashboard
-Route::get('dashboard/accounts', 'Admin\DashboardController@accounts');
+    Route::get('dashboard/accounts', 'Admin\DashboardController@accounts');
 
 //Licenses
-Route::post("licenses/{license}/assign_to_account", "LicenseController@assignToAccount");
-Route::post("licenses/{license}/revoke", "LicenseController@revoke");
-Route::resource("licenses", "LicenseController");
+    Route::post("licenses/{license}/assign_to_account", "LicenseController@assignToAccount");
+    Route::post("licenses/{license}/revoke", "LicenseController@revoke");
+    Route::resource("licenses", "LicenseController");
+});
+
+//Accounts
+
 
 

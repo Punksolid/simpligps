@@ -58,9 +58,14 @@ class NotificationTypeController extends Controller
         //
     }
 
+
+    /**
+     * Envía a todos los usuarios el mensaje de notification
+     * @param NotificationType $notification_type
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function activate(NotificationType $notification_type)
     {
-
         \Notification::send(User::all(), new DynamicNotification($notification_type));
 
         return \response($notification_type);

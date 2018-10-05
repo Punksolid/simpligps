@@ -11,6 +11,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 class DynamicNotification extends Notification
 {
     use Queueable;
+
     public $alias;
 
     /**

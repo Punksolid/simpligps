@@ -40,18 +40,26 @@ class NewAccount extends Command
     public function handle()
     {
         $easyname = $this->argument("easyname");
+        $validator = \Validator::make([
+            "easyname" => $easyname
+        ], [
+            "easyname" => "required|string|alpha_dash"
+        ]);
 
-        if(\DB::connection("mysql")->statement("CREATE DATABASE $easyname")){
+        abort_if($validator->fails(), "Ese nombre no es valido, solo alfanumericos");
+
+
+        if (\DB::connection("mysql")->statement("CREATE DATABASE $easyname")) {
             $default = \Config::get("database.connections.mysql");
             $default["database"] = $easyname;
-            \Config::set("database.connections.temporal",$default);
+            \Config::set("database.connections.temporal", $default);
             $connection = \DB::connection("temporal");
 
-            $this->call("migrate",[
+            $this->call("migrate", [
                 "--database" => "temporal"
             ]);
 
-            \Config::set("database.default","mysql");
+            \Config::set("database.default", "mysql");
 
         }
 

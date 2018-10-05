@@ -23,7 +23,7 @@ class UsersController extends Controller
      */
     public function index()
     {
-        $users = User::paginate();
+        $users = User::orderByDesc("created_at")->paginate();
         return UsersResource::collection($users);
     }
  

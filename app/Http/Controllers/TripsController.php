@@ -24,7 +24,7 @@ class TripsController extends Controller
     public function index(Request $request)
     {
 
-        $query = Trip::query();
+        $query = Trip::query()->orderByDesc("created_at");
         if ($request->has("filter")){
             $query = $query->withAnyTags($request->filter);
         }

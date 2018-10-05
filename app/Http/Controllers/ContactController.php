@@ -94,7 +94,7 @@ class ContactController extends Controller
     public function filterTags(Request $request)
     {
 
-        $contacts = Contact::query();
+        $contacts = Contact::query()->orderBy("created_at","DESC");
         $contacts->withAllTags($request->tags);
 
         return ContactResource::collection($contacts->paginate());

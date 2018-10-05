@@ -6,6 +6,6 @@ use Spatie\Permission\Models\Role;
 $factory->define(Role::class, function (Faker $faker) {
     return [
         "name" => $faker->userName,
-        "guard_name" => "web"
+        "guard_name" => "api"
     ];
 });

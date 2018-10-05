@@ -40,7 +40,7 @@ class CreatePermissionsSeeder extends Seeder
 
 
         foreach ($permissions as $permission) {
-            $permission = new Permission(["name" => $permission, "guard_name" => "web"]);
+            $permission = new Permission(["name" => $permission, "guard_name" => "api"]);
             $permission->save();
         }
 
@@ -48,7 +48,7 @@ class CreatePermissionsSeeder extends Seeder
             "monitorista"
         ];
         foreach ($roles as $role) {
-            $roles = new Role(["name" => $role, "guard_name" => "web"]);
+            $roles = new Role(["name" => $role, "guard_name" => "api"]);
             $roles->save();
         }
     }

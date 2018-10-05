@@ -4,6 +4,7 @@ namespace App;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Validation\ValidationException;
 
 class Account extends Model
 {
@@ -24,7 +25,7 @@ class Account extends Model
 
     public function addUser(User $user): bool
     {
-        try{
+        try {
             $this->users()->attach($user->id);
             return true;
         } catch (\Exception $e) {
@@ -51,15 +52,33 @@ class Account extends Model
     /**
      * Adds license to an account
      * @param License $license
+     * @param $pivots array atributos del pivote para modificar los originales
      * @return bool
      * @throws \Exception
      */
-    public function addLicense(License $license): bool
+    public function addLicense(License $license, array $pivots = []): bool
     {
         try {
-            $this->licenses()->attach($license->id, [
-                "expires_at" => Carbon::now()->addDays($license->lapse)->endOfDay()->toDateTimeString()
-            ]);
+            if (!empty($pivots)) {
+                $v = \Validator::make($pivots, [
+                    "expires_at" => "required|date"
+                ]);
+
+                throw_if( $v->fails(),
+                    ValidationException::withMessages([
+                        "error" => [
+                            "Argumentos invalidos en los pivots"
+                        ]]
+                    )
+                );
+
+                $this->licenses()->attach($license->id, $pivots);
+            } else {
+                $this->licenses()->attach($license->id, [
+                    "expires_at" => Carbon::now()->addDays($license->lapse)->endOfDay()->toDateTimeString()
+                ]);
+            }
+
             return true;
         } catch (\Exception $exception) {
             \Log::info($exception);
@@ -96,9 +115,12 @@ class Account extends Model
         return $query->whereHas("nearToExpireLicenses");
     }
 
-    //TODO Añadir más validaciones
+    /**
+     * Revisa si la cuenta tiene una licencia con periodo activo
+     * @return bool
+     */
     public function isActive(): bool
     {
-        return (bool)$this->licenses()->first();
+        return (bool)$this->activeLicenses()->first();
     }
 }

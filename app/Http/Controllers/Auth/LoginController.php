@@ -57,6 +57,7 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
+
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -64,8 +65,10 @@ class LoginController extends Controller
         ]);
 
         $credentials = request(['email', 'password']);
+//        $x = \auth()->attempt($credentials);
+//        dd($x);
 
-        if(!Auth::attempt($credentials))
+        if (!Auth::attempt($credentials))
             return response()->json([
                 'message' => 'Unauthorized'
             ], 401);
