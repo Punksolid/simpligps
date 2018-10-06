@@ -43,7 +43,6 @@ class LoginTest extends TestCase
     }
 
     /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\HttpException
      */
     public function test_cuenta_no_puede_tener_mas_de_2_sesiones_activas()
     {
@@ -64,7 +63,7 @@ class LoginTest extends TestCase
         $call1 = $this->actingAs($user1, "api")->getJson("api/v1/devices");
 
         $call2 = $this->actingAs($user2, "api")->getJson("api/v1/devices");
-
+//
         $call3 = $this->actingAs($user3, "api")->getJson("api/v1/devices");
 
 //        $call4 = $this->actingAs($user, "api")->getJson("api/v1/devices", ["Authorization" => "Bearer " . $token]);

@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 use Psy\Util\Str;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * Class LicenseController
+ * @package App\Http\Controllers
+ * @resource Licensing
+ */
 class LicenseController extends Controller
 {
     /**

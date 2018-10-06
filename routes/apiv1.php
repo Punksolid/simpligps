@@ -19,7 +19,12 @@ Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkE
 Route::post('password/change', 'UsersController@changePassword');
 
 
-Route::group(["middleware" => ["auth:api", "limit_simoultaneous_access", "limit_expired_license_access"]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
+Route::group(["middleware" => [
+    "auth:api",
+    "limit_simoultaneous_access",
+    "limit_expired_license_access",
+    \App\Http\Middleware\ProfilingTestMiddleware::class
+]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     Route::get("/me", "MeController@meInfo");
 //Devices
     Route::resource("devices", "DevicesController")->only("index", "store", "show", "destroy", "update");
@@ -33,7 +38,6 @@ Route::group(["middleware" => ["auth:api", "limit_simoultaneous_access", "limit_
     Route::resource("permissions", "PermissionController", ["only" => ["index"]]);
     Route::post("roles/{role}/user", "RolesController@assignToUser");
     Route::resource("roles", "RolesController", ["only" => ["index", "store", "show", "update", "destroy"]]);
-
 
 
 //CONVOYS
@@ -70,9 +74,23 @@ Route::group(["middleware" => ["auth:api", "limit_simoultaneous_access", "limit_
         "only" => ["index", "store", "show", "update", "destroy"]
     ]);
 
-
+//Units
+    Route::get("units", "UnitsController@listUnits");
+    Route::get("units/with_localization", "UnitsController@listUnitsLocalization");
 });
 
+Route::group([
+    "prefix" => "external/",
+    "middleware" => [
+        "auth:api"
+    ]
+], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
+
+//Units
+    Route::post("devices/{device}/localization", "DevicesController@updateLocalization");
+    Route::post("devices", "DevicesController@storeExternal");
+    Route::get("devices", "DevicesController@listDevices");
+});
 
 //Contacts
 

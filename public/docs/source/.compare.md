@@ -51,26 +51,7 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": [
-        {
-            "carrier_name": "Hodkiewicz LLC",
-            "contact_name": "Prof. Luis Ratke DDS",
-            "phone": "665-268-6687 x92836",
-            "email": "freilly@collins.net"
-        },
-        {
-            "carrier_name": "Terry, Harber and Schiller",
-            "contact_name": "Mr. Adrien Ankunding I",
-            "phone": "445.675.8452 x4502",
-            "email": "luettgen.colton@hane.com"
-        },
-        {
-            "carrier_name": "Wintheiser, Wehner and Mertz",
-            "contact_name": "Miss Genevieve Medhurst",
-            "phone": "1-584-207-1684",
-            "email": "alfred17@schamberger.com"
-        }
-    ],
+    "data": [],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/carriers?page=1",
         "last": "http:\/\/localhost\/api\/v1\/carriers?page=1",
@@ -79,12 +60,12 @@ $.ajax(settings).done(function (response) {
     },
     "meta": {
         "current_page": 1,
-        "from": 1,
+        "from": null,
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/carriers",
         "per_page": 15,
-        "to": 3,
-        "total": 3
+        "to": null,
+        "total": 0
     }
 }
 ```
@@ -508,13 +489,7 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": {
-        "name": null,
-        "company": null,
-        "phone": null,
-        "email": null,
-        "address": null
-    }
+    "message": "Server Error"
 }
 ```
 
@@ -1307,9 +1282,9 @@ $.ajax(settings).done(function (response) {
     {
         "id": 1,
         "name": "monitorista",
-        "guard_name": "web",
-        "created_at": "2018-09-28 22:49:14",
-        "updated_at": "2018-09-28 22:49:14"
+        "guard_name": "api",
+        "created_at": "2018-10-06 02:31:08",
+        "updated_at": "2018-10-06 02:31:08"
     }
 ]
 ```
@@ -1632,10 +1607,10 @@ curl -X POST "http://localhost:8000/api/v1/trips" \
     -d "destination"="provident" \
     -d "mon_type"="provident" \
     -d "line"="provident" \
-    -d "scheduled_load"="1995-11-18" \
-    -d "scheduled_departure"="Sunday, 19-Nov-95 00:00:00 UTC" \
-    -d "scheduled_arrival"="Monday, 20-Nov-95 00:00:00 UTC" \
-    -d "scheduled_unload"="Tuesday, 21-Nov-95 00:00:00 UTC" \
+    -d "scheduled_load"="1995-11-19" \
+    -d "scheduled_departure"="Monday, 20-Nov-95 00:00:00 UTC" \
+    -d "scheduled_arrival"="Tuesday, 21-Nov-95 00:00:00 UTC" \
+    -d "scheduled_unload"="Wednesday, 22-Nov-95 00:00:00 UTC" \
 
 ```
 
@@ -1653,10 +1628,10 @@ var settings = {
         "destination": "provident",
         "mon_type": "provident",
         "line": "provident",
-        "scheduled_load": "1995-11-18",
-        "scheduled_departure": "Sunday, 19-Nov-95 00:00:00 UTC",
-        "scheduled_arrival": "Monday, 20-Nov-95 00:00:00 UTC",
-        "scheduled_unload": "Tuesday, 21-Nov-95 00:00:00 UTC"
+        "scheduled_load": "1995-11-19",
+        "scheduled_departure": "Monday, 20-Nov-95 00:00:00 UTC",
+        "scheduled_arrival": "Tuesday, 21-Nov-95 00:00:00 UTC",
+        "scheduled_unload": "Wednesday, 22-Nov-95 00:00:00 UTC"
 },
     "headers": {
         "accept": "application/json"
@@ -1705,10 +1680,10 @@ curl -X PUT "http://localhost:8000/api/v1/trips/{trip}" \
     -d "destination"="commodi" \
     -d "mon_type"="commodi" \
     -d "line"="commodi" \
-    -d "scheduled_load"="1987-09-18" \
-    -d "scheduled_departure"="Saturday, 19-Sep-87 00:00:00 UTC" \
-    -d "scheduled_arrival"="Sunday, 20-Sep-87 00:00:00 UTC" \
-    -d "scheduled_unload"="Monday, 21-Sep-87 00:00:00 UTC" \
+    -d "scheduled_load"="1987-09-19" \
+    -d "scheduled_departure"="Sunday, 20-Sep-87 00:00:00 UTC" \
+    -d "scheduled_arrival"="Monday, 21-Sep-87 00:00:00 UTC" \
+    -d "scheduled_unload"="Tuesday, 22-Sep-87 00:00:00 UTC" \
 
 ```
 
@@ -1726,10 +1701,10 @@ var settings = {
         "destination": "commodi",
         "mon_type": "commodi",
         "line": "commodi",
-        "scheduled_load": "1987-09-18",
-        "scheduled_departure": "Saturday, 19-Sep-87 00:00:00 UTC",
-        "scheduled_arrival": "Sunday, 20-Sep-87 00:00:00 UTC",
-        "scheduled_unload": "Monday, 21-Sep-87 00:00:00 UTC"
+        "scheduled_load": "1987-09-19",
+        "scheduled_departure": "Sunday, 20-Sep-87 00:00:00 UTC",
+        "scheduled_arrival": "Monday, 21-Sep-87 00:00:00 UTC",
+        "scheduled_unload": "Tuesday, 22-Sep-87 00:00:00 UTC"
 },
     "headers": {
         "accept": "application/json"
@@ -1799,6 +1774,39 @@ $.ajax(settings).done(function (response) {
 <!-- END_819b84a295a6859066bc63328b8e8eff -->
 
 #User
+<!-- START_9b9936e5bc62f136bc41e777ce4ee24a -->
+## api/v1/password/change
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/password/change" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/password/change",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST api/v1/password/change`
+
+
+<!-- END_9b9936e5bc62f136bc41e777ce4ee24a -->
+
 <!-- START_1aff981da377ba9a1bbc56ff8efaec0d -->
 ## Display a listing of the resource.
 
@@ -1831,9 +1839,15 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "name": "Ayana Romaguera",
+            "name": "Mikel Cole",
             "lastname": "default",
-            "email": "punksolid@gmail.com",
+            "email": "expeditaortiz.alan@example.com",
+            "username": "defaultx"
+        },
+        {
+            "name": "Dr. Kameron Stoltenberg DDS",
+            "lastname": "default",
+            "email": "suntdpurdy@example.org",
             "username": "defaultx"
         }
     ],
@@ -1849,8 +1863,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/users",
         "per_page": 15,
-        "to": 1,
-        "total": 1
+        "to": 2,
+        "total": 2
     }
 }
 ```
@@ -1906,39 +1920,6 @@ Parameter | Type | Status | Description
     email | email |  required  | 
 
 <!-- END_4194ceb9a20b7f80b61d14d44df366b4 -->
-
-<!-- START_9b9936e5bc62f136bc41e777ce4ee24a -->
-## api/v1/password/change
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/password/change" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:8000/api/v1/password/change",
-    "method": "POST",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`POST api/v1/password/change`
-
-
-<!-- END_9b9936e5bc62f136bc41e777ce4ee24a -->
 
 #general
 <!-- START_489208ef982629b16bc08aa39afec69b -->
@@ -2047,13 +2028,13 @@ $.ajax(settings).done(function (response) {
 
 <!-- END_2ef1df3705c0d699701afe474d776f42 -->
 
-<!-- START_d1c7efa5cc37e2aeb63e23e088517a7b -->
-## Display a listing of the resource.
+<!-- START_d58be746f29144cb8a66c4e189fcb1e1 -->
+## Logged user information
 
 > Example request:
 
 ```bash
-curl -X GET "http://localhost:8000/api/v1/trips/{trip}/traces" \
+curl -X GET "http://localhost:8000/api/v1/me" \
 -H "Accept: application/json"
 ```
 
@@ -2061,7 +2042,7 @@ curl -X GET "http://localhost:8000/api/v1/trips/{trip}/traces" \
 var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "http://localhost:8000/api/v1/trips/{trip}/traces",
+    "url": "http://localhost:8000/api/v1/me",
     "method": "GET",
     "headers": {
         "accept": "application/json"
@@ -2077,167 +2058,20 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": []
-}
-```
-
-### HTTP Request
-`GET api/v1/trips/{trip}/traces`
-
-
-<!-- END_d1c7efa5cc37e2aeb63e23e088517a7b -->
-
-<!-- START_4cbb5ab195bfb9ace50987eb77af84b4 -->
-## Store a newly created resource in storage.
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/trips/{trip}/traces" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:8000/api/v1/trips/{trip}/traces",
-    "method": "POST",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`POST api/v1/trips/{trip}/traces`
-
-
-<!-- END_4cbb5ab195bfb9ace50987eb77af84b4 -->
-
-<!-- START_b6deeb81fd9eaec04a64059c6f25d063 -->
-## api/v1/notification_activate/{notification_type}
-
-> Example request:
-
-```bash
-curl -X GET "http://localhost:8000/api/v1/notification_activate/{notification_type}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:8000/api/v1/notification_activate/{notification_type}",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-> Example response:
-
-```json
-[]
-```
-
-### HTTP Request
-`GET api/v1/notification_activate/{notification_type}`
-
-
-<!-- END_b6deeb81fd9eaec04a64059c6f25d063 -->
-
-<!-- START_4c45abee95007536b3e9595b31ff1018 -->
-## Store a newly created resource in storage.
-
-> Example request:
-
-```bash
-curl -X POST "http://localhost:8000/api/v1/notification_types" \
--H "Accept: application/json" \
-    -d "alias"="et" \
-    -d "deactivation_mode"="et" \
-
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:8000/api/v1/notification_types",
-    "method": "POST",
     "data": {
-        "alias": "et",
-        "deactivation_mode": "et"
-},
-    "headers": {
-        "accept": "application/json"
+        "name": "Mikel Cole",
+        "lastname": "default",
+        "email": "expeditaortiz.alan@example.com",
+        "username": "defaultx"
     }
 }
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
 ```
-
 
 ### HTTP Request
-`POST api/v1/notification_types`
-
-#### Parameters
-
-Parameter | Type | Status | Description
---------- | ------- | ------- | ------- | -----------
-    alias | string |  required  | 
-    deactivation_mode | string |  required  | 
-
-<!-- END_4c45abee95007536b3e9595b31ff1018 -->
-
-<!-- START_e6410ff1e0eba053a1fb3514dd830f43 -->
-## Actualizar Tipo de Notificacion
-
-> Example request:
-
-```bash
-curl -X PUT "http://localhost:8000/api/v1/notification_types/{notification_type}" \
--H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:8000/api/v1/notification_types/{notification_type}",
-    "method": "PUT",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
+`GET api/v1/me`
 
 
-### HTTP Request
-`PUT api/v1/notification_types/{notification_type}`
-
-`PATCH api/v1/notification_types/{notification_type}`
-
-
-<!-- END_e6410ff1e0eba053a1fb3514dd830f43 -->
+<!-- END_d58be746f29144cb8a66c4e189fcb1e1 -->
 
 <!-- START_e96c6711c1ea3212afa6af75fb23e97c -->
 ## Display a listing of the Devices.
@@ -2479,4 +2313,521 @@ $.ajax(settings).done(function (response) {
 
 
 <!-- END_4aea3d79dac837eacb615d2d562d2d37 -->
+
+<!-- START_d1c7efa5cc37e2aeb63e23e088517a7b -->
+## Display a listing of the resource.
+
+> Example request:
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/trips/{trip}/traces" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/trips/{trip}/traces",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "data": []
+}
+```
+
+### HTTP Request
+`GET api/v1/trips/{trip}/traces`
+
+
+<!-- END_d1c7efa5cc37e2aeb63e23e088517a7b -->
+
+<!-- START_4cbb5ab195bfb9ace50987eb77af84b4 -->
+## Store a newly created resource in storage.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/trips/{trip}/traces" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/trips/{trip}/traces",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST api/v1/trips/{trip}/traces`
+
+
+<!-- END_4cbb5ab195bfb9ace50987eb77af84b4 -->
+
+<!-- START_b6deeb81fd9eaec04a64059c6f25d063 -->
+## Envía a todos los usuarios el mensaje de notification
+
+> Example request:
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/notification_activate/{notification_type}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/notification_activate/{notification_type}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+[]
+```
+
+### HTTP Request
+`GET api/v1/notification_activate/{notification_type}`
+
+
+<!-- END_b6deeb81fd9eaec04a64059c6f25d063 -->
+
+<!-- START_4c45abee95007536b3e9595b31ff1018 -->
+## Store a newly created resource in storage.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/notification_types" \
+-H "Accept: application/json" \
+    -d "alias"="et" \
+    -d "deactivation_mode"="et" \
+
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/notification_types",
+    "method": "POST",
+    "data": {
+        "alias": "et",
+        "deactivation_mode": "et"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST api/v1/notification_types`
+
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    alias | string |  required  | 
+    deactivation_mode | string |  required  | 
+
+<!-- END_4c45abee95007536b3e9595b31ff1018 -->
+
+<!-- START_e6410ff1e0eba053a1fb3514dd830f43 -->
+## Actualizar Tipo de Notificacion
+
+> Example request:
+
+```bash
+curl -X PUT "http://localhost:8000/api/v1/notification_types/{notification_type}" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/notification_types/{notification_type}",
+    "method": "PUT",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`PUT api/v1/notification_types/{notification_type}`
+
+`PATCH api/v1/notification_types/{notification_type}`
+
+
+<!-- END_e6410ff1e0eba053a1fb3514dd830f43 -->
+
+<!-- START_a04c46a9f2324d91b7d30b10526164be -->
+## api/v1/units
+
+> Example request:
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/units" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/units",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "data": [
+        {
+            "name": "PTS001",
+            "id": 17471245,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.804986,
+                "lon": -107.437411
+            }
+        },
+        {
+            "name": "PTS002",
+            "id": 17471271,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.801538,
+                "lon": -107.428158
+            }
+        },
+        {
+            "name": "PTS003",
+            "id": 17471332,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.8098031781,
+                "lon": -107.39387445
+            }
+        },
+        {
+            "name": "PTS004",
+            "id": 17471392,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.80492,
+                "lon": -107.437514
+            }
+        },
+        {
+            "name": "PTS005",
+            "id": 17471421,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.8098192228,
+                "lon": -107.393836512
+            }
+        }
+    ]
+}
+```
+
+### HTTP Request
+`GET api/v1/units`
+
+
+<!-- END_a04c46a9f2324d91b7d30b10526164be -->
+
+<!-- START_2784cc932141defd94d1f43c872ca40c -->
+## api/v1/units/with_localization
+
+> Example request:
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/units/with_localization" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/units/with_localization",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "data": [
+        {
+            "name": "PTS001",
+            "id": 17471245,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.804986,
+                "lon": -107.437411
+            }
+        },
+        {
+            "name": "PTS002",
+            "id": 17471271,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.801538,
+                "lon": -107.428158
+            }
+        },
+        {
+            "name": "PTS003",
+            "id": 17471332,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.8098031781,
+                "lon": -107.39387445
+            }
+        },
+        {
+            "name": "PTS004",
+            "id": 17471392,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.80492,
+                "lon": -107.437514
+            }
+        },
+        {
+            "name": "PTS005",
+            "id": 17471421,
+            "measure_units": 0,
+            "position": {
+                "lat": 24.8098192228,
+                "lon": -107.393836512
+            }
+        }
+    ]
+}
+```
+
+### HTTP Request
+`GET api/v1/units/with_localization`
+
+
+<!-- END_2784cc932141defd94d1f43c872ca40c -->
+
+<!-- START_934ea5b44f90f194fb9f4d54b0b677c7 -->
+## api/v1/external/devices/{device}/localization
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/external/devices/{device}/localization" \
+-H "Accept: application/json" \
+    -d "lat"="quis" \
+    -d "lon"="quis" \
+
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/external/devices/{device}/localization",
+    "method": "POST",
+    "data": {
+        "lat": "quis",
+        "lon": "quis"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST api/v1/external/devices/{device}/localization`
+
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    lat | string |  required  | 
+    lon | string |  required  | 
+
+<!-- END_934ea5b44f90f194fb9f4d54b0b677c7 -->
+
+<!-- START_fbeb29d7338ed93eb78108a0db2385bb -->
+## api/v1/external/devices
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/external/devices" \
+-H "Accept: application/json" \
+    -d "gps"="dolores" \
+    -d "plate"="dolores" \
+    -d "internal_number"="dolores" \
+    -d "carrier_id"="dolores" \
+
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/external/devices",
+    "method": "POST",
+    "data": {
+        "gps": "dolores",
+        "plate": "dolores",
+        "internal_number": "dolores",
+        "carrier_id": "dolores"
+},
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST api/v1/external/devices`
+
+#### Parameters
+
+Parameter | Type | Status | Description
+--------- | ------- | ------- | ------- | -----------
+    gps | string |  required  | 
+    plate | string |  required  | 
+    internal_number | string |  required  | 
+    carrier_id | string |  required  | 
+
+<!-- END_fbeb29d7338ed93eb78108a0db2385bb -->
+
+<!-- START_72f1767d39f5b5d6ca87803df7e6105a -->
+## Lista dispositivos, api para uso externo
+
+> Example request:
+
+```bash
+curl -X GET "http://localhost:8000/api/v1/external/devices" \
+-H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/external/devices",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "data": [],
+    "links": {
+        "first": "http:\/\/localhost\/api\/v1\/external\/devices?page=1",
+        "last": "http:\/\/localhost\/api\/v1\/external\/devices?page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": null,
+        "last_page": 1,
+        "path": "http:\/\/localhost\/api\/v1\/external\/devices",
+        "per_page": 15,
+        "to": null,
+        "total": 0
+    }
+}
+```
+
+### HTTP Request
+`GET api/v1/external/devices`
+
+
+<!-- END_72f1767d39f5b5d6ca87803df7e6105a -->
 

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Device;
 use App\Http\Requests\DeviceRequest;
+use App\Http\Requests\UpdateLocalizationRequest;
 use App\Http\Resources\DeviceResource;
+use App\Point;
 use Illuminate\Http\Request;
 
 class DevicesController extends Controller
@@ -68,5 +70,31 @@ class DevicesController extends Controller
         }
 
         return response("Aconteció un error");
+    }
+
+    public function updateLocalization(Device $device, UpdateLocalizationRequest $request)
+    {
+//        $point = new Point();
+
+        $device->points()->create([
+            "lat" => $request->lat,
+            "lon"  => $request->lon
+        ]);
+
+        return response()->json($device->load('points'));
+    }
+
+    public function storeExternal(DeviceRequest $request)
+    {
+        return $this->store($request);
+    }
+
+    /**
+     * Lista dispositivos, api para uso externo
+     * @return \Illuminate\Http\Response
+     */
+    public function listDevices()
+    {
+        return $this->index();
     }
 }

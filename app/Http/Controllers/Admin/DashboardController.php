@@ -12,6 +12,7 @@ use App\Http\Controllers\Controller;
  *
  * Class DashboardController
  * @package App\Http\Controllers\Admin
+ * @resource Dashboard
  */
 class DashboardController extends Controller
 {

@@ -40,4 +40,15 @@ class Device extends Model
     {
         return $this->belongsTo(Carrier::class,"carrier_id");
     }
+
+
+    /**
+     * Un dispositivo tiene muchos puntos de localización
+     *
+     */
+    public function points()
+    {
+        /** @var TYPE_NAME $this */
+        return $this->hasMany(Point::class);
+    }
 }

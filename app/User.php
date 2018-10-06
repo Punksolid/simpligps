@@ -2,12 +2,16 @@
 
 namespace App;
 
+use App\Observers\UserObserver;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Orchestra\Tenanti\Contracts\TenantProvider;
+use Orchestra\Tenanti\Tenantor;
 use Spatie\Permission\Traits\HasRoles;
 
+//class User extends Authenticatable implements TenantProvider
 class User extends Authenticatable
 {
     use HasRoles, Notifiable, HasApiTokens;
@@ -30,6 +34,34 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+//    public function asTenantor(): Tenantor
+//    {
+//        return Tenantor::fromEloquent('user',$this);
+//        // TODO: Implement asTenantor() method.
+//    }
+//    /**
+//     * Make a tenantor.
+//     *
+//     * @return \Orchestra\Tenanti\Tenantor
+//     */
+//    public static function makeTenantor($key, $connection = null): Tenantor
+//    {
+//        return Tenantor::make(
+//            'user', $key, $connection ?: (new static())->getConnectionName()
+//        );
+//    }
+//
+//    /**
+//     * The "booting" method of the model.
+//     */
+//    protected static function boot()
+//    {
+//        parent::boot();
+//
+//        static::observe(new UserObserver());
+//    }
+
 
     public function profile()
     {

@@ -28,7 +28,7 @@ Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
 //Licenses
     Route::post("licenses/{license}/assign_to_account", "LicenseController@assignToAccount");
     Route::post("licenses/{license}/revoke", "LicenseController@revoke");
-    Route::resource("licenses", "LicenseController");
+    Route::resource("licenses", "LicenseController")->except("create");
 });
 
 //Accounts

@@ -14,13 +14,22 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Ramsey\Uuid\Uuid;
 
+/**
+ * Class AccountsController
+ * @package App\Http\Controllers\Admin
+ * @resource Accounts|Cuentas
+ */
 class AccountsController extends Controller
 {
 
     /**
-     * Display a listing of the resource.
+     * Display a listing of the account.
      *
      * @return \Illuminate\Http\Response
+     * @response {
+     *  "token": "eyJ0eXAi…",
+     *  "roles": ["admin"]
+     * }
      */
     public function index()
     {
@@ -30,7 +39,7 @@ class AccountsController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created account in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -50,9 +59,8 @@ class AccountsController extends Controller
     }
 
 
-
     /**
-     * Display the specified resource.
+     * Display the specified account.
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
@@ -63,7 +71,7 @@ class AccountsController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified account in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
@@ -80,7 +88,7 @@ class AccountsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $account_id)
+    public function destroy($account_id)
     {
 
         $account = Account::findOrFail($account_id);
@@ -117,6 +125,10 @@ class AccountsController extends Controller
         return response($account->fresh()->bulk);
     }
 
+    /**
+     * Devuelve un listado de cuentas activas por su lapse
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function activeAccounts()
     {
         $accounts = Account::active()->get();
@@ -127,6 +139,15 @@ class AccountsController extends Controller
     /**
      * Próximos a expirar en 7 dias
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @response {
+     * "data": [
+     * {
+     * "id": 1,
+     * "easyname": "ut",
+     * "uuid": "9967c79f-8188-3598-b0ec-ef8232410a6b"
+     * }
+     * ]
+     * }
      */
     public function nearToExpire()
     {

@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Carrier;
+use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\User;
@@ -13,6 +14,16 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class DevicesTest extends TestCase
 {
     var $user;
+
+    public function deviceForm(): array
+    {
+        return  [
+            "internal_number" => $this->faker->randomNumber(6),
+            "gps" => $this->faker->company,
+            "carrier_id" => factory(Carrier::class)->create()->id,
+            "plate" => $this->faker->randomNumber(7)
+        ];
+    }
 
     protected function setUp()
     {
@@ -29,26 +40,20 @@ class DevicesTest extends TestCase
      */
     public function test_registrar_un_nuevo_dispositivo()
     {
-        $device = [
-            "internal_number" => $this->faker->randomNumber(6) ,
-            "gps" => $this->faker->company,
-            "carrier_id" => factory(Carrier::class)->create()->id,
-            "plate" => $this->faker->randomNumber(7)
-        ];
+        $device = $this->deviceForm();
 
-        $call = $this->json("POST","api/v1/devices",$device);
+        $call = $this->postJson("api/v1/devices",$device);
 
         $call->assertJsonFragment($device);
-        $call->assertStatus(201);
+
 
         return $call->getOriginalContent();
     }
 
     public function test_usuario_puede_ver_detalles_de_un_solo_dispositivo()
     {
-        $device = $this->test_registrar_un_nuevo_dispositivo();
-
-        $call = $this->json("GET","api/v1/devices/$device->id");
+        $device = factory(Device::class)->create();
+        $call = $this->getJson("api/v1/devices/$device->id");
 
         $call->assertJson([
             "data" => [
@@ -64,7 +69,7 @@ class DevicesTest extends TestCase
 
     public function test_listar_dispositivos_paginados()
     {
-        $call = $this->json("GET", "api/v1/devices");
+        $call = $this->getJson("api/v1/devices");
         $call->assertJsonStructure([
             "data" => [
                 "*" => [
@@ -81,15 +86,9 @@ class DevicesTest extends TestCase
     public function test_editar_registro_de_dispositivo()
     {
         $device = $this->test_registrar_un_nuevo_dispositivo();
-        $new_device = [
-            "internal_number" => $this->faker->randomNumber(6) ,
-            "gps" => $this->faker->company,
-            "carrier_id" => factory(Carrier::class)->create()->id,
-            "plate" => $this->faker->randomNumber(7)
-        ];
+        $new_device = $this->deviceForm();
 
-        $call = $this->json("PUT","api/v1/devices/$device->id",$new_device);
-
+        $call = $this->putJson("api/v1/devices/$device->id",$new_device);
         $call->assertJsonFragment($new_device);
         $call->assertStatus(200);
     }
@@ -97,8 +96,7 @@ class DevicesTest extends TestCase
     public function test_olvidar_dispotivio()
     {
         $device = $this->test_registrar_un_nuevo_dispositivo();
-        $call = $this
-            ->json("DELETE","api/v1/devices/$device->id");
+        $call = $this->deleteJson("api/v1/devices/$device->id");
 
         $this->assertDatabaseMissing("devices",[
             "internal_number" => $device->internal_number
@@ -106,4 +104,44 @@ class DevicesTest extends TestCase
         $call->assertStatus(200);
 
     }
+
+
+    public function test_actualizar_ubicacion_dispositivo_desde_llamada_externa()
+    {
+        $device = factory(Device::class)->create();
+        $call = $this->postJson("api/v1/external/devices/{$device->id}/localization",[
+           "lat" => $this->faker->latitude,
+           "lon" => $this->faker->longitude
+        ]);
+        $call->dump();
+        $call->assertSuccessful();
+    }
+
+    public function test_registro_api_externo_de_unidades()
+    {
+        $device = $this->deviceForm();
+        $call = $this->postJson("api/v1/external/devices", $device);
+        $call->dump();
+        $call->assertJsonFragment($device);
+        $call->assertSuccessful();
+    }
+
+    public function test_api_acceso_externo_para_la_recoleccion_de_unidades()
+    {
+        $call = $this->getJson("api/v1/external/devices");
+
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    "internal_number",
+                    "gps",
+                    "carrier_id",
+                    "plate"
+                ]
+            ]
+        ]);
+        $call->assertStatus(200);
+    }
+
+
 }

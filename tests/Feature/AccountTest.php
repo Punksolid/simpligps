@@ -51,9 +51,7 @@ class AccountTest extends TestCase
     public function test_sysadmin_puede_ver_listado_de_cuentas()
     {
 
-
-        $call = $this->actingAs($this->sysadmin)->call("GET", 'api/sysadminv1/accounts');
-
+        $call = $this->getJson('api/sysadminv1/accounts');
         $call
             ->assertJsonStructure([
                 "data" => [
@@ -139,7 +137,6 @@ class AccountTest extends TestCase
 
         $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/active_accounts");
 
-
         $call->assertJsonFragment([
             "id" => $active_account->id,
             "easyname" => $active_account->easyname,
@@ -160,6 +157,15 @@ class AccountTest extends TestCase
 
         $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/near_to_expire");
 
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    "id",
+                    "easyname",
+                    "uuid"
+                ]
+            ]
+        ]);
         $call->assertJsonFragment([
             "id" => $near_to_expire->id,
             "easyname" => $near_to_expire->easyname,
