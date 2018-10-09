@@ -89,6 +89,12 @@ class LicenseController extends Controller
         //
     }
 
+    /**
+     * Asigna Licencia a Cuenta
+     * @param License $license
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|int
+     */
     public function assignToAccount(License $license, Request $request)
     {
         $account = Account::find($request->account_id);
@@ -101,6 +107,12 @@ class LicenseController extends Controller
         return response()->status(500);
     }
 
+    /**
+     * Revoca licencia License, Request
+     * @param License $license
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response|int
+     */
     public function revoke(License $license, Request $request)
     {
         $account = Account::findOrFail($request->account_id);

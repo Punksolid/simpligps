@@ -1839,6 +1839,12 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
+            "name": "Mr. Kellen Rogahn",
+            "lastname": "default",
+            "email": "etray18@example.com",
+            "username": "defaultx"
+        },
+        {
             "name": "Mikel Cole",
             "lastname": "default",
             "email": "expeditaortiz.alan@example.com",
@@ -1863,8 +1869,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/users",
         "per_page": 15,
-        "to": 2,
-        "total": 2
+        "to": 3,
+        "total": 3
     }
 }
 ```
@@ -2059,9 +2065,9 @@ $.ajax(settings).done(function (response) {
 ```json
 {
     "data": {
-        "name": "Mikel Cole",
+        "name": "Mr. Kellen Rogahn",
         "lastname": "default",
-        "email": "expeditaortiz.alan@example.com",
+        "email": "etray18@example.com",
         "username": "defaultx"
     }
 }

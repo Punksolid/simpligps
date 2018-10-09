@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Account;
+use App\License;
 use App\Sysadmin;
 use App\User;
 use Illuminate\Console\Command;
@@ -61,7 +63,11 @@ class GenerateDocumentation extends Command
 
         $this->warn('ADMIN DOCUMENTATION');
         $admin = factory(Sysadmin::class)->create();
-
+        /**
+         * Bindings
+         */
+        $licence = factory(License::class)->create();
+        $account = factory(Account::class)->create();
         $this->call(
             "api:generate",
             [
@@ -69,6 +75,7 @@ class GenerateDocumentation extends Command
                 '--output' => 'storage/app/public/docs/admin/',
                 '--force' => true,
                 '--env' => 'production',
+                '--bindings' => "license,$licence->id|account,$account->id"
             ]);
     }
 }
