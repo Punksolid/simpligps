@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConvoyController;
 use Illuminate\Http\Request;
+use Laravel\Passport\Passport;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +14,13 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-Route::post('login', 'AdminLoginController@login');
+Passport::routes(function ($router) {
+    $router->forAccessTokens();
+//    $router->forClients();
+});
+Route::group(["middleware" => ['api']], function ($router){
+    Route::post('login', 'AdminLoginController@login');
+});
 
 Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
     Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");

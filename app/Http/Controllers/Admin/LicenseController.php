@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Http\Requests\LicenseRequest;
+use App\Http\Resources\LicenseResource;
 use App\License;
 use Illuminate\Http\Request;
 use Psy\Util\Str;
@@ -20,10 +21,13 @@ class LicenseController extends Controller
      * Display a listing of the LICENSE.
      *
      * @return \Illuminate\Http\Response
+     *
      */
     public function index()
     {
-        //
+        $licenses = License::paginate();
+
+        return LicenseResource::collection($licenses);
     }
 
     /**
@@ -52,7 +56,7 @@ class LicenseController extends Controller
      */
     public function show(License $license)
     {
-        return response($license);
+        return LicenseResource::make($license->load('accounts'));
     }
 
     /**

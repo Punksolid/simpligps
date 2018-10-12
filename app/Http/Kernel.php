@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
+use Barryvdh\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
@@ -47,6 +48,7 @@ class Kernel extends HttpKernel
 //            \Illuminate\Session\Middleware\StartSession::class,
             'throttle:60,1',
             'bindings',
+            HandleCors::class
         ],
     ];
 

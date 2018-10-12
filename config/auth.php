@@ -46,16 +46,15 @@ return [
             'provider' => 'users',
         ],
 
+        'sysadmin' => [
+            "driver" => 'session',
+            "provider" => 'sysadmin'
+        ],
 
         'sysadmin-api' => [
             "driver" => 'passport',
             "provider" => 'sysadmin'
         ],
-
-        'sysadmin' => [
-            "driver" => 'session',
-            "provider" => 'sysadmin'
-        ]
     ],
 
     /*

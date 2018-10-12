@@ -79,6 +79,19 @@ class LicenseTest extends TestCase
         ]);
     }
 
+    public function test_listar_licencias()
+    {
+        $call = $this->getJson("api/sysadminv1/licenses");
 
+        $call->assertSuccessful();
+    }
+
+    public function test_ver_detalles_de_licencia()
+    {
+        $license = factory(License::class)->create();
+        $call = $this->getJson("api/sysadminv1/licenses/{$license->id}");
+
+        $call->assertSuccessful();
+    }
 
 }

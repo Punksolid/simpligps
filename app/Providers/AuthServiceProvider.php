@@ -28,10 +28,11 @@ class AuthServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);  //https://laravel-news.com/laravel-5-4-key-too-long-error
         $this->registerPolicies();
 
-        Passport::routes(function ($router) {
-            $router->forAccessTokens();
-            $router->forClients();
-        });
+//         Passport::routes(function ($router) {
+//            $router->forAccessTokens();
+//            $router->forClients();
+//        });
 
+        Passport::routes();
     }
 }

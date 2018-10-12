@@ -17,13 +17,19 @@ class SysadminTest extends TestCase
      */
     public function test_sysadmin_puede_hacer_login()
     {
+        $this->withoutExceptionHandling();
         $admin = factory(Sysadmin::class)->create();
 
-        $call = $this->json("POST", "api/sysadminv1/login", [
+        $call = $this->postJson( "api/sysadminv1/login", [
+            "email" => "sysadmin_test@gmail.com",
+            "password" => "443rancid."
+        ]);
+        $call->assertSuccessful();
+        $call2 = $this->postJson( "api/sysadminv1/login", [
             "email" => $admin->email,
             "password" => "secret"
         ]);
-
+        $call2->assertSuccessful();
         $call->assertJsonStructure([
             "data" => [
                 "access_token"
