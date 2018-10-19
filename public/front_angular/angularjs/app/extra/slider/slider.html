@@ -1,0 +1,296 @@
+﻿<div>
+    <div class="header">
+        <h2>Carousel <strong>Sliders</strong></h2>
+        <p>This slider plugin is a responsive carousel jQuery plugin that supports multiple breakpoints, CSS3 transitions, touch events/swiping &amp; much more!</p>
+        <p>For more informations about options &amp; methods you can visit official website here: <a href="http://kenwheeler.github.io/slick/" target="_blank">Slide Documentation</a>.</p>
+        <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="dashboard.html">Make</a>
+                </li>
+                <li>
+                    <a href="#">Extra</a>
+                </li>
+                <li class="active">Sliders</li>
+            </ol>
+        </div>
+    </div>
+    <div class="panel">
+        <div class="panel-content">
+            <h3 class="m-t-0"><strong>Single</strong> Item</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget widget_slider">
+                        <div class="slick" data-arrows="true">
+                            <div class="slide">
+                                <h3 class="bg-primary">1</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">2</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">3</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <pre class="prettyprint linenums">
+&lt;div class=&quot;slick&quot; data-arrows=&quot;true&quot;&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3&gt;1&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3&gt;2&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3&gt;3&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            <h3 class="m-t-0 border-top p-t-20"><strong>Multiple</strong> Items</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget widget_slider">
+                        <div class="slick" data-arrows="true" data-num-slides="3" data-num-scroll="3">
+                            <div class="slide">
+                                <h3 class="bg-primary">1</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">2</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">3</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">4</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">5</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">6</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <pre class="prettyprint linenums">
+&lt;div class=&quot;widget widget_slider&quot;&gt;
+    &lt;div class=&quot;slick&quot; data-arrows=&quot;true&quot; data-num-slides=&quot;3&quot; data-num-scroll=&quot;3&quot;&gt;
+        &lt;div class=&quot;slide&quot;&gt;
+            &lt;h3&gt;1&lt;/h3&gt;
+        &lt;/div&gt;
+        // ... Other slides
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            <h3 class="m-t-0 border-top p-t-20"><strong>Responsive</strong> Display</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget widget_slider">
+                        <div class="responsive-slick" data-arrows="true" data-num-slides="3" data-num-scroll="3">
+                            <div class="slide">
+                                <h3 class="bg-primary">1</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">2</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">3</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">4</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">5</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">6</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">7</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">8</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <pre class="prettyprint linenums">
+$('.responsive').slick({
+  dots: true, infinite: false, speed: 300, slidesToShow: 4, slidesToScroll: 4,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3, slidesToScroll: 3, infinite: true, dots: true
+      }
+    },
+    {
+      breakpoint: 600,
+      settings: {
+        slidesToShow: 2, slidesToScroll: 2
+      }
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1, slidesToScroll: 1
+      }
+    }
+  ]
+});</pre>
+                </div>
+            </div>
+            <h3 class="m-t-0 border-top p-t-20"><strong>Variable</strong> Width</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget widget_slider">
+                        <div class="slick" data-arrows="true" data-variable-width="true" data-center="true">
+                            <div class="slide" style="width:200px">
+                                <h3 class="bg-primary">200</h3>
+                            </div>
+                            <div class="slide" style="width:125px">
+                                <h3 class="bg-primary">125</h3>
+                            </div>
+                            <div class="slide" style="width:175px">
+                                <h3 class="bg-primary">175</h3>
+                            </div>
+                            <div class="slide" style="width:150px">
+                                <h3 class="bg-primary">150</h3>
+                            </div>
+                            <div class="slide" style="width:75px">
+                                <h3 class="bg-primary">75</h3>
+                            </div>
+                            <div class="slide" style="width:125px">
+                                <h3 class="bg-primary">125</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <pre class="prettyprint linenums">
+&lt;div class=&quot;slick&quot; data-variable-width=&quot;true&quot; data-center=&quot;true&quot;&gt;
+    &lt;!-- Don't forget to specify width for each slide --&gt;
+    &lt;div class=&quot;slide&quot; style=&quot;width:200px&quot;&gt;
+        &lt;h3&gt;200&lt;/h3&gt;
+    &lt;/div&gt;
+    // ... Other slides
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            <h3 class="m-t-0 border-top p-t-20"><strong>Fade</strong> Effect</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget widget_slider">
+                        <div class="slick" data-arrows="true" data-fade="true">
+                            <div class="slide">
+                                <h3 class="bg-primary">1</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-green">2</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-orange">3</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <pre class="prettyprint linenums">
+&lt;div class=&quot;slick&quot; data-fade=&quot;true&quot;&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;1&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;2&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;3&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            <h3 class="m-t-0 border-top p-t-20"><strong>Autoplay</strong> False</h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget widget_slider">
+                        <div class="slick" data-arrows="true" data-autoplay="false">
+                            <div class="slide">
+                                <h3 class="bg-primary">1</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">2</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">3</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <pre class="prettyprint linenums">
+&lt;div class=&quot;slick&quot; data-autoplay=&quot;false&quot;&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;1&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;2&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;3&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+            <h3 class="m-t-0 border-top p-t-20">No <strong>Arrow</strong> </h3>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="widget widget_slider">
+                        <div class="slick" data-arrows="false">
+                            <div class="slide">
+                                <h3 class="bg-primary">1</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">2</h3>
+                            </div>
+                            <div class="slide">
+                                <h3 class="bg-primary">3</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <pre class="prettyprint linenums">
+&lt;div class=&quot;slick&quot; data-autoplay=&quot;false&quot;&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;1&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;2&lt;/h3&gt;
+    &lt;/div&gt;
+    &lt;div class=&quot;slide&quot;&gt;
+        &lt;h3 class=&quot;bg-primary&quot;&gt;3&lt;/h3&gt;
+    &lt;/div&gt;
+&lt;/div&gt;</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            <p class="pull-left sm-pull-reset">
+                <span>Copyright <span class="copyright">&copy;</span> 2016 </span>
+                <span>THEMES LAB</span>.
+                <span>All rights reserved. </span>
+            </p>
+            <p class="pull-right sm-pull-reset">
+                <span><a href="#" class="m-r-10">Support</a> | <a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+            </p>
+        </div>
+    </div>
+</div>

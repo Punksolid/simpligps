@@ -1,0 +1,520 @@
+<div class="row">
+    <div class="col-md-12">
+        <div class="angular-alert alert alert-info alert-dismissible fade in" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">x</span></button>
+
+            <div class="media-left">
+            <img src="../../../assets/global/images/various/angularjs.png" class="dis-block" alt="angularjs logo">
+          </div>
+          <div class="media-body width-100p">
+            <p class="angular-title">Discover Make AngularJS new version!</p>
+            <div class="angular-txt">
+                <p>With AngularJS version of Make, you wil discover a very fast browsing for users. Pages change like a Single Page Application with beautiful animation.</p>
+                <p>Want to learn more? Here is tutorial from official website: <a href="https://docs.angularjs.org/tutorial" target="_blank">AngularJS tutorial</a></p>
+            </div>
+          </div>
+
+
+
+        </div>
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xlg-7 col-lg-7">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel bg-dark widget-map">
+                    <div class="panel-header">
+                        <h3><i class="icon-globe-alt"></i> <strong>Interactif</strong> Map</h3>
+                    </div>
+                    <div class="panel-content widget-full">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div id="map"></div>
+                            </div>
+                            <div class="col-md-3 c-white">
+                                <div id="listdiv"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xlg-3 col-lg-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel no-bd bd-3 panel-stat">
+                    <div class="panel-header">
+                        <h3><i class="icon-graph"></i> <strong>Visitors</strong> Statistic</h3>
+                        <div class="control-btn">
+                            <a href="#" class="panel-reload hidden"><i class="icon-reload"></i></a>
+                        </div>
+                    </div>
+                    <div class="panel-body p-15 p-b-0">
+                        <div class="row m-b-10">
+                            <div class="col-xs-3 big-icon">
+                                <i class="icon-users"></i>
+                            </div>
+                            <div class="col-xs-9">
+                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="60">
+                                    <div>
+                                        <small class="stat-title">Visits today</small>
+                                        <h1 class="f-40 m-0 w-300">25 610</h1>
+                                    </div>
+                                    <div>
+                                        <small class="stat-title">Visits yesterday</small>
+                                        <h1 class="f-40 m-0 w-300">22 420</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <small class="stat-title">New Visitors</small>
+                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
+                                    <div>
+                                        <h3 class="f-20 m-0 w-300">37.5%</h3>
+                                    </div>
+                                    <div>
+                                        <h3 class="f-20 m-0 w-300">34.2%</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <small class="stat-title">Bounce Rate</small>
+                                <div class="live-tile f-right" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
+                                    <div>
+                                        <h3 class="f-20 t-right m-0 w-500">5.6%</h3>
+                                    </div>
+                                    <div>
+                                        <h3 class="f-20 t-right m-0 w-500">7.4%</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel-stat-chart">
+                        <canvas id="visitors-chart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="display:none">
+            <div class="col-md-12">
+                <div class="panel no-bd bd-3 panel-stat">
+                    <div class="panel-body bg-red p-15">
+                        <div class="row m-b-10">
+                            <div class="col-xs-3 big-icon">
+                                <i class="icon-equalizer"></i>
+                            </div>
+                            <div class="col-xs-9">
+                                <small class="stat-title">ORDERS THIS MONTH</small>
+                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="56">
+                                    <div>
+                                        <h1 class="f-40 m-0 w-300">148</h1>
+                                    </div>
+                                    <div>
+                                        <h1 class="f-40 m-0 w-300">+28%</h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <small class="stat-title">Last month</small>
+                                <div class="live-tile" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
+                                    <div>
+                                        <h3 class="f-20 m-0 w-300">126</h3>
+                                    </div>
+                                    <div>
+                                        <h3 class="f-20 m-0 w-300">$12,545</h3>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <small class="stat-title">Last week</small>
+                                <div class="live-tile f-right" data-mode="carousel" data-direction="vertical" data-delay="3500" data-height="23">
+                                    <div>
+                                        <h3 class="t-right f-20 m-0 w-500">43</h3>
+                                    </div>
+                                    <div>
+                                        <h3 class="t-right f-20 m-0 w-500">$4,237</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xlg-2 hidden-lg">
+        <div class="row">
+            <div class="col-md-12">
+                <ul class="jquery-clock small" data-jquery-clock="">
+                    <li class="jquery-clock-pin"></li>
+                    <li class="jquery-clock-sec"></li>
+                    <li class="jquery-clock-min"></li>
+                    <li class="jquery-clock-hour"></li>
+                </ul>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-md-12">
+            <div class="widget-progress-bar">
+                <div class="progress visible">
+                    <progress class="progress-bar-primary stat1" value="82" max="100" data-animation-delay="600"></progress>
+                    <div class="progress-info">
+                        <span class="progress-name">Profil Complete</span>
+                        <span class="progress-value">82%</span>
+                    </div>
+                </div>
+                <div class="progress visible">
+                    <progress class="progress-bar-primary stat1" value="43" max="100" data-animation-delay="800"></progress>
+                    <div class="progress-info">
+                        <span class="progress-name">Answer Emails</span>
+                        <span class="progress-value">43%</span>
+                    </div>
+                </div>
+                <div class="progress visible">
+                    <progress class="progress-bar-primary stat1" value="93" max="100" data-animation-delay="1000"></progress>
+                    <div class="progress-info">
+                        <span class="progress-name">Server availability</span>
+                        <span class="progress-value">93%</span>
+                    </div>
+                </div>
+                <div class="progress visible">
+                    <progress class="progress-bar-primary stat1" value="76" max="100" data-animation-delay="1200"></progress>
+                    <div class="progress-info">
+                        <span class="progress-name">CPU Usage</span>
+                        <span class="progress-value">76%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xlg-4">
+        <div class="panel">
+            <div class="panel-header panel-controls">
+                <h3><i class="icon-graph"></i> <strong>Financial</strong> Stock</h3>
+            </div>
+            <div class="panel-content widget-full widget-stock stock1">
+                <tabset class="tabs tabs-linetriangle">
+                    <tab>
+                        <tab-heading>
+                            <span class="title">Microsoft</span>
+                            <span class="c-gray"><strong>23.32</strong></span>
+                            <span class="c-green">+6.214%</span>
+                        </tab-heading>
+                        <div id="stock-Microsoft"></div>
+                    </tab>
+                    <tab active="activeTab">
+                        <tab-heading>
+                            <span class="title">Sony</span>
+                            <span class="c-gray"><strong>23.32</strong></span>
+                            <span class="c-red">-8.425%</span>
+                        </tab-heading>
+                        <div id="stock-Sony"></div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            <span class="title">Samsung</span>
+                            <span class="c-gray"><strong>23.32</strong></span>
+                            <span class="c-green">+2.035%</span>
+                        </tab-heading>
+                        <div id="stock-Samsung"></div>
+                    </tab>
+                    <tab>
+                        <tab-heading>
+                            <span class="title">Apple</span>
+                            <span class="c-gray"><strong>23.32</strong></span>
+                            <span class="c-green">+1.245%</span>
+                        </tab-heading>
+                        <div id="stock-Apple"></div>
+                    </tab>
+
+                </tabset>
+
+
+            </div>
+        </div>
+    </div>
+    <div class="col-xlg-2">
+        <div class="row">
+            <div class="col-xlg-12 col-lg-4 col-sm-4">
+                <div class="panel">
+                    <div class="panel-content widget-small bg-green">
+                        <div class="title">
+                            <h1>Virgin Mobile</h1>
+                            <p>Last month trending</p>
+                            <span>-8.452%</span>
+                        </div>
+                        <div class="content">
+                            <div id="stock-virgin-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xlg-12 col-lg-4 col-sm-4">
+                <div class="panel">
+                    <div class="panel-content widget-small bg-purple">
+                        <div class="title">
+                            <h1>Ebay Inc</h1>
+                            <p>Last month trending</p>
+                            <span>+2.124%</span>
+                        </div>
+                        <div class="content">
+                            <div id="stock-ebay-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xlg-12 col-lg-4 col-sm-4">
+                <div class="panel">
+                    <div class="panel-content widget-small bg-primary">
+                        <div class="title">
+                            <h1>Facebook Corp.</h1>
+                            <p>Last month trending</p>
+                            <span>+1.054%</span>
+                        </div>
+                        <div class="content">
+                            <div id="stock-facebook-sm"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xlg-6">
+        <div class="panel">
+            <div class="panel-content widget-full widget-stock stock2">
+                <div class="tab_right">
+                    <ul class="nav nav-tabs">
+                        <li class="lines-3">
+                            <a href="#yahoo-tab" id="yahoo" data-toggle="tab" data-color="green" data-value="+6.214%">
+                                <div class="clearfix">
+                                    <span class="title pull-left">YHOO</span>
+                                    <span class="pull-right">Yahoo Inc</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="c-gray pull-left"><strong>23.32</strong></span>
+                                    <span class="c-green pull-right">+6.214%</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="lines-3 active">
+                            <a href="#google-tab" id="google" data-toggle="tab" data-color="red" data-value="-8.425%">
+                                <div class="clearfix">
+                                    <span class="title pull-left">GOOG</span>
+                                    <span class="pull-right">Google Inc</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="c-gray pull-left"><strong>22.32</strong></span>
+                                    <span class="c-red pull-right">-8.425%</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="lines-3">
+                            <a href="#nokia-tab" id="nokia" data-toggle="tab" data-color="green" data-value="+2.035%">
+                                <div class="clearfix">
+                                    <span class="title pull-left">NOK</span>
+                                    <span class="pull-right">Nokia Inc</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="c-gray pull-left"><strong>25.32</strong></span>
+                                    <span class="c-green pull-right">+2.035%</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="lines-3">
+                            <a href="#htc-tab" id="htc" data-toggle="tab" data-color="red" data-value="-1.052%">
+                                <div class="clearfix">
+                                    <span class="title pull-left">HTC</span>
+                                    <span class="pull-right">HTC Inc</span>
+                                </div>
+                                <div class="clearfix">
+                                    <span class="c-gray pull-left"><strong>18.96</strong></span>
+                                    <span class="c-red pull-right">-1.052%</span>
+                                </div>
+                            </a>
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="title-stock">
+                            <h1>Google Inc</h1>
+                            <span class="c-red">-8.425%</span>
+                        </div>
+                        <div class="tab-pane" id="yahoo-tab" style="display:none">
+                            <div id="stock-yahoo"></div>
+                            <div class="company-info">Yahoo! Inc. is an American multinational Internet corporation headquartered in Sunnyvale, California. It is globally known for its Web portal, search engine Yahoo Search, and related services.</div>
+                        </div>
+                        <div class="tab-pane active" id="google-tab">
+                            <div id="stock-google"></div>
+                            <div class="company-info">Google is a United States-headquartered, multinational corporation specializing in Internet-related services and products. These include online advertising technologies, search, cloud computing, and software.</div>
+                        </div>
+                        <div class="tab-pane" id="nokia-tab" style="display:none">
+                            <div id="stock-nokia"></div>
+                            <div class="company-info">Nokia is a Finnish multinational communications and information technology company. Nokia employed 90,000 people across 120 countries, conducts sales in more than 150 countries and reported annual revenues of around €12.7 billion.</div>
+                        </div>
+                        <div class="tab-pane" id="htc-tab" style="display:none">
+                            <div id="stock-htc"></div>
+                            <div class="company-info">HTC Corporation is a Taiwanese manufacturer of smartphones and tablets. Founded in 1997, HTC began designing and manufacturing devices such as mobile phones, touchscreen phones, and PDAs based on Windows Mobile OS.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-4 col-sm-6 portlets">
+        <div class="panel">
+            <div class="panel-header panel-controls">
+                <h3><i class="icon-list"></i> <strong>Todo</strong> List</h3>
+            </div>
+            <div class="panel-content">
+                <ul class="todo-list ui-sortable">
+                    <li class="high">
+                        <span class="span-check">
+                            <input id="task-1" type="checkbox" data-checkbox="icheckbox_square-blue" />
+                            <label for="task-1"></label>
+                        </span>
+                        <span class="todo-task">Send email to Bob Linch</span>
+                        <div class="todo-date clearfix">
+                            <div class="completed-date"></div>
+                            <div class="due-date">Due on <span class="due-date-span">15 December 2014</span></div>
+                        </div>
+                        <span class="todo-options pull-right">
+                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
+                        </span>
+                        <div class="todo-tags pull-right">
+                            <div class="label label-success">Work</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="span-check">
+                            <input id="task-2" type="checkbox" data-checkbox="icheckbox_square-blue" />
+                            <label for="task-2"></label>
+                        </span>
+                        <span class="todo-task">Call datacenter for servers</span>
+                        <div class="todo-date clearfix">
+                            <div class="completed-date"></div>
+                            <div class="due-date">Due on <span class="due-date-span">7 January</span></div>
+                        </div>
+                        <span class="todo-options pull-right">
+                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
+                        </span>
+                    </li>
+                    <li class="low">
+                        <span class="span-check">
+                            <input id="task-3" type="checkbox" data-checkbox="icheckbox_square-blue" />
+                            <label for="task-3"></label>
+                        </span>
+                        <span class="todo-task">Remove all unused icons</span>
+                        <div class="todo-date clearfix">
+                            <div class="completed-date"></div>
+                            <div class="due-date">Due on <span class="due-date-span">5 January</span></div>
+                        </div>
+                        <span class="todo-options pull-right">
+                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
+                        </span>
+                    </li>
+                    <li class="medium">
+                        <span class="span-check">
+                            <input id="task-4" type="checkbox" data-checkbox="icheckbox_square-blue" />
+                            <label for="task-4"></label>
+                        </span>
+                        <span class="todo-task">Read my todo list</span>
+                        <div class="todo-date clearfix">
+                            <div class="completed-date"></div>
+                            <div class="due-date">Due on <span class="due-date-span">4 January</span></div>
+                        </div>
+                        <span class="todo-options pull-right">
+                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
+                        </span>
+                        <div class="todo-tags pull-right">
+                            <div class="label label-info">Tuesday</div>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="span-check">
+                            <input id="task-6" type="checkbox" data-checkbox="icheckbox_square-blue" />
+                            <label for="task-6"></label>
+                        </span>
+                        <span class="todo-task">Have a breakfeast before 12</span>
+                        <div class="todo-date clearfix">
+                            <div class="completed-date"></div>
+                            <div class="due-date">Due on <span class="due-date-span">1 January</span></div>
+                        </div>
+                        <span class="todo-options pull-right">
+                            <a href="javascript:;" class="todo-delete"><i class="icons-office-52"></i></a>
+                        </span>
+                    </li>
+                </ul>
+                <div class="clearfix m-t-10">
+                    <div class="pull-left">
+                        <button type="button" class="btn btn-sm btn-default check-all-tasks">Check All Done</button>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-sm btn-dark add-task">Add Task</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 portlets">
+        <div class="panel widget-weather"></div>
+        <div class="panel widget-member clearfix">
+            <div class="col-xs-3">
+                <img src="../../../assets/global/images/avatars/user2.png" alt="avatar 12" class="pull-left img-responsive">
+            </div>
+            <div class="col-xs-9">
+                <h3 class="m-t-0 member-name"><strong>John Snow</strong></h3>
+                <p class="member-job">Software Engineer</p>
+                <div class="row">
+                    <div class="col-xlg-6">
+                        <p><i class="icon-envelope c-gray-light p-r-10"></i> cameso@it.com</p>
+                        <p><i class="fa fa-facebook c-gray-light p-r-10"></i> fb.com/jsnow</p>
+                    </div>
+                    <div class="col-xlg-6 align-right">
+                        <p><i class="icon-calendar c-gray-light p-r-10"></i> 6 may 2014</p>
+                        <p><i class="icon-target c-gray-light p-r-10"></i> New York</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 col-sm-6 portlets">
+        <div class="widget widget_calendar bg-dark">
+            <div class="multidatepicker"></div>
+        </div>
+        <div class="panel m-t-0">
+            <div class="panel-header panel-controls">
+                <h3><i class="icon-basket"></i> <strong>Sales</strong> Volume Stats</h3>
+            </div>
+            <div class="panel-content p-t-0 p-b-0">
+                <div id="bar-chart"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer">
+    <div class="copyright">
+        <p class="pull-left sm-pull-reset">
+            <span>Copyright <span class="copyright">&copy;</span> 2016 </span>
+            <span>THEMES LAB</span>.
+            <span>All rights reserved. </span>
+        </p>
+        <p class="pull-right sm-pull-reset">
+            <span><a href="#" class="m-r-10">Support</a> | <a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+        </p>
+    </div>
+</div>
+
