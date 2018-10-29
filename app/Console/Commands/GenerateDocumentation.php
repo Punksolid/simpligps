@@ -57,6 +57,7 @@ class GenerateDocumentation extends Command
                 '--env' => 'documentation',
                 '--actAsUserId' => $user->id,
                 '--middleware' => "auth:api",
+                '--output' => 'storage/app/public/docs/user/',
 //                '--bindings' => "activity,$activity->id|team,$team->id"
 
             ]);
@@ -71,7 +72,7 @@ class GenerateDocumentation extends Command
         $this->call(
             "api:generate",
             [
-                '--routePrefix' => 'api/sysadminv1/*',
+                '--routePrefix' => 'api/sysadmin/v1/*',
                 '--output' => 'storage/app/public/docs/admin/',
                 '--force' => true,
                 '--env' => 'production',

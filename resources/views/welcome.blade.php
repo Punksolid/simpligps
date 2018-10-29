@@ -80,14 +80,20 @@
             <div class="content">
                 <div class="title m-b-md">
                     {{ config("app.name") }} {{ config("app.env") }}
-                </div>
 
+                </div>
+                <h6>Last Commit:
+                    {!! exec('git log -1 --format=%cd ', $output); !!}
+                </h6>
+                <h6>Branch
+                    {!! exec("git branch | grep \* | cut -d ' ' -f2", $output); !!}
+                </h6>
                 <div class="links">
+
                     <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
                     <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+
                 </div>
             </div>
         </div>

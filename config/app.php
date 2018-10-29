@@ -154,10 +154,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
-        Punksolid\Wialon\WialonServiceProvider::class,
+//        Punksolid\Wialon\WialonServiceProvider::class,
         Orchestra\Tenanti\TenantiServiceProvider::class,
         Orchestra\Tenanti\CommandServiceProvider::class,
-
     ],
 
     /*

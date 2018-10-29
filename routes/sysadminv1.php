@@ -23,6 +23,10 @@ Route::group(["middleware" => ['api']], function ($router){
 });
 
 Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
+    Route::get('user/info', function(){
+        return response(['name' => auth()->user()->email, 'roles' => ['admin']]);
+    });
+
     Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");
     Route::get("accounts/active_accounts", "Admin\AccountsController@activeAccounts");
     Route::get("accounts/near_to_expire", "Admin\AccountsController@nearToExpire");
