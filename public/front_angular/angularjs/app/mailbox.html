@@ -1,0 +1,759 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="admin-themes-lab">
+    <meta name="author" content="themes-lab">
+    <link rel="shortcut icon" href="../../../assets/global/images/favicon.png" type="image/png">
+    <title>Make Admin Template &amp; Builder</title>
+    <link href='http://fonts.googleapis.com/css?family=Merriweather' rel='stylesheet' type='text/css'>
+    <link href="../../../assets/global/css/style.css" rel="stylesheet">
+    <link href="../../../assets/global/css/theme.css" rel="stylesheet">
+    <link href="../../../assets/global/css/ui.css" rel="stylesheet">
+    <script src="../../../assets/global/plugins/modernizr/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    <link href="../../../assets/global/plugins/charts-morris/morris.min.css" rel="stylesheet">
+    <!-- BEGIN ANGULARJS STYLE -->
+    <link href="../css/angular-theme.css" rel="stylesheet">
+    <!-- END ANGULARJS STYLE -->
+    <link href="../../../assets/admin/layout3/css/layout.css" rel="stylesheet">
+</head>
+<body class="fixed-topbar fixed-sidebar theme-sltl color-default mailbox" ng-app="newApp" ng-controller="mainCtrl">
+    <!--[if lt IE 7]>
+    <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+    <!-- BEGIN PAGE SPINNER -->
+    <div ng-spinner-loader class="page-spinner-loader">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+    </div>
+    <!-- END PAGE SPINNER -->
+    
+    <section>
+        <!-- BEGIN SIDEBAR -->
+        <div class="sidebar sidebar-mailbox">
+            <div class="logopanel">
+                <h1>
+                    <a href="index.html"></a>
+                </h1>
+            </div>
+            <div class="sidebar-inner">
+                <div class="sidebar-top">
+                    <a href="#send" class="btn btn-primary btn-compose">Compose</a>
+                </div>
+                <ul class="nav nav-sidebar">
+                    <li class="tm nav-active active"><a href="mailbox.html"><span class="pull-right badge badge-primary">8</span> <i class="icons-office-28"></i><span data-translate="inbpx">Inbox</span></a></li>
+                    <li class="tm"><a href="mailbox.html"><i class="icons-chat-messages-14"></i><span>Sent Mail </span></a></li>
+                    <li class="tm"><a href="mailbox.html"><i class="icons-badges-votes-14"></i><span>Important </span></a></li>
+                    <li class="tm"><a href="mailbox.html"><span class="badge-rounded pull-right">4</span><i class="icons-office-13"></i><span>Draft </span></a></li>
+                    <li class="tm"><a href="mailbox.html"><i class="icons-alerts-05"></i><span>Spam </span></a></li>
+                    <li class="tm"><a href="mailbox.html"><i class="icons-office-57"></i><span>Trash </span></a></li>
+                </ul>
+                <div class="sidebar-widgets m-b-30">
+                    <p class="menu-title widget-title">Labels <span class="pull-right"><a href="#" class="new-label"> <i class="icon-plus"></i></a></span></p>
+                    <ul class="labels">
+                        <li>
+                            <a href="#"><i class="fa fa-circle-o c-red"></i> Business</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-circle-o c-blue"></i> Family</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-circle-o c-green"></i> Friends</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa fa-circle-o c-yellow"></i> Personal</a>
+                        </li>
+                        <li class="add-label">
+                            <input type="text" placeholder="Label's name..." class="form-control input-sm">
+                        </li>
+                    </ul>
+                </div>
+                <div class="sidebar-charts">
+                    <div id="chart-legend"></div>
+                    <div id="morris-chart-network" class="morris-full-content"></div>
+                </div>
+                <div class="sidebar-footer clearfix">
+                    <a class="pull-left footer-settings" href="#" data-rel="tooltip" data-original-title="Settings">
+                        <i class="icon-settings"></i>
+                    </a>
+                    <a class="pull-left toggle_fullscreen" href="#" data-rel="tooltip" data-original-title="Fullscreen">
+                        <i class="icon-size-fullscreen"></i>
+                    </a>
+                    <a class="pull-left" href="#" data-rel="tooltip" data-original-title="Lockscreen">
+                        <i class="icon-lock"></i>
+                    </a>
+                    <a class="pull-left btn-effect" href="#" data-modal="modal-1" data-rel="tooltip" data-original-title="Logout">
+                        <i class="icon-power"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <!-- END SIDEBAR -->
+        <div class="main-content">
+            <!-- BEGIN TOPBAR -->
+            <div class="topbar">
+                <div class="header-left">
+                    <div class="topnav">
+                        <a class="menutoggle" href="#" data-toggle="sidebar-collapsed"><span class="menu__handle"><span>Menu</span></span></a>
+                        <ul class="nav nav-icons">
+                            <li><a href="#" class="toggle-sidebar-top"><span class="icon-user-following"></span></a></li>
+                            <li><a href="mailbox.html"><span class="octicon octicon-mail-read"></span></a></li>
+                            <li><a href="#"><span class="octicon octicon-flame"></span></a></li>
+                            <li><a href="builder-page.html"><span class="octicon octicon-rocket"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <ul class="header-menu nav navbar-nav">
+                        <!-- BEGIN USER DROPDOWN -->
+                        <li class="dropdown" id="language-header">
+                            <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <i class="icon-globe"></i>
+                                <span>Language</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#" data-lang="en"><img src="../../../assets/global/images/flags/usa.png" alt="flag-english"> <span>English</span></a>
+                                </li>
+                                <li>
+                                    <a href="#" data-lang="es"><img src="../../../assets/global/images/flags/spanish.png" alt="flag-english"> <span>Español</span></a>
+                                </li>
+                                <li>
+                                    <a href="#" data-lang="fr"><img src="../../../assets/global/images/flags/french.png" alt="flag-english"> <span>Français</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END USER DROPDOWN -->
+                        <!-- BEGIN NOTIFICATION DROPDOWN -->
+                        <li class="dropdown" id="notifications-header">
+                            <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <i class="icon-bell"></i>
+                                <span class="badge badge-danger badge-header">6</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header clearfix">
+                                    <p class="pull-left">12 Pending Notifications</p>
+                                </li>
+                                <li>
+                                    <ul class="dropdown-menu-list withScroll" data-height="220">
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-star p-r-10 f-18 c-orange"></i>
+                                                Steve have rated your photo
+                                                <span class="dropdown-time">Just now</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-heart p-r-10 f-18 c-red"></i>
+                                                John added you to his favs
+                                                <span class="dropdown-time">15 mins</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-file-text p-r-10 f-18"></i>
+                                                New document available
+                                                <span class="dropdown-time">22 mins</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-picture-o p-r-10 f-18 c-blue"></i>
+                                                New picture added
+                                                <span class="dropdown-time">40 mins</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-bell p-r-10 f-18 c-orange"></i>
+                                                Meeting in 1 hour
+                                                <span class="dropdown-time">1 hour</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-bell p-r-10 f-18"></i>
+                                                Server 5 overloaded
+                                                <span class="dropdown-time">2 hours</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-comment p-r-10 f-18 c-gray"></i>
+                                                Bill comment your post
+                                                <span class="dropdown-time">3 hours</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="#">
+                                                <i class="fa fa-picture-o p-r-10 f-18 c-blue"></i>
+                                                New picture added
+                                                <span class="dropdown-time">2 days</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-footer clearfix">
+                                    <a href="#" class="pull-left">See all notifications</a>
+                                    <a href="#" class="pull-right">
+                                        <i class="icon-settings"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END NOTIFICATION DROPDOWN -->
+                        <!-- BEGIN MESSAGES DROPDOWN -->
+                        <li class="dropdown" id="messages-header">
+                            <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <i class="icon-paper-plane"></i>
+                                <span class="badge badge-primary badge-header">
+                                    8
+                                </span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-header clearfix">
+                                    <p class="pull-left">
+                                        You have 8 Messages
+                                    </p>
+                                </li>
+                                <li class="dropdown-body">
+                                    <ul class="dropdown-menu-list withScroll" data-height="220">
+                                        <li class="clearfix">
+                                            <span class="pull-left p-r-5">
+                                                <img src="../../../assets/global/images/avatars/avatar3.png" alt="avatar 3">
+                                            </span>
+                                            <div class="clearfix">
+                                                <div>
+                                                    <strong>Alexa Johnson</strong>
+                                                    <small class="pull-right text-muted">
+                                                        <span class="glyphicon glyphicon-time p-r-5"></span>12 mins ago
+                                                    </small>
+                                                </div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                            </div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <span class="pull-left p-r-5">
+                                                <img src="../../../assets/global/images/avatars/avatar4.png" alt="avatar 4">
+                                            </span>
+                                            <div class="clearfix">
+                                                <div>
+                                                    <strong>John Smith</strong>
+                                                    <small class="pull-right text-muted">
+                                                        <span class="glyphicon glyphicon-time p-r-5"></span>47 mins ago
+                                                    </small>
+                                                </div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                            </div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <span class="pull-left p-r-5">
+                                                <img src="../../../assets/global/images/avatars/avatar5.png" alt="avatar 5">
+                                            </span>
+                                            <div class="clearfix">
+                                                <div>
+                                                    <strong>Bobby Brown</strong>
+                                                    <small class="pull-right text-muted">
+                                                        <span class="glyphicon glyphicon-time p-r-5"></span>1 hour ago
+                                                    </small>
+                                                </div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                            </div>
+                                        </li>
+                                        <li class="clearfix">
+                                            <span class="pull-left p-r-5">
+                                                <img src="../../../assets/global/images/avatars/avatar6.png" alt="avatar 6">
+                                            </span>
+                                            <div class="clearfix">
+                                                <div>
+                                                    <strong>James Miller</strong>
+                                                    <small class="pull-right text-muted">
+                                                        <span class="glyphicon glyphicon-time p-r-5"></span>2 days ago
+                                                    </small>
+                                                </div>
+                                                <p>Lorem ipsum dolor sit amet, consectetur...</p>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-footer clearfix">
+                                    <a href="mailbox.html" class="pull-left">See all messages</a>
+                                    <a href="#" class="pull-right">
+                                        <i class="icon-settings"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END MESSAGES DROPDOWN -->
+                        <!-- BEGIN USER DROPDOWN -->
+                        <li class="dropdown" id="user-header">
+                            <a href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
+                                <img src="../../../assets/global/images/avatars/user1.png" alt="user image">
+                                <span class="username">Hi, John Doe</span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="#"><i class="icon-user"></i><span>My Profile</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="icon-calendar"></i><span>My Calendar</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="icon-settings"></i><span>Account Settings</span></a>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="icon-logout"></i><span>Logout</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- END USER DROPDOWN -->
+                        <!-- CHAT BAR ICON -->
+                        <li id="quickview-toggle"><a href="#"><i class="icon-bubbles"></i></a></li>
+                    </ul>
+                </div>
+                <!-- header-right -->
+            </div>
+            <!-- END TOPBAR -->
+            <!-- BEGIN PAGE CONTENT -->
+            <div class="at-view-slide-in-left page-content page-app mailbox" ng-view>
+
+
+            </div>
+            <!-- END PAGE CONTENT -->
+        </div>
+        <!-- END MAIN CONTENT -->
+    </section>
+    <!-- BEGIN QUICKVIEW SIDEBAR -->
+    <div id="quickview-sidebar">
+        <div class="quickview-header">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#chat" data-toggle="tab">Chat</a></li>
+                <li><a href="#notes" data-toggle="tab">Notes</a></li>
+                <li><a href="#settings" data-toggle="tab" class="settings-tab">Settings</a></li>
+            </ul>
+        </div>
+        <div class="quickview">
+            <div class="tab-content">
+                <div class="tab-pane fade active in" id="chat">
+                    <div class="chat-body current">
+                        <div class="chat-search">
+                            <form class="form-inverse" action="#" role="search">
+                                <div class="append-icon">
+                                    <input type="text" class="form-control" placeholder="Search contact...">
+                                    <i class="icon-magnifier"></i>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="chat-groups">
+                            <div class="title">GROUP CHATS</div>
+                            <ul>
+                                <li><i class="turquoise"></i> Favorites</li>
+                                <li><i class="turquoise"></i> Office Work</li>
+                                <li><i class="turquoise"></i> Friends</li>
+                            </ul>
+                        </div>
+                        <div class="chat-list">
+                            <div class="title">FAVORITES</div>
+                            <ul>
+                                <li class="clearfix">
+                                    <div class="user-img">
+                                        <img src="../../../assets/global/images/avatars/avatar13.png" alt="avatar" />
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">Bobby Brown</div>
+                                        <div class="user-txt">On the road again...</div>
+                                    </div>
+                                    <div class="user-status">
+                                        <i class="online"></i>
+                                    </div>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="user-img">
+                                        <img src="../../../assets/global/images/avatars/avatar5.png" alt="avatar" />
+                                        <div class="pull-right badge badge-danger">3</div>
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">Alexa Johnson</div>
+                                        <div class="user-txt">Still at the beach</div>
+                                    </div>
+                                    <div class="user-status">
+                                        <i class="away"></i>
+                                    </div>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="user-img">
+                                        <img src="../../../assets/global/images/avatars/avatar10.png" alt="avatar" />
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">Bobby Brown</div>
+                                        <div class="user-txt">On stage...</div>
+                                    </div>
+                                    <div class="user-status">
+                                        <i class="busy"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="chat-list">
+                            <div class="title">FRIENDS</div>
+                            <ul>
+                                <li class="clearfix">
+                                    <div class="user-img">
+                                        <img src="../../../assets/global/images/avatars/avatar7.png" alt="avatar" />
+                                        <div class="pull-right badge badge-danger">3</div>
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">James Miller</div>
+                                        <div class="user-txt">At work...</div>
+                                    </div>
+                                    <div class="user-status">
+                                        <i class="online"></i>
+                                    </div>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="user-img">
+                                        <img src="../../../assets/global/images/avatars/avatar11.png" alt="avatar" />
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">Fred Smith</div>
+                                        <div class="user-txt">Waiting for tonight</div>
+                                    </div>
+                                    <div class="user-status">
+                                        <i class="offline"></i>
+                                    </div>
+                                </li>
+                                <li class="clearfix">
+                                    <div class="user-img">
+                                        <img src="../../../assets/global/images/avatars/avatar8.png" alt="avatar" />
+                                    </div>
+                                    <div class="user-details">
+                                        <div class="user-name">Ben Addams</div>
+                                        <div class="user-txt">On my way to NYC</div>
+                                    </div>
+                                    <div class="user-status">
+                                        <i class="offline"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="chat-conversation">
+                        <div class="conversation-header">
+                            <div class="user clearfix">
+                                <div class="chat-back">
+                                    <i class="icon-action-undo"></i>
+                                </div>
+                                <div class="user-details">
+                                    <div class="user-name">James Miller</div>
+                                    <div class="user-txt">On the road again...</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="conversation-body">
+                            <ul>
+                                <li class="img">
+                                    <div class="chat-detail">
+                                        <span class="chat-date">today, 10:38pm</span>
+                                        <div class="conversation-img">
+                                            <img src="../../../assets/global/images/avatars/avatar4.png" alt="avatar 4" />
+                                        </div>
+                                        <div class="chat-bubble">
+                                            <span>Hi you!</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="img">
+                                    <div class="chat-detail">
+                                        <span class="chat-date">today, 10:45pm</span>
+                                        <div class="conversation-img">
+                                            <img src="../../../assets/global/images/avatars/avatar4.png" alt="avatar 4" />
+                                        </div>
+                                        <div class="chat-bubble">
+                                            <span>Are you there?</span>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="img">
+                                    <div class="chat-detail">
+                                        <span class="chat-date">today, 10:51pm</span>
+                                        <div class="conversation-img">
+                                            <img src="../../../assets/global/images/avatars/avatar4.png" alt="avatar 4" />
+                                        </div>
+                                        <div class="chat-bubble">
+                                            <span>Send me a message when you come back.</span>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="conversation-message">
+                            <input type="text" placeholder="Your message..." class="form-control form-white send-message" />
+                            <div class="item-footer clearfix">
+                                <div class="footer-actions">
+                                    <i class="icon-rounded-marker"></i>
+                                    <i class="icon-rounded-camera"></i>
+                                    <i class="icon-rounded-paperclip-oblique"></i>
+                                    <i class="icon-rounded-alarm-clock"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="notes">
+                    <div class="list-notes current withScroll">
+                        <div class="notes ">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div id="add-note">
+                                        <i class="fa fa-plus"></i>ADD A NEW NOTE
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="notes-list">
+                                <div class="note-item media current fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Reset my account password</p>
+                                        </div>
+                                        <p class="note-desc hidden">Break security reasons.</p>
+                                        <p><small>Tuesday 6 May, 3:52 pm</small></p>
+                                    </div>
+                                </div>
+                                <div class="note-item media fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Call John</p>
+                                        </div>
+                                        <p class="note-desc hidden">He have my laptop!</p>
+                                        <p><small>Thursday 8 May, 2:28 pm</small></p>
+                                    </div>
+                                </div>
+                                <div class="note-item media fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Buy a car</p>
+                                        </div>
+                                        <p class="note-desc hidden">I'm done with the bus</p>
+                                        <p><small>Monday 12 May, 3:43 am</small></p>
+                                    </div>
+                                </div>
+                                <div class="note-item media fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Don't forget my notes</p>
+                                        </div>
+                                        <p class="note-desc hidden">I have to read them...</p>
+                                        <p><small>Wednesday 5 May, 6:15 pm</small></p>
+                                    </div>
+                                </div>
+                                <div class="note-item media current fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Reset my account password</p>
+                                        </div>
+                                        <p class="note-desc hidden">Break security reasons.</p>
+                                        <p><small>Tuesday 6 May, 3:52 pm</small></p>
+                                    </div>
+                                </div>
+                                <div class="note-item media fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Call John</p>
+                                        </div>
+                                        <p class="note-desc hidden">He have my laptop!</p>
+                                        <p><small>Thursday 8 May, 2:28 pm</small></p>
+                                    </div>
+                                </div>
+                                <div class="note-item media fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Buy a car</p>
+                                        </div>
+                                        <p class="note-desc hidden">I'm done with the bus</p>
+                                        <p><small>Monday 12 May, 3:43 am</small></p>
+                                    </div>
+                                </div>
+                                <div class="note-item media fade in">
+                                    <button class="close">×</button>
+                                    <div>
+                                        <div>
+                                            <p class="note-name">Don't forget my notes</p>
+                                        </div>
+                                        <p class="note-desc hidden">I have to read them...</p>
+                                        <p><small>Wednesday 5 May, 6:15 pm</small></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="detail-note note-hidden-sm">
+                        <div class="note-header clearfix">
+                            <div class="note-back">
+                                <i class="icon-action-undo"></i>
+                            </div>
+                            <div class="note-edit">Edit Note</div>
+                            <div class="note-subtitle">title on first line</div>
+                        </div>
+                        <div id="note-detail">
+                            <div class="note-write">
+                                <textarea class="form-control" placeholder="Type your note here"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="settings">
+                    <div class="settings">
+                        <div class="title">ACCOUNT SETTINGS</div>
+                        <div class="setting">
+                            <span> Show Personal Statut</span>
+                            <label class="switch pull-right">
+                                <input type="checkbox" class="switch-input" checked>
+                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                            <p class="setting-info">Lorem ipsum dolor sit amet consectetuer.</p>
+                        </div>
+                        <div class="setting">
+                            <span> Show my Picture</span>
+                            <label class="switch pull-right">
+                                <input type="checkbox" class="switch-input" checked>
+                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                            <p class="setting-info">Lorem ipsum dolor sit amet consectetuer.</p>
+                        </div>
+                        <div class="setting">
+                            <span> Show my Location</span>
+                            <label class="switch pull-right">
+                                <input type="checkbox" class="switch-input">
+                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                            <p class="setting-info">Lorem ipsum dolor sit amet consectetuer.</p>
+                        </div>
+                        <div class="title">CHAT</div>
+                        <div class="setting">
+                            <span> Show User Image</span>
+                            <label class="switch pull-right">
+                                <input type="checkbox" class="switch-input" checked>
+                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+                        <div class="setting">
+                            <span> Show Fullname</span>
+                            <label class="switch pull-right">
+                                <input type="checkbox" class="switch-input" checked>
+                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+                        <div class="setting">
+                            <span> Show Location</span>
+                            <label class="switch pull-right">
+                                <input type="checkbox" class="switch-input">
+                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+                        <div class="setting">
+                            <span> Show Unread Count</span>
+                            <label class="switch pull-right">
+                                <input type="checkbox" class="switch-input" checked>
+                                <span class="switch-label" data-on="On" data-off="Off"></span>
+                                <span class="switch-handle"></span>
+                            </label>
+                        </div>
+                        <div class="title">STATISTICS</div>
+                        <div class="settings-chart">
+                            <div class="clearfix">
+                                <div class="chart-title">Stat 1</div>
+                                <div class="chart-number">82%</div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-primary setting1" data-transitiongoal="82"></div>
+                            </div>
+                        </div>
+                        <div class="settings-chart">
+                            <div class="clearfix">
+                                <div class="chart-title">Stat 2</div>
+                                <div class="chart-number">43%</div>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-primary setting2" data-transitiongoal="43"></div>
+                            </div>
+                        </div>
+                        <div class="m-t-30" style="width:100%">
+                            <canvas id="setting-chart" height="300"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END QUICKVIEW SIDEBAR -->
+
+    <!-- BEGIN PRELOADER -->
+    <div class="loader-overlay">
+        <div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+        </div>
+    </div>
+    <!-- END PRELOADER -->
+
+    <a href="#" class="scrollup"><i class="fa fa-angle-up"></i></a>
+
+    <!-- BEGIN ANGULARJS SCRIPTS -->
+    <script src="../plugins/angular/angular.js"></script>
+    <script src="../plugins/angular-animate/angular-animate.js"></script>
+    <script src="../plugins/angular-touch/angular-touch.js"></script>
+    <script src="../plugins/angular-route/angular-route.js"></script>
+    <script src="../plugins/angular-bootstrap/ui-bootstrap-tpls-0.12.1.js"></script>
+    <script src="mailApp.js"></script>
+    <script src="mainCtrl.js"></script>
+    <script src="mailbox/mailboxCtrl.js"></script>
+    <script src="mailbox/mailSendCtrl.js"></script>
+    <!-- END ANGULARJS SCRIPTS -->
+
+    <script src="../../../assets/global/plugins/jquery/jquery-1.11.1.min.js"></script>
+    <script src="../../../assets/global/plugins/jquery/jquery-migrate-1.2.1.min.js"></script>
+    <script src="../../../assets/global/plugins/jquery-ui/jquery-ui-1.11.2.min.js"></script>
+    <script src="../../../assets/global/plugins/gsap/main-gsap.min.js"></script>
+    <script src="../../../assets/global/plugins/dropzone/dropzone.min.js"></script>
+    <script src="../../../assets/global/plugins/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../../../assets/global/plugins/jquery-cookies/jquery.cookies.min.js"></script>
+    <script src="../../../assets/global/plugins/bootbox/bootbox.min.js"></script> 
+    <script src="../../../assets/global/plugins/mcustom-scrollbar/jquery.mCustomScrollbar.concat.min.js"></script> 
+    <script src="../../../assets/global/plugins/bootstrap-dropdown/bootstrap-hover-dropdown.min.js"></script> 
+    <script src="../../../assets/global/plugins/retina/retina.min.js"></script
+    <script src="../../../assets/global/plugins/select2/select2.full.min.js"></script>
+    <script src="../../../assets/global/plugins/icheck/icheck.min.js"></script>
+    <script src="../../../assets/global/plugins/backstretch/backstretch.min.js"></script>
+    <script src="../../../assets/global/plugins/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="../../../assets/global/plugins/charts-chartjs/Chart.min.js"></script>
+    <script src="../../../assets/global/plugins/bootstrap-tags-input/bootstrap-tagsinput.js"></script> 
+    <script src="../../../assets/global/plugins/bootstrap-context-menu/bootstrap-contextmenu.min.js"></script>
+    <script src="../../../assets/global/plugins/summernote/summernote.min.js"></script>
+    <script src="../../../assets/global/plugins/quickSearch/quicksearch.min.js"></script>
+    <script src="../../../assets/global/plugins/charts-morris/raphael.min.js"></script>
+    <script src="../../../assets/global/plugins/charts-morris/morris.min.js"></script>
+    <script src="../../../assets/global/js/widgets/notes.js"></script> <!-- Notes Widget -->
+    <script src="../js/builder.js"></script>
+    <script src="../js/application.js"></script>
+    <script src="../js/plugins.js"></script>
+    <script src="../js/quickview.js"></script>
+    <script src="../js/pages/mailbox.js"></script>
+</body>
+</html>

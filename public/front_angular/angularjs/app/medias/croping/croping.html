@@ -1,0 +1,191 @@
+<div>
+    <div class="header">
+        <h2>Image <strong>Croping</strong></h2>
+        <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="dashboard.html">Make</a>
+                </li>
+                <li>
+                    <a href="medias.html">Medias</a>
+                </li>
+                <li class="active">Image Croping</li>
+            </ol>
+        </div>
+    </div>
+    <a data-target="#modal-croping" class="btn btn-embossed btn-primary pull-right m-r-0" data-toggle="modal">Show Image in Modal</a>     
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-transparent">
+                <div class="panel-content">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <h3 class="m-t-0"><strong>Image</strong></h3>
+                            <div class="img-container" style="position: relative;">
+                                <img src="../../../assets/global/images/gallery/picture-1.jpg" alt="picture 1">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h3 class="m-t-0"><strong>Preview</strong></h3>
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <div class="img-preview img-preview-sm" style="overflow: hidden;">
+                                        <img src="../../../assets/global/images/gallery/picture-1.jpg" alt="picture 1" style="height: 113px; margin-left: -20px; margin-top: -11px; width: 200px;">
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="img-preview img-preview-xs" style="overflow: hidden;">
+                                        <img src="../../../assets/global/images/gallery/picture-1.jpg" alt="picture 1" style="height: 45px; margin-left: -8px; margin-top: -4px; width: 80px;">
+                                    </div>
+                                </div>
+                            </div>
+                            <hr>
+                            <h3><strong>Data</strong></h3>
+                            <form class="form-horizontal" role="form">
+                                <div class="form-group">
+                                    <label for="data-x1" class="col-sm-3 control-label">X1:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-white" id="data-x1" placeholder="x1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data-y1" class="col-sm-3 control-label">Y1:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-white" id="data-y1" placeholder="y1">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data-x2" class="col-sm-3 control-label">X2:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-white" id="data-x2" placeholder="x2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data-y2" class="col-sm-3 control-label">Y2:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-white" id="data-y2" placeholder="y2">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data-width" class="col-sm-3 control-label">Width:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-white" id="data-width" placeholder="width">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="data-height" class="col-sm-3 control-label">Height:</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control form-white" id="data-height" placeholder="height">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="docs-btn-group">
+                                <h3><strong>Methods</strong></h3>
+                                <div class="button-group">
+                                    <button class="btn btn-embossed btn-success" id="enable" type="button">Enable</button>
+                                    <button class="btn btn-embossed btn-danger" id="disable" type="button">Disable</button>
+                                    <button class="btn btn-embossed btn-info" id="free-ratio" type="button">Free Ratio</button>
+                                    <button class="btn btn-embossed btn-primary" id="set-data" type="button" title="Set with the following data">Set Data</button>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6 col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">X1</label>
+                                            <input class="form-control form-white" id="set-data-x1" type="number" value="380">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Y1</label>
+                                            <input class="form-control form-white" id="set-data-y1" type="number" value="30">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Width</label>
+                                            <input class="form-control form-white" id="set-data-width" type="number" value="640">
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-3 col-md-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Height</label>
+                                            <input class="form-control form-white" id="set-data-height" type="number" value="360">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="input-group">
+                                    <input class="form-control form-white" id="get-data-input" type="text" placeholder="The data object will be showed here">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info" id="get-data" type="button">Get Data</button>
+                                    </span>
+                                </div>
+                                <div class="input-group">
+                                    <input id="get-img-info-input" type="text" class="form-control form-white" placeholder="The image information will be showed here">
+                                    <span class="input-group-btn">
+                                        <button class="btn btn-info" id="get-img-info" type="button">Get Image Info</button>
+                                    </span>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+                                            <input id="set-aspect-ratio-input" type="number" class="form-control form-white" placeholder="Input the new aspect ratio here">
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-primary" id="set-aspect-ratio" type="button">Set Aspect Ratio</button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button class="btn btn-dark" id="set-img-1" type="button">Image 1</button>
+                                        <button class="btn btn-dark" id="set-img-2" type="button">Image 2</button>
+                                        <button class="btn btn-dark" id="set-img-3" type="button">Image 3</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <h3><strong>Events</strong></h3>
+                            <p>Current active event:</p>
+                            <div class="btn-group btn-group-justified">
+                                <a class="btn btn-default" id="drag-start" role="button">dragstart</a>
+                                <a class="btn btn-default" id="drag-move" role="button">dragmove</a>
+                                <a class="btn btn-default" id="drag-end" role="button">dragend</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal-croping" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="icons-office-52"></i></button>
+                  <h4 class="modal-title"><strong>Modal Image Cropping</h4>
+                </div>
+                <div class="modal-body">
+                  <div class="bootstrap-modal-cropper"><img src="../../../assets/global/images/gallery/picture-2.jpg" class="img-responsive" alt="Picture 2"></div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+            </div>
+          </div>
+    <div class="footer">
+        <div class="copyright">
+            <p class="pull-left sm-pull-reset">
+                <span>Copyright <span class="copyright">&copy;</span> 2016 </span>
+                <span>THEMES LAB</span>.
+                <span>All rights reserved. </span>
+            </p>
+            <p class="pull-right sm-pull-reset">
+                <span><a href="#" class="m-r-10">Support</a> | <a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+            </p>
+        </div>
+    </div>
+</div>
