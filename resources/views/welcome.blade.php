@@ -5,7 +5,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
+        <title>{{ config("app.name") }} {{ config("app.env") }}</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
@@ -79,15 +79,21 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel
-                </div>
+                    {{ config("app.name") }} {{ config("app.env") }}
 
+                </div>
+                <h6>Last Commit:
+                    {!! exec('git log -1 --format=%cd ', $output); !!}
+                </h6>
+                <h6>Branch
+                    {!! exec("git branch | grep \* | cut -d ' ' -f2", $output); !!}
+                </h6>
                 <div class="links">
+
                     <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
                     <a href="https://laravel-news.com">News</a>
                     <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+
                 </div>
             </div>
         </div>

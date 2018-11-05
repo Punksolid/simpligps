@@ -1,0 +1,180 @@
+﻿<div>
+    <div class="header">
+        <h2>User <strong>Notifications</strong></h2>
+        <div class="breadcrumb-wrapper">
+            <ol class="breadcrumb">
+                <li>
+                    <a href="#">Make</a>
+                </li>
+                <li>
+                    <a href="#">UI</a>
+                </li>
+                <li class="active">Notifications</li>
+            </ol>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6 portlets">
+            <div class="panel">
+                <div class="panel-header panel-controls">
+                    <h3>Notifications <strong>Settings</strong></h3>
+                </div>
+                <div class="panel-content">
+                    <div class="row">
+                        <div class="col-md-12 t-center m-b-10" id="style">
+                            <button type="button" data-style="topbar" class="btn btn-default btn-rounded m-t-10 m-r-10">Top Bar Notification</button>
+                            <button type="button" data-style="panel" class="btn btn-white btn-rounded m-t-10">Panel Notification</button>
+                            <button type="button" data-style="box" class="btn btn-white btn-rounded m-t-10">Box Notification</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 t-center m-b-20 border-bottom">
+                            <button type="button" id="show" class="btn btn-dark btn-rounded m-t-10 m-r-10">Show Notification</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-6" id="content">
+                            <p><strong>Choose your content:</strong></p>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="content" data-content="basic" data-radio="iradio_flat" checked> Basic notification</label>
+                            </div>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="content" data-content="image" data-radio="iradio_flat"> With Image</label>
+                            </div>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="content" data-content="title" data-radio="iradio_flat"> With Title</label>
+                            </div>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="content" data-content="buttons" data-radio="iradio_flat"> With Buttons</label>
+                            </div>
+                        </div>
+                        <div class="col-sm-6" id="context">
+                            <p><strong>Choose context:</strong></p>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="context" data-context="success" data-radio="iradio_flat" checked> Success</label>
+                            </div>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="context" data-context="info" data-radio="iradio_flat"> Information</label>
+                            </div>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="context" data-context="danger" data-radio="iradio_flat"> Error</label>
+                            </div>
+                            <div class="m-b-20">
+                                <label><input type="radio" name="context" data-context="warning" data-radio="iradio_flat"> Warning</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="preview">
+                            <p class=" p-t-10 border-top"><strong>Notification preview</strong></p>
+                            <div id="basic-preview" class="preview active">
+                                <div class="alert alert-success media fade in">
+                                    <p><strong>Well done!</strong> You successfully read this important alert message.</p>
+                                </div>
+                            </div>
+                            <div id="title-preview" class="preview dis-none">
+                                <div class="alert alert-success media fade in">
+                                    <h4 class="alert-title">Your info has been updated</h4>
+                                    <p>You have successfully updated your personal informations.</p>
+                                </div>
+                            </div>
+                            <div id="image-preview" class="preview dis-none">
+                                <div class="alert alert-success media fade in">
+                                    <div class="media-left">
+                                        <img src="../images/profil_page/friend8.jpg" class="dis-block img-circle" alt="friend 8">
+                                    </div>
+                                    <div class="media-body width-100p">
+                                        <h4 class="alert-title">New message received</h4>
+                                        <p class="alert-message pull-left">John send you a message 2 hours ago.</p>
+                                        <p class="pull-right"><a href="#">Read message</a></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="buttons-preview" class="preview dis-none">
+                                <div class="alert alert-success media fade in">
+                                    <h4 class="alert-title">Your have not save your file.</h4>
+                                    <p>Are you sure you want to logout without saving your data?</p>
+                                    <p>
+                                        <button type="button" class="btn btn-sm btn-white btn-square m-t-10 m-r-10">Stay here and save</button>
+                                        <button type="button" class="btn btn-sm btn-dark btn-square m-t-10">Logout</button>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12" id="method">
+                            <p class=" p-t-10 border-top"><strong>Hide Notification Method</strong></p>
+                            <div class="row">
+                                <div class="col-sm-4 m-b-10">
+                                    <label><input type="radio" data-method="3000" name="method" data-radio="iradio_flat" checked> Automatic</label>
+                                </div>
+                                <div class="col-sm-4 m-b-10">
+                                    <label><input type="radio" data-method="false" name="method" data-radio="iradio_flat"> Hide on Click</label>
+                                </div>
+                                <div class="col-sm-4 m-b-10">
+                                    <label><input type="radio" data-method="validation" name="method" data-radio="iradio_flat"> Button Validation</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 portlets">
+            <div class="panel panel-notif-positions">
+                <div class="panel-header panel-controls">
+                    <h3>Notification <strong>Positions</strong></h3>
+                </div>
+                <div class="panel-content p-b-20">
+                    <div class="notif_container">
+                        <div class="notification_position notif_pos_all">
+                            <div class="bit top left notification" data-position="topLeft"></div>
+                            <div class="bit top right notification active" data-position="topRight"></div>
+                            <div class="bit top notification" data-position="topCenter"></div>
+                            <div class="bit medium left notification" data-position="centerLeft"></div>
+                            <div class="bit medium right notification" data-position="centerRight"></div>
+                            <div class="bit medium notification" data-position="center"></div>
+                            <div class="bit bottom left notification" data-position="bottomLeft"></div>
+                            <div class="bit bottom right notification" data-position="bottomRight"></div>
+                            <div class="bit bottom notification" data-position="bottomCenter"></div>
+                        </div>
+                        <div class="notification_position notif_pos_top_bottom">
+                            <div class="bit top left notification active" data-position="top"></div>
+                            <div class="bit bottom left notification" data-position="bottom"></div>
+                        </div>
+                        <div class="notification_position notif_pos_top">
+                            <div class="bit top left notification active" data-position="top"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel-notif">
+                <div class="panel-header border-bottom panel-controls">
+                    <h3>Panel with <strong>Notification</strong></h3>
+                </div>
+                <div class="panel-content">
+                    <h2>Notification will be shown here.</h2>
+                    <p>
+                        You see, in this world there's two kinds of people, my friend: those with loaded guns and those who dig.
+                        Nd tell me it's raining. this is the ak-47 assault rifle, the preferred weapon of your enemy;
+                        and it makes a distinctive sound when fired at you, so remember it. dyin' ain't much of a livin', boy.
+                        Put that in your report!" and "i may have found a way out of here. well, do you have anything to say for yourself?
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            <p class="pull-left sm-pull-reset">
+                <span>Copyright <span class="copyright">&copy;</span> 2016 </span>
+                <span>THEMES LAB</span>.
+                <span>All rights reserved. </span>
+            </p>
+            <p class="pull-right sm-pull-reset">
+                <span><a href="#" class="m-r-10">Support</a> | <a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+            </p>
+        </div>
+    </div>
+</div>

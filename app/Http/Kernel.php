@@ -2,7 +2,11 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\LimitExpiredLicenseAccess;
+use App\Http\Middleware\LimitSimoultaneousAccess;
+use Barryvdh\Cors\HandleCors;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
 class Kernel extends HttpKernel
 {
@@ -19,6 +23,7 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
+        \Barryvdh\Cors\HandleCors::class,
     ];
 
     /**
@@ -35,11 +40,15 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            CreateFreshApiToken::class
         ],
 
         'api' => [
+//            \App\Http\Middleware\EncryptCookies::class,
+//            \Illuminate\Session\Middleware\StartSession::class,
             'throttle:60,1',
             'bindings',
+            HandleCors::class
         ],
     ];
 
@@ -59,5 +68,7 @@ class Kernel extends HttpKernel
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
-    ];
+        'limit_simoultaneous_access' => LimitSimoultaneousAccess::class,
+        "limit_expired_license_access" => LimitExpiredLicenseAccess::class
+     ];
 }

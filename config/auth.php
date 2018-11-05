@@ -42,8 +42,18 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
+        ],
+
+        'sysadmin' => [
+            "driver" => 'session',
+            "provider" => 'sysadmin'
+        ],
+
+        'sysadmin-api' => [
+            "driver" => 'passport',
+            "provider" => 'sysadmin'
         ],
     ],
 
@@ -69,6 +79,11 @@ return [
             'driver' => 'eloquent',
             'model' => App\User::class,
         ],
+
+        'sysadmin' => [
+            'driver' => 'eloquent',
+            'model' => App\Sysadmin::class
+        ]
 
         // 'users' => [
         //     'driver' => 'database',

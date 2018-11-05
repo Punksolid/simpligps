@@ -1,0 +1,28 @@
+.at-view-slide-in-left.ng-enter,.at-view-slide-in-left.ng-leave{-webkit-transition:all .6s ease;-moz-transition:all .6s ease;-o-transition:all .6s ease;transition:all .6s ease;position:absolute;width:calc(100% - 240px)}
+.at-view-slide-in-left.ng-enter{left:-100%}
+.at-view-slide-in-left.ng-enter-active{left:240px}
+.at-view-slide-in-left.ng-leave{left:240px}
+.at-view-slide-in-left.ng-leave-active{transform:scale(0.8);opacity:0}
+.tab-fade-in > .tab-content{position:relative}
+.tab-fade-in > .tab-content > .tab-pane{transition:.2s linear opacity}
+.tab-fade-in > .tab-content > .tab-pane.active-remove{position:absolute;top:0;width:100%;display:block}
+.tab-fade-in > .tab-content > .tab-pane.active-remove-active{opacity:0}
+.tab-fade-in > .tab-content > .tab-pane.active-add{opacity:0}
+.accordion .panel-title{width:100%}
+.sidebar-mailbox.sidebar #chart-legend {color: rgba(0, 0, 0, 0.8);}
+.angular-title{font-size:20px;font-weight:600;margin-bottom:10px!important}
+.angular-alert.alert .media-left img{border:none;margin-top:-3px;width:90px;}
+.angular-alert .media-left{padding-right:25px}
+.angular-alert .close{font-size:15px;top:-8px}
+.page-spinner-loader{-moz-user-select:none;-ms-user-select:none;-o-user-select:none;-webkit-user-select:none;bottom:0;height:100%;padding-top:350px;left:0;margin:auto;position:absolute;right:0;text-align:center;top:0;user-select:none;width:100%;z-index:2000}
+.page-spinner-loader .bounce1{-webkit-animation-delay:-.32s;animation-delay:-.32s;margin-right:.5em}
+.page-spinner-loader .bounce2{-webkit-animation-delay:-.16s;animation-delay:-.16s;margin-right:.5em}
+.page-spinner-loader > div{-moz-border-radius:100%;-webkit-animation-fill-mode:both;-webkit-animation:bouncedelay 1.4s infinite ease-in-out;-webkit-border-radius:100%;animation-fill-mode:both;animation:bouncedelay 1.4s infinite ease-in-out;background-color:#fff;border-radius:100%;display:inline-block;height:1em;width:1em;background-color:rgba(255,255,255,0.5);background-color:#3B3B3B}
+
+/* Mobile Sidebar */
+@media (max-width: 1024px){
+  .at-view-slide-in-left.ng-enter,.at-view-slide-in-left.ng-leave{width:100%;}
+  .at-view-slide-in-left.ng-enter{left:-100%}
+  .at-view-slide-in-left.ng-enter-active{left:0}
+  .at-view-slide-in-left.ng-leave{left:0}
+}

@@ -13,7 +13,9 @@ return [
     | to have a conventional place to find your various credentials.
     |
     */
-
+    'wialon' => [
+        'token' => env('WIALON_SECRET')
+    ],
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),
@@ -33,6 +35,7 @@ return [
         'model' => App\User::class,
         'key' => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
-    ],
+    ]
 
 ];
+

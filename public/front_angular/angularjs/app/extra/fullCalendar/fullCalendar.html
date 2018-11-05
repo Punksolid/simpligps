@@ -1,0 +1,116 @@
+﻿<div class="page-calendar">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="row">
+                <div class="col-md-3 col-xlg-2 p-0">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <h2 class="text-white semi-bold" id="calender-current-day">Events Manager</h2>
+                                    <div id="external-events">
+                                        <br>
+                                        <p>Drag and drop your event or click in the calendar</p>
+                                        <div class="external-event bg-dark" data-class="bg-dark" style="position: relative;">
+                                            <i class="fa fa-move"></i>Meeting
+                                        </div>
+                                        <div class="external-event bg-red" data-class="bg-red" style="position: relative;">
+                                            <i class="fa fa-move"></i>Work
+                                        </div>
+                                        <div class="external-event bg-primary" data-class="bg-primary" style="position: relative;">
+                                            <i class="fa fa-move"></i>Children
+                                        </div>
+                                        <div class="external-event bg-purple" data-class="bg-purple" style="position: relative;">
+                                            <i class="fa fa-move"></i>Sport
+                                        </div>
+                                    </div>
+                                    <a data-toggle="modal" data-target="#add-category" class="add-category"><i class="icon-plus"></i> Create new category</a>
+                                    <p class="m-t-40">
+                                        <label>
+                                            <input id="drop-remove" type="checkbox" data-checkbox="icheckbox_square-blue">remove after drop
+                                        </label>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 col-xlg-10 p-0 no-bd">
+                    <div class="widget">
+                        <div class="widget-body">
+                            <div class="row">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
+                                    <div id="calendar"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- BEGIN MODAL -->
+            <div class="modal fade" id="event-modal">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><strong>Manage</strong> my events</h4>
+                        </div>
+                        <div class="modal-body"></div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-success btn-embossed save-event m-r-0">Create event</button>
+                            <button type="button" class="btn btn-danger btn-embossed delete-event" data-dismiss="modal">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="add-category">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title"><strong>Add</strong> a category</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label class="control-label">Category Name</label>
+                                        <input class="form-control form-white" placeholder="Enter name" type="text" name="category-name" />
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="control-label">Choose Category Color</label>
+                                        <select class="form-control form-white" data-placeholder="Choose a color..." name="category-color">
+                                            <option value="green">Green</option>
+                                            <option value="red">Red</option>
+                                            <option value="blue">Blue</option>
+                                            <option value="yellow">Yellow</option>
+                                            <option value="dark">Dark</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default btn-embossed" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-danger btn-embossed save-category" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END MODAL -->
+        </div>
+    </div>
+    <div class="footer">
+        <div class="copyright">
+            <p class="pull-left sm-pull-reset">
+                <span>Copyright <span class="copyright">&copy;</span> 2016 </span>
+                <span>THEMES LAB</span>.
+                <span>All rights reserved. </span>
+            </p>
+            <p class="pull-right sm-pull-reset">
+                <span><a href="#" class="m-r-10">Support</a> | <a href="#" class="m-l-10 m-r-10">Terms of use</a> | <a href="#" class="m-l-10">Privacy Policy</a></span>
+            </p>
+        </div>
+    </div>
+</div>
