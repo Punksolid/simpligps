@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 */
 
 Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/change', 'UsersController@changePassword');
 
