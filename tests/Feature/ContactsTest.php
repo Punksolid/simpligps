@@ -47,8 +47,7 @@ class ContactsTest extends TestCase
     public function test_usuario_puede_ver_detalles_de_un_solo_contacto()
     {
         $contact = $this->test_registrar_un_nuevo_contacto();
-
-        $call = $this->json("GET", "api/v1/contacts/$contact->id");
+        $call = $this->getJson("api/v1/contacts/{$contact['data']['id']}");
 
         $call->assertJson([
             "data" => [
@@ -89,7 +88,7 @@ class ContactsTest extends TestCase
             "address" => $this->faker->randomNumber(7)
         ];
 
-        $call = $this->json("PUT", "api/v1/contacts/$contact->id", $new_contact);
+        $call = $this->json("PUT", "api/v1/contacts/{$contact['data']['id']}", $new_contact);
 
         $call->assertJsonFragment($new_contact);
         $call->assertStatus(200);
@@ -99,7 +98,7 @@ class ContactsTest extends TestCase
     {
         $contact = $this->test_registrar_un_nuevo_contacto();
         $call = $this->actingAs(factory(User::class)->create())
-            ->json("DELETE", "api/v1/contacts/$contact->id");
+            ->json("DELETE", "api/v1/contacts/{$contact['data']['id']}");
 
         $this->assertDatabaseMissing("contacts", [
             "name" => $contact->name
@@ -111,7 +110,7 @@ class ContactsTest extends TestCase
     public function test_agregar_etiqueta_a_contacto()
     {
         $contact = $this->test_registrar_un_nuevo_contacto();
-        $call = $this->actingAs(factory(User::class)->create())->json("POST", "api/v1/contacts/$contact->id/tags", [
+        $call = $this->actingAs(factory(User::class)->create())->json("POST", "api/v1/contacts/{$contact['data']['id']}/tags", [
             "tags" => [
                 "autoridad",
                 "federal"

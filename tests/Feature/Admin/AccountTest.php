@@ -34,7 +34,7 @@ class AccountTest extends TestCase
             "easyname" => $this->faker->unique()->word.$this->faker->unique()->word
         ];
 
-        $call = $this->postJson( "api/sysadminv1/accounts",
+        $call = $this->postJson( "api/sysadmin/v1/accounts",
             $account_details
         );
 
@@ -51,7 +51,7 @@ class AccountTest extends TestCase
     public function test_sysadmin_puede_ver_listado_de_cuentas()
     {
 
-        $call = $this->getJson('api/sysadminv1/accounts');
+        $call = $this->getJson('api/sysadmin/v1/accounts');
         $call
             ->assertJsonStructure([
                 "data" => [
@@ -71,14 +71,14 @@ class AccountTest extends TestCase
         $account_details = [
             "easyname" => $this->faker->unique()->word.$this->faker->unique()->word
         ];
-        $call = $this->actingAs($this->sysadmin)->json("POST", "api/sysadminv1/accounts",
+        $call = $this->actingAs($this->sysadmin)->json("POST", "api/sysadmin/v1/accounts",
             $account_details
         );
 
         $id = $call->getOriginalContent()["id"];
         $uuid = $call->getOriginalContent()["uuid"];
 
-        $call2 = $this->actingAs($sysadmin)->json("DELETE", "api/sysadminv1/accounts/{$id}");
+        $call2 = $this->actingAs($sysadmin)->json("DELETE", "api/sysadmin/v1/accounts/{$id}");
 
 
         $this->assertDatabaseMissing("accounts", [
@@ -108,7 +108,7 @@ class AccountTest extends TestCase
 
         $call = $this->actingAs($this->sysadmin)->json(
             "PUT",
-            "api/sysadminv1/accounts/{$fake_account->id}/fiscal",
+            "api/sysadmin/v1/accounts/{$fake_account->id}/fiscal",
             $fiscal_data
         );
 
@@ -118,7 +118,7 @@ class AccountTest extends TestCase
 
     public function test_dashboard_account_counts()
     {
-        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/active_accounts");
+        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadmin/v1/accounts/active_accounts");
 
         $call->assertStatus(200);
 
@@ -135,7 +135,7 @@ class AccountTest extends TestCase
 
         $some_account = factory(Account::class)->create();
 
-        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/active_accounts");
+        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadmin/v1/accounts/active_accounts");
 
         $call->assertJsonFragment([
             "id" => $active_account->id,
@@ -155,7 +155,7 @@ class AccountTest extends TestCase
         $license = factory(License::class)->create(["lapse" => 30]);
         $active_account->addLicense($license);
 
-        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadminv1/accounts/near_to_expire");
+        $call = $this->actingAs($this->sysadmin)->json("GET", "api/sysadmin/v1/accounts/near_to_expire");
 
         $call->assertJsonStructure([
             "data" => [

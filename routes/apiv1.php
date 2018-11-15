@@ -19,14 +19,17 @@ Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/change', 'UsersController@changePassword');
 
-
 Route::group(["middleware" => [
     "auth:api",
-    "limit_simoultaneous_access",
-    "limit_expired_license_access",
+//    "limit_simoultaneous_access",
+//    "limit_expired_license_access",
     \App\Http\Middleware\ProfilingTestMiddleware::class
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     Route::get("/me", "MeController@meInfo");
+    Route::get('user/info', function(){
+        return response(['name' => auth()->user()->email, 'roles' => ['admin']]);
+    });
+
 //Devices
     Route::resource("devices", "DevicesController")->only("index", "store", "show", "destroy", "update");
     Route::get("contacts/filter_tags", "ContactController@filterTags");
