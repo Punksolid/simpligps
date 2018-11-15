@@ -36,7 +36,7 @@ class LicenseTest extends TestCase
             "number_active_sessions" => random_int(1, 50)
         ];
 
-        $call = $this->postJson( "api/sysadminv1/licenses", $licencia);
+        $call = $this->postJson( "api/sysadmin/v1/licenses", $licencia);
 
         $call->assertJsonStructure([
             "data" => [
@@ -54,7 +54,7 @@ class LicenseTest extends TestCase
         $license = factory(License::class)->create();
         $account = factory(Account::class)->create();
 
-        $call = $this->postJson("api/sysadminv1/licenses/$license->id/assign_to_account", [
+        $call = $this->postJson("api/sysadmin/v1/licenses/$license->id/assign_to_account", [
             "account_id" => $account->id
         ]);
 
@@ -68,7 +68,7 @@ class LicenseTest extends TestCase
         $licencia = factory(License::class)->create();
         $account->addLicense($licencia);
 
-        $call = $this->postJson("api/sysadminv1/licenses/{$licencia->id}/revoke", [
+        $call = $this->postJson("api/sysadmin/v1/licenses/{$licencia->id}/revoke", [
                 "account_id" => $account->id
             ]);
 
@@ -81,7 +81,7 @@ class LicenseTest extends TestCase
 
     public function test_listar_licencias()
     {
-        $call = $this->getJson("api/sysadminv1/licenses");
+        $call = $this->getJson("api/sysadmin/v1/licenses");
 
         $call->assertSuccessful();
     }
@@ -89,7 +89,7 @@ class LicenseTest extends TestCase
     public function test_ver_detalles_de_licencia()
     {
         $license = factory(License::class)->create();
-        $call = $this->getJson("api/sysadminv1/licenses/{$license->id}");
+        $call = $this->getJson("api/sysadmin/v1/licenses/{$license->id}");
 
         $call->assertSuccessful();
     }

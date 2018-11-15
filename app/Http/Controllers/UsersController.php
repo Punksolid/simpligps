@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 class UsersController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display a listing of the users.
      *
      * @return \Illuminate\Http\Response
      */
@@ -28,7 +28,7 @@ class UsersController extends Controller
     }
  
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created users in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -57,7 +57,7 @@ class UsersController extends Controller
 
     }
     /**
-     * Display the specified resource.
+     * Display the specified users.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
@@ -68,7 +68,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified users in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -80,7 +80,7 @@ class UsersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified users from storage.
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
