@@ -72,7 +72,7 @@
                         <a href="{{ url('/home') }}">Home</a>
                     @else
                         <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
+{{--                        <a href="{{ route('register') }}">Register</a>--}}
                     @endauth
                 </div>
             @endif
@@ -88,6 +88,15 @@
                 <h6>Branch
                     {!! exec("git branch | grep \* | cut -d ' ' -f2", $output); !!}
                 </h6>
+                <h2> COUNTDOWN
+                    {!!
+                        \Carbon\Carbon::now()->diffInDays( \Carbon\Carbon::createFromDate(2019, 01, 11) )
+
+                    !!}
+                </h2>
+                <h2>
+                    {!! \Carbon\Carbon::now()->diffForHumans( \Carbon\Carbon::createFromDate(2019, 01, 11) ) !!}
+                </h2>
                 <div class="links">
 
                     <a href="https://laravel.com/docs">Documentation</a>
