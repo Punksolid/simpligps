@@ -81,7 +81,14 @@ Route::group(["middleware" => [
 //Units
     Route::get("units", "UnitsController@listUnits");
     Route::get("units/with_localization", "UnitsController@listUnitsLocalization");
+
+    // Settings
+
+    Route::post("settings", "SettingsController@general");
+    Route::get("settings", "SettingsController@getSettings");
 });
+
+
 
 Route::group([
     "prefix" => "external/",
@@ -97,5 +104,7 @@ Route::group([
 });
 
 //Contacts
+
+//SystemStatus
 
 

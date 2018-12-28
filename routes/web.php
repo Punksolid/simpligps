@@ -10,6 +10,14 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('api/', function (){
+
+    if (\App\User::first()){
+     return response('ok');
+    }
+    return abort(500);
+
+});
 Route::domain("sysadmin.localhost")->group(function () {
     Route::get('/', 'HomeController@sysadmin')->where('any', '.*');
 });
