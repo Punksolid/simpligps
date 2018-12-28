@@ -76,4 +76,24 @@ class NotificationsTest extends TestCase
         ]);
         $call->assertStatus(200);
     }
+
+    public function test_crear_geocerca()
+    {
+        $this->withoutExceptionHandling();
+        $geofence_name = $this->faker->name;
+        $lat = $this->faker->latitude;
+        $lon = $this->faker->longitude;
+        $radius = $this->faker->numberBetween(800,1600);
+
+        $call = $this->postJson("api/v1/geofences", [
+            'name' => $geofence_name,
+            'lat' => $lat,
+            'lon' => $lon,
+            'radius' => $radius
+        ]);
+
+        $call->assertJsonFragment([
+            'name' => $geofence_name
+        ]);
+    }
 }

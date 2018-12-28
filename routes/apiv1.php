@@ -62,6 +62,8 @@ Route::group(["middleware" => [
         "only" => ["store", "update", "show", "index", "destroy"]
     ]);
 
+    // GEOFENCES
+    Route::post('geofences', 'NotificationTypeController@createGeofence');
 //NOTIFICATIONS
     Route::get("notification_activate/{notification_type}", "NotificationTypeController@activate");
     Route::resource("notification_types", "NotificationTypeController", [

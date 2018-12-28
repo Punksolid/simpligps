@@ -13,7 +13,7 @@
 Route::get('api/', function (){
 
     if (\App\User::first()){
-     return response('ok');
+     return response()->json('ok');
     }
     return abort(500);
 
