@@ -19,7 +19,7 @@ class UnitsTest extends TestCase
 
     public function test_listar_unidades()
     {
-
+        $this->withoutExceptionHandling();
         $call = $this->getJson("api/v1/units");
 
         $call->assertJsonStructure([

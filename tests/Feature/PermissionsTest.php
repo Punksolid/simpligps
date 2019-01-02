@@ -98,8 +98,9 @@ class PermissionsTest extends TestCase
     {
         $user = factory(User::class)->create();
         $role = factory(Role::class)->create();
+
         $role->givePermissionTo("list-users");
-        $call = $this->json("POST", "/api/v1/roles/$role->id/user", [
+        $call = $this->postJson( "/api/v1/roles/$role->id/user", [
             "user_id" => $user->id
         ]);
 

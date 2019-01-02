@@ -96,7 +96,14 @@ class RolesController extends Controller
 
     }
 
+    /**
+     * Asigna rol a usuario
+     * @param Role $role
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function assignToUser(Role $role, Request $request){
+
         $user = User::find($request->user_id);
         $user->assignRole($role->name);
 

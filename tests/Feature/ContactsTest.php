@@ -46,8 +46,9 @@ class ContactsTest extends TestCase
 
     public function test_usuario_puede_ver_detalles_de_un_solo_contacto()
     {
-        $contact = $this->test_registrar_un_nuevo_contacto();
-        $call = $this->getJson("api/v1/contacts/{$contact['data']['id']}");
+        $contact = factory(Contact::class)->create();
+
+        $call = $this->getJson("api/v1/contacts/{$contact->id}");
 
         $call->assertJson([
             "data" => [
@@ -80,7 +81,7 @@ class ContactsTest extends TestCase
 
     public function test_editar_registro_de_contacto()
     {
-        $contact = $this->test_registrar_un_nuevo_contacto();
+        $contact = factory(Contact::class)->create();
         $new_contact = [
             "name" => $this->faker->randomNumber(6),
             "company" => $this->faker->company,
@@ -88,17 +89,17 @@ class ContactsTest extends TestCase
             "address" => $this->faker->randomNumber(7)
         ];
 
-        $call = $this->json("PUT", "api/v1/contacts/{$contact['data']['id']}", $new_contact);
+        $call = $this->putJson("api/v1/contacts/{$contact->id}", $new_contact);
 
-        $call->assertJsonFragment($new_contact);
         $call->assertStatus(200);
+        $call->assertJsonFragment($new_contact);
     }
 
     public function test_borrar_contacto()
     {
-        $contact = $this->test_registrar_un_nuevo_contacto();
+        $contact = factory(Contact::class)->create();
         $call = $this->actingAs(factory(User::class)->create())
-            ->json("DELETE", "api/v1/contacts/{$contact['data']['id']}");
+            ->json("DELETE", "api/v1/contacts/{$contact->id}");
 
         $this->assertDatabaseMissing("contacts", [
             "name" => $contact->name

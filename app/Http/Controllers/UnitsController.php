@@ -12,7 +12,6 @@ class UnitsController extends Controller
     {
 
         $units = (new Wialon())->listUnits();
-
         return UnitResource::collection($units);
     }
 

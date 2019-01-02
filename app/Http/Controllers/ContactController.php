@@ -47,6 +47,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
+
         return ContactResource::make($contact);
 
     }
@@ -60,7 +61,7 @@ class ContactController extends Controller
      */
     public function update(Request $request, Contact $contact)
     {
-        if ($contact->update($request->all())){
+;        if ($contact->update($request->all())){
             return ContactResource::make($contact);
         }
 
@@ -77,7 +78,7 @@ class ContactController extends Controller
     {
         if ($contact->delete()){
             return response([
-                "message" => "Se eliminó la linea transportista."
+                "message" => "Se eliminó el contacto."
             ]);
         }
 

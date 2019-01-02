@@ -87,7 +87,6 @@ class DevicesTest extends TestCase
     {
         $device = $this->test_registrar_un_nuevo_dispositivo();
         $new_device = $this->deviceForm();
-
         $call = $this->putJson("api/v1/devices/$device->id",$new_device);
         $call->assertJsonFragment($new_device);
         $call->assertStatus(200);
@@ -113,7 +112,6 @@ class DevicesTest extends TestCase
            "lat" => $this->faker->latitude,
            "lon" => $this->faker->longitude
         ]);
-        $call->dump();
         $call->assertSuccessful();
     }
 
@@ -121,7 +119,6 @@ class DevicesTest extends TestCase
     {
         $device = $this->deviceForm();
         $call = $this->postJson("api/v1/external/devices", $device);
-        $call->dump();
         $call->assertJsonFragment($device);
         $call->assertSuccessful();
     }

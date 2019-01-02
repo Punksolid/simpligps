@@ -64,10 +64,11 @@ class CarrierTest extends TestCase
     {
         $carrier = factory(Carrier::class)->create();
         $call = $this->deleteJson("api/v1/carriers/$carrier->id");
-
+        usleep(500); //previene falsos positivos
         $this->assertDatabaseMissing("carriers", [
             "carrier_name" => $carrier->carrier_name
         ]);
+
     }
 
     public function test_listar_lineas_transportistas()

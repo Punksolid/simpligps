@@ -15,7 +15,8 @@ Route::get('api/', function (){
     if (\App\User::first()){
      return response()->json('ok');
     }
-    return abort(500);
+    dd(\App\User::first());
+    return abort(500, 'database problem');
 
 });
 Route::domain("sysadmin.localhost")->group(function () {

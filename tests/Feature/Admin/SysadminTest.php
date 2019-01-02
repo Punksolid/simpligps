@@ -29,11 +29,11 @@ class SysadminTest extends TestCase
             "email" => $admin->email,
             "password" => "secret"
         ]);
-        $call2->assertSuccessful();
         $call->assertJsonStructure([
             "data" => [
                 "access_token"
             ]
         ]);
+        $call2->assertSuccessful();
     }
 }

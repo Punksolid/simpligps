@@ -14,13 +14,14 @@ class UnitResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             "name" => $this->nm,
             "id" => $this->id,
             "measure_units" => $this->mu,
             "position" => $this->when(isset($this->pos), [
-                "lat" => $this->pos->y,
-                "lon" => $this->pos->x
+                "lat" => optional($this->pos)->y,
+                "lon" => optional($this->pos)->x
             ])
         ];
 

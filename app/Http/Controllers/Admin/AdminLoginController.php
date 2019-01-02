@@ -32,10 +32,10 @@ class AdminLoginController extends Controller
         $user = \Auth::guard("sysadmin")->user();
         $token = $auth->user()->createToken('sysadmin-api')->accessToken;
         return response([
-
-            "token" => $token,
-            "code" => 20000
-
+            "data" => [
+                "access_token" => $token,
+                "code" => 20000
+            ]
         ], 200);
     }
 
