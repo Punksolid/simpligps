@@ -88,6 +88,9 @@ Route::group(["middleware" => [
 
     Route::post("settings", "SettingsController@general");
     Route::get("settings", "SettingsController@getSettings");
+
+    //WIALON SECTION
+    Route::get('wialon/resources', "WialonController@getResources");
 });
 
 

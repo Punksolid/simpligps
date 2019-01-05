@@ -36,7 +36,7 @@ class ContactsTest extends TestCase
             "address" => $this->faker->address
         ];
 
-        $call = $this->json("POST", "api/v1/contacts", $contact);
+        $call = $this->postJson("api/v1/contacts", $contact);
 
         $call->assertJsonFragment($contact);
         $call->assertStatus(201);
@@ -110,8 +110,8 @@ class ContactsTest extends TestCase
 
     public function test_agregar_etiqueta_a_contacto()
     {
-        $contact = $this->test_registrar_un_nuevo_contacto();
-        $call = $this->actingAs(factory(User::class)->create())->json("POST", "api/v1/contacts/{$contact['data']['id']}/tags", [
+        $contact = factory(Contact::class)->create();
+        $call = $this->actingAs(factory(User::class)->create())->postJson("api/v1/contacts/{$contact->id}/tags", [
             "tags" => [
                 "autoridad",
                 "federal"

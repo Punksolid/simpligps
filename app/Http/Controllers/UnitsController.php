@@ -8,6 +8,10 @@ use Punksolid\Wialon\Wialon;
 
 class UnitsController extends Controller
 {
+    /**
+     * Listar unidades con datos básicos
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function listUnits()
     {
 
@@ -15,6 +19,10 @@ class UnitsController extends Controller
         return UnitResource::collection($units);
     }
 
+    /**
+     * Listar unidades mostrando ubicación
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function listUnitsLocalization()
     {
         $units = (new Wialon())->listUnits();
