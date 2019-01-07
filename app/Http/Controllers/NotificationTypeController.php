@@ -77,7 +77,7 @@ class NotificationTypeController extends Controller
      */
     public function createGeofence(Request $request)
     {
-        return \response()->json($request->all());
+        //return \response()->json($request->all());
         $name = $request->geofence_name;
 
         $lat = $request->lat;
@@ -99,5 +99,13 @@ class NotificationTypeController extends Controller
             3);
 
         return \response()->json($geofence->toArray());
+
+    }
+
+    public function getGeofences()
+    {
+        $api = new Wialon();
+
+        return $api;
     }
 }

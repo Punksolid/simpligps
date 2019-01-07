@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\WialonResourceResource;
 use App\Setting;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Resource;
@@ -15,6 +16,6 @@ class WialonController extends Controller
 
         $resources = Resource::all();
 
-        return $resources;
+        return WialonResourceResource::collection($resources);
     }
 }
