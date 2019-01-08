@@ -25,11 +25,5 @@ class HomeController extends Controller
     {
         return view('home');
     }
-
-    public function sysadmin()
-    {
-        return public_path('/adminsystrm')."/index.html";
-//        return
-//        return view("sysadmin");
-    }
+    
 }

@@ -90,12 +90,12 @@
                 </h6>
                 <h2> COUNTDOWN
                     {!!
-                        \Carbon\Carbon::now()->diffInDays( \Carbon\Carbon::createFromDate(2019, 01, 11) )
+                        \Carbon\Carbon::now()->diffInDays( \Carbon\Carbon::createFromDate(2019, 01, 31) )
 
                     !!}
                 </h2>
                 <h2>
-                    {!! \Carbon\Carbon::now()->diffForHumans( \Carbon\Carbon::createFromDate(2019, 01, 11) ) !!}
+                    {!! \Carbon\Carbon::now()->diffForHumans( \Carbon\Carbon::createFromDate(2019, 01, 31) ) !!}
                 </h2>
                 <div class="links">
 
