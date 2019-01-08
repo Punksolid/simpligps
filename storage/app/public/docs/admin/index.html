@@ -1,0 +1,1636 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>API Reference</title>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/all.js"></script>
+
+
+          <script>
+        $(function() {
+            setupLanguages(["bash","javascript"]);
+        });
+      </script>
+      </head>
+
+  <body class="">
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="images/navbar.png" />
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+        <img src="images/logo.png" />
+                    <div class="lang-selector">
+                                  <a href="#" data-language-name="bash">bash</a>
+                                  <a href="#" data-language-name="javascript">javascript</a>
+                            </div>
+                            <div class="search">
+              <input type="text" class="search" id="input-search" placeholder="Search">
+            </div>
+            <ul class="search-results"></ul>
+              <div id="toc">
+      </div>
+                    <ul class="toc-footer">
+                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
+                            </ul>
+            </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+          <!-- START_INFO -->
+<h1>Info</h1>
+<p>Welcome to the generated API reference.
+<a href="http://localhost/storage/app/public/docs/admin//collection.json">Get Postman Collection</a></p>
+<!-- END_INFO -->
+<h1>Accounts|Cuentas</h1>
+<!-- START_8b356485d39cfe95f221d1ed76013fd0 -->
+<h2>Agrega datos fiscales</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT "http://localhost:8000/api/sysadmin/v1/accounts/{account}/fiscal" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts/{account}/fiscal",
+    "method": "PUT",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT api/sysadmin/v1/accounts/{account}/fiscal</code></p>
+<!-- END_8b356485d39cfe95f221d1ed76013fd0 -->
+<!-- START_2ed090ea6e0172d12ea5df687c97856e -->
+<h2>Devuelve un listado de cuentas activas por su lapse</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/accounts/active_accounts" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts/active_accounts",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": [
+        {
+            "id": 17,
+            "easyname": "placeat",
+            "uuid": "8126aa4a-f74f-358d-812b-ad9bac71d2fc"
+        },
+        {
+            "id": 20,
+            "easyname": "illum",
+            "uuid": "1e99e18d-e2fa-3d8e-8177-744bfb9fe2d0"
+        },
+        {
+            "id": 22,
+            "easyname": "commodi",
+            "uuid": "0e883c8d-686b-35cd-ae8d-85529531adc2"
+        },
+        {
+            "id": 24,
+            "easyname": "eveniet",
+            "uuid": "9cc41c3c-7939-38c3-92c7-1bd4b12c764d"
+        },
+        {
+            "id": 34,
+            "easyname": "ipsum",
+            "uuid": "68cbef7f-d2a0-3ce1-b2be-240689633416"
+        },
+        {
+            "id": 37,
+            "easyname": "architecto",
+            "uuid": "60031ee9-fd7c-3dc1-b2fa-45f0def895a7"
+        },
+        {
+            "id": 41,
+            "easyname": "optio",
+            "uuid": "99453cd2-fc51-3f3b-928d-ada863cdad3f"
+        },
+        {
+            "id": 48,
+            "easyname": "pariatur",
+            "uuid": "c278f2b0-a644-3db5-880a-4dc4a6b01e29"
+        },
+        {
+            "id": 51,
+            "easyname": "veniam",
+            "uuid": "eb2d6367-9a1e-32c9-92c7-ed57db6e0a04"
+        },
+        {
+            "id": 265,
+            "easyname": "dolores",
+            "uuid": "f7662567-c82f-314f-820f-9337b7cd17cf"
+        },
+        {
+            "id": 268,
+            "easyname": "minus",
+            "uuid": "939667cf-93f2-3d0b-ae90-15f9243394b3"
+        },
+        {
+            "id": 277,
+            "easyname": "odio",
+            "uuid": "0e6d5314-e0f4-3d6f-91b6-125050beb53e"
+        },
+        {
+            "id": 280,
+            "easyname": "officiis",
+            "uuid": "864205b6-789f-378a-953d-3470dc7e3f1f"
+        },
+        {
+            "id": 291,
+            "easyname": "atque",
+            "uuid": "60a8c4a3-af4d-3279-b873-28bfc09bdcfa"
+        },
+        {
+            "id": 294,
+            "easyname": "reprehenderit",
+            "uuid": "97676b72-74dc-36e8-bfb1-a69eb017f476"
+        },
+        {
+            "id": 303,
+            "easyname": "cumque",
+            "uuid": "36beff16-7b1f-3418-8591-aad519969700"
+        },
+        {
+            "id": 306,
+            "easyname": "rerum",
+            "uuid": "83945950-54ad-3591-a0d1-8fcaf0160acb"
+        },
+        {
+            "id": 316,
+            "easyname": "ut",
+            "uuid": "57d405b9-608d-3975-9c0c-d8487830e8f0"
+        },
+        {
+            "id": 319,
+            "easyname": "quae",
+            "uuid": "e43d8dbc-a909-3e7a-9c38-d232735b1f6f"
+        },
+        {
+            "id": 329,
+            "easyname": "perspiciatis",
+            "uuid": "1aebae88-54c1-3c41-81a4-ef58b0d39c64"
+        },
+        {
+            "id": 332,
+            "easyname": "neque",
+            "uuid": "458d43dd-0bb3-3815-a81f-93c988bf2571"
+        },
+        {
+            "id": 344,
+            "easyname": "illo",
+            "uuid": "914f6ca3-934d-3cfb-b5a9-33ed32b7ea64"
+        },
+        {
+            "id": 347,
+            "easyname": "aut",
+            "uuid": "181d0831-fa5f-3c1e-ae2d-782eff18aa72"
+        },
+        {
+            "id": 357,
+            "easyname": "autem",
+            "uuid": "f8105e9c-fde4-355a-8396-480924334d25"
+        },
+        {
+            "id": 360,
+            "easyname": "quisquam",
+            "uuid": "4fd12e3d-a74f-3d75-8dbb-80d3f05c19b6"
+        },
+        {
+            "id": 395,
+            "easyname": "autem",
+            "uuid": "16049ea5-feb3-3649-aab7-2b58d8b7d485"
+        },
+        {
+            "id": 398,
+            "easyname": "doloribus",
+            "uuid": "4cb3de33-0f66-32a8-9214-862500189651"
+        },
+        {
+            "id": 406,
+            "easyname": "et",
+            "uuid": "0f44d902-c8d1-3bac-8b49-44e081e31a19"
+        },
+        {
+            "id": 409,
+            "easyname": "ipsum",
+            "uuid": "e5d052ff-dffd-31bc-a1b4-ad8d457547e9"
+        },
+        {
+            "id": 418,
+            "easyname": "vel",
+            "uuid": "79698feb-dd13-3ec9-a61d-e56a2e729faf"
+        },
+        {
+            "id": 421,
+            "easyname": "voluptatem",
+            "uuid": "64f85bb7-2d0b-3d01-99c4-66f09edc5adb"
+        },
+        {
+            "id": 433,
+            "easyname": "facere",
+            "uuid": "8e74c2f2-98ad-3240-9e2f-d690cb39384e"
+        },
+        {
+            "id": 436,
+            "easyname": "qui",
+            "uuid": "db0fcaba-6418-3ac5-8781-35b941c683ee"
+        },
+        {
+            "id": 440,
+            "easyname": "perferendis",
+            "uuid": "00efe8fd-6532-320f-922c-cda6d4797302"
+        },
+        {
+            "id": 443,
+            "easyname": "et",
+            "uuid": "860573b3-d662-31e3-8333-83c7e1c37700"
+        },
+        {
+            "id": 454,
+            "easyname": "ea",
+            "uuid": "7b1704a6-1b37-33cd-8d81-b78ce832dad4"
+        },
+        {
+            "id": 457,
+            "easyname": "debitis",
+            "uuid": "d093c697-5edc-3529-a15e-08862a4b5d5f"
+        },
+        {
+            "id": 468,
+            "easyname": "adipisci",
+            "uuid": "00ee71c5-036c-3ce4-8edd-582d8f18dd2e"
+        },
+        {
+            "id": 471,
+            "easyname": "possimus",
+            "uuid": "37c6434b-11da-31d5-82a9-baade2d149ac"
+        },
+        {
+            "id": 482,
+            "easyname": "et",
+            "uuid": "c7803b04-af27-3256-8d13-978fc155b139"
+        },
+        {
+            "id": 485,
+            "easyname": "expedita",
+            "uuid": "49a7c4f1-17d2-30c1-b415-dd13b96fff5a"
+        },
+        {
+            "id": 496,
+            "easyname": "sed",
+            "uuid": "4ccdfca4-7982-3e8f-a336-7f0f76161a4c"
+        },
+        {
+            "id": 499,
+            "easyname": "voluptate",
+            "uuid": "7bdd57d6-f754-3dcc-869e-259e1bc67d13"
+        },
+        {
+            "id": 510,
+            "easyname": "aspernatur",
+            "uuid": "1cfcbe1a-f0a4-31ea-b8ce-cb057c29a859"
+        },
+        {
+            "id": 513,
+            "easyname": "sint",
+            "uuid": "ac1535e6-d83c-3b8e-b1ee-006d0010972b"
+        },
+        {
+            "id": 524,
+            "easyname": "est",
+            "uuid": "9f383a86-4039-3c7e-9a3d-54f3aafd65ed"
+        },
+        {
+            "id": 527,
+            "easyname": "ut",
+            "uuid": "3bc952aa-dd85-3c21-a270-17188326e08b"
+        },
+        {
+            "id": 538,
+            "easyname": "blanditiis",
+            "uuid": "54fed8f4-6cae-306b-9af9-38cc7d35c01e"
+        },
+        {
+            "id": 541,
+            "easyname": "reprehenderit",
+            "uuid": "e22e73f9-7425-3379-ab7a-03012d14a5e6"
+        },
+        {
+            "id": 552,
+            "easyname": "enim",
+            "uuid": "bdccb7de-32c6-3dd9-88a8-6fdec5c2615c"
+        },
+        {
+            "id": 555,
+            "easyname": "corrupti",
+            "uuid": "c75b30dc-e36e-3769-937c-afaa1bbe8b79"
+        },
+        {
+            "id": 566,
+            "easyname": "rerum",
+            "uuid": "85f35b3b-ed55-3d5c-8925-e0e13c35315b"
+        },
+        {
+            "id": 569,
+            "easyname": "voluptas",
+            "uuid": "088c8914-3af5-3547-be96-b04079f0b7d7"
+        },
+        {
+            "id": 580,
+            "easyname": "quia",
+            "uuid": "5990ab20-5af8-332c-8f83-6dd535ffba72"
+        },
+        {
+            "id": 583,
+            "easyname": "ut",
+            "uuid": "25b0143d-9585-38b3-9eec-b767d659b198"
+        },
+        {
+            "id": 594,
+            "easyname": "aut",
+            "uuid": "c1e3c530-199c-3979-aa83-fa947bacfa05"
+        },
+        {
+            "id": 597,
+            "easyname": "culpa",
+            "uuid": "bcb165c4-29cc-302a-b5d6-b9d672b2a45d"
+        },
+        {
+            "id": 608,
+            "easyname": "animi",
+            "uuid": "7e6f1e37-3249-37d6-8aee-53902e3c0f88"
+        },
+        {
+            "id": 611,
+            "easyname": "modi",
+            "uuid": "cc11e1af-5e79-303c-a231-af6c14856b14"
+        },
+        {
+            "id": 622,
+            "easyname": "ut",
+            "uuid": "c2f3ca1a-bea7-3a6e-adc4-2d44611da627"
+        },
+        {
+            "id": 625,
+            "easyname": "dolorem",
+            "uuid": "83ddf0cb-2533-3a8d-b24f-6d3293a3bfc7"
+        },
+        {
+            "id": 636,
+            "easyname": "voluptatem",
+            "uuid": "a90c610a-2979-312d-8c6b-2a8ebe4be13f"
+        },
+        {
+            "id": 639,
+            "easyname": "dolor",
+            "uuid": "f635a09a-c4f3-3026-b22f-1740157605e1"
+        },
+        {
+            "id": 650,
+            "easyname": "nostrum",
+            "uuid": "c953b354-a013-3dee-9c1d-ab3ff8a1476c"
+        },
+        {
+            "id": 653,
+            "easyname": "praesentium",
+            "uuid": "aa665be6-3352-360a-ab65-6bd16269df6f"
+        },
+        {
+            "id": 664,
+            "easyname": "ab",
+            "uuid": "00350d15-2ffc-3c03-9833-58d487962135"
+        },
+        {
+            "id": 667,
+            "easyname": "culpa",
+            "uuid": "a46e3baa-b03f-3e08-8e9f-70950701baa6"
+        },
+        {
+            "id": 678,
+            "easyname": "quos",
+            "uuid": "ad8093e2-c0f9-3a67-aade-06a92dc33027"
+        },
+        {
+            "id": 681,
+            "easyname": "vitae",
+            "uuid": "aaa3f497-307a-3e9d-afa9-fa74395391b5"
+        },
+        {
+            "id": 692,
+            "easyname": "ut",
+            "uuid": "d173f15d-1d05-37cd-8c59-603e89a93a7c"
+        },
+        {
+            "id": 695,
+            "easyname": "dolores",
+            "uuid": "e2ee4605-175c-3fc0-b573-d94a156d9cfc"
+        },
+        {
+            "id": 706,
+            "easyname": "dolor",
+            "uuid": "e750d272-94b5-3ef6-b457-7fefe34c2ad5"
+        },
+        {
+            "id": 709,
+            "easyname": "blanditiis",
+            "uuid": "e88f35c6-6335-3a85-8da1-b57dd7c60293"
+        },
+        {
+            "id": 720,
+            "easyname": "tenetur",
+            "uuid": "9cd9997c-291f-38b5-9f91-7cb56d766f3a"
+        },
+        {
+            "id": 723,
+            "easyname": "est",
+            "uuid": "764fba17-c0ac-3777-9a8a-7c81612fea09"
+        },
+        {
+            "id": 734,
+            "easyname": "suscipit",
+            "uuid": "cfadc481-6ac2-329d-8593-c6c2fa9c7dd7"
+        },
+        {
+            "id": 737,
+            "easyname": "illum",
+            "uuid": "82179331-07fb-35f1-82d0-f423692cb665"
+        },
+        {
+            "id": 748,
+            "easyname": "ab",
+            "uuid": "69a08de4-6280-3ded-8dbb-581515413ff0"
+        },
+        {
+            "id": 751,
+            "easyname": "in",
+            "uuid": "175eb0de-6d81-3586-85a4-2a2a28864a51"
+        },
+        {
+            "id": 762,
+            "easyname": "fugit",
+            "uuid": "9391e9dc-1a83-377b-ba72-19e8cc8bc601"
+        },
+        {
+            "id": 765,
+            "easyname": "saepe",
+            "uuid": "8a3d6bab-8fc7-3cc6-9cb0-fc188ef1f214"
+        },
+        {
+            "id": 776,
+            "easyname": "cum",
+            "uuid": "51097e62-d0c2-3b3f-8cb0-29049e8b5483"
+        },
+        {
+            "id": 779,
+            "easyname": "natus",
+            "uuid": "c5428f3f-53ae-3d5e-8ac2-8947ee05aa17"
+        },
+        {
+            "id": 790,
+            "easyname": "a",
+            "uuid": "78b214c8-1343-31e6-b4c4-6ec138b754d8"
+        },
+        {
+            "id": 793,
+            "easyname": "tempora",
+            "uuid": "b02c895b-2004-362c-bf18-6dfecd9e1da7"
+        },
+        {
+            "id": 804,
+            "easyname": "cupiditate",
+            "uuid": "a7025b74-cb19-3a64-9665-d76c52d4826f"
+        },
+        {
+            "id": 807,
+            "easyname": "quae",
+            "uuid": "b986a4d8-afd4-3606-906f-d0d3f359208e"
+        },
+        {
+            "id": 818,
+            "easyname": "quia",
+            "uuid": "6037ac84-b9dd-34b6-91d1-7d034f23fd41"
+        },
+        {
+            "id": 821,
+            "easyname": "autem",
+            "uuid": "c02accf0-8949-3b25-9028-9481a1140ae0"
+        },
+        {
+            "id": 832,
+            "easyname": "laborum",
+            "uuid": "40a53317-c609-3a6d-b250-b298a49ba147"
+        },
+        {
+            "id": 835,
+            "easyname": "quod",
+            "uuid": "50249b34-334d-3afb-8261-eb130113a2bf"
+        },
+        {
+            "id": 846,
+            "easyname": "et",
+            "uuid": "79e819d8-41b7-3f7b-9fa3-e0935925a689"
+        },
+        {
+            "id": 849,
+            "easyname": "quam",
+            "uuid": "d86c5504-92dd-3699-8e87-5cb5acc6a2a1"
+        },
+        {
+            "id": 860,
+            "easyname": "odio",
+            "uuid": "c9117d56-433e-389e-9898-de2bff711b4a"
+        },
+        {
+            "id": 863,
+            "easyname": "aspernatur",
+            "uuid": "88e0f2df-f5b0-3bbf-b774-167988560a80"
+        },
+        {
+            "id": 874,
+            "easyname": "perspiciatis",
+            "uuid": "307bd9d8-f010-322e-8fef-6e73e485e51e"
+        },
+        {
+            "id": 877,
+            "easyname": "doloremque",
+            "uuid": "b9d15706-8a9c-35bb-ba86-be195e3c6440"
+        },
+        {
+            "id": 888,
+            "easyname": "aut",
+            "uuid": "7d3ffd2d-aa82-3d75-b7bc-146639fec367"
+        },
+        {
+            "id": 891,
+            "easyname": "eum",
+            "uuid": "80ec271a-7fe9-3dc6-bf13-7cc013ac4887"
+        },
+        {
+            "id": 902,
+            "easyname": "ducimus",
+            "uuid": "f205a794-2eb6-3e9e-9af2-1681162dfec3"
+        },
+        {
+            "id": 905,
+            "easyname": "maiores",
+            "uuid": "75504b1f-fcf4-325d-bc21-f5bd79d51ed4"
+        },
+        {
+            "id": 916,
+            "easyname": "cum",
+            "uuid": "41a0ca80-52cd-3353-b02b-d162328a2d56"
+        },
+        {
+            "id": 919,
+            "easyname": "ipsum",
+            "uuid": "61771384-a4d0-3eed-b3bd-99e86bf91226"
+        },
+        {
+            "id": 930,
+            "easyname": "non",
+            "uuid": "b49fa5b1-2083-3fdd-9be5-a980974db44d"
+        },
+        {
+            "id": 933,
+            "easyname": "enim",
+            "uuid": "1c0bf8cd-1e34-34f1-9058-dddf8cc410cb"
+        },
+        {
+            "id": 943,
+            "easyname": "beatae",
+            "uuid": "82dad4a7-37c9-33a4-9ac4-97589a9348fc"
+        },
+        {
+            "id": 946,
+            "easyname": "labore",
+            "uuid": "286e6424-f256-33c5-a352-7cd8acf32b62"
+        },
+        {
+            "id": 957,
+            "easyname": "nostrum",
+            "uuid": "ff3fa733-3e89-3f04-96ce-0295bb6d431f"
+        },
+        {
+            "id": 960,
+            "easyname": "distinctio",
+            "uuid": "66b40852-40b3-3892-a804-b2ac5a25e8c9"
+        },
+        {
+            "id": 971,
+            "easyname": "aut",
+            "uuid": "f1e24263-0e38-31a0-8518-894b7cbbc772"
+        },
+        {
+            "id": 974,
+            "easyname": "est",
+            "uuid": "db19f58c-26a9-3da4-b794-eae76df3b443"
+        },
+        {
+            "id": 985,
+            "easyname": "perspiciatis",
+            "uuid": "aad76115-85a0-3d89-bafb-23d11b09405d"
+        },
+        {
+            "id": 988,
+            "easyname": "eligendi",
+            "uuid": "2f84bd81-ed10-307d-938d-865923d1413d"
+        },
+        {
+            "id": 999,
+            "easyname": "molestias",
+            "uuid": "453487df-fb30-3af3-bed6-81845403d312"
+        },
+        {
+            "id": 1002,
+            "easyname": "aspernatur",
+            "uuid": "bf1fbc3d-5505-39b1-90b0-87e753177277"
+        },
+        {
+            "id": 1013,
+            "easyname": "molestiae",
+            "uuid": "6af9997e-99d9-3af3-a54e-902df71a29d1"
+        },
+        {
+            "id": 1016,
+            "easyname": "excepturi",
+            "uuid": "aff1e0db-b501-35d7-96d7-a9dc10543031"
+        },
+        {
+            "id": 1027,
+            "easyname": "eaque",
+            "uuid": "d826b039-7d82-3275-8c50-7f06aba84fd7"
+        },
+        {
+            "id": 1030,
+            "easyname": "est",
+            "uuid": "f899be3f-7505-3319-8f3e-44af880944d1"
+        },
+        {
+            "id": 1041,
+            "easyname": "harum",
+            "uuid": "db749a26-86eb-3574-8363-0eb41eea7547"
+        },
+        {
+            "id": 1044,
+            "easyname": "sed",
+            "uuid": "1ac7a00f-d2f9-3be3-bb22-a3aebb748c04"
+        },
+        {
+            "id": 1055,
+            "easyname": "repellendus",
+            "uuid": "30be7129-d456-35ae-bda1-c5f0dc243af2"
+        },
+        {
+            "id": 1058,
+            "easyname": "vel",
+            "uuid": "df38fc17-5395-35db-9a21-a32f57d707cf"
+        },
+        {
+            "id": 1069,
+            "easyname": "libero",
+            "uuid": "396b2190-d4b5-397e-b9e1-2b1b6153fbc9"
+        },
+        {
+            "id": 1072,
+            "easyname": "optio",
+            "uuid": "b71e9183-7fde-3765-9192-c95fd5c90c7c"
+        },
+        {
+            "id": 1083,
+            "easyname": "soluta",
+            "uuid": "012df18e-321e-3c42-ac17-ed9230fa65d0"
+        },
+        {
+            "id": 1086,
+            "easyname": "dolorum",
+            "uuid": "bea6e653-b0f3-3bcb-90ac-f00b22994900"
+        },
+        {
+            "id": 1097,
+            "easyname": "explicabo",
+            "uuid": "78439e89-37fc-3d36-989e-3fa526605c4f"
+        },
+        {
+            "id": 1100,
+            "easyname": "architecto",
+            "uuid": "d39f3ea6-9d1d-3472-b2b6-80827dce1b48"
+        },
+        {
+            "id": 1111,
+            "easyname": "omnis",
+            "uuid": "997ae430-c696-35fb-9c5c-a66a63e05e30"
+        },
+        {
+            "id": 1114,
+            "easyname": "saepe",
+            "uuid": "eca7ca0f-e403-3491-ae59-7487f0347290"
+        },
+        {
+            "id": 1124,
+            "easyname": "distinctio",
+            "uuid": "67d4f701-232b-3992-bc08-165b197dfeef"
+        },
+        {
+            "id": 1127,
+            "easyname": "facilis",
+            "uuid": "b93f1795-9953-3666-99d6-8043b77f47a9"
+        },
+        {
+            "id": 1138,
+            "easyname": "odit",
+            "uuid": "4fea951e-5f33-3096-8dc3-ecadfaa518e6"
+        },
+        {
+            "id": 1141,
+            "easyname": "voluptatem",
+            "uuid": "40da52a8-6865-3851-8a4c-27a078371c8b"
+        },
+        {
+            "id": 1152,
+            "easyname": "dolorem",
+            "uuid": "268778bf-3c63-3b72-ab86-a85a2d15e067"
+        },
+        {
+            "id": 1155,
+            "easyname": "occaecati",
+            "uuid": "77a69d3b-93d0-3cf1-94f6-f5b629c63ded"
+        },
+        {
+            "id": 1166,
+            "easyname": "odio",
+            "uuid": "ea8bf01c-942e-3999-a0fe-5e4753183bc6"
+        },
+        {
+            "id": 1169,
+            "easyname": "nesciunt",
+            "uuid": "a09dec5c-b448-302c-ad13-1e409d297503"
+        },
+        {
+            "id": 1180,
+            "easyname": "facilis",
+            "uuid": "4557dfd3-d7c8-3d48-b8c5-10af238f92f8"
+        },
+        {
+            "id": 1183,
+            "easyname": "praesentium",
+            "uuid": "d5c3169e-ad39-37bb-b357-4111713b9642"
+        },
+        {
+            "id": 1194,
+            "easyname": "maiores",
+            "uuid": "b0c3e903-555e-30d1-9b35-a41a98a527ce"
+        },
+        {
+            "id": 1197,
+            "easyname": "magni",
+            "uuid": "1c8dca35-5ac7-3387-86c0-ccf5e791fd71"
+        },
+        {
+            "id": 1208,
+            "easyname": "modi",
+            "uuid": "96a7d300-8422-3164-88a6-9b737a6c6002"
+        },
+        {
+            "id": 1211,
+            "easyname": "quidem",
+            "uuid": "802da2ec-fd76-3003-8d05-7620a1a1ce68"
+        },
+        {
+            "id": 1222,
+            "easyname": "totam",
+            "uuid": "17d745ef-d4f9-3b92-896b-cb3c803d0f8f"
+        },
+        {
+            "id": 1225,
+            "easyname": "labore",
+            "uuid": "97e94bfe-6b2a-34a2-b520-13461c36d1c5"
+        },
+        {
+            "id": 1236,
+            "easyname": "magnam",
+            "uuid": "da31a996-d999-3895-bfe7-082d0e1084d6"
+        },
+        {
+            "id": 1239,
+            "easyname": "ea",
+            "uuid": "e6a39e63-8743-3c9d-8c38-4fc3773c3e57"
+        },
+        {
+            "id": 1250,
+            "easyname": "molestiae",
+            "uuid": "b6fc5b64-6632-3058-b696-a435afe2350d"
+        },
+        {
+            "id": 1253,
+            "easyname": "totam",
+            "uuid": "0c47cc1c-8d21-30d7-bfee-d0bfe0f58b55"
+        },
+        {
+            "id": 1264,
+            "easyname": "et",
+            "uuid": "7a12a605-b18b-3fb6-944c-f777121f7504"
+        },
+        {
+            "id": 1267,
+            "easyname": "vero",
+            "uuid": "a635abd1-d209-34e5-bb9f-b54b0c532eff"
+        },
+        {
+            "id": 1277,
+            "easyname": "quia",
+            "uuid": "b2ea94a3-c6da-3b68-bfe2-3fceedfb004f"
+        },
+        {
+            "id": 1280,
+            "easyname": "nobis",
+            "uuid": "a8ceb43a-df5e-3713-bde1-0e56915a7188"
+        },
+        {
+            "id": 1291,
+            "easyname": "consectetur",
+            "uuid": "afcec8f2-0c40-34f3-9748-ac3ae794670a"
+        },
+        {
+            "id": 1294,
+            "easyname": "sapiente",
+            "uuid": "6eef9021-4a28-3379-b0da-68a851b9db92"
+        },
+        {
+            "id": 1304,
+            "easyname": "nisi",
+            "uuid": "762f7a4c-ebf1-3d55-8ba5-e1c7471a669e"
+        },
+        {
+            "id": 1307,
+            "easyname": "consequatur",
+            "uuid": "9e380596-455c-3fb2-85ef-200df23ba262"
+        },
+        {
+            "id": 1757,
+            "easyname": "illo",
+            "uuid": "cc40f153-feab-3ee2-87c7-15b1db74fbbd"
+        },
+        {
+            "id": 1760,
+            "easyname": "repellendus",
+            "uuid": "aafd50b1-9727-321e-85f9-ed3d5b89bc61"
+        },
+        {
+            "id": 1781,
+            "easyname": "animi",
+            "uuid": "ed13d18b-4c63-3c05-b731-dd728b3a841a"
+        },
+        {
+            "id": 1784,
+            "easyname": "quia",
+            "uuid": "0b24a1b1-b6f6-38df-8b1e-cd8d0cf5dc1f"
+        },
+        {
+            "id": 1795,
+            "easyname": "esse",
+            "uuid": "4703f9f2-ff4f-3ac7-9d17-e7f87a230d5d"
+        },
+        {
+            "id": 1798,
+            "easyname": "aut",
+            "uuid": "60b3b45d-6a7b-3c86-9969-41440c9ec490"
+        },
+        {
+            "id": 1809,
+            "easyname": "voluptas",
+            "uuid": "2330118d-23bf-33b5-8b84-d34211934fdc"
+        },
+        {
+            "id": 1812,
+            "easyname": "eveniet",
+            "uuid": "75721e62-4ba4-3800-a1ab-8f2c71e1f609"
+        },
+        {
+            "id": 1823,
+            "easyname": "labore",
+            "uuid": "7c3cd451-0028-3e46-a251-9f465b9df77f"
+        },
+        {
+            "id": 1826,
+            "easyname": "eos",
+            "uuid": "cd7eb4c8-f343-35e8-b117-edc3b0f7b1ad"
+        },
+        {
+            "id": 1837,
+            "easyname": "perferendis",
+            "uuid": "4a1d2309-9c33-394e-83a0-299eba497a20"
+        },
+        {
+            "id": 1840,
+            "easyname": "vel",
+            "uuid": "f3d771da-1ea1-3da7-b6f9-7504324b8ccf"
+        }
+    ]
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/accounts/active_accounts</code></p>
+<!-- END_2ed090ea6e0172d12ea5df687c97856e -->
+<!-- START_5a267e3e7f474370cf4ef2bef8dbfd2b -->
+<h2>Próximos a expirar en 7 dias</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/accounts/near_to_expire" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts/near_to_expire",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": [
+        {
+            "id": 1,
+            "easyname": "ut",
+            "uuid": "9967c79f-8188-3598-b0ec-ef8232410a6b"
+        }
+    ]
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/accounts/near_to_expire</code></p>
+<!-- END_5a267e3e7f474370cf4ef2bef8dbfd2b -->
+<!-- START_387441402a669cf43237c8809716bd5d -->
+<h2>Display a listing of the account.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/accounts" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "token": "eyJ0eXAi…",
+    "roles": [
+        "admin"
+    ]
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/accounts</code></p>
+<!-- END_387441402a669cf43237c8809716bd5d -->
+<!-- START_e0f5766b2dfb164e01f41e64b8d74aee -->
+<h2>Store a newly created account in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/sysadmin/v1/accounts" \
+    -H "Accept: application/json" \
+    -d "easyname"="quia" </code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts",
+    "method": "POST",
+    "data": {
+        "easyname": "quia"
+    },
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sysadmin/v1/accounts</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>easyname</td>
+<td>string</td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
+<!-- END_e0f5766b2dfb164e01f41e64b8d74aee -->
+<!-- START_4c5f8f865fd8af3686baee1a9f154b03 -->
+<h2>Elimina cuenta</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost:8000/api/sysadmin/v1/accounts/{account}" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts/{account}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE api/sysadmin/v1/accounts/{account}</code></p>
+<!-- END_4c5f8f865fd8af3686baee1a9f154b03 -->
+<h1>Dashboard</h1>
+<!-- START_0ca0455720d11b67bd839b322273b578 -->
+<h2>* Store a newly created resource in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/dashboard/accounts" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/dashboard/accounts",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": 1784
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/dashboard/accounts</code></p>
+<!-- END_0ca0455720d11b67bd839b322273b578 -->
+<h1>Licensing</h1>
+<!-- START_cc13b8681a68d2aff08e01b248263be6 -->
+<h2>Asigna Licencia a Cuenta</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/sysadmin/v1/licenses/{license}/assign_to_account" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}/assign_to_account",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sysadmin/v1/licenses/{license}/assign_to_account</code></p>
+<!-- END_cc13b8681a68d2aff08e01b248263be6 -->
+<!-- START_b28a1a0c9ae0d747645ab33b342ee74d -->
+<h2>Revoca licencia License, Request</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/sysadmin/v1/licenses/{license}/revoke" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}/revoke",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sysadmin/v1/licenses/{license}/revoke</code></p>
+<!-- END_b28a1a0c9ae0d747645ab33b342ee74d -->
+<!-- START_216b70ae6b951611a7e6cc3852f2c539 -->
+<h2>Display a listing of the LICENSE.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/licenses" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": [
+        {
+            "name": "Cordie Witting IV",
+            "description": "Et vel sit at. Non molestiae nihil sint voluptatem natus. Et quidem ea ratione qui assumenda nam.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "e82b659d-5065-3caa-835a-cb433dce23ec"
+        },
+        {
+            "name": "Dr. Malcolm Cummerata",
+            "description": "Debitis velit ducimus occaecati quos eos. Error architecto possimus non. Reiciendis officiis quos laboriosam expedita et omnis. Quaerat dicta consequatur at architecto at.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "18d6d0da-0048-331b-8a31-075287ea1f8a"
+        },
+        {
+            "name": "Prof. Rex Leuschke DDS",
+            "description": "Error rem voluptatem voluptates et ducimus id distinctio. Corrupti deleniti fugiat fugit repudiandae explicabo omnis aliquid et. Quidem est exercitationem nulla non aperiam.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "f1cf9bb2-ccc4-3c8d-bed3-de03d0a2a627"
+        },
+        {
+            "name": "Easton Fay DVM",
+            "description": "Delectus maiores quia tempore illum. Quia vel occaecati commodi eveniet quasi quia. Voluptatem porro adipisci ratione et maiores blanditiis.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "8889cc02-1dc1-310e-b088-2cc72fe825ec"
+        },
+        {
+            "name": "Mrs. Leann Haag",
+            "description": "Asperiores animi rerum at velit amet. Dolorum sequi nostrum modi quas. Occaecati officia asperiores doloribus rerum.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "1609be64-ea68-3d47-a4c0-9a4d7ce9d39d"
+        },
+        {
+            "name": "Antwon Wisozk",
+            "description": "Nulla esse quos aliquam enim quisquam nisi aut. Animi praesentium nisi sed asperiores. Iure ut autem repudiandae ut architecto et aut. Consequatur quo labore quia.",
+            "lapse": 3,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "b368e8c1-f04b-34e1-aadb-9dc37d53f334"
+        },
+        {
+            "name": "Clinton Wuckert DDS",
+            "description": "Dolor ipsam ab nihil labore quia quo aut. Omnis dolor corrupti vero sed. Nobis enim quam eos. Dolore exercitationem et vel molestiae. Enim et accusantium numquam et at pariatur delectus.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "407c58ec-5af2-3a8a-9bb3-10db3a3a4efd"
+        },
+        {
+            "name": "Luella White",
+            "description": "Architecto tempore est possimus aut. Dolor molestiae assumenda sed sed beatae. Amet non nulla at hic quo tempore.",
+            "lapse": 3,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "97c3e6c3-bd7e-384b-bb9a-0edecafa08a6"
+        },
+        {
+            "name": "Estella Yundt",
+            "description": "Non vel voluptatem porro aspernatur et perferendis ut. Exercitationem nulla similique sed quisquam officiis eos dolore nihil. Quis blanditiis culpa quis quod dolore.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "9b0f7a3c-2c39-3e5f-a7ca-2052d12f2071"
+        },
+        {
+            "name": "Dianna Collins",
+            "description": "Ea molestiae eveniet ea velit. Fugit harum autem excepturi error. Architecto laudantium tenetur dolorum sunt.",
+            "lapse": 3,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "4d26f9a7-18a2-3fce-abff-d7fb947b32f3"
+        },
+        {
+            "name": "Gretchen Huels",
+            "description": "Libero ut ut non consequatur enim animi repellat. Sit a delectus et aut non natus eos. Voluptate velit voluptates magni nesciunt rerum aut.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "d122aabf-522d-394d-9a63-9703985e19ac"
+        },
+        {
+            "name": "Abbey Ziemann",
+            "description": "Quidem est impedit eaque quaerat. Eos a enim tempora. Quas maiores harum sit aspernatur possimus. Reprehenderit error hic dolorum. Accusantium provident vel reprehenderit impedit nam.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "d8583163-4154-3f30-bccf-3ff78ed18ec6"
+        },
+        {
+            "name": "Craig Daniel",
+            "description": "Sunt quia dignissimos distinctio sunt rerum. Laboriosam earum pariatur est eveniet cumque. Excepturi consequuntur veniam qui quia.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "5ea92ee1-73f5-30ce-8ef2-e0035e99125b"
+        },
+        {
+            "name": "Dr. Martin Pfeffer",
+            "description": "Repudiandae maxime ad alias facilis ex ad. Accusantium ut cumque id ducimus maiores saepe. Dolore enim sit ut tempore culpa nesciunt.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "229a2097-3ce4-39d4-a086-a7f6deb84e2b"
+        },
+        {
+            "name": "Margie Rath",
+            "description": "Et ut quibusdam quis aperiam asperiores. Corporis rerum est animi numquam eius sit. Excepturi voluptatem hic aliquam sapiente ab et. Architecto et quo sunt sed sed et autem voluptates.",
+            "lapse": 3,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "496474c4-089a-3eda-b126-c341a2a256c5"
+        }
+    ],
+    "links": {
+        "first": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=1",
+        "last": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=80",
+        "prev": null,
+        "next": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 80,
+        "path": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses",
+        "per_page": 15,
+        "to": 15,
+        "total": 1197
+    }
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/licenses</code></p>
+<!-- END_216b70ae6b951611a7e6cc3852f2c539 -->
+<!-- START_f48ff9e97c68425ce1a660173061739e -->
+<h2>Store a newly created LICENSE in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/sysadmin/v1/licenses" \
+    -H "Accept: application/json" \
+    -d "lapse"="5184" \
+        -d "modules"="nisi" \
+        -d "units"="5184" \
+        -d "number_active_sessions"="5184" </code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses",
+    "method": "POST",
+    "data": {
+        "lapse": 5184,
+        "modules": "nisi",
+        "units": 5184,
+        "number_active_sessions": 5184
+    },
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sysadmin/v1/licenses</code></p>
+<h4>Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lapse</td>
+<td>integer</td>
+<td>required</td>
+</tr>
+<tr>
+<td>modules</td>
+<td>string</td>
+<td>required</td>
+</tr>
+<tr>
+<td>units</td>
+<td>integer</td>
+<td>required</td>
+</tr>
+<tr>
+<td>number_active_sessions</td>
+<td>integer</td>
+<td>required</td>
+</tr>
+</tbody>
+</table>
+<!-- END_f48ff9e97c68425ce1a660173061739e -->
+<!-- START_27f50b09b14a244a8401e6792795806e -->
+<h2>Display the specified LICENSE.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/licenses/{license}" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">{
+    "data": {
+        "name": null,
+        "description": null,
+        "lapse": null,
+        "modules": null,
+        "units": null,
+        "number_active_sessions": null,
+        "uuid": null,
+        "accounts": []
+    }
+}</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/licenses/{license}</code></p>
+<!-- END_27f50b09b14a244a8401e6792795806e -->
+<!-- START_f0460de1d101294c9f86e99a47302d9b -->
+<h2>Show the form for editing the specified LICENSE.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/licenses/{license}/edit" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}/edit",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">null</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/licenses/{license}/edit</code></p>
+<!-- END_f0460de1d101294c9f86e99a47302d9b -->
+<!-- START_2d1fada20eed91519f7d00ab9fe907e3 -->
+<h2>Update the specified LICENSE in storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X PUT "http://localhost:8000/api/sysadmin/v1/licenses/{license}" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}",
+    "method": "PUT",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>PUT api/sysadmin/v1/licenses/{license}</code></p>
+<p><code>PATCH api/sysadmin/v1/licenses/{license}</code></p>
+<!-- END_2d1fada20eed91519f7d00ab9fe907e3 -->
+<!-- START_d4bebbd83a3e2c56a655d375397dfc00 -->
+<h2>Remove the specified LICENSE from storage.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost:8000/api/sysadmin/v1/licenses/{license}" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE api/sysadmin/v1/licenses/{license}</code></p>
+<!-- END_d4bebbd83a3e2c56a655d375397dfc00 -->
+<h1>general</h1>
+<!-- START_7084e053f4b927ae0c7ffc5867badb3f -->
+<h2>Authorize a client to access the user&#039;s account.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/sysadmin/v1/oauth/token" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/oauth/token",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sysadmin/v1/oauth/token</code></p>
+<!-- END_7084e053f4b927ae0c7ffc5867badb3f -->
+<!-- START_84148dfb768a9ebe61fe354c57e5340d -->
+<h2>Get all of the authorized tokens for the authenticated user.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X GET -G "http://localhost:8000/api/sysadmin/v1/oauth/tokens" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/oauth/tokens",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<blockquote>
+<p>Example response:</p>
+</blockquote>
+<pre><code class="language-json">[]</code></pre>
+<h3>HTTP Request</h3>
+<p><code>GET api/sysadmin/v1/oauth/tokens</code></p>
+<!-- END_84148dfb768a9ebe61fe354c57e5340d -->
+<!-- START_5e89993ecd7409018cca8183e9f35f7f -->
+<h2>Delete the given token.</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X DELETE "http://localhost:8000/api/sysadmin/v1/oauth/tokens/{token_id}" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/oauth/tokens/{token_id}",
+    "method": "DELETE",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>DELETE api/sysadmin/v1/oauth/tokens/{token_id}</code></p>
+<!-- END_5e89993ecd7409018cca8183e9f35f7f -->
+<!-- START_0e2df59d65a129ac24ebe1f231165aff -->
+<h2>api/sysadmin/v1/login</h2>
+<blockquote>
+<p>Example request:</p>
+</blockquote>
+<pre><code class="language-bash">curl -X POST "http://localhost:8000/api/sysadmin/v1/login" \
+    -H "Accept: application/json"</code></pre>
+<pre><code class="language-javascript">var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/login",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});</code></pre>
+<h3>HTTP Request</h3>
+<p><code>POST api/sysadmin/v1/login</code></p>
+<!-- END_0e2df59d65a129ac24ebe1f231165aff -->
+      </div>
+      <div class="dark-box">
+                        <div class="lang-selector">
+                                    <a href="#" data-language-name="bash">bash</a>
+                                    <a href="#" data-language-name="javascript">javascript</a>
+                              </div>
+                </div>
+    </div>
+  </body>
+</html>
