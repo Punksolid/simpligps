@@ -31,7 +31,6 @@ class DevicesController extends Controller
     public function store(DeviceRequest $request)
     {
         $device = Device::create($request->all());
-
         return DeviceResource::make($device);
     }
 

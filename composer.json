@@ -20,7 +20,7 @@
     "maatwebsite/excel": "^2.1",
     "mpociot/laravel-apidoc-generator": "^2.0",
     "orchestra/tenanti": "~3.0",
-    "punksolid/laravel-wialon": "dev-master",
+    "punksolid/laravel-wialon": "dev-master@dev",
     "spatie/laravel-permission": "^2.12",
     "spatie/laravel-tags": "^2.0",
     "tymon/jwt-auth": "^1.0",
@@ -49,8 +49,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "Tests\\": "tests/",
-      "Punksolid\\Wialon\\": "punksolid/laravel-wialon/src"
+      "Tests\\": "tests/"
     }
   },
   "extra": {

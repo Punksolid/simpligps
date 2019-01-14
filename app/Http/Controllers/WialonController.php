@@ -6,7 +6,6 @@ use App\Http\Resources\WialonResourceResource;
 use App\Setting;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Resource;
-use Punksolid\Wialon\Wialon;
 
 class WialonController extends Controller
 {

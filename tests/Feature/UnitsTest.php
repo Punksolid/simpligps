@@ -54,7 +54,7 @@ class UnitsTest extends TestCase
 
     public function test_listar_resources_de_wialon()
     {
-
+        $this->withoutExceptionHandling();
         $call = $this->getJson("api/v1/wialon/resources");
 
         $call->assertSuccessful();
