@@ -19,7 +19,7 @@ Passport::routes(function ($router) {
 //    $router->forClients();
 });
 Route::group(["middleware" => ['api']], function ($router){
-    Route::post('login', 'AdminLoginController@login');
+    Route::post('login', 'Admin\AdminLoginController@login');
 });
 
 Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {

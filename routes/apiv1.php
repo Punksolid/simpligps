@@ -31,10 +31,10 @@ Route::group(["middleware" => [
     });
 
 //Devices
-    Route::resource("devices", "DevicesController");
+    Route::resource("devices", "DevicesController")->except(['create','edit']);
     Route::get("contacts/filter_tags", "ContactController@filterTags");
     Route::post("contacts/{contact}/tags", "ContactController@attachtags");
-    Route::resource("contacts", "ContactController");
+    Route::resource("contacts", "ContactController")->except(['create','edit']);
 
     Route::resource("users", "UsersController", ["only" => ["store", "index"]]);
 //PERMISSIONS

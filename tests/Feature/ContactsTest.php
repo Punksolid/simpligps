@@ -140,4 +140,23 @@ class ContactsTest extends TestCase
         ]);
         $call->assertStatus(200);
     }
+
+    public function test_muestra_listado_vacio() {
+        $this->withoutExceptionHandling();
+
+        $call = $this->actingAs($this->user)
+            ->getJson('api/v1/contacts');
+
+        $call->assertSuccessful();
+    }
+
+    public function test_llamar_detalles_de_un_solo_contacto()
+    {
+        $this->withoutExceptionHandling();
+
+        $call = $this->actingAs($this->user)
+            ->getJson('api/v1/contacts/910923');
+
+        $call->assertSuccessful();
+    }
 }

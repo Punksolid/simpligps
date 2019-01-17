@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Account;
+use App\Contact;
 use App\License;
 use App\Sysadmin;
 use App\User;
@@ -45,6 +46,7 @@ class GenerateDocumentation extends Command
         $this->warn('USER DOCUMENTATION');
 
         $user = factory(User::class)->create();
+        $contact = factory(Contact::class)->create();
         Auth::setUser($user);
 
         $this->call(
@@ -58,7 +60,7 @@ class GenerateDocumentation extends Command
                 '--actAsUserId' => $user->id,
                 '--middleware' => "auth:api",
                 '--output' => 'storage/app/public/docs/user/',
-//                '--bindings' => "activity,$activity->id|team,$team->id"
+                '--bindings' => "contact,$contact->id"
 
             ]);
 

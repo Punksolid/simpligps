@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use App\Sysadmin;
 use Illuminate\Http\Request;
