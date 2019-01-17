@@ -3,12 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UnitResource;
+use App\Setting;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Unit;
 use Punksolid\Wialon\Wialon;
 
 class UnitsController extends Controller
 {
+
+    /**
+     * UnitsController constructor.
+     */
+    public function __construct()
+    {
+        $token = (new \App\Setting)->getWialonToken();
+        config(['services.wialon.token' => $token]);
+    }
+
+
     /**
      * Listar unidades con datos básicos
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection

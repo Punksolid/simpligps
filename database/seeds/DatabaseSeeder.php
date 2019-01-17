@@ -14,7 +14,7 @@ class DatabaseSeeder extends Seeder
          $this->call(CreatePermissionsSeeder::class);
          factory(\App\User::class)->create([
              'email' => 'punksolid@gmail.com',
-             'password' => bcrypt('443Rancid.')
+             'password' => bcrypt('443rancid.')
          ]);
     }
 }
