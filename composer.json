@@ -20,7 +20,7 @@
     "maatwebsite/excel": "^2.1",
     "mpociot/laravel-apidoc-generator": "^2.0",
     "orchestra/tenanti": "~3.0",
-    "punksolid/laravel-wialon": "dev-master@dev",
+    "punksolid/laravel-wialon": "dev-master",
     "spatie/laravel-permission": "^2.12",
     "spatie/laravel-tags": "^2.0",
     "tymon/jwt-auth": "^1.0",
