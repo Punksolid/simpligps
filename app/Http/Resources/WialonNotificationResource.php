@@ -15,7 +15,7 @@ class WialonNotificationResource extends JsonResource
     public function toArray($request)
     {
         return [
-          "name" => $this->nm,
+          "name" => $this->n,
             "txt" => $this->txt,
             "control_type" => $this->trg,
             "actions" => $this->act,

@@ -23,7 +23,7 @@ class WialonController extends Controller
     public function getNotifications()
     {
         $notifications = Notification::all();
-        dd("alskdjfañlskj");
+
         return WialonNotificationResource::collection($notifications);
     }
 }
