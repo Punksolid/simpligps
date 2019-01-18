@@ -36,7 +36,7 @@ Route::group(["middleware" => [
     Route::post("contacts/{contact}/tags", "ContactController@attachtags");
     Route::resource("contacts", "ContactController")->except(['create','edit']);
 
-    Route::resource("users", "UsersController", ["only" => ["store", "index"]]);
+    Route::resource("users", "UsersController", ["only" => ["store", "index","destroy"]]);
 //PERMISSIONS
     Route::put("permissions/user_sync/{user}", "PermissionController@userSync");
     Route::resource("permissions", "PermissionController", ["only" => ["index"]]);
@@ -91,6 +91,7 @@ Route::group(["middleware" => [
 
     //WIALON SECTION
     Route::get('wialon/resources', "WialonController@getResources");
+    Route::get('wialon/notifications', "WialonController@getNotifications");
 });
 
 

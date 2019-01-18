@@ -87,6 +87,10 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (User::find($id)->delete()) {
+            return response(["data" => "Deleted user"]);
+        }
+
+        return response(["data" => "Error"])->setStatusCode(500);
     }
 }

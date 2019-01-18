@@ -96,4 +96,14 @@ class NotificationsTest extends TestCase
             'name' => $geofence_name
         ]);
     }
+
+    public function test_get_wialon_notifications()
+    {
+        $call = $this->getJson("api/v1/wialon/notifications");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            "data"
+        ]);
+    }
 }

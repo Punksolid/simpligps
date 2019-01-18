@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\WialonNotificationResource;
 use App\Http\Resources\WialonResourceResource;
 use App\Setting;
 use Illuminate\Http\Request;
+use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 
 class WialonController extends Controller
@@ -16,5 +18,12 @@ class WialonController extends Controller
         $resources = Resource::all();
 
         return WialonResourceResource::collection($resources);
+    }
+
+    public function getNotifications()
+    {
+        $notifications = Notification::all();
+        dd("alskdjfañlskj");
+        return WialonNotificationResource::collection($notifications);
     }
 }
