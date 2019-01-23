@@ -11,6 +11,12 @@ use Punksolid\Wialon\Resource;
 
 class WialonController extends Controller
 {
+    public function __construct()
+    {
+        $token = (new \App\Setting)->getWialonToken();
+        config(['services.wialon.token' => $token]);
+    }
+
     public function getResources()
     {
         $setting_wialon_key = optional(Setting::where('key', 'wialon_key')->first())->value;

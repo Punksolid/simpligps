@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\NotificationTypeRequest;
 use App\Notifications\DynamicNotification;
+use App\Notifications\WialonWebhookNotification;
 use App\NotificationType;
 use App\User;
 use Faker\Factory;
@@ -107,5 +108,12 @@ class NotificationTypeController extends Controller
         $api = new Wialon();
 
         return $api;
+    }
+
+    public function webhookAlert(Request $request)
+    {
+        $notification_type = \factory(NotificationType::class)->create();
+        \Notification::send(User::all(), new WialonWebhookNotification());
+        return \response()->json('ok');
     }
 }

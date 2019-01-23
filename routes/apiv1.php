@@ -19,6 +19,9 @@ Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/change', 'UsersController@changePassword');
 
+//@todo proteger con autenticacion
+Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
+
 Route::group(["middleware" => [
     "auth:api",
 //    "limit_simoultaneous_access",
@@ -92,6 +95,9 @@ Route::group(["middleware" => [
     //WIALON SECTION
     Route::get('wialon/resources', "WialonController@getResources");
     Route::get('wialon/notifications', "WialonController@getNotifications");
+
+    //Laravel Normal Notifications Access
+    Route::get('me/notifications', "MeController@getNotifications");
 });
 
 

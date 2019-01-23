@@ -2,27 +2,23 @@
 
 namespace App\Notifications;
 
-use App\NotificationType;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
-class DynamicNotification extends Notification
+class WialonWebhookNotification extends Notification
 {
     use Queueable;
-
-    public $alias;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(NotificationType $notification_type)
+    public function __construct()
     {
-       $this->alias = $notification_type->alias;
-       $this->active = $notification_type->active;
+        //
     }
 
     /**
@@ -33,11 +29,7 @@ class DynamicNotification extends Notification
      */
     public function via($notifiable)
     {
-
-        if ($this->active){
-            return ['mail',"database"];
-        }
-        return null;
+        return ['database'];
     }
 
     /**
@@ -49,9 +41,9 @@ class DynamicNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line("Notificación dinamica ($this->alias)")
-                    ->action('Atender', url('/'))
-                    ->line('Notificación dinamica');
+                    ->line('The introduction to the notification.')
+                    ->action('Notification Action', url('/'))
+                    ->line('Thank you for using our application!');
     }
 
     /**
@@ -63,7 +55,7 @@ class DynamicNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            "message" => "Notificación dinamica ($this->alias)"
+            "message" => "URGENTE! Atiende el viaje"
         ];
     }
 }

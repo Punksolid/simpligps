@@ -7,10 +7,11 @@ use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Notifications\DynamicNotification;
 use App\NotificationType;
 use App\User;
-use Tests\TestCase;
+
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Tests\TestCase;
 
 class NotificationsTest extends TestCase
 {
@@ -106,4 +107,22 @@ class NotificationsTest extends TestCase
             "data"
         ]);
     }
+
+    public function test_get_wialon_alert_webhook()
+    {
+        Notification::fake();
+
+        $metadata = [
+            'key_bla' => 'value_bla'
+        ];
+        $call = $this->getJson("api/v1/webhook/alert", $metadata);
+
+        Notification::assertSentTo(
+            [$this->user], DynamicNotification::class
+        );
+
+        $call->assertSuccessful();
+    }
+
+
 }
