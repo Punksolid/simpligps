@@ -95,6 +95,9 @@ Route::group(["middleware" => [
     //WIALON SECTION
     Route::get('wialon/resources', "WialonController@getResources");
     Route::get('wialon/notifications', "WialonController@getNotifications");
+    Route::get('wialon/units', "WialonController@getUnits");
+    Route::post('wialon/notificatons', 'WialonController@store');
+
 
     //Laravel Normal Notifications Access
     Route::get('me/notifications', "MeController@getNotifications");

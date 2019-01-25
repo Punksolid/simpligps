@@ -98,6 +98,19 @@ class NotificationsTest extends TestCase
         ]);
     }
 
+
+    public function test_crear_wialon_notifications()
+    {
+        $call = $this->postJson("api/v1/wialon/notifications",[
+            "name" => $this->faker->name
+            ]);
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            "data"
+        ]);
+    }
+
     public function test_get_wialon_notifications()
     {
         $call = $this->getJson("api/v1/wialon/notifications");
