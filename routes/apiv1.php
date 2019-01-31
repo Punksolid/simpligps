@@ -30,8 +30,12 @@ Route::group(["middleware" => [
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     Route::get("/me", "MeController@meInfo");
     Route::get('user/info', function(){
-        return response(['name' => auth()->user()->email, 'roles' => ['admin']]);
-    });
+        return response([
+            'id' => auth()->user()->id,
+            'name' => auth()->user()->email,
+            'roles' => ['admin']
+        ]);
+    }); // @TODO Put it in a controller and merge /me and /user/info
 
 //Devices
     Route::resource("devices", "DevicesController")->except(['create','edit']);
@@ -96,7 +100,7 @@ Route::group(["middleware" => [
     Route::get('wialon/resources', "WialonController@getResources");
     Route::get('wialon/notifications', "WialonController@getNotifications");
     Route::get('wialon/units', "WialonController@getUnits");
-    Route::post('wialon/notificatons', 'WialonController@store');
+    Route::post('wialon/notifications', 'WialonController@store');
 
 
     //Laravel Normal Notifications Access

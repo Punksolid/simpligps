@@ -21,7 +21,7 @@ class UnitsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $call = $this->getJson("api/v1/units");
-
+        
         $call->assertJsonStructure([
             "data" => [
                 "*" => [

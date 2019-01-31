@@ -112,8 +112,11 @@ class NotificationTypeController extends Controller
 
     public function webhookAlert(Request $request)
     {
-        $notification_type = \factory(NotificationType::class)->create();
+
+//        $notification_type = \factory(NotificationType::class)->create();
+
         \Notification::send(User::all(), new WialonWebhookNotification());
+
         return \response()->json('ok');
     }
 }

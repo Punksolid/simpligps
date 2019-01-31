@@ -22,10 +22,11 @@ class WialonController extends Controller
 
     public function getResources()
     {
-        $setting_wialon_key = optional(Setting::where('key', 'wialon_key')->first())->value;
 
-        $resources = Resource::all();
+        $resources = \Cache::remember('resources', 5, function () {
+            return $resources = Resource::all();
 
+        });
         return WialonResourceResource::collection($resources);
     }
 
@@ -44,17 +45,31 @@ class WialonController extends Controller
         return WialonUnitResource::collection($units);
     }
 
+    /**
+     * Create Wialon Notification
+     * @param Request $request
+     * @return WialonNotificationResource|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Punksolid\Wialon\WialonErrorException
+     */
     public function store(Request $request)
     {
+
         $validatedData = $request->validate([
             'name' => 'required|max:40',
-            'units.*' => 'required|integer'
+            'units.*' => 'required|integer',
+            'control_type' => 'required',
+            'resource' => 'required'
         ]);
 
-        $resource = Resource::all()->first();
-        $control_type = new ControlType('panic_button');
+        $resource = Resource::find($validatedData['resource']);
+        $control_type = new ControlType($validatedData['control_type']);
+        $units = Unit::findMany($validatedData['units']);
+        $action = new Notification\Action('push_messages', [
+            "url" => url('api/v1/webhook/alert')
+        ]);
 
-        $notification = Notification::make($resource,$control_type, $request->name);
+
+        $notification = Notification::make($resource, $units, $control_type, $request->name, $action);
 
         return WialonNotificationResource::make($notification);
     }

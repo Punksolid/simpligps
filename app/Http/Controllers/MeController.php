@@ -19,7 +19,10 @@ class MeController extends Controller
         return UsersResource::make(auth()->user());
     }
 
-
+    /**
+     * Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function getNotifications()
     {
         $notifications = auth()->user()->notifications;

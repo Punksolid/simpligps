@@ -39,7 +39,7 @@ class UnitsController extends Controller
      */
     public function listUnitsLocalization()
     {
-        $units = (new Wialon())->listUnits();
+        $units = Unit::all();
 
         return UnitResource::collection($units);
     }
