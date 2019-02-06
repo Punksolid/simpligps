@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Punksolid\Wialon\Unit;
 use Punksolid\Wialon\Wialon;
 
+/**
+ * Class UnitsController
+ * @package App\Http\Controllers
+ * @resource Unit
+ */
 class UnitsController extends Controller
 {
 

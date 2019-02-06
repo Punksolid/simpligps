@@ -12,6 +12,11 @@ use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 
+/**
+ * Class WialonController
+ * @package App\Http\Controllers
+ * @resource Wialon
+ */
 class WialonController extends Controller
 {
     public function __construct()

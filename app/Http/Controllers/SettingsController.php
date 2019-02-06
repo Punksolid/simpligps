@@ -6,6 +6,11 @@ use App\Http\Resources\SettingsResource;
 use App\Setting;
 use Illuminate\Http\Request;
 
+/**
+ * Class SettingsController
+ * @package App\Http\Controllers
+ * @resource Settings
+ */
 class SettingsController extends Controller
 {
 

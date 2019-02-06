@@ -43,7 +43,7 @@ Route::group(["middleware" => [
     Route::post("contacts/{contact}/tags", "ContactController@attachtags");
     Route::resource("contacts", "ContactController")->except(['create','edit']);
 
-    Route::resource("users", "UsersController", ["only" => ["store", "index","destroy"]]);
+    Route::resource("users", "UsersController", ["only" => ["store", "index","update", "destroy"]]);
 //PERMISSIONS
     Route::put("permissions/user_sync/{user}", "PermissionController@userSync");
     Route::resource("permissions", "PermissionController", ["only" => ["index"]]);

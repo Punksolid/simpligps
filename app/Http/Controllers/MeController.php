@@ -7,6 +7,11 @@ use App\Http\Resources\UsersResource;
 use App\User;
 use Illuminate\Http\Request;
 
+/**
+ * Class MeController
+ * @package App\Http\Controllers
+ * @resource Me
+ */
 class MeController extends Controller
 {
     /**

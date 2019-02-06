@@ -74,9 +74,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        $user->password = bcrypt($request->password);
+        $user->save();
+        $user->profile()->save(new Profile($request->all()));
+
+        return UsersResource::make($user->fresh());
     }
 
     /**

@@ -11,6 +11,7 @@ use Faker\Factory;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Geofence;
+use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Wialon;
 
 class NotificationTypeController extends Controller
@@ -18,7 +19,7 @@ class NotificationTypeController extends Controller
 
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created NotificationType in storage.
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
@@ -50,7 +51,7 @@ class NotificationTypeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified NotificationType from storage.
      *
      * @param  \App\NotificationType $notificationType
      * @return \Illuminate\Http\Response
@@ -105,9 +106,7 @@ class NotificationTypeController extends Controller
 
     public function getGeofences()
     {
-        $api = new Wialon();
 
-        return $api;
     }
 
     public function webhookAlert(Request $request)
@@ -118,5 +117,14 @@ class NotificationTypeController extends Controller
         \Notification::send(User::all(), new WialonWebhookNotification());
 
         return \response()->json('ok');
+    }
+
+    public function destroyWialonNotification($notification_id)
+    {
+        $notification = Notification::find($notification_id);
+
+        $notification->destroy();
+        
+        return \response()->json(['data' => "ok"]);
     }
 }

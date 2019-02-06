@@ -68,8 +68,8 @@ class User extends Authenticatable
         return $this->hasOne(Profile::class, "user_id")
             ->withDefault([
                 "name" => "default",
-                "lastname" => "default",
-                "username" => "defaultx"
+                "lastname" => "",
+                "username" => ""
             ]);
     }
 

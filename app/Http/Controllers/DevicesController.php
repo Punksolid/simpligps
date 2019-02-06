@@ -9,6 +9,11 @@ use App\Http\Resources\DeviceResource;
 use App\Point;
 use Illuminate\Http\Request;
 
+/**
+ * Class DevicesController
+ * @package App\Http\Controllers
+ * @resource Device
+ */
 class DevicesController extends Controller
 {
 

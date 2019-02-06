@@ -111,6 +111,14 @@ class NotificationsTest extends TestCase
         ]);
     }
 
+    public function test_destroy_wialon_notification()
+    {
+        $notification = \Punksolid\Wialon\Notification::all()->first();
+        $call = $this->deleteJson("api/v1/wialon/notifications/$notification->id");
+
+        $call->assertSuccessful();
+    }
+
     public function test_get_wialon_alert_webhook()
     {
         Notification::fake();
@@ -176,5 +184,6 @@ class NotificationsTest extends TestCase
             ]
         ]);
     }
+
 
 }
