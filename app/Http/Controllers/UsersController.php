@@ -18,12 +18,24 @@ class UsersController extends Controller
 {
     /**
      * Display a listing of the users.
-     *
+     * filtra usuarios por parametros enviados via get query parameters: "name","email","lastname","username"
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderByDesc("created_at")->paginate();
+        $query = User::query()->orderByDesc("created_at");
+        if ($request->hasAny(['email','name','lastname'])){
+            $query->where($request->all());
+        }
+        if ($request->hasAny(["lastname","username"])){
+
+            $query = $query->whereHas("profile",function ($query_profile) use($request){
+                $query_profile->where($request->all(["lastname","username"]));
+            },'or');
+        }
+
+        $users = $query->paginate();
+
         return UsersResource::collection($users);
     }
  

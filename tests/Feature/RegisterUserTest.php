@@ -48,8 +48,6 @@ class RegisterUserTest extends TestCase
         return $new_user;
     }
 
-
-
     public function test_enviar_reestablecimiento_de_contrasenha()
     {
         $user = factory(User::class)->create();
@@ -72,19 +70,5 @@ class RegisterUserTest extends TestCase
         $call->assertStatus(200);
     }
 
-    public function test_listar_usuarios()
-    {
-        $users = factory(User::class,2)->create();
-        $response = $this->getJson('/api/v1/users');
 
-        $response
-            ->assertJsonFragment([
-                "email" => $users->first()->email
-            ])
-            ->assertJsonFragment([
-                "email" => $users->last()->email
-            ])
-            ->assertStatus(200);
-
-    }
 }

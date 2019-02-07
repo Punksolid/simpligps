@@ -36,4 +36,60 @@ class UsersTest extends TestCase
         unset($new_data["password"]);
         $call->assertJsonFragment($new_data);
     }
+
+    public function test_listar_usuarios()
+    {
+        $users = factory(User::class,2)->create();
+        $response = $this->getJson('/api/v1/users');
+
+        $response
+            ->assertJsonFragment([
+                "email" => $users->first()->email
+            ])
+            ->assertJsonFragment([
+                "email" => $users->last()->email
+            ])
+            ->assertStatus(200);
+
+    }
+
+    public function test_buscar_usuario_por_email()
+    {
+        $this->withoutExceptionHandling();
+        $user_to_search = factory(User::class)->create();
+
+        $call = $this->getJson("api/v1/users?email=$user_to_search->email");
+
+        $call->assertJsonFragment([
+           "email" => $user_to_search->email
+        ]);
+
+        $user_to_search_2 = User::first();
+
+        $call = $this->getJson("api/v1/users?email=$user_to_search_2->email");
+
+        $call->assertJsonFragment([
+            "email" => $user_to_search_2->email
+        ]);
+    }
+
+    public function test_search_username()
+    {
+//        dd($profile = ["a" => "b"]);
+        $this->withoutExceptionHandling();
+        $user_to_search = factory(User::class)->create();
+        $user_to_search->profile()->create($profile = [
+            "lastname" => $this->faker->lastName,
+            "username" => $this->faker->userName
+        ]);
+        $user_to_search->with('profile')->get();
+
+        $call = $this->getJson("api/v1/users?username={$profile['username']}");
+
+        $call->assertJsonFragment([
+            "username" => $profile['username']
+        ]);
+
+
+    }
 }
