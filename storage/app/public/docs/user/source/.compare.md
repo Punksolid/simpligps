@@ -298,13 +298,22 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
+            "id": 8,
+            "name": "Polly Dietrich DDS",
+            "company": "Zulauf-Lynch",
+            "phone": "1-296-349-9414 x84898",
+            "email": "shauck@feest.com",
+            "address": "3303 Shakira Vista Apt. 431\nSouth Brittanyville, ID 40747-5240",
+            "created_at": "1 second ago"
+        },
+        {
             "id": 7,
             "name": "Mariano Pouros",
             "company": "Mueller, Hirthe and Block",
             "phone": "+1.829.551.9191",
             "email": "raphael.kohler@hotmail.com",
             "address": "6174 Hayes Ways\nLake Dan, GA 62635",
-            "created_at": "3 seconds ago"
+            "created_at": "10 hours ago"
         },
         {
             "id": 6,
@@ -313,7 +322,7 @@ $.ajax(settings).done(function (response) {
             "phone": "739-559-3028 x269",
             "email": "ramona.oberbrunner@gmail.com",
             "address": "5777 Estevan Plaza Suite 332\nGunnarview, NJ 22530",
-            "created_at": "3 hours ago"
+            "created_at": "14 hours ago"
         },
         {
             "id": 5,
@@ -322,7 +331,7 @@ $.ajax(settings).done(function (response) {
             "phone": "1-763-625-1103",
             "email": "nikolaus.coralie@langosh.com",
             "address": "341 Alan Motorway\nZiemeville, DE 01927",
-            "created_at": "3 hours ago"
+            "created_at": "14 hours ago"
         },
         {
             "id": 4,
@@ -331,7 +340,7 @@ $.ajax(settings).done(function (response) {
             "phone": "610.610.1862",
             "email": "hane.geovanny@eichmann.com",
             "address": "7914 Linda Mills Suite 210\nEwellbury, MT 44913",
-            "created_at": "3 hours ago"
+            "created_at": "14 hours ago"
         },
         {
             "id": 3,
@@ -358,7 +367,7 @@ $.ajax(settings).done(function (response) {
             "phone": "338-734-1624",
             "email": "glenda.bailey@ebert.net",
             "address": "28087 Ashly Run Apt. 647\nPort Eloiseton, VA 51673",
-            "created_at": "2 weeks ago"
+            "created_at": "3 weeks ago"
         }
     ],
     "links": {
@@ -373,8 +382,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/contacts\/filter_tags",
         "per_page": 15,
-        "to": 7,
-        "total": 7
+        "to": 8,
+        "total": 8
     }
 }
 ```
@@ -456,7 +465,7 @@ $.ajax(settings).done(function (response) {
             "phone": "338-734-1624",
             "email": "glenda.bailey@ebert.net",
             "address": "28087 Ashly Run Apt. 647\nPort Eloiseton, VA 51673",
-            "created_at": "2 weeks ago"
+            "created_at": "3 weeks ago"
         },
         {
             "id": 2,
@@ -483,7 +492,7 @@ $.ajax(settings).done(function (response) {
             "phone": "610.610.1862",
             "email": "hane.geovanny@eichmann.com",
             "address": "7914 Linda Mills Suite 210\nEwellbury, MT 44913",
-            "created_at": "3 hours ago"
+            "created_at": "14 hours ago"
         },
         {
             "id": 5,
@@ -492,7 +501,7 @@ $.ajax(settings).done(function (response) {
             "phone": "1-763-625-1103",
             "email": "nikolaus.coralie@langosh.com",
             "address": "341 Alan Motorway\nZiemeville, DE 01927",
-            "created_at": "3 hours ago"
+            "created_at": "14 hours ago"
         },
         {
             "id": 6,
@@ -501,7 +510,7 @@ $.ajax(settings).done(function (response) {
             "phone": "739-559-3028 x269",
             "email": "ramona.oberbrunner@gmail.com",
             "address": "5777 Estevan Plaza Suite 332\nGunnarview, NJ 22530",
-            "created_at": "3 hours ago"
+            "created_at": "14 hours ago"
         },
         {
             "id": 7,
@@ -510,7 +519,16 @@ $.ajax(settings).done(function (response) {
             "phone": "+1.829.551.9191",
             "email": "raphael.kohler@hotmail.com",
             "address": "6174 Hayes Ways\nLake Dan, GA 62635",
-            "created_at": "3 seconds ago"
+            "created_at": "10 hours ago"
+        },
+        {
+            "id": 8,
+            "name": "Polly Dietrich DDS",
+            "company": "Zulauf-Lynch",
+            "phone": "1-296-349-9414 x84898",
+            "email": "shauck@feest.com",
+            "address": "3303 Shakira Vista Apt. 431\nSouth Brittanyville, ID 40747-5240",
+            "created_at": "1 second ago"
         }
     ],
     "links": {
@@ -525,8 +543,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/contacts",
         "per_page": 15,
-        "to": 7,
-        "total": 7
+        "to": 8,
+        "total": 8
     }
 }
 ```
@@ -1553,10 +1571,10 @@ $.ajax(settings).done(function (response) {
 ```json
 {
     "data": {
-        "id": 275,
-        "name": "Dr. Lucious Durgan",
+        "id": 546,
+        "name": "Cynthia Ledner",
         "lastname": "",
-        "email": "autdeja.will@example.net",
+        "email": "amariela.lowe@example.org",
         "username": ""
     }
 }
@@ -2966,8 +2984,8 @@ $.ajax(settings).done(function (response) {
             "id": 17471332,
             "measure_units": 0,
             "position": {
-                "lat": 24.7902768218,
-                "lon": -107.404460051
+                "lat": 24.791863,
+                "lon": -107.404412
             }
         },
         {
@@ -3057,8 +3075,8 @@ $.ajax(settings).done(function (response) {
             "id": 17471332,
             "measure_units": 0,
             "position": {
-                "lat": 24.7902768218,
-                "lon": -107.404460051
+                "lat": 24.791863,
+                "lon": -107.404412
             }
         },
         {
@@ -3090,13 +3108,13 @@ $.ajax(settings).done(function (response) {
 <!-- END_2784cc932141defd94d1f43c872ca40c -->
 
 #User
-<!-- START_9b9936e5bc62f136bc41e777ce4ee24a -->
-## api/v1/password/change
+<!-- START_f17be99bbced26c1b06d05a3802f3018 -->
+## api/v1/me/change_password
 
 > Example request:
 
 ```bash
-curl -X POST "http://localhost:8000/api/v1/password/change" \
+curl -X POST "http://localhost:8000/api/v1/me/change_password" \
     -H "Accept: application/json"
 ```
 
@@ -3104,7 +3122,7 @@ curl -X POST "http://localhost:8000/api/v1/password/change" \
 var settings = {
     "async": true,
     "crossDomain": true,
-    "url": "http://localhost:8000/api/v1/password/change",
+    "url": "http://localhost:8000/api/v1/me/change_password",
     "method": "POST",
     "headers": {
         "accept": "application/json"
@@ -3118,10 +3136,10 @@ $.ajax(settings).done(function (response) {
 
 
 ### HTTP Request
-`POST api/v1/password/change`
+`POST api/v1/me/change_password`
 
 
-<!-- END_9b9936e5bc62f136bc41e777ce4ee24a -->
+<!-- END_f17be99bbced26c1b06d05a3802f3018 -->
 
 <!-- START_1aff981da377ba9a1bbc56ff8efaec0d -->
 ## Display a listing of the users.
@@ -3157,125 +3175,125 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "id": 275,
-            "name": "Dr. Lucious Durgan",
+            "id": 546,
+            "name": "Cynthia Ledner",
             "lastname": "",
-            "email": "autdeja.will@example.net",
+            "email": "amariela.lowe@example.org",
             "username": ""
         },
         {
-            "id": 271,
-            "name": "Dr. Dorothy Wisoky IV",
+            "id": 545,
+            "name": "Doris Koepp",
             "lastname": "",
-            "email": "culparaymundo.koch@example.org",
+            "email": "minusidell72@example.net",
             "username": ""
         },
         {
-            "id": 272,
-            "name": "Miss Nelda Dicki",
+            "id": 544,
+            "name": "Lamar Nitzsche",
             "lastname": "",
-            "email": "laboriosamdudley68@example.net",
+            "email": "quamjosue.hane@example.com",
             "username": ""
         },
         {
-            "id": 273,
-            "name": "Amir Hirthe",
+            "id": 542,
+            "name": "Mercedes Weber",
             "lastname": "",
-            "email": "vitaejoana.nicolas@example.org",
+            "email": "similiquepaige36@example.net",
             "username": ""
         },
         {
-            "id": 274,
-            "name": "Reva Tremblay MD",
-            "lastname": "Little",
-            "email": "illoulangworth@example.net",
-            "username": "samir.auer"
-        },
-        {
-            "id": 266,
-            "name": "Damion Weissnat",
+            "id": 543,
+            "name": "Dr. Maci Waelchi V",
             "lastname": "",
-            "email": "erroredaniel@example.com",
+            "email": "repellendusmurphy.sedrick@example.org",
             "username": ""
         },
         {
-            "id": 267,
-            "name": "Angelo Langworth",
-            "lastname": "Fahey",
-            "email": "una48@hotmail.com",
-            "username": "alvis.dubuque"
-        },
-        {
-            "id": 268,
-            "name": "Rahsaan Hand DDS",
+            "id": 540,
+            "name": "Maggie O'Connell",
             "lastname": "",
-            "email": "enimbecker.marian@example.com",
+            "email": "voluptatemlucius.leffler@example.org",
             "username": ""
         },
         {
-            "id": 269,
-            "name": "Mr. Dario Kuvalis V",
+            "id": 541,
+            "name": "Justyn Feest",
             "lastname": "",
-            "email": "consectetursyble44@example.net",
+            "email": "essefnolan@example.org",
             "username": ""
         },
         {
-            "id": 270,
-            "name": "Beryl Boehm III",
+            "id": 538,
+            "name": "Skye Pfannerstill IV",
             "lastname": "",
-            "email": "magnamhcruickshank@example.com",
+            "email": "voluptatemjaskolski.ayden@example.com",
             "username": ""
         },
         {
-            "id": 264,
-            "name": "Trisha Skiles PhD",
+            "id": 539,
+            "name": "Prof. Brennon Pouros V",
             "lastname": "",
-            "email": "verolelia34@example.com",
+            "email": "hickilback.willis@example.com",
             "username": ""
         },
         {
-            "id": 265,
-            "name": "Elmer Larson",
+            "id": 536,
+            "name": "Brigitte DuBuque",
             "lastname": "",
-            "email": "quidbeer@example.net",
+            "email": "modiwhitney.hane@example.org",
             "username": ""
         },
         {
-            "id": 262,
-            "name": "Vernie Windler",
+            "id": 537,
+            "name": "Frances Simonis",
             "lastname": "",
-            "email": "estmaddison83@example.com",
+            "email": "debitiscamylle23@example.com",
             "username": ""
         },
         {
-            "id": 263,
-            "name": "Kenyon Connelly",
-            "lastname": "Walsh",
-            "email": "consequaturkirlin.donna@example.net",
-            "username": "genevieve.toy"
+            "id": 534,
+            "name": "Prof. Colt Davis DDS",
+            "lastname": "",
+            "email": "nihiljerel.jacobi@example.com",
+            "username": ""
         },
         {
-            "id": 260,
-            "name": "Camden Jones",
+            "id": 535,
+            "name": "Rick Hettinger",
             "lastname": "",
-            "email": "culpakeely.eichmann@example.net",
+            "email": "errordavion27@example.net",
+            "username": ""
+        },
+        {
+            "id": 532,
+            "name": "Mr. Ford Leffler",
+            "lastname": "",
+            "email": "sitbobby81@example.org",
+            "username": ""
+        },
+        {
+            "id": 533,
+            "name": "Wilbert Block",
+            "lastname": "",
+            "email": "praesentiumsteuber.rahsaan@example.org",
             "username": ""
         }
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/users?page=1",
-        "last": "http:\/\/localhost\/api\/v1\/users?page=18",
+        "last": "http:\/\/localhost\/api\/v1\/users?page=29",
         "prev": null,
         "next": "http:\/\/localhost\/api\/v1\/users?page=2"
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 18,
+        "last_page": 29,
         "path": "http:\/\/localhost\/api\/v1\/users",
         "per_page": 15,
         "to": 15,
-        "total": 270
+        "total": 421
     }
 }
 ```
@@ -3876,6 +3894,39 @@ $.ajax(settings).done(function (response) {
 
 
 <!-- END_2ef1df3705c0d699701afe474d776f42 -->
+
+<!-- START_9b9936e5bc62f136bc41e777ce4ee24a -->
+## Reset the given user&#039;s password.
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/password/change" \
+    -H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/password/change",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST api/v1/password/change`
+
+
+<!-- END_9b9936e5bc62f136bc41e777ce4ee24a -->
 
 <!-- START_4cf94bc9f074886056957cc4894939fa -->
 ## api/v1/webhook/alert
