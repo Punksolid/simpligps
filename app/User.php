@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Observers\UserObserver;
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +13,7 @@ use Orchestra\Tenanti\Tenantor;
 use Spatie\Permission\Traits\HasRoles;
 
 //class User extends Authenticatable implements TenantProvider
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     use HasRoles, Notifiable, HasApiTokens;
 

@@ -58,6 +58,11 @@ class UsersController extends Controller
         return UsersResource::make($user->fresh());
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @deprecated para cambiar el password del usuario loggeado MeController@changePassword
+     */
     public function changePassword(Request $request)
     {
         $request->validate([

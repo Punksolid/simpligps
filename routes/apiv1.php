@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-Route::post('password/change', 'UsersController@changePassword');
+Route::post('password/change', 'Auth\ResetPasswordController@reset');
 
 //@todo proteger con autenticacion
 Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
@@ -29,6 +29,7 @@ Route::group(["middleware" => [
     \App\Http\Middleware\ProfilingTestMiddleware::class
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     Route::get("/me", "MeController@meInfo");
+    Route::post('/me/change_password', 'UsersController@changePassword');
     Route::get('user/info', function(){
         return response([
             'id' => auth()->user()->id,
