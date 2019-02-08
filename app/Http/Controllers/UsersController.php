@@ -18,12 +18,24 @@ class UsersController extends Controller
 {
     /**
      * Display a listing of the users.
-     *
+     * filtra usuarios por parametros enviados via get query parameters: "name","email","lastname","username"
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::orderByDesc("created_at")->paginate();
+        $query = User::query()->orderByDesc("created_at");
+        if ($request->hasAny(['email','name','lastname'])){
+            $query->where($request->all());
+        }
+        if ($request->hasAny(["lastname","username"])){
+
+            $query = $query->whereHas("profile",function ($query_profile) use($request){
+                $query_profile->where($request->all(["lastname","username"]));
+            },'or');
+        }
+
+        $users = $query->paginate();
+
         return UsersResource::collection($users);
     }
  
@@ -46,6 +58,11 @@ class UsersController extends Controller
         return UsersResource::make($user->fresh());
     }
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     * @deprecated para cambiar el password del usuario loggeado MeController@changePassword
+     */
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -74,9 +91,15 @@ class UsersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UserRequest $request, $id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->update($request->all());
+        $user->password = bcrypt($request->password);
+        $user->save();
+        $user->profile()->save(new Profile($request->all()));
+
+        return UsersResource::make($user->fresh());
     }
 
     /**
@@ -87,6 +110,10 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        //
+        if (User::find($id)->delete()) {
+            return response(["data" => "Deleted user"]);
+        }
+
+        return response(["data" => "Error"])->setStatusCode(500);
     }
 }

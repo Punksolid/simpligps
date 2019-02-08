@@ -7,6 +7,11 @@ use App\Trace;
 use App\Trip;
 use Illuminate\Http\Request;
 
+/**
+ * Class TraceController
+ * @package App\Http\Controllers
+ * @resource Trace
+ */
 class TraceController extends Controller
 {
     /**

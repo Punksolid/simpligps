@@ -12,5 +12,9 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
          $this->call(CreatePermissionsSeeder::class);
+         factory(\App\User::class)->create([
+             'email' => 'punksolid@gmail.com',
+             'password' => bcrypt('443rancid.')
+         ]);
     }
 }

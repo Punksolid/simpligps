@@ -4,6 +4,7 @@ namespace App\Notifications;
 
 use App\NotificationType;
 use Illuminate\Bus\Queueable;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -33,11 +34,8 @@ class DynamicNotification extends Notification
      */
     public function via($notifiable)
     {
-
-
         if ($this->active){
             return ['mail',"database"];
-
         }
         return null;
     }

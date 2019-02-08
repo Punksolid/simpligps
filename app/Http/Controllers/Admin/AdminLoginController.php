@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Providers\AuthServiceProvider;
 use App\Sysadmin;
 use Illuminate\Http\Request;
@@ -32,10 +33,10 @@ class AdminLoginController extends Controller
         $user = \Auth::guard("sysadmin")->user();
         $token = $auth->user()->createToken('sysadmin-api')->accessToken;
         return response([
-
-            "token" => $token,
-            "code" => 20000
-
+            "data" => [
+                "access_token" => $token,
+                "code" => 20000
+            ]
         ], 200);
     }
 

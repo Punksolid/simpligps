@@ -17,7 +17,10 @@ use Illuminate\Http\Request;
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
-Route::post('password/change', 'UsersController@changePassword');
+Route::post('password/change', 'Auth\ResetPasswordController@reset');
+
+//@todo proteger con autenticacion
+Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
 
 Route::group(["middleware" => [
     "auth:api",
@@ -26,17 +29,22 @@ Route::group(["middleware" => [
     \App\Http\Middleware\ProfilingTestMiddleware::class
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     Route::get("/me", "MeController@meInfo");
+    Route::post('/me/change_password', 'UsersController@changePassword');
     Route::get('user/info', function(){
-        return response(['name' => auth()->user()->email, 'roles' => ['admin']]);
-    });
+        return response([
+            'id' => auth()->user()->id,
+            'name' => auth()->user()->email,
+            'roles' => ['admin']
+        ]);
+    }); // @TODO Put it in a controller and merge /me and /user/info
 
 //Devices
-    Route::resource("devices", "DevicesController")->only("index", "store", "show", "destroy", "update");
+    Route::resource("devices", "DevicesController")->except(['create','edit']);
     Route::get("contacts/filter_tags", "ContactController@filterTags");
     Route::post("contacts/{contact}/tags", "ContactController@attachtags");
-    Route::resource("contacts", "ContactController")->only("index", "store", "show", "destroy", "update");
+    Route::resource("contacts", "ContactController")->except(['create','edit']);
 
-    Route::resource("users", "UsersController", ["only" => ["store", "index"]]);
+    Route::resource("users", "UsersController", ["only" => ["store", "index","update", "destroy"]]);
 //PERMISSIONS
     Route::put("permissions/user_sync/{user}", "PermissionController@userSync");
     Route::resource("permissions", "PermissionController", ["only" => ["index"]]);
@@ -62,6 +70,8 @@ Route::group(["middleware" => [
         "only" => ["store", "update", "show", "index", "destroy"]
     ]);
 
+    // GEOFENCES
+    Route::post('geofences', 'NotificationTypeController@createGeofence');
 //NOTIFICATIONS
     Route::get("notification_activate/{notification_type}", "NotificationTypeController@activate");
     Route::resource("notification_types", "NotificationTypeController", [
@@ -81,7 +91,24 @@ Route::group(["middleware" => [
 //Units
     Route::get("units", "UnitsController@listUnits");
     Route::get("units/with_localization", "UnitsController@listUnitsLocalization");
+
+    // Settings
+
+    Route::post("settings", "SettingsController@general");
+    Route::get("settings", "SettingsController@getSettings");
+
+    //WIALON SECTION
+    Route::get('wialon/resources', "WialonController@getResources");
+    Route::get('wialon/notifications', "WialonController@getNotifications");
+    Route::get('wialon/units', "WialonController@getUnits");
+    Route::post('wialon/notifications', 'WialonController@store');
+
+
+    //Laravel Normal Notifications Access
+    Route::get('me/notifications', "MeController@getNotifications");
 });
+
+
 
 Route::group([
     "prefix" => "external/",
@@ -97,5 +124,7 @@ Route::group([
 });
 
 //Contacts
+
+//SystemStatus
 
 

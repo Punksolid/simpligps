@@ -9,6 +9,11 @@ use App\Http\Resources\DeviceResource;
 use App\Point;
 use Illuminate\Http\Request;
 
+/**
+ * Class DevicesController
+ * @package App\Http\Controllers
+ * @resource Device
+ */
 class DevicesController extends Controller
 {
 
@@ -31,7 +36,6 @@ class DevicesController extends Controller
     public function store(DeviceRequest $request)
     {
         $device = Device::create($request->all());
-
         return DeviceResource::make($device);
     }
 

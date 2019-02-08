@@ -19,9 +19,9 @@ class UnitsTest extends TestCase
 
     public function test_listar_unidades()
     {
-
+        $this->withoutExceptionHandling();
         $call = $this->getJson("api/v1/units");
-
+        
         $call->assertJsonStructure([
             "data" => [
                 "*" => [
@@ -36,7 +36,7 @@ class UnitsTest extends TestCase
     public function test_listar_unidades_con_sus_ubicaciones()
     {
         $call = $this->getJson("api/v1/units/with_localization");
-        $call->dump();
+
         $call->assertJsonStructure([
             "data" => [
                 "*" => [
@@ -47,6 +47,21 @@ class UnitsTest extends TestCase
                         "lat",
                         "lon"
                     ]
+                ]
+            ]
+        ]);
+    }
+
+    public function test_listar_resources_de_wialon()
+    {
+        $this->withoutExceptionHandling();
+        $call = $this->getJson("api/v1/wialon/resources");
+
+        $call->assertSuccessful();
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    'name'
                 ]
             ]
         ]);

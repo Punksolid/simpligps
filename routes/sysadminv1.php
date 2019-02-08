@@ -19,7 +19,7 @@ Passport::routes(function ($router) {
 //    $router->forClients();
 });
 Route::group(["middleware" => ['api']], function ($router){
-    Route::post('login', 'AdminLoginController@login');
+    Route::post('login', 'Admin\AdminLoginController@login');
 });
 
 Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
@@ -39,6 +39,9 @@ Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
     Route::post("licenses/{license}/assign_to_account", "LicenseController@assignToAccount");
     Route::post("licenses/{license}/revoke", "LicenseController@revoke");
     Route::resource("licenses", "LicenseController")->except("create");
+
+    //Settings
+
 });
 
 //Accounts
