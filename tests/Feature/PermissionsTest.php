@@ -132,6 +132,6 @@ class PermissionsTest extends TestCase
                 ]
             ]);
 
-        $call->assertStatus(200);
+        $call->dump()->assertStatus(200);
     }
 }

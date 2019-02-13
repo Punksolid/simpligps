@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Device extends Model
 {
     protected $fillable = [
+        "name",
         "plate",
         "internal_number",
         "color",
@@ -16,12 +17,13 @@ class Device extends Model
         "wialon_id",
         "carrier_id",
         "group_id",
-
+        "reference_data",
         "bulk"
     ];
 
     protected $casts = [
-        "bulk" => "array"
+        "bulk" => "array",
+        "reference_data" => "array"
     ];
 
     /**
@@ -50,5 +52,10 @@ class Device extends Model
     {
         /** @var TYPE_NAME $this */
         return $this->hasMany(Point::class);
+    }
+
+    public function reference()
+    {
+
     }
 }

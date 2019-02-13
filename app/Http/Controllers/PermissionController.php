@@ -57,7 +57,9 @@ class PermissionController extends Controller
      */
     public function userSync(Request $request, User $user)
     {
+
         $user->syncPermissions($request->permissions);
+
         return response($user->getAllPermissions()->pluck("name"));
     }
 

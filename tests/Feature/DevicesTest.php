@@ -18,7 +18,8 @@ class DevicesTest extends TestCase
     public function deviceForm(): array
     {
         return  [
-            "internal_number" => $this->faker->randomNumber(6),
+            "name" => $this->faker->name. $this->faker->unique()->randomNumber(5),
+            "internal_number" => $this->faker->randomNumber(6).$this->faker->unique()->randomNumber(4),
             "gps" => $this->faker->company,
             "carrier_id" => factory(Carrier::class)->create()->id,
             "plate" => $this->faker->randomNumber(7)
@@ -46,7 +47,6 @@ class DevicesTest extends TestCase
 
         $call->assertJsonFragment($device);
 
-
         return $call->getOriginalContent();
     }
 
@@ -64,11 +64,22 @@ class DevicesTest extends TestCase
 
             ]
         ]);
+        $call->assertJsonStructure([
+            "data" => [
+                "internal_number",
+                "gps",
+                "carrier_id",
+                "plate",
+                "name",
+                "reference_data"
+            ]
+        ]);
 
     }
 
     public function test_listar_dispositivos_paginados()
     {
+        $this->withoutExceptionHandling();
         $call = $this->getJson("api/v1/devices");
         $call->assertJsonStructure([
             "data" => [
@@ -92,8 +103,9 @@ class DevicesTest extends TestCase
         $call->assertStatus(200);
     }
 
-    public function test_olvidar_dispotivio()
+    public function test_destruir_dispositivo()
     {
+        $this->withoutExceptionHandling();
         $device = $this->test_registrar_un_nuevo_dispositivo();
         $call = $this->deleteJson("api/v1/devices/$device->id");
 

@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateLocalizationRequest;
 use App\Http\Resources\DeviceResource;
 use App\Point;
 use Illuminate\Http\Request;
+use Punksolid\Wialon\Unit;
 
 /**
  * Class DevicesController
@@ -35,7 +36,12 @@ class DevicesController extends Controller
      */
     public function store(DeviceRequest $request)
     {
+
         $device = Device::create($request->all());
+        if ($device) {
+            $unit = Unit::make($request->name);
+            $device->update(["reference_data" => $unit]);
+        }
         return DeviceResource::make($device);
     }
 
@@ -67,6 +73,11 @@ class DevicesController extends Controller
      */
     public function destroy(Device $device)
     {
+        if (isset($device->reference_data["id"])){
+            $unit = Unit::find($device->reference_data["id"]);
+            dd($unit->destroy());
+//            $unit->destroy();
+        }
         if ($device->delete()){
             return response([
                 "message" => "Se ha eliminado el registro del dispositivo"
