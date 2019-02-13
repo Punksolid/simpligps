@@ -123,15 +123,32 @@ class PermissionsTest extends TestCase
 
     public function test_usuario_puede_editar_permisos_por_usuario()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         $call = $this
-            ->json("PUT", "/api/v1/permissions/user_sync/$user->id", [
+            ->putJson("/api/v1/permissions/user_sync/$user->id", [
                 "permissions" => [
                     "list-users",
                     "add-user"
                 ]
             ]);
-
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => []
+             ]
+        ]);
         $call->assertStatus(200);
+    }
+
+    public function test_ver_permisos_del_usuario_loggeado()
+    {
+        $user = factory(User::class)->create();
+        $call = $this->actingAs($user)->json("GET","/api/v1/me/permissions");
+
+        $call->dump()->assertJsonStructure([
+            "data" => [
+                "*" => []
+            ]
+        ]);
     }
 }
