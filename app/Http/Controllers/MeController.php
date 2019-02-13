@@ -34,9 +34,9 @@ class MeController extends Controller
         return InternalNotificationResource::collection($notifications);
     }
 
-/**
-* Cambia la contraseña del usuario loggeado, solo es necesario password y pasword_confirmation
-*/
+    /**
+     * Cambia la contraseña del usuario loggeado, solo es necesario password y pasword_confirmation
+     */
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -48,4 +48,14 @@ class MeController extends Controller
 
     }
 
+    /*
+     * @respons
+     */
+    public function permissions()
+    {
+        return response()->json([
+                "data" => auth()->user()->getAllPermissions()
+            ]
+        );
+    }
 }

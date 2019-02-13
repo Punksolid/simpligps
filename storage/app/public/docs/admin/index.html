@@ -96,7 +96,108 @@ $.ajax(settings).done(function (response) {
 <p>Example response:</p>
 </blockquote>
 <pre><code class="language-json">{
-    "data": []
+    "data": [
+        {
+            "id": 14,
+            "easyname": "et",
+            "uuid": "e109dbfb-50dd-3f69-a5c4-c7917c5072d1"
+        },
+        {
+            "id": 17,
+            "easyname": "aut",
+            "uuid": "feac6223-2b5e-3079-b8c5-177610df4998"
+        },
+        {
+            "id": 18,
+            "easyname": "odio",
+            "uuid": "5c36177d-5039-3b73-80d8-51e3d978ef61"
+        },
+        {
+            "id": 20,
+            "easyname": "ut",
+            "uuid": "078f4b3c-ffde-34c5-902b-4e06560fbd4e"
+        },
+        {
+            "id": 27,
+            "easyname": "accusantium",
+            "uuid": "1e6d8398-5989-31fd-bbb4-d80f44b882e2"
+        },
+        {
+            "id": 34,
+            "easyname": "ea",
+            "uuid": "dfbd334e-17c5-3757-907c-c34b0abf8847"
+        },
+        {
+            "id": 36,
+            "easyname": "vel",
+            "uuid": "ecd20fed-2156-3f57-b480-6efedd09d6da"
+        },
+        {
+            "id": 37,
+            "easyname": "ut",
+            "uuid": "6bd0487a-417e-3b7a-a4b7-e10a449b4fa3"
+        },
+        {
+            "id": 38,
+            "easyname": "neque",
+            "uuid": "9cde5099-1791-374e-9f6c-10b586a622e4"
+        },
+        {
+            "id": 40,
+            "easyname": "esse",
+            "uuid": "37fef68e-d177-3941-8578-5b6fb05cf490"
+        },
+        {
+            "id": 50,
+            "easyname": "expedita",
+            "uuid": "0ceeba6b-139b-35b1-a6e8-d138388c16c1"
+        },
+        {
+            "id": 52,
+            "easyname": "quaerat",
+            "uuid": "d7f584ef-cfce-35a2-831a-57cbe54f2faa"
+        },
+        {
+            "id": 53,
+            "easyname": "excepturi",
+            "uuid": "ccacf521-3ba1-3b69-84eb-e06e71a91430"
+        },
+        {
+            "id": 54,
+            "easyname": "quia",
+            "uuid": "f1f7c545-3490-3753-8ee4-1cfa2782f8b9"
+        },
+        {
+            "id": 56,
+            "easyname": "rerum",
+            "uuid": "0447232c-71bb-3eb9-a61a-71c1719ecca5"
+        },
+        {
+            "id": 66,
+            "easyname": "unde",
+            "uuid": "e37753dc-ba3a-3964-b328-8ac2d0d023b8"
+        },
+        {
+            "id": 68,
+            "easyname": "accusamus",
+            "uuid": "2eca0bd4-02c8-3373-af09-5affddcdf560"
+        },
+        {
+            "id": 69,
+            "easyname": "provident",
+            "uuid": "da11adcb-af09-39b2-9d77-d8c3606f4694"
+        },
+        {
+            "id": 70,
+            "easyname": "voluptas",
+            "uuid": "87a74919-5cd8-333e-81b2-89bde0f18ff0"
+        },
+        {
+            "id": 72,
+            "easyname": "aut",
+            "uuid": "d36c0a09-8cd3-3678-845b-425441480340"
+        }
+    ]
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/sysadmin/v1/accounts/active_accounts</code></p>
@@ -261,7 +362,7 @@ $.ajax(settings).done(function (response) {
 <p>Example response:</p>
 </blockquote>
 <pre><code class="language-json">{
-    "data": 10
+    "data": 75
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/sysadmin/v1/dashboard/accounts</code></p>
@@ -427,22 +528,67 @@ $.ajax(settings).done(function (response) {
             "units": 10,
             "number_active_sessions": 10,
             "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
+        },
+        {
+            "name": "Dillon Powlowski I",
+            "description": "Aut magni et explicabo sed dolorum.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "107696bd-d999-3052-ade1-424c1ef72170"
+        },
+        {
+            "name": "Junius Beahan",
+            "description": "Maiores culpa velit nihil.",
+            "lapse": 3,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "a3028808-d08a-3764-ad2d-8f95b93ea468"
+        },
+        {
+            "name": "Prof. Chelsey Stehr I",
+            "description": "Sed illo et at eum maxime.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "82eb8ba6-9eb6-3df2-9090-5f329f1d2aae"
+        },
+        {
+            "name": "personalizado",
+            "description": "textotextotext",
+            "lapse": 32,
+            "modules": "monitoring",
+            "units": 265,
+            "number_active_sessions": 32,
+            "uuid": "c75a3f0c-27c9-4cfc-a5be-b23eafa2c073"
+        },
+        {
+            "name": "Ms. Angela McGlynn",
+            "description": "Iure reiciendis odio laudantium numquam officia.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "be0b8ede-1ca8-3bff-b30c-6f9ad805b484"
         }
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=1",
-        "last": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=1",
+        "last": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=4",
         "prev": null,
-        "next": null
+        "next": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=2"
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 1,
+        "last_page": 4,
         "path": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses",
         "per_page": 15,
-        "to": 10,
-        "total": 10
+        "to": 15,
+        "total": 49
     }
 }</code></pre>
 <h3>HTTP Request</h3>

@@ -17,7 +17,7 @@ class User extends Authenticatable implements CanResetPassword
 {
     use HasRoles, Notifiable, HasApiTokens;
 
-    protected $guard_name = 'web';
+    protected $guard_name = 'api'; // changed from web to api bcz permissions sync using default
     /**
      * The attributes that are mass assignable.
      *

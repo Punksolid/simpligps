@@ -13,11 +13,11 @@ class CreatePermissionsSeeder extends Seeder
      */
     public function run()
     {
+//        $permissions = [
+//            "list-users",
+//            "add-user"
+//        ];
         $permissions = [
-            "list-users",
-            "add-user"
-        ];
-        $permissions_routes = [
             "POST|api/v1/login",
             "GET|api/v1/me",
             "POST|api/v1/password/change",
