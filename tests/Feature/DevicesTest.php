@@ -7,6 +7,7 @@ use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\User;
+use Punksolid\Wialon\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -152,5 +153,29 @@ class DevicesTest extends TestCase
         $call->assertStatus(200);
     }
 
+    public function test_ligar_unidad_wialon_a_device()
+    {
+
+        $unit = Unit::all()->first();
+        $device = $this->test_registrar_un_nuevo_dispositivo();
+
+        $call = $this->postJson("api/v1/devices/{$device->id}/link_unit",[
+           "unit_id" => $unit->id
+        ]);
+
+        $call->assertJsonStructure([
+            "data" => [
+                "name",
+                "reference_data" => [
+                    "id",
+                    "nm"
+                ]
+            ]
+        ]);
+        $call->assertJsonFragment([
+            "nm" => $unit->nm
+        ]);
+
+    }
 
 }

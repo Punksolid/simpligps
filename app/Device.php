@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Punksolid\Wialon\Unit;
 
 class Device extends Model
 {
@@ -54,8 +55,14 @@ class Device extends Model
         return $this->hasMany(Point::class);
     }
 
-    public function reference()
+    /**
+     * Liga a una unidad de wialon
+     * @param Unit $unit
+     * @return bool
+     */
+    public function linkUnit(Unit $unit):bool
     {
+        return (bool)$this->update(["reference_data" => $unit]);
 
     }
 }
