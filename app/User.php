@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\PasswordResetRequest;
 use App\Observers\UserObserver;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Support\Collection;
@@ -121,5 +122,16 @@ class User extends Authenticatable implements CanResetPassword
         });
 
         return $colleagues;
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new PasswordResetRequest($token));
     }
 }
