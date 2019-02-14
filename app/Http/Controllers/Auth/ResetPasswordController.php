@@ -45,40 +45,56 @@ class ResetPasswordController extends Controller
     /**
      * Reset the given user's password.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function reset(Request $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string|confirmed',
-            'token' => 'required|string'
-        ]);
-        $passwordReset = PasswordReset::where([
-            ['token', $request->token],
-            ['email', $request->email]
-        ])->first();
-        if (!$passwordReset)
-            return response()->json([
-                'message' => 'This password reset token is invalid.'
-            ], 404);
-        $user = User::where('email', $passwordReset->email)->first();
-        if (!$user)
-            return response()->json([
-                'message' => "We can't find a user with that e-mail address."
-            ], 404);
-        $user->password = bcrypt($request->password);
-        $user->save();
+        $request->validate($this->rules(), $this->validationErrorMessages());
+        // Here we will attempt to reset the user's password. If it is successful we
+        // will update the password on an actual user model and persist it to the
+        // database. Otherwise we will parse the error and return the response.
+        $response = $this->broker()->reset(
+            $this->credentials($request), function ($user, $password) {
+            $this->resetPassword($user, $password);
+        }
+        );
 
-        \DB::table('password_resets')->where([
-            ['token', $request->token],
-            ['email', $request->email]])
-            ->delete();
+        // If the password was successfully reset, we will redirect the user back to
+        // the application's home authenticated view. If there is an error we can
+        // redirect them back to where they came from with their error message.
+        return $response == Password::PASSWORD_RESET
+            ? $this->sendResetResponse($request, $response)
+            : $this->sendResetFailedResponse($request, $response);
+    }
 
-        $user->notify(new PasswordResetSuccess($passwordReset));
-        return response()->json($user);
+    /**
+     * Get the response for a successful password reset.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetResponse(Request $request, $response)
+    {
+        return response()->json(trans($response));
+    }
+
+    /**
+     * Get the response for a failed password reset.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  string  $response
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
+     */
+    protected function sendResetFailedResponse(Request $request, $response)
+    {
+        return response()->json(trans($response));
     }
 
 
+    protected function guard()
+    {
+        return \Auth::guard();
+    }
 }
