@@ -23,16 +23,25 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::query()->orderByDesc("created_at");
-        if ($request->hasAny(['email','name','lastname'])){
-            $query->where($request->all());
-        }
-        if ($request->hasAny(["lastname","username"])){
 
-            $query = $query->whereHas("profile",function ($query_profile) use($request){
-                $query_profile->where($request->all(["lastname","username"]));
-            },'or');
+        $query = User::query()->orderByDesc("created_at");
+        if ($request->filled('email')){
+            $query->where($request->all(['email']));
         }
+        if ($request->filled('name')){
+            $query->where($request->all(['name']));
+        }
+        if ($request->filled('lastname')){
+            $query = $query->whereHas("profile",function ($query_profile) use($request){
+                $query_profile->where($request->all(["lastname"]));
+            });
+        }
+        if ($request->filled('username')){
+            $query = $query->whereHas("profile",function ($query_profile) use($request){
+                $query_profile->where($request->all(["username"]));
+            });
+        }
+
 
         $users = $query->paginate();
 

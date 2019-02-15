@@ -75,7 +75,6 @@ class UsersTest extends TestCase
 
     public function test_search_username()
     {
-//        dd($profile = ["a" => "b"]);
         $this->withoutExceptionHandling();
         $user_to_search = factory(User::class)->create();
         $user_to_search->profile()->create($profile = [
@@ -90,6 +89,21 @@ class UsersTest extends TestCase
             "username" => $profile['username']
         ]);
 
+    }
+    public function test_search_user_with_two_variables()
+    {
+        $this->withoutExceptionHandling();
+        $user_to_search = factory(User::class)->create();
+        $user_to_search->profile()->create($profile = [
+            "lastname" => $this->faker->lastName,
+            "username" => $this->faker->userName
+        ]);
+        $user_to_search->with('profile')->get();
 
+        $call = $this->getJson("api/v1/users?name={$user_to_search['name']}&lastname={$profile['lastname']}");
+
+        $call->assertJsonFragment([
+            "username" => $profile['username']
+        ]);
     }
 }
