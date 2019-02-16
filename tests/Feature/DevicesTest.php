@@ -172,6 +172,7 @@ class DevicesTest extends TestCase
                 ]
             ]
         ]);
+
         $call->assertJsonFragment([
             "nm" => $unit->nm
         ]);
