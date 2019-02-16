@@ -39,7 +39,7 @@ class UsersTest extends TestCase
 
     public function test_listar_usuarios()
     {
-        $users = factory(User::class,2)->create();
+        $users = factory(User::class, 2)->create();
         $response = $this->getJson('/api/v1/users');
 
         $response
@@ -61,7 +61,7 @@ class UsersTest extends TestCase
         $call = $this->getJson("api/v1/users?email=$user_to_search->email");
 
         $call->assertJsonFragment([
-           "email" => $user_to_search->email
+            "email" => $user_to_search->email
         ]);
 
         $user_to_search_2 = User::first();
@@ -90,6 +90,7 @@ class UsersTest extends TestCase
         ]);
 
     }
+
     public function test_search_user_with_two_variables()
     {
         $this->withoutExceptionHandling();
