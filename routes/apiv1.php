@@ -40,6 +40,7 @@ Route::group(["middleware" => [
     }); // @TODO Put it in a controller and merge /me and /user/info
 
 //Devices
+    Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
     Route::resource("devices", "DevicesController")->except(['create','edit']);
     Route::get("contacts/filter_tags", "ContactController@filterTags");
     Route::post("contacts/{contact}/tags", "ContactController@attachtags");

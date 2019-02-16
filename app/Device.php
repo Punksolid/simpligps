@@ -3,10 +3,12 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Punksolid\Wialon\Unit;
 
 class Device extends Model
 {
     protected $fillable = [
+        "name",
         "plate",
         "internal_number",
         "color",
@@ -16,12 +18,13 @@ class Device extends Model
         "wialon_id",
         "carrier_id",
         "group_id",
-
+        "reference_data",
         "bulk"
     ];
 
     protected $casts = [
-        "bulk" => "array"
+        "bulk" => "array",
+        "reference_data" => "array"
     ];
 
     /**
@@ -50,5 +53,16 @@ class Device extends Model
     {
         /** @var TYPE_NAME $this */
         return $this->hasMany(Point::class);
+    }
+
+    /**
+     * Liga a una unidad de wialon
+     * @param Unit $unit
+     * @return bool
+     */
+    public function linkUnit(Unit $unit):bool
+    {
+        return (bool)$this->update(["reference_data" => $unit]);
+
     }
 }

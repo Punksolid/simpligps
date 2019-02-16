@@ -7,6 +7,7 @@ use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\User;
+use Punksolid\Wialon\Unit;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,8 +18,9 @@ class DevicesTest extends TestCase
 
     public function deviceForm(): array
     {
-        return [
-            "internal_number" => $this->faker->randomNumber(6),
+        return  [
+            "name" => $this->faker->name. $this->faker->unique()->randomNumber(5),
+            "internal_number" => $this->faker->randomNumber(6).$this->faker->unique()->randomNumber(4),
             "gps" => $this->faker->company,
             "carrier_id" => factory(Carrier::class)->create()->id,
             "plate" => $this->faker->randomNumber(7)
@@ -47,7 +49,6 @@ class DevicesTest extends TestCase
 
         $call->assertJsonFragment($device);
 
-
         return $call->getOriginalContent();
     }
 
@@ -65,11 +66,22 @@ class DevicesTest extends TestCase
 
             ]
         ]);
+        $call->assertJsonStructure([
+            "data" => [
+                "internal_number",
+                "gps",
+                "carrier_id",
+                "plate",
+                "name",
+                "reference_data"
+            ]
+        ]);
 
     }
 
     public function test_listar_dispositivos_paginados()
     {
+        $this->withoutExceptionHandling();
         $call = $this->getJson("api/v1/devices");
         $call->assertJsonStructure([
             "data" => [
@@ -93,8 +105,9 @@ class DevicesTest extends TestCase
         $call->assertStatus(200);
     }
 
-    public function test_olvidar_dispotivio()
+    public function test_destruir_dispositivo()
     {
+        $this->withoutExceptionHandling();
         $device = $this->test_registrar_un_nuevo_dispositivo();
         $call = $this->deleteJson("api/v1/devices/$device->id");
 
@@ -140,5 +153,30 @@ class DevicesTest extends TestCase
         $call->assertStatus(200);
     }
 
+    public function test_ligar_unidad_wialon_a_device()
+    {
+
+        $unit = Unit::all()->first();
+        $device = $this->test_registrar_un_nuevo_dispositivo();
+
+        $call = $this->postJson("api/v1/devices/{$device->id}/link_unit",[
+           "unit_id" => $unit->id
+        ]);
+
+        $call->assertJsonStructure([
+            "data" => [
+                "name",
+                "reference_data" => [
+                    "id",
+                    "nm"
+                ]
+            ]
+        ]);
+
+        $call->assertJsonFragment([
+            "nm" => $unit->nm
+        ]);
+
+    }
 
 }
