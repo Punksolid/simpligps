@@ -157,8 +157,8 @@ return [
 
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
 //        Punksolid\Wialon\WialonServiceProvider::class,
-        Orchestra\Tenanti\TenantiServiceProvider::class,
-        Orchestra\Tenanti\CommandServiceProvider::class,
+        Hyn\Tenancy\Providers\TenancyProvider::class,
+
     ],
 
     /*

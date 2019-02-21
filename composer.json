@@ -13,13 +13,13 @@
     "barryvdh/laravel-cors": "^0.11.2",
     "darkaonline/l5-swagger": "^5.7",
     "fideloper/proxy": "^4.0",
+    "hyn/multi-tenant": "^5.3",
     "laravel/cashier": "~7.0",
     "laravel/framework": "5.7.*",
     "laravel/passport": "^7.0",
     "laravel/tinker": "^1.0",
     "maatwebsite/excel": "^2.1",
     "mpociot/laravel-apidoc-generator": "^2.0",
-    "orchestra/tenanti": "~3.0",
     "punksolid/laravel-wialon": "dev-master",
     "pusher/pusher-php-server": "~3.0",
     "spatie/geocoder": "^3.4",
@@ -57,6 +57,7 @@
   "extra": {
     "laravel": {
       "dont-discover": [
+        "hyn/multi-tenant"
       ]
     }
   },
@@ -69,7 +70,7 @@
     ],
     "post-autoload-dump": [
       "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-      "@php artisan package:discover"
+      "@php artisan package:discover --ansi"
     ]
   },
   "config": {

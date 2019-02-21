@@ -47,14 +47,14 @@ class AccountsController extends Controller
     public function store(AccountRequest $request)
     {
 
-        $tenant = Account::create([
+        $account = Account::create([
             "easyname" => $request->easyname,
             "uuid" => \Illuminate\Support\Str::uuid()
         ]);
 
         \Artisan::call("trm:new_account", ["easyname" => $request->easyname]);
 
-        return AccountResource::make($tenant);
+        return AccountResource::make($account);
 
     }
 
