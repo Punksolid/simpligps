@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Notifications\PasswordResetRequest;
+use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
@@ -12,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasRoles, Notifiable, HasApiTokens;
+    use HasRoles, Notifiable, HasApiTokens, UsesSystemConnection;
 
     protected $guard_name = 'api'; // changed from web to api bcz permissions sync using default
     /**
@@ -101,5 +102,13 @@ class User extends Authenticatable implements CanResetPassword
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new PasswordResetRequest($token));
+    }
+
+
+    public function isInAccount(int $account_id):bool
+    {
+        return (bool)$this->accounts()->whereHas('users', function ($users_query) use($account_id){
+            $users_query->where('account_id',$account_id);
+        })->exists();
     }
 }

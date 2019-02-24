@@ -44,30 +44,8 @@ class NewAccount extends Command
         $website = new Website();
         app(WebsiteRepository::class)->create($website);
 
-        dd($website->toArray(), $website->hostnames);
-//        $easyname = $this->argument("easyname");
-//        $validator = \Validator::make([
-//            "easyname" => $easyname
-//        ], [
-//            "easyname" => "required|string|alpha_dash"
-//        ]);
-//
-//        abort_if($validator->fails(), "Ese nombre no es valido, solo alfanumericos");
-//
-//
-//        if (\DB::connection("mysql")->statement("CREATE DATABASE $easyname")) {
-//            $default = \Config::get("database.connections.mysql");
-//            $default["database"] = $easyname;
-//            \Config::set("database.connections.temporal", $default);
-//            $connection = \DB::connection("temporal");
-//
-//            $this->call("migrate", [
-//                "--database" => "temporal"
-//            ]);
-//
-//            \Config::set("database.default", "mysql");
-//
-//        }
+//        dd($website->toArray(), $website->hostnames);
+        return response($website);
 
     }
 }

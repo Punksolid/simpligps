@@ -1,5 +1,5 @@
 <?php
-namespace tenancy;
+
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -25,11 +25,11 @@ class CreateCarrierTable extends Migration
             $table->text("bulk")->nullable(); //TODO cambiar a Json
             $table->timestamps();
         });
-
         Schema::table("operators", function (Blueprint $table){
             $table->unsignedInteger('carrier_id')->nullable();
             $table->foreign('carrier_id')->references('id')->on('carriers');
         });
+
     }
 
     /**

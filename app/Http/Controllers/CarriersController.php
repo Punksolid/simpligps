@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Carrier;
+use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Requests\CarrierRequest;
 use App\Http\Resources\CarrierResource;
 use Illuminate\Http\Request;
@@ -14,6 +15,10 @@ use Illuminate\Http\Request;
  */
 class CarriersController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(IdentifyTenantConnection::class);
+    }
     /**
      * Display a listing of the CARRIER.
      *

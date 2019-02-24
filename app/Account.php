@@ -3,11 +3,14 @@
 namespace App;
 
 use Carbon\Carbon;
+use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\ValidationException;
 
 class Account extends Model
 {
+    use UsesSystemConnection;
+
     protected $fillable = [
         "easyname",
         "uuid",
