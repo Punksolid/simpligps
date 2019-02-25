@@ -63,17 +63,10 @@ class LoginTest extends TestCase
         $call1 = $this->actingAs($user1, "api")->getJson("api/v1/devices");
 
         $call2 = $this->actingAs($user2, "api")->getJson("api/v1/devices");
-//
+
         $call3 = $this->actingAs($user3, "api")->getJson("api/v1/devices");
 
-//        $call4 = $this->actingAs($user, "api")->getJson("api/v1/devices", ["Authorization" => "Bearer " . $token]);
 
-
-//
-//        $call_login2 = $this->json("POST", "/api/v1/login",[
-//            "email" => $users->last()->email,
-//            "password" => "secret"
-//        ]);
 //
 
     }

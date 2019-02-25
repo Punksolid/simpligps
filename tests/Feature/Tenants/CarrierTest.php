@@ -26,9 +26,7 @@ class CarrierTest extends \Tests\Tenants\TestCase
         $this->actingAs($this->user, "api");
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
         $this->account = factory(Account::class)->create(); // crea una cuenta
-//        $output = \Artisan::call("trm:new_account",[
-//            "user_id" => $this->user->id
-//        ]);
+
         $this->user->attachAccount($this->account);
     }
 
@@ -77,7 +75,7 @@ class CarrierTest extends \Tests\Tenants\TestCase
         usleep(500); //previene falsos positivos
         $this->assertDatabaseMissing("carriers", [
             "carrier_name" => $carrier->carrier_name
-        ]);
+        ],'tenant');
 
     }
 

@@ -42,7 +42,6 @@ class LimitSimoultaneousAccess
 
             if ($active_sessions > $limit_active_sessions){
                 abort(401, "Demasiadas sesiones activas, superó su limite de $limit_active_sessions sesiones activas");
-
             }
         }catch (\Exception $e){
             abort(401, "Se encontró un error con su licencia, favor de contactar al administrador.");

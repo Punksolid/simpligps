@@ -18,12 +18,13 @@ class IdentifyTenantConnection
      */
     public function handle($request, Closure $next)
     {
-
+        //TODO add verification of user in account
         $website = Website::where('uuid', $request->header('X-Tenant-id'))->first();
 
         $environment = app(\Hyn\Tenancy\Environment::class);
 
         $environment->tenant($website);
+
         return $next($request);
     }
 }

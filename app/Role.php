@@ -4,16 +4,9 @@ namespace App;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\Permission\Models\Role as SpatieRole;
 
-class Trace extends Model
+class Role extends SpatieRole
 {
     use UsesTenantConnection;
-
-    protected $fillable = [
-      "content"
-    ];
-
-    protected $casts = [
-        "content" => "array"
-    ];
 }

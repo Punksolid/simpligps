@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Contact;
+use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Requests\ContactRequest;
 use App\Http\Resources\ContactResource;
+use Hyn\Tenancy\Environment;
 use Illuminate\Http\Request;
 
 /**
@@ -14,6 +16,10 @@ use Illuminate\Http\Request;
  */
 class ContactController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(IdentifyTenantConnection::class);
+    }
     /**
      * Display a listing of the CONTACT.
      *

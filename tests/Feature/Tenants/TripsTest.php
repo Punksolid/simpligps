@@ -8,9 +8,9 @@ use App\Trip;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Tenants\TestCase;
 
 class TripsTest extends TestCase
 {
@@ -87,7 +87,7 @@ class TripsTest extends TestCase
         ]);
         $this->assertDatabaseMissing("trips",[
             "client" => $trip_arr["client"]
-        ]);
+        ],"tenant");
         $call->assertStatus(200);
 
     }

@@ -36,18 +36,28 @@ abstract class TestCase extends BaseTestCase
 
         $this->user = \factory(User::class)->create();
         $this->actingAs($this->user, "api");
-//        $output = \Artisan::call("trm:new_account",[
-//            "easyname" => $this->faker->word.str_random(5),
-//            "email" => $this->user->email // lo asignamos a un email existente
-//        ]);
-        $this->account = $this->user->accounts()->first();
-        
         
         /***WEBSITE CREATION***/
-        $this->website = new Website();
+        if (Website::where("uuid", '01b421a3055f4e9bab1d5a3e186a6149')->exists()){
+            $this->website =Website::where("uuid", '01b421a3055f4e9bab1d5a3e186a6149')->first() ;
+        } else {
+            $this->website = new Website();
+            $this->website->uuid = "01b421a3055f4e9bab1d5a3e186a6149";
+        }
+
         app(WebsiteRepository::class)->create($this->website);
 
-//        dump($this->user->toArray());
+        $this->setWebsiteEnvironment();
+
+
     }
+
+    protected function setWebsiteEnvironment(): void
+    {
+        $environment = app(\Hyn\Tenancy\Environment::class);
+
+        $environment->tenant($this->website);
+    }
+
 
 }

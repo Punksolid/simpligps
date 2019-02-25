@@ -8,7 +8,7 @@ use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\User;
 use Punksolid\Wialon\Unit;
-use Tests\TestCase;
+use Tests\Tenants\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -43,6 +43,7 @@ class DevicesTest extends TestCase
      */
     public function test_registrar_un_nuevo_dispositivo()
     {
+        $this->withExceptionHandling();
         $device = $this->deviceForm();
 
         $call = $this->postJson("api/v1/devices", $device);

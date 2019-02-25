@@ -8,7 +8,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ConvoyTest extends TestCase
+class ConvoyTest extends \Tests\Tenants\TestCase
 {
     var $user;
 

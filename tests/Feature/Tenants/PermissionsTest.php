@@ -5,7 +5,7 @@ namespace Tests\Feature;
 use App\Permission;
 use App\User;
 use Spatie\Permission\Models\Role;
-use Tests\TestCase;
+use Tests\Tenants\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -30,12 +30,15 @@ class PermissionsTest extends TestCase
      */
     public function test_listar_todos_los_permisos()
     {
-        $call = $this->json("GET", "/api/v1/permissions");
+        $this->withoutExceptionHandling();
+
+        $call = $this->getJson(
+            "/api/v1/permissions");
         $call->assertJsonFragment([
-            "name" => "list-users",
+            "name" => "POST  |api/v1/devices",
         ]);
         $call->assertJsonFragment([
-            "name" => "add-user",
+            "name" => "POST  |api/v1/contacts",
         ]);
     }
 
@@ -105,7 +108,6 @@ class PermissionsTest extends TestCase
         ]);
 
         $call->assertStatus(200);
-
 
     }
 

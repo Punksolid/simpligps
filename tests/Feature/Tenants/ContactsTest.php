@@ -3,10 +3,12 @@
 namespace Tests\Feature;
 
 use App\Contact;
+use App\Http\Middleware\LimitExpiredLicenseAccess;
+use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Tenants\TestCase;
 
 class ContactsTest extends TestCase
 {
@@ -98,18 +100,21 @@ class ContactsTest extends TestCase
     public function test_borrar_contacto()
     {
         $contact = factory(Contact::class)->create();
+
         $call = $this->actingAs(factory(User::class)->create())
-            ->json("DELETE", "api/v1/contacts/{$contact->id}");
+            ->deleteJson("api/v1/contacts/{$contact->id}");
+
 
         $this->assertDatabaseMissing("contacts", [
             "name" => $contact->name
-        ]);
+        ],'tenant');
         $call->assertStatus(200);
 
     }
 
     public function test_agregar_etiqueta_a_contacto()
     {
+        $this->withoutExceptionHandling();
         $contact = factory(Contact::class)->create();
         $call = $this->actingAs(factory(User::class)->create())->postJson("api/v1/contacts/{$contact->id}/tags", [
             "tags" => [
@@ -153,9 +158,9 @@ class ContactsTest extends TestCase
     public function test_llamar_detalles_de_un_solo_contacto()
     {
         $this->withoutExceptionHandling();
-
+        $contact = factory(Contact::class)->create();
         $call = $this->actingAs($this->user)
-            ->getJson('api/v1/contacts/910923');
+            ->getJson("api/v1/contacts/$contact->id");
 
         $call->assertSuccessful();
     }
