@@ -223,7 +223,7 @@ return [
          *
          * @warn specify a valid fully qualified class name.
          */
-        'tenant-seed-class' => false,
+        'tenant-seed-class' => MainSeedTenants::class,
 //      eg an admin seeder under `app/Seeders/AdminSeeder.php`:
 //        'tenant-seed-class' => App\Seeders\AdminSeeder::class,
 
@@ -244,7 +244,7 @@ return [
          *
          * @info set to false to disable.
          */
-        'auto-create-tenant-database-user' => true,
+        'auto-create-tenant-database-user' => false,
 
         /**
          * Automatically rename the tenant database when the random id of the
@@ -278,10 +278,16 @@ return [
          * @info Useful for overriding the connection of third party packages.
          */
         'force-tenant-connection-of-models' => [
-//            App\User::class
+            App\User::class,
+
+            App\Role::class,
+            App\Permission::class,
+            Spatie\Permission\Models\Role::class,
+            Spatie\Permission\Models\Permission::class,
+            \Spatie\Permission\PermissionRegistrar::class,
+            \App\Http\Controllers\RolesController::class
         ],
         'force-system-connection-of-models' => [
-//            App\User::class
         ],
     ],
 

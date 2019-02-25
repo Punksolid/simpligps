@@ -53,8 +53,9 @@ Route::group(["middleware" => [
 //PERMISSIONS
     Route::put("permissions/user_sync/{user}", "PermissionController@userSync");
     Route::resource("permissions", "PermissionController", ["only" => ["index"]]);
-    Route::post("roles/{role}/user", "RolesController@assignToUser");
-    Route::resource("roles", "RolesController", ["only" => ["index", "store", "show", "update", "destroy"]]);
+    Route::post("roles/{role}/user", "RolesController@assignToUser")->middleware(IdentifyTenantConnection::class);
+    Route::resource("roles", "RolesController", ["except" => ["edit", "create"]])
+        ->middleware(IdentifyTenantConnection::class);
 
 
 //CONVOYS

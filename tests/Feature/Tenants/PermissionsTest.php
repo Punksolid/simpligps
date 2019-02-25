@@ -2,12 +2,15 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\LimitExpiredLicenseAccess;
+use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Permission;
 use App\User;
-use Spatie\Permission\Models\Role;
+use App\Role;
 use Tests\Tenants\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
 
 class PermissionsTest extends TestCase
 {
@@ -70,19 +73,19 @@ class PermissionsTest extends TestCase
 
     public function test_actualizar_permisos_de_un_rol()
     {
-        $role = factory(Role::class)->create();
-
-        $call = $this->putJson("/api/v1/roles/$role->id", [
+        $this->withoutExceptionHandling();
+        $role = factory(Role::class)->create(["guard_name" => "api"]);
+        dump($role->name, $role->id,$role->toArray());
+        $new_role = [
             "name" => $this->faker->firstNameMale,
             "permissions" => [
-                "add-user"
+                "POST  |api/v1/trips"
             ]
-        ]);
+        ];
+        $call = $this->putJson("/api/v1/roles/$role->id", $new_role);
 
         $call->assertJsonFragment([
-            "name" =>
-                "add-user"
-
+            "name" => $new_role["name"]
         ]);
     }
 
