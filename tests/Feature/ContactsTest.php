@@ -153,9 +153,9 @@ class ContactsTest extends TestCase
     public function test_llamar_detalles_de_un_solo_contacto()
     {
         $this->withoutExceptionHandling();
-
+        $contact  = factory(Contact::class)->create();
         $call = $this->actingAs($this->user)
-            ->getJson('api/v1/contacts/910923');
+            ->getJson("api/v1/contacts/{$contact->id}");
 
         $call->assertSuccessful();
     }
