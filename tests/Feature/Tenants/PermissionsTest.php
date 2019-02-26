@@ -38,19 +38,18 @@ class PermissionsTest extends TestCase
         $call = $this->getJson(
             "/api/v1/permissions");
         $call->assertJsonFragment([
-            "name" => "POST  |api/v1/devices",
+            "name" => "POST|api/v1/devices",
         ]);
         $call->assertJsonFragment([
-            "name" => "POST  |api/v1/contacts",
+            "name" => "POST|api/v1/contacts",
         ]);
     }
 
     public function test_listar_todos_los_roles()
     {
-        $call = $this->json("GET", "/api/v1/roles");
-        $call->assertJsonFragment([
-            "name" => "monitorista",
-        ]);
+        $call = $this->getJson("/api/v1/roles");
+
+        $call->assertSuccessful();
 
     }
 
@@ -58,7 +57,7 @@ class PermissionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $permission_name = Permission::firstOrFail()->name;
-
+        dump($permission_name);
         $call = $this->postJson("/api/v1/roles", [
             "name" => $this->faker->unique()->firstNameMale . $this->faker->unique()->word,
             "permissions" => [
@@ -79,7 +78,7 @@ class PermissionsTest extends TestCase
         $new_role = [
             "name" => $this->faker->firstNameMale,
             "permissions" => [
-                "POST  |api/v1/trips"
+                "POST|api/v1/trips"
             ]
         ];
         $call = $this->putJson("/api/v1/roles/$role->id", $new_role);

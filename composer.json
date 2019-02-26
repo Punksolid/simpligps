@@ -20,6 +20,7 @@
     "laravel/tinker": "^1.0",
     "maatwebsite/excel": "^2.1",
     "mpociot/laravel-apidoc-generator": "^2.0",
+    "predis/predis": "^1.1",
     "punksolid/laravel-wialon": "dev-master",
     "pusher/pusher-php-server": "~3.0",
     "spatie/geocoder": "^3.4",

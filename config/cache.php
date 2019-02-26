@@ -68,8 +68,12 @@ return [
             ],
         ],
 
+//        'redis' => [
+//            'driver' => 'redis',
+//            'connection' => 'default',
+//        ],
         'redis' => [
-            'driver' => 'redis',
+            'driver' => 'redis_tenancy',
             'connection' => 'default',
         ],
 

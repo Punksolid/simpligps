@@ -21,7 +21,7 @@ class Permission extends SpatiePermission
     {
         $database = $this->getConnection()->getDatabaseName();
         $table_name = config('permission.table_names.role_has_permissions');
-
+        dump($database.$table_name);
         return $this->belongsToMany(
             Role::class,
             "$database.$table_name"
@@ -54,7 +54,17 @@ class Permission extends SpatiePermission
      */
     protected static function getPermissions(array $params = []): Collection
     {
+//        return \App::make(PermissionRegistrar::class)->getPermissions($params);
         return app(PermissionRegistrar::class)
             ->getPermissions($params);
+    }
+
+    public function getRoleClass()
+    {
+        if (! isset($this->roleClass)) {
+            $this->roleClass = app(PermissionRegistrar::class)->getRoleClass();
+        }
+
+        return $this->roleClass;
     }
 }
