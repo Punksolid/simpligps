@@ -21,7 +21,7 @@ class SysadminTest extends TestCase
         $admin = factory(Sysadmin::class)->create();
 
         $call = $this->postJson( "api/sysadmin/v1/login", [
-            "email" => "sysadmin_test@gmail.com",
+            "email" => "punksolid@gmail.com",
             "password" => "443rancid."
         ]);
         $call->assertSuccessful();
