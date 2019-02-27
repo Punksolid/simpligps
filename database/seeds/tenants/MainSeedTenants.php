@@ -11,6 +11,6 @@ class MainSeedTenants extends Seeder
      */
     public function run()
     {
-        $this->call(CreatePermissionsSeeder::class);
+        $this->call(CreateTenantPermissionsSeeder::class);
     }
 }

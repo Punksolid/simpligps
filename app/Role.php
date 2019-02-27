@@ -13,13 +13,7 @@ class Role extends SpatieRole
 {
     use UsesTenantConnection;
 
-    public function __construct(array $attributes = [])
-    {
 
-        parent::__construct($attributes);
-
-//        dd();
-    }
 
     /**
      * A role may be given various permissions.
@@ -49,9 +43,7 @@ class Role extends SpatieRole
         return $this->givePermissionTo($permissions);
     }
 
-//    public function givePermissionTo(array ...$permissions)
-//    {
-//    }
+
 
     /**
      * Grant the given permission(s) to a role.

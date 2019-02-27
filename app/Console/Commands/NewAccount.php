@@ -15,7 +15,7 @@ class NewAccount extends Command
      *
      * @var string
      */
-    protected $signature = 'trm:new_account {easyname}';
+    protected $signature = 'trm:new_account';
 
     /**
      * The console command description.
@@ -44,7 +44,15 @@ class NewAccount extends Command
         $website = new Website();
         app(WebsiteRepository::class)->create($website);
 
-//        dd($website->toArray(), $website->hostnames);
+
+        $this->info("Website Id: ".$website->id);
+        $this->info("Uuid: ". $website->uuid);
+        sleep(1);
+        $call = $this->call("tenancy:db:seed", [
+            "--website_id" => ["$website->id"],
+            "--class" => "MainSeedTenants"
+        ]);
+
         return response($website);
 
     }

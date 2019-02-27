@@ -74,7 +74,7 @@ class PermissionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $role = factory(Role::class)->create(["guard_name" => "api"]);
-        dump($role->name, $role->id,$role->toArray());
+
         $new_role = [
             "name" => $this->faker->firstNameMale,
             "permissions" => [

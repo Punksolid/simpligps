@@ -4,7 +4,7 @@ use App\Permission;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
-class CreatePermissionsSeeder extends Seeder
+class CreateTenantPermissionsSeeder extends Seeder
 {
     /**
      * Run the database seeds.

@@ -69,7 +69,6 @@ class RolesController extends Controller
     {
         $role = Role::findById($id, "api");
         $role->syncPermissions($request->permissions);
-        dd($role);
         $role = $role->fresh("permissions");
         return response()->json([
             "name" => $role->name,

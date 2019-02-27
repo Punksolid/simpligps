@@ -9,7 +9,8 @@ use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Guard;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use Spatie\Permission\Contracts\Permission as PermissionContract;
-use Spatie\Permission\PermissionRegistrar;
+use Spatie\Permission\PermissionRegistrar as OriginalPermissionRegistrar;
+use App\Permission\PermissionRegistrar;
 use Illuminate\Support\Collection;
 
 
@@ -54,17 +55,17 @@ class Permission extends SpatiePermission
      */
     protected static function getPermissions(array $params = []): Collection
     {
-//        return \App::make(PermissionRegistrar::class)->getPermissions($params);
+
         return app(PermissionRegistrar::class)
             ->getPermissions($params);
     }
 
     public function getRoleClass()
     {
-        if (! isset($this->roleClass)) {
-            $this->roleClass = app(PermissionRegistrar::class)->getRoleClass();
-        }
-
-        return $this->roleClass;
+//        if (! isset($this->roleClass)) {
+//            $this->roleClass = app(PermissionRegistrar::class)->getRoleClass();
+//        }
+        return $this->roleClass = Role::class;
+//        return $this->roleClass;
     }
 }
