@@ -12,7 +12,6 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
-use App\Seeders\MainSeedTenants;
 use Hyn\Tenancy\Database\Connection;
 
 return [
@@ -225,7 +224,7 @@ return [
          * @warn specify a valid fully qualified class name.
          */
 //        'tenant-seed-class' => App\Seeders\ MainSeedTenants::class,
-        'tenant-seed-class' => \App\Seeders\CreateTenantPermissionsSeeder::class,
+        'tenant-seed-class' => CreateTenantPermissionsSeeder::class,
 //      eg an admin seeder under `app/Seeders/AdminSeeder.php`:
 //        'tenant-seed-class' => App\Seeders\AdminSeeder::class,
 

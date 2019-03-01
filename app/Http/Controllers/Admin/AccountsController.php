@@ -48,11 +48,10 @@ class AccountsController extends Controller
     {
 
         $account = Account::create([
-            "easyname" => $request->easyname,
             "uuid" => \Illuminate\Support\Str::uuid()
         ]);
 
-        \Artisan::call("trm:new_account", ["easyname" => $request->easyname]);
+        \Artisan::call("trm:new_account");
 
         return AccountResource::make($account);
 
