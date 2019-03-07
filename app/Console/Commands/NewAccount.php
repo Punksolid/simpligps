@@ -4,7 +4,8 @@ namespace App\Console\Commands;
 
 use App\Account;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-use Hyn\Tenancy\Models\Website;
+//use Hyn\Tenancy\Models\Website;
+use App\Website;
 use Illuminate\Console\Command;
 use Psy\Util\Str;
 
@@ -41,11 +42,12 @@ class NewAccount extends Command
      */
     public function handle()
     {
-        $website = new Website();
+//        $website = new Website();
+        $website = new Account(["easyname" => "temp_name"]);
         app(WebsiteRepository::class)->create($website);
 
 
-        $this->info("Website Id: ".$website->id);
+        $this->info("Account Id: ".$website->id);
         $this->info("Uuid: ". $website->uuid);
         sleep(1);
         $call = $this->call("tenancy:db:seed", [

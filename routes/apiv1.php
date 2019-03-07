@@ -26,7 +26,7 @@ Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
 Route::group(["middleware" => [
     "auth:api",
 //    "limit_simoultaneous_access",
-//    "limit_expired_license_access",
+    "limit_expired_license_access",
     \App\Http\Middleware\ProfilingTestMiddleware::class
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     Route::get("/me", "MeController@meInfo");
@@ -49,7 +49,7 @@ Route::group(["middleware" => [
     Route::post("contacts/{contact}/tags", "ContactController@attachtags")->middleware(IdentifyTenantConnection::class);
     Route::resource("contacts", "ContactController")->middleware(IdentifyTenantConnection::class)->except(['create','edit']);
 
-    Route::resource("users", "UsersController", ["only" => ["edit", "create"]]);
+    Route::resource("users", "UsersController", ["except" => ["edit", "create"]]);
 //PERMISSIONS
     Route::put("permissions/user_sync/{user}", "PermissionController@userSync");
     Route::resource("permissions", "PermissionController", ["only" => ["index"]]);
@@ -88,9 +88,7 @@ Route::group(["middleware" => [
     Route::resource("carriers", "CarriersController")->middleware(IdentifyTenantConnection::class)->except(["edit","create"]);
 
 //Places (origenes y destinos)
-    Route::resource("places", "PlaceController", [
-        "only" => ["index", "store", "show", "update", "destroy"]
-    ]);
+    Route::resource("places", "PlaceController")->middleware(IdentifyTenantConnection::class)->except(["edit", "create"]);
 
 //Units
     Route::get("units", "UnitsController@listUnits")->middleware(IdentifyTenantConnection::class);

@@ -6,9 +6,9 @@ use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Place;
 use App\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Tenants\TestCase;
 
 class PlacesTest extends TestCase
 {
@@ -71,7 +71,7 @@ class PlacesTest extends TestCase
         $call->assertSee("Se ha eliminado el registro del lugar");
         $this->assertDatabaseMissing("places", [
             "name" => $place->name
-        ]);
+        ],'tenant');
     }
 
     public function test_usuario_debe_poder_editar_lugares()
@@ -83,7 +83,9 @@ class PlacesTest extends TestCase
         $call = $this->putJson("api/v1/places/$place->id", $new_place->toArray());
 
         $call->assertStatus(200);
-        $this->assertDatabaseMissing("places", $place->toArray());
+        $this->assertDatabaseMissing("places",
+            $place->toArray(),
+            "tenant");
     }
 
     public function test_ver_detalles_de_lugar()

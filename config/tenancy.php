@@ -28,7 +28,8 @@ return [
         'hostname' => \Hyn\Tenancy\Models\Hostname::class,
 
         // Must implement \Hyn\Tenancy\Contracts\Website
-        'website' => \Hyn\Tenancy\Models\Website::class
+//        'website' => \Hyn\Tenancy\Models\Website::class // original
+        'website' => \App\Website::class //  local personalized
     ],
     /**
      * The package middleware. Removing a middleware here will disable it.

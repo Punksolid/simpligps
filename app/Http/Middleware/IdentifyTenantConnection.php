@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Account;
 use Closure;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Models\Hostname;
@@ -19,11 +20,10 @@ class IdentifyTenantConnection
     public function handle($request, Closure $next)
     {
         //TODO add verification of user in account
-        $website = Website::where('uuid', $request->header('X-Tenant-id'))->first();
+        $account = Account::where('uuid', $request->header('X-Tenant-id'))->first();
 
         $environment = app(\Hyn\Tenancy\Environment::class);
-
-        $environment->tenant($website);
+        $environment->tenant($account);
 
         return $next($request);
     }

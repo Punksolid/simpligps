@@ -11,7 +11,7 @@ use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
-use Tests\TestCase;
+use Tests\Tenants\TestCase;
 
 class NotificationsTest extends TestCase
 {
@@ -97,8 +97,6 @@ class NotificationsTest extends TestCase
             'name' => $geofence_name
         ]);
     }
-
-
 
 
     public function test_get_wialon_notifications()

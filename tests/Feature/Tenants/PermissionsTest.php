@@ -146,10 +146,11 @@ class PermissionsTest extends TestCase
 
     public function test_ver_permisos_del_usuario_loggeado()
     {
+        $this->markTestIncomplete("Faltan los permisos por tenant");
         $user = factory(User::class)->create();
         $call = $this->actingAs($user)->json("GET","/api/v1/me/permissions");
 
-        $call->dump()->assertJsonStructure([
+        $call->assertJsonStructure([
             "data" => [
                 "*" => []
             ]

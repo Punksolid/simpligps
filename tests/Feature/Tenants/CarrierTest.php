@@ -25,7 +25,6 @@ class CarrierTest extends \Tests\Tenants\TestCase
         $this->user = factory(User::class)->create(); // crea un usuario
         $this->actingAs($this->user, "api");
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
-        $this->account = factory(Account::class)->create(); // crea una cuenta
 
         $this->user->attachAccount($this->account);
     }
@@ -46,7 +45,7 @@ class CarrierTest extends \Tests\Tenants\TestCase
         ];
 
         $call = $this->postJson("api/v1/carriers", $carrier,[
-            'X-Tenant-Id' => $this->website->uuid
+            'X-Tenant-Id' => $this->account->uuid
         ]);
         $call->assertJsonFragment($carrier);
         $call->assertStatus(201);

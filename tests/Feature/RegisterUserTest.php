@@ -32,24 +32,7 @@ class RegisterUserTest extends TestCase
         $this->be(factory(User::class)->create(), "api");
     }
 
-    public function test_registrar_usuario()
-    {
-        $new_user = [
-            "username" => $this->faker->userName,
-            "password" => "secret",
-            "name" => $this->faker->name,
-            "lastname" => $this->faker->lastName,
-            "email" => $this->faker->email
-        ];
 
-        $response = $this->postJson('/api/v1/users', $new_user);
-        unset($new_user["password"]);
-        $response
-            ->assertJsonFragment($new_user)
-            ->assertStatus(200);
-
-        return $new_user;
-    }
 
     public function test_enviar_reestablecimiento_de_contrasenha()
     {

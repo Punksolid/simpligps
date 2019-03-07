@@ -42,37 +42,6 @@ class LoginTest extends TestCase
             ->assertStatus(200);
     }
 
-    /**
-     */
-    public function test_cuenta_no_puede_tener_mas_de_2_sesiones_activas()
-    {
-        $this->withoutExceptionHandling();
-        $this->withMiddleware(LimitSimoultaneousAccess::class);
-        $user1 = factory(User::class)->create(["name" => "pedro"]);
-        $user2 = factory(User::class)->create(["name" => "juan"]);
-        $user3 = factory(User::class)->create(["name" => "luis"]);
-        $account = factory(Account::class)->create();
-        $account->addLicense(factory(License::class)->create([
-            "number_active_sessions" => 2
-        ]));
-        $account->addUser($user1);
-        $account->addUser($user2);
-        $account->addUser($user3);
-
-
-        $call1 = $this->actingAs($user1, "api")->getJson("api/v1/devices");
-
-        $call2 = $this->actingAs($user2, "api")->getJson("api/v1/devices");
-
-        $call3 = $this->actingAs($user3, "api")->getJson("api/v1/devices");
-
-
-//
-
-    }
-
-
-
     public function test_access_with_header_token()
     {
         $user = factory(User::class)->create();
@@ -87,7 +56,7 @@ class LoginTest extends TestCase
             "expires_at"
         ]);
         $token = $call->getOriginalContent()["access_token"];
-        $call = $this->getJson("api/v1/devices", ["Authorization" => "Bearer " . $token]);
+        $call = $this->getJson("api/v1/me", ["Authorization" => "Bearer " . $token]);
 
         $call->assertStatus(200);
     }
@@ -96,38 +65,12 @@ class LoginTest extends TestCase
     {
         $call = $this
             ->actingAs(factory(User::class)->create())
-            ->json("GET", "api/v1/devices");
+            ->getJson("api/v1/me");
 
 
         $call->assertStatus(401);
 
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\HttpException
-     */
-    public function test_denegar_acceso_sin_licencia_activa()
-    {
-        $this->withMiddleware(LimitExpiredLicenseAccess::class);
-        $this->withoutExceptionHandling();
-        $user = factory(User::class)->create();
-        $account = factory(Account::class)->create();
-        $license = factory(License::class)->create();
-        $account->addLicense($license,["expires_at" => Carbon::yesterday()->toDateTimeString()]);
-        $user->attachAccount($account);
 
-        $call_login1 = $this->json("POST", "/api/v1/login",[
-            "email" => $user->email,
-            "password" => "secret"
-        ]);
-
-        $call_login1->assertJsonStructure([
-            "access_token"
-        ])->assertStatus(200);
-        $token = $call_login1->getOriginalContent()["access_token"];
-        $call2 = $this->getJson("api/v1/devices", ["Authorization" => "Bearer " . $token]);
-
-//
-        \Cache::flush();
-    }
 }

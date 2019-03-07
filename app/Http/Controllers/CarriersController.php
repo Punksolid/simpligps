@@ -15,10 +15,7 @@ use Illuminate\Http\Request;
  */
 class CarriersController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(IdentifyTenantConnection::class);
-    }
+
     /**
      * Display a listing of the CARRIER.
      *
@@ -27,7 +24,6 @@ class CarriersController extends Controller
     public function index()
     {
         $carriers = Carrier::paginate();
-
         return CarrierResource::collection($carriers);
     }
 
@@ -40,6 +36,7 @@ class CarriersController extends Controller
     public function store(CarrierRequest $request)
     {
         $carrier = Carrier::create($request->all());
+
         return CarrierResource::make($carrier);
     }
 
