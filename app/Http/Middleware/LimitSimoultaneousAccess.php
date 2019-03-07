@@ -34,7 +34,7 @@ class LimitSimoultaneousAccess
                 $colleagues = new Collection([auth()->user()]);
             }
 
-            \Cache::set("active_sessions_$account->id",$colleagues, 1);
+            \Cache::set("active_sessions_$account->id",$colleagues, 60);
 
             $active_sessions = cache("active_sessions_$account->id")->count();
 

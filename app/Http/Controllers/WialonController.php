@@ -28,7 +28,7 @@ class WialonController extends Controller
     public function getResources()
     {
 
-        $resources = \Cache::remember('resources', 5, function () {
+        $resources = \Cache::remember('resources', 500, function () {
             return $resources = Resource::all();
 
         });
