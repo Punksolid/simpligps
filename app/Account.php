@@ -123,4 +123,13 @@ class Account extends Model
     {
         return (bool)$this->activeLicenses()->first();
     }
+
+    public function createAccount()
+    {
+        $account = new Account(["easyname" => "temp_name"]);
+        app(WebsiteRepository::class)->create($account);
+        
+        return $account;
+
+    }
 }
