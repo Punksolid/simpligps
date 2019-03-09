@@ -91,20 +91,21 @@ class PermissionsTest extends TestCase
     public function test_ver_permisos_de_un_rol()
     {
         $role = factory(Role::class)->create();
-        $role->givePermissionTo("list-users");
+        $permission = factory(Permission::class)->create();
+        $role->givePermissionTo($permission->name);
         $call = $this->json("GET", "/api/v1/roles/$role->id");
 
         $call->assertJsonFragment([
-            "name" => "list-users"
+            "name" => $permission->name
         ]);
     }
 
     public function test_asignar_rol_a_usuario()
     {
         $user = factory(User::class)->create();
-        $role = factory(Role::class)->create();
-
-        $role->givePermissionTo("list-users");
+        $role = factory(Role::class)->create(["guard_name" => "api"]);
+        $permission = factory(Permission::class)->create(["guard_name" => "api"]);
+        $role->givePermissionTo($permission->name);
         $call = $this->postJson( "/api/v1/roles/$role->id/user", [
             "user_id" => $user->id
         ]);
@@ -129,11 +130,14 @@ class PermissionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
+        $permission = factory(Permission::class)->create(["guard_name" => "api"]);
+        $permission2 = factory(Permission::class)->create(["guard_name" => "api"]);
+
         $call = $this
             ->putJson("/api/v1/permissions/user_sync/$user->id", [
                 "permissions" => [
-                    "list-users",
-                    "add-user"
+                    $permission->name,
+                    $permission2->name
                 ]
             ]);
         $call->assertJsonStructure([
