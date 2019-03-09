@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Carrier;
+use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Requests\CarrierRequest;
 use App\Http\Resources\CarrierResource;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class CarriersController extends Controller
 {
+
     /**
      * Display a listing of the CARRIER.
      *
@@ -22,7 +24,6 @@ class CarriersController extends Controller
     public function index()
     {
         $carriers = Carrier::paginate();
-
         return CarrierResource::collection($carriers);
     }
 
@@ -35,6 +36,7 @@ class CarriersController extends Controller
     public function store(CarrierRequest $request)
     {
         $carrier = Carrier::create($request->all());
+
         return CarrierResource::make($carrier);
     }
 

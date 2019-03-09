@@ -42,19 +42,18 @@ class AccountsController extends Controller
      * Store a newly created account in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return AccountResource
      */
     public function store(AccountRequest $request)
     {
-
-        $tenant = Account::create([
-            "easyname" => $request->easyname,
-            "uuid" => \Illuminate\Support\Str::uuid()
+        $account = new Account([
+            "easyname" => $request->easyname
         ]);
+        if ($account->createAccount()) {
+            return AccountResource::make($account);
+        }
 
-        \Artisan::call("trm:new_account", ["easyname" => $request->easyname]);
-
-        return AccountResource::make($tenant);
+        return abort(500, "Something Happened");
 
     }
 
@@ -65,9 +64,9 @@ class AccountsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Account $account)
     {
-        //
+        return AccountResource::make($account->load(['users', 'licenses']));
     }
 
     /**
@@ -88,15 +87,8 @@ class AccountsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($account_id)
+    public function destroy(Account $account)
     {
-
-        $account = Account::findOrFail($account_id);
-
-        \Artisan::call("trm:delete_account", [
-            "easyname" => $account->easyname
-        ]);
-
 
         $account->delete();
 

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ConvoyController;
+use App\Http\Middleware\IdentifyTenantConnection;
 use Illuminate\Http\Request;
 
 /*
@@ -25,7 +26,7 @@ Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
 Route::group(["middleware" => [
     "auth:api",
 //    "limit_simoultaneous_access",
-//    "limit_expired_license_access",
+    "limit_expired_license_access",
     \App\Http\Middleware\ProfilingTestMiddleware::class
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     Route::get("/me", "MeController@meInfo");
@@ -40,18 +41,21 @@ Route::group(["middleware" => [
     }); // @TODO Put it in a controller and merge /me and /user/info
 
 //Devices
-    Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
-    Route::resource("devices", "DevicesController")->except(['create','edit']);
-    Route::get("contacts/filter_tags", "ContactController@filterTags");
-    Route::post("contacts/{contact}/tags", "ContactController@attachtags");
-    Route::resource("contacts", "ContactController")->except(['create','edit']);
+    Route::post("devices/{device}/link_unit", "DevicesController@linkUnit")->middleware(IdentifyTenantConnection::class);
+    Route::resource("devices", "DevicesController")->middleware(IdentifyTenantConnection::class)->except(['create','edit']);
 
-    Route::resource("users", "UsersController", ["only" => ["store", "index","update", "destroy"]]);
+    //Contacts
+    Route::get("contacts/filter_tags", "ContactController@filterTags")->middleware(IdentifyTenantConnection::class);
+    Route::post("contacts/{contact}/tags", "ContactController@attachtags")->middleware(IdentifyTenantConnection::class);
+    Route::resource("contacts", "ContactController")->middleware(IdentifyTenantConnection::class)->except(['create','edit']);
+
+    Route::resource("users", "UsersController", ["except" => ["edit", "create"]]);
 //PERMISSIONS
     Route::put("permissions/user_sync/{user}", "PermissionController@userSync");
     Route::resource("permissions", "PermissionController", ["only" => ["index"]]);
-    Route::post("roles/{role}/user", "RolesController@assignToUser");
-    Route::resource("roles", "RolesController", ["only" => ["index", "store", "show", "update", "destroy"]]);
+    Route::post("roles/{role}/user", "RolesController@assignToUser")->middleware(IdentifyTenantConnection::class);
+    Route::resource("roles", "RolesController", ["except" => ["edit", "create"]])
+        ->middleware(IdentifyTenantConnection::class);
 
 
 //CONVOYS
@@ -61,16 +65,16 @@ Route::group(["middleware" => [
 //TRIPS
     Route::post("trips/upload", "TripsController@upload");
     Route::post("trips/{trip}/tags", "TripsController@assignTag");
-    Route::post("trips/filtered_with_tags", "TripsController@filteredWithTags");
-    Route::resource("trips/{trip}/traces", "TraceController")->only(["index", "store"]);
+    Route::post("trips/filtered_with_tags", "TripsController@filteredWithTags")->middleware(IdentifyTenantConnection::class);
+    Route::resource("trips/{trip}/traces", "TraceController")->middleware(IdentifyTenantConnection::class)->only(["index", "store"]);
     Route::resource("trips", "TripsController", [
-        "only" => ["index", "store", "update", "destroy"]
-    ]);
+        "except" => ["create","edit"]
+    ])->middleware(IdentifyTenantConnection::class);
 
 //OPERATORS
     Route::resource("operators", "OperatorController", [
-        "only" => ["store", "update", "show", "index", "destroy"]
-    ]);
+        "except" => ["edit", "create"]
+    ])->middleware(IdentifyTenantConnection::class);
 
     // GEOFENCES
     Route::post('geofences', 'NotificationTypeController@createGeofence');
@@ -81,18 +85,14 @@ Route::group(["middleware" => [
     ]);
 
 //Carriers
-    Route::resource("carriers", "CarriersController", [
-        "only" => ["index", "store", "show", "update", "destroy"]
-    ]);
+    Route::resource("carriers", "CarriersController")->middleware(IdentifyTenantConnection::class)->except(["edit","create"]);
 
 //Places (origenes y destinos)
-    Route::resource("places", "PlaceController", [
-        "only" => ["index", "store", "show", "update", "destroy"]
-    ]);
+    Route::resource("places", "PlaceController")->middleware(IdentifyTenantConnection::class)->except(["edit", "create"]);
 
 //Units
-    Route::get("units", "UnitsController@listUnits");
-    Route::get("units/with_localization", "UnitsController@listUnitsLocalization");
+    Route::get("units", "UnitsController@listUnits")->middleware(IdentifyTenantConnection::class);
+    Route::get("units/with_localization", "UnitsController@listUnitsLocalization")->middleware(IdentifyTenantConnection::class);
 
     // Settings
 
@@ -105,12 +105,9 @@ Route::group(["middleware" => [
     Route::get('wialon/units', "WialonController@getUnits");
     Route::post('wialon/notifications', 'WialonController@store');
 
-
     //Laravel Normal Notifications Access
     Route::get('me/notifications', "MeController@getNotifications");
 });
-
-
 
 Route::group([
     "prefix" => "external/",
@@ -124,9 +121,4 @@ Route::group([
     Route::post("devices", "DevicesController@storeExternal");
     Route::get("devices", "DevicesController@listDevices");
 });
-
-//Contacts
-
-//SystemStatus
-
 

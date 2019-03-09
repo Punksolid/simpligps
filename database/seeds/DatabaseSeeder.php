@@ -19,5 +19,7 @@ class DatabaseSeeder extends Seeder
              'email' => 'punksolid@gmail.com',
              'password' => bcrypt('443rancid.')
          ]);
+
+         Artisan::call("passport:install");
     }
 }
