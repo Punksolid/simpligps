@@ -53,110 +53,62 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "carrier_name": "lakjsdñflk",
-            "contact_name": "Deserunt quis pariatur Repudiandae accusantium eos perspiciatis facere et temporibus accusamus sequi ea",
-            "phone": "Eaque deserunt consequat Molestiae ipsum eum vitae quis laborum quia itaque ex laboriosam consequat Aliquip",
-            "email": "test@test.com"
+            "carrier_name": "Metz, Bednar and Schumm",
+            "contact_name": "Watson Gorczany",
+            "phone": "(971) 540-2397",
+            "email": "pwest@olson.org"
         },
         {
-            "carrier_name": "Quod tempore vero a",
-            "contact_name": "Voluptatem Quos off",
-            "phone": "Et qui unde voluptas",
-            "email": "carriert@test.com"
+            "carrier_name": "Kessler-Torphy",
+            "contact_name": "Jasmin Weber",
+            "phone": "(813) 417-8963",
+            "email": "serenity52@hotmail.com"
         },
         {
-            "carrier_name": "Zemlak, Monahan and Olson",
-            "contact_name": "Chanelle Zieme",
-            "phone": "1-842-360-6465 x41943",
-            "email": "frederic12@yahoo.com"
+            "carrier_name": "Murray-Weissnat",
+            "contact_name": "Miss Madelynn Tromp DDS",
+            "phone": "1-980-798-1328",
+            "email": "brakus.cynthia@oreilly.com"
         },
         {
-            "carrier_name": "Willms-O'Keefe",
-            "contact_name": "Freida Powlowski II",
-            "phone": "468.980.0250 x061",
-            "email": "adams.bridie@miller.net"
+            "carrier_name": "Murray, Kuvalis and Zieme",
+            "contact_name": "Mrs. Ana Schroeder V",
+            "phone": "741.895.2172 x3777",
+            "email": "ylabadie@yahoo.com"
         },
         {
-            "carrier_name": "Reynolds, Lang and Schneider",
-            "contact_name": "Doyle Schamberger",
-            "phone": "(272) 883-0504",
-            "email": "lilla.senger@wilderman.com"
+            "carrier_name": "Bayer-Stokes",
+            "contact_name": "Orie Spinka II",
+            "phone": "1-310-316-6829",
+            "email": "hill.sierra@yahoo.com"
         },
         {
-            "carrier_name": "Sauer PLC",
-            "contact_name": "Monte Cronin PhD",
-            "phone": "+1-824-848-1891",
-            "email": "ola.murazik@zemlak.com"
+            "carrier_name": "Hand, O'Conner and Renner",
+            "contact_name": "Jalen Mueller",
+            "phone": "956.800.2414 x655",
+            "email": "emelia.dubuque@kilback.com"
         },
         {
-            "carrier_name": "Walsh, Buckridge and Homenick",
-            "contact_name": "Vincenzo Boehm",
-            "phone": "+1 (310) 982-1841",
-            "email": "alexane.graham@gmail.com"
-        },
-        {
-            "carrier_name": "Marvin Group",
-            "contact_name": "Prof. Gabriel Kutch",
-            "phone": "(840) 489-8512 x17819",
-            "email": "mdurgan@berge.biz"
-        },
-        {
-            "carrier_name": "Kertzmann Inc",
-            "contact_name": "Emely McLaughlin DDS",
-            "phone": "(283) 804-5638 x17087",
-            "email": "mazie17@jakubowski.com"
-        },
-        {
-            "carrier_name": "Beer, Ondricka and Rolfson",
-            "contact_name": "German Batz",
-            "phone": "262-564-6171 x61932",
-            "email": "bergstrom.lisette@farrell.com"
-        },
-        {
-            "carrier_name": "Cruickshank-Murphy",
-            "contact_name": "Mr. Lisandro Rippin",
-            "phone": "+1-449-484-9747",
-            "email": "davin.oberbrunner@cole.info"
-        },
-        {
-            "carrier_name": "Mraz PLC",
-            "contact_name": "Sage Hegmann",
-            "phone": "1-704-965-9741",
-            "email": "jannie64@rath.com"
-        },
-        {
-            "carrier_name": "Cartwright, Dare and Auer",
-            "contact_name": "Pearlie Torphy",
-            "phone": "481.685.9720 x6413",
-            "email": "else73@lemke.biz"
-        },
-        {
-            "carrier_name": "Kessler, Marks and Schmeler",
-            "contact_name": "Meggie Schaden Jr.",
-            "phone": "401-851-0304 x681",
-            "email": "brando24@larson.com"
-        },
-        {
-            "carrier_name": "Glover, Ullrich and King",
-            "contact_name": "Emmy Moore",
-            "phone": "221-210-9374",
-            "email": "titus.johnson@pfannerstill.com"
+            "carrier_name": "Ruecker-Ferry",
+            "contact_name": "Rosamond King",
+            "phone": "(630) 445-4262",
+            "email": "morissette.ruby@champlin.com"
         }
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/carriers?page=1",
-        "last": "http:\/\/localhost\/api\/v1\/carriers?page=5",
+        "last": "http:\/\/localhost\/api\/v1\/carriers?page=1",
         "prev": null,
-        "next": "http:\/\/localhost\/api\/v1\/carriers?page=2"
+        "next": null
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 5,
+        "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/carriers",
         "per_page": 15,
-        "to": 15,
-        "total": 73
+        "to": 7,
+        "total": 7
     }
 }
 ```
@@ -382,139 +334,139 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "id": 35,
-            "name": "Brent Zemlak",
-            "company": "Botsford-Kreiger",
-            "phone": "1-580-662-1897 x601",
-            "email": "royce39@yahoo.com",
-            "address": "952 Margarete Via Apt. 380\nAbshirefurt, DC 58561",
+            "id": 33,
+            "name": "Katelynn Hirthe MD",
+            "company": "Harris, Durgan and Beahan",
+            "phone": "1-328-887-2090",
+            "email": "estrella15@gmail.com",
+            "address": "180 Lakin Valley\nNorth Skylarborough, WI 12147",
             "created_at": "1 second ago"
         },
         {
-            "id": 33,
-            "name": "Isai Reichert",
-            "company": "Schaden, Mayert and Glover",
-            "phone": "760-373-3851 x561",
-            "email": "gutmann.caterina@wolff.com",
-            "address": "553 Gerhold Isle\nHauckberg, NJ 02926",
-            "created_at": "6 hours ago"
+            "id": 32,
+            "name": "Garret Grant Sr.",
+            "company": "Rosenbaum-Stroman",
+            "phone": "649-764-6238",
+            "email": "jaylin.kshlerin@hodkiewicz.biz",
+            "address": "460 Phyllis Hill\nRuthieport, WY 48052",
+            "created_at": "1 minute ago"
         },
         {
-            "id": 34,
-            "name": "Ole Mills",
-            "company": "Dicki PLC",
-            "phone": "741-592-2526 x089",
-            "email": "cspencer@ward.biz",
-            "address": "264 Leffler Lake Suite 667\nSouth Pete, WY 94636",
-            "created_at": "6 hours ago"
-        },
-        {
-            "id": 28,
-            "name": "Ms. Stacy Schroeder Sr.",
-            "company": "Windler and Sons",
-            "phone": "(284) 820-3254 x4451",
-            "email": "yparker@bins.com",
-            "address": "33659 Mosciski Brook Apt. 090\nPort Orvaltown, TX 37257",
-            "created_at": "6 hours ago"
-        },
-        {
-            "id": 29,
-            "name": "Mrs. Selina Littel",
-            "company": "Hamill, Jacobson and Corkery",
-            "phone": "214-959-1561 x39664",
-            "email": "aterry@carroll.info",
-            "address": "47711 Terry Corner Apt. 782\nWest Thurmanshire, CA 28971-3284",
-            "created_at": "6 hours ago"
+            "id": 31,
+            "name": "Kellen Bins",
+            "company": "Corkery-Morar",
+            "phone": "(767) 898-5298 x65803",
+            "email": "dayana56@hotmail.com",
+            "address": "357 Elton Stravenue\nNorth Braedenmouth, ID 06928-1810",
+            "created_at": "2 minutes ago"
         },
         {
             "id": 30,
-            "name": "279942",
-            "company": "Hintz, Hilpert and Brown",
-            "phone": "748.499.4136 x906",
-            "email": "wmckenzie@hettinger.info",
-            "address": "9362576",
-            "created_at": "6 hours ago"
+            "name": "Sigrid Streich",
+            "company": "Gleason Ltd",
+            "phone": "617-856-6367 x2483",
+            "email": "koelpin.nick@gmail.com",
+            "address": "2108 Goldner Village Apt. 841\nRosieport, CA 03433-4781",
+            "created_at": "3 minutes ago"
         },
         {
-            "id": 32,
-            "name": "Ms. Imelda Kutch PhD",
-            "company": "Kihn, Powlowski and Fisher",
-            "phone": "1-450-324-3066 x06634",
-            "email": "lily.dach@cummings.com",
-            "address": "35912 Fleta Isle Suite 625\nPort Marilyne, CA 05999-7487",
-            "created_at": "6 hours ago"
+            "id": 29,
+            "name": "Mr. Nickolas Krajcik II",
+            "company": "Ryan PLC",
+            "phone": "+1.335.985.6061",
+            "email": "abdul19@jerde.net",
+            "address": "2598 Aleen Dam\nReynoldchester, NH 88679-1990",
+            "created_at": "3 minutes ago"
+        },
+        {
+            "id": 28,
+            "name": "Marisa Sporer",
+            "company": "Friesen, Jaskolski and Mante",
+            "phone": "764.346.4059 x84873",
+            "email": "jay.cartwright@williamson.com",
+            "address": "89195 Collins Forges Suite 776\nElijahshire, DE 80040-2976",
+            "created_at": "4 minutes ago"
         },
         {
             "id": 27,
-            "name": "Veda Erdman",
-            "company": "Greenholt-Kuvalis",
-            "phone": "(432) 629-8639 x21640",
-            "email": "qtremblay@bailey.com",
-            "address": "700 Aracely Courts Suite 230\nNew Lorna, ME 09918",
-            "created_at": "6 hours ago"
-        },
-        {
-            "id": 25,
-            "name": "Marilyne Maggio",
-            "company": "Gibson, Bartell and Abbott",
-            "phone": "+18426462735",
-            "email": "mckenzie05@bode.com",
-            "address": "86069 Deckow Square\nEast Marlee, NJ 86690-2138",
-            "created_at": "6 hours ago"
+            "name": "Emilio Sawayn",
+            "company": "Stehr, Rice and Tillman",
+            "phone": "(607) 230-9014 x04603",
+            "email": "verlie56@hotmail.com",
+            "address": "848 Bahringer Square Suite 042\nLake Agnesshire, MI 19357",
+            "created_at": "10 minutes ago"
         },
         {
             "id": 26,
-            "name": "Miss Itzel Schultz PhD",
-            "company": "Funk, Heaney and Sauer",
-            "phone": "437-824-9505 x39598",
-            "email": "charlene74@hotmail.com",
-            "address": "955 Camilla Crossing Apt. 174\nValentinetown, NM 29281-1944",
-            "created_at": "6 hours ago"
+            "name": "Shawna Mitchell",
+            "company": "Kirlin, Durgan and Wiza",
+            "phone": "1-426-960-0910",
+            "email": "cpouros@gulgowski.com",
+            "address": "409 Nella Light Suite 511\nPort Kathleenmouth, NV 39844",
+            "created_at": "10 minutes ago"
         },
         {
-            "id": 21,
-            "name": "Eli Friesen",
-            "company": "McGlynn, Rosenbaum and Pagac",
-            "phone": "359.942.6440 x134",
-            "email": "kyla16@fahey.com",
-            "address": "68251 Misael Terrace\nJeremyfort, WY 65329",
-            "created_at": "6 hours ago"
+            "id": 25,
+            "name": "Dr. Zachariah Jakubowski IV",
+            "company": "Kunde LLC",
+            "phone": "1-256-538-9622",
+            "email": "bkessler@yahoo.com",
+            "address": "5653 Hassie Tunnel\nLake Artbury, CA 54139",
+            "created_at": "59 minutes ago"
         },
         {
-            "id": 22,
-            "name": "Lionel Bergstrom",
-            "company": "Luettgen, Roberts and Effertz",
-            "phone": "860-773-3429 x2528",
-            "email": "maggio.colton@koelpin.biz",
-            "address": "63947 Pete Court Apt. 259\nMonserrateborough, PA 69139",
-            "created_at": "6 hours ago"
+            "id": 24,
+            "name": "Demarcus Kiehn",
+            "company": "Torp, McGlynn and Nikolaus",
+            "phone": "+1.519.696.9480",
+            "email": "effie.shanahan@gmail.com",
+            "address": "1018 Hettinger Mills Suite 363\nWest Bartonhaven, TN 06921-4959",
+            "created_at": "59 minutes ago"
         },
         {
             "id": 23,
-            "name": "288644",
-            "company": "Lynch, Weissnat and Cummerata",
-            "phone": "964-819-8206 x59848",
-            "email": "damion.roob@gmail.com",
-            "address": "3464624",
-            "created_at": "6 hours ago"
+            "name": "Dr. Chris Bernier",
+            "company": "Paucek-Stoltenberg",
+            "phone": "338-384-5719",
+            "email": "tgerhold@gmail.com",
+            "address": "7825 Leola Curve Suite 673\nSouth Concepcion, OK 70076",
+            "created_at": "1 hour ago"
         },
         {
-            "id": 17,
-            "name": "625787",
-            "company": "Fritsch LLC",
-            "phone": "+1-789-932-3867",
-            "email": "tyrell.harber@yahoo.com",
-            "address": "3454017",
-            "created_at": "6 hours ago"
+            "id": 22,
+            "name": "Emmanuelle Walker",
+            "company": "Bosco, Hessel and Smitham",
+            "phone": "(732) 940-1223 x049",
+            "email": "feest.reilly@brakus.com",
+            "address": "699 Daniela Hills Apt. 989\nNew Zackaryville, MD 75334",
+            "created_at": "1 hour ago"
+        },
+        {
+            "id": 21,
+            "name": "Kobe Grant",
+            "company": "Hoppe, Mertz and McCullough",
+            "phone": "(846) 266-4189 x400",
+            "email": "alf99@blanda.com",
+            "address": "3171 Pattie Cliffs\nKohlerville, IN 73398",
+            "created_at": "1 hour ago"
+        },
+        {
+            "id": 20,
+            "name": "Dr. Zoey Jacobs Jr.",
+            "company": "McDermott-Larkin",
+            "phone": "+15579752331",
+            "email": "ztrantow@yahoo.com",
+            "address": "908 Makenzie Streets Apt. 735\nEmmerichmouth, GA 39506",
+            "created_at": "1 hour ago"
         },
         {
             "id": 19,
-            "name": "Prof. Katherine Goldner PhD",
-            "company": "Cummings-Cole",
-            "phone": "+1-389-967-5843",
-            "email": "roob.grace@larkin.org",
-            "address": "7735 Zella Ways\nSarinaville, KY 63787",
-            "created_at": "6 hours ago"
+            "name": "Eda Spinka",
+            "company": "Altenwerth-Skiles",
+            "phone": "828-894-4760",
+            "email": "bahringer.princess@lind.info",
+            "address": "597 Vivien Trail\nEast Michael, HI 72220",
+            "created_at": "1 hour ago"
         }
     ],
     "links": {
@@ -607,138 +559,138 @@ $.ajax(settings).done(function (response) {
     "data": [
         {
             "id": 1,
-            "name": "Prof. Elissa Hartmann",
-            "company": "Streich, Schinner and Vandervort",
-            "phone": "338-734-1624",
-            "email": "glenda.bailey@ebert.net",
-            "address": "28087 Ashly Run Apt. 647\nPort Eloiseton, VA 51673",
-            "created_at": "3 weeks ago"
+            "name": "Estelle Boyle",
+            "company": "Franecki, Streich and Bechtelar",
+            "phone": "(552) 204-1116 x4040",
+            "email": "tweber@yahoo.com",
+            "address": "5062 Emma Vista\nRutherfordfurt, GA 47773-2842",
+            "created_at": "2 hours ago"
         },
         {
             "id": 2,
-            "name": "Dolore voluptates ducimus voluptates aut dolore exercitation hic ducimus similique esse cupidatat nisi non modi tempore",
-            "company": "Soluta quia fugiat dolores sint ut provident consequatur error consequatur",
-            "phone": "Qui facilis quo facere vel consequatur",
-            "email": "Aut eum dolor aute reprehenderit sint",
-            "address": "Accusantium et laborum autem id mollit natus sit quae provident eos suscipit natus quibusdam",
-            "created_at": "3 weeks ago"
+            "name": "Prof. Dianna Lebsack",
+            "company": "Bartoletti Inc",
+            "phone": "1-306-510-1977",
+            "email": "clemmie42@gmail.com",
+            "address": "9183 Patricia Dam Apt. 613\nNew Andrestad, IL 14035",
+            "created_at": "2 hours ago"
         },
         {
             "id": 3,
-            "name": "Nostrum porro laboriosam consequat Enim in voluptate consequatur eum quaerat alias ea fugit quia fugit nobis esse illo est sint",
-            "company": "Reiciendis aut cumque voluptate molestiae voluptatem amet ut cumque et rerum",
-            "phone": "Totam alias et nisi beatae nobis",
-            "email": "punk@lkasjd.com",
-            "address": "Qui aut ut neque laboriosam in qui iure non sit dicta cum qui voluptatem Corrupti ut",
-            "created_at": "3 weeks ago"
-        },
-        {
-            "id": 4,
-            "name": "Dr. Jammie Jenkins",
-            "company": "Sipes, Bogisich and Keeling",
-            "phone": "610.610.1862",
-            "email": "hane.geovanny@eichmann.com",
-            "address": "7914 Linda Mills Suite 210\nEwellbury, MT 44913",
-            "created_at": "6 days ago"
+            "name": "771965",
+            "company": "McGlynn, Gleason and Weimann",
+            "phone": "575-735-9794",
+            "email": "oconner.everett@steuber.com",
+            "address": "1569118",
+            "created_at": "2 hours ago"
         },
         {
             "id": 5,
-            "name": "Savion Orn",
-            "company": "Kulas PLC",
-            "phone": "1-763-625-1103",
-            "email": "nikolaus.coralie@langosh.com",
-            "address": "341 Alan Motorway\nZiemeville, DE 01927",
-            "created_at": "6 days ago"
+            "name": "Miss Ludie Barton Jr.",
+            "company": "Price PLC",
+            "phone": "1-765-546-7992 x448",
+            "email": "shannon.doyle@beatty.org",
+            "address": "39360 Gusikowski Well Apt. 722\nWest Scottie, NV 32079-7827",
+            "created_at": "2 hours ago"
         },
         {
             "id": 6,
-            "name": "Ms. Pinkie Klein",
-            "company": "Robel Inc",
-            "phone": "739-559-3028 x269",
-            "email": "ramona.oberbrunner@gmail.com",
-            "address": "5777 Estevan Plaza Suite 332\nGunnarview, NJ 22530",
-            "created_at": "6 days ago"
+            "name": "Dolly Rempel",
+            "company": "Denesik LLC",
+            "phone": "+1-918-653-1395",
+            "email": "iprohaska@grimes.com",
+            "address": "16525 Erdman Keys\nGutmannbury, MS 65065-3982",
+            "created_at": "2 hours ago"
         },
         {
             "id": 7,
-            "name": "Mariano Pouros",
-            "company": "Mueller, Hirthe and Block",
-            "phone": "+1.829.551.9191",
-            "email": "raphael.kohler@hotmail.com",
-            "address": "6174 Hayes Ways\nLake Dan, GA 62635",
-            "created_at": "6 days ago"
+            "name": "Miss Katharina Ferry V",
+            "company": "Leffler-Kessler",
+            "phone": "1-713-381-6452 x794",
+            "email": "alyce36@gmail.com",
+            "address": "21049 Howe Summit Apt. 201\nAmaniland, WV 62230-9925",
+            "created_at": "2 hours ago"
         },
         {
             "id": 8,
-            "name": "Polly Dietrich DDS",
-            "company": "Zulauf-Lynch",
-            "phone": "1-296-349-9414 x84898",
-            "email": "shauck@feest.com",
-            "address": "3303 Shakira Vista Apt. 431\nSouth Brittanyville, ID 40747-5240",
-            "created_at": "5 days ago"
+            "name": "Maritza Stehr",
+            "company": "McKenzie, Yundt and Leffler",
+            "phone": "506-838-8787",
+            "email": "vmitchell@hotmail.com",
+            "address": "56419 Reynolds Courts\nFunkborough, VA 62252",
+            "created_at": "1 hour ago"
         },
         {
             "id": 9,
-            "name": "Cletus Oberbrunner",
-            "company": "Rowe, Bergstrom and Watsica",
-            "phone": "1-689-427-9891",
-            "email": "turcotte.ally@yahoo.com",
-            "address": "7615 Agustin Manors\nNew Trudieville, IA 46798-9776",
-            "created_at": "4 days ago"
+            "name": "Thea Ruecker",
+            "company": "VonRueden, Yost and Ratke",
+            "phone": "735.878.2529",
+            "email": "dangelo40@gmail.com",
+            "address": "3706 Veum Springs\nEast Christianshire, CT 85873-6692",
+            "created_at": "1 hour ago"
         },
         {
             "id": 10,
-            "name": "Savanah Glover Sr.",
-            "company": "Goldner-Little",
-            "phone": "1-392-880-7509",
-            "email": "rowan.goldner@brekke.net",
-            "address": "387 Missouri Road\nNorth Colleen, IN 08000",
-            "created_at": "4 days ago"
+            "name": "705000",
+            "company": "Larson Ltd",
+            "phone": "719.550.3173",
+            "email": "miller.ari@jenkins.com",
+            "address": "5444080",
+            "created_at": "1 hour ago"
         },
         {
-            "id": 11,
-            "name": "865522",
-            "company": "Bauch Ltd",
-            "phone": "250.546.9831 x147",
-            "email": "bret.hauck@tillman.com",
-            "address": "1562060",
-            "created_at": "4 days ago"
+            "id": 12,
+            "name": "Prof. Morris Purdy IV",
+            "company": "Gerhold-Boehm",
+            "phone": "930.362.9346 x64856",
+            "email": "corrine.quigley@hotmail.com",
+            "address": "769 Orland Prairie Apt. 756\nSouth Kiraberg, FL 21092",
+            "created_at": "1 hour ago"
         },
         {
             "id": 13,
-            "name": "Kaya Oberbrunner",
-            "company": "Smith, Haley and Ward",
-            "phone": "(923) 441-7854 x567",
-            "email": "jmayert@block.com",
-            "address": "74917 Verna Glens Suite 661\nSouth Columbusshire, NC 64982-3428",
-            "created_at": "4 days ago"
+            "name": "Dejah Pacocha",
+            "company": "Weimann LLC",
+            "phone": "757.609.5587",
+            "email": "trogahn@hotmail.com",
+            "address": "39971 Shanahan Locks Apt. 790\nWest Soniahaven, VT 18149",
+            "created_at": "1 hour ago"
         },
         {
             "id": 14,
-            "name": "Hermann Hoeger",
-            "company": "Wintheiser Ltd",
-            "phone": "1-890-575-3211 x243",
-            "email": "mschaefer@ortiz.info",
-            "address": "97962 Otilia Shores\nStoltenbergton, CO 48191",
-            "created_at": "4 days ago"
+            "name": "Theresa Kohler",
+            "company": "Jones, West and Towne",
+            "phone": "927.896.6510 x88959",
+            "email": "sabryna72@kunde.biz",
+            "address": "4859 Bogan Trace Suite 428\nLake Terrancemouth, CA 60934",
+            "created_at": "1 hour ago"
         },
         {
             "id": 15,
-            "name": "Salvador Mills DDS",
-            "company": "Blick, O'Kon and Boyer",
-            "phone": "626.813.5405",
-            "email": "graciela64@lindgren.com",
-            "address": "95892 Thompson Falls\nPort Violetteberg, NE 64223",
-            "created_at": "6 hours ago"
+            "name": "Dr. Wiley Deckow",
+            "company": "McGlynn, Bayer and Ondricka",
+            "phone": "+14972434981",
+            "email": "gaylord.cecil@larson.biz",
+            "address": "7265 Logan Knoll Apt. 986\nEast Thoraburgh, MN 07747",
+            "created_at": "1 hour ago"
         },
         {
             "id": 16,
-            "name": "Alejandrin Stark PhD",
-            "company": "Konopelski, Goyette and Hill",
-            "phone": "+1 (883) 313-6933",
-            "email": "morgan.effertz@torphy.info",
-            "address": "1624 Schroeder Parks Apt. 226\nSouth Kali, FL 82567",
-            "created_at": "6 hours ago"
+            "name": "Alvena Harris Sr.",
+            "company": "Gutkowski, Hills and Emmerich",
+            "phone": "1-328-615-5843 x363",
+            "email": "tianna.jaskolski@gmail.com",
+            "address": "92623 Wanda Turnpike\nWest Kayli, GA 00422-3269",
+            "created_at": "1 hour ago"
+        },
+        {
+            "id": 17,
+            "name": "Jesse Feest",
+            "company": "Walsh and Sons",
+            "phone": "+1-412-201-7308",
+            "email": "ddare@pacocha.net",
+            "address": "7249 Raheem Greens\nNew Dell, WY 40436-9846",
+            "created_at": "1 hour ago"
         }
     ],
     "links": {
@@ -877,21 +829,21 @@ $.ajax(settings).done(function (response) {
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
-            "line": 735,
+            "line": 733,
             "function": "toResponse",
             "class": "Illuminate\\Http\\Resources\\Json\\JsonResource",
             "type": "->"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
-            "line": 722,
+            "line": 720,
             "function": "toResponse",
             "class": "Illuminate\\Routing\\Router",
             "type": "::"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
-            "line": 682,
+            "line": 680,
             "function": "prepareResponse",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
@@ -912,28 +864,28 @@ $.ajax(settings).done(function (response) {
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
-            "line": 684,
+            "line": 682,
             "function": "then",
             "class": "Illuminate\\Pipeline\\Pipeline",
             "type": "->"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
-            "line": 659,
+            "line": 657,
             "function": "runRouteWithinStack",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
-            "line": 625,
+            "line": 623,
             "function": "runRoute",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php",
-            "line": 614,
+            "line": 612,
             "function": "dispatchToRoute",
             "class": "Illuminate\\Routing\\Router",
             "type": "->"
@@ -1015,26 +967,26 @@ $.ajax(settings).done(function (response) {
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
-            "line": 29,
+            "line": 32,
             "function": "call_user_func_array"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
-            "line": 87,
+            "line": 90,
             "function": "Illuminate\\Container\\{closure}",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
-            "line": 31,
+            "line": 34,
             "function": "callBoundMethod",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php",
-            "line": 572,
+            "line": 580,
             "function": "call",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
@@ -1069,7 +1021,7 @@ $.ajax(settings).done(function (response) {
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/app\/Console\/Commands\/GenerateDocumentation.php",
-            "line": 63,
+            "line": 70,
             "function": "call",
             "class": "Illuminate\\Console\\Command",
             "type": "->"
@@ -1081,26 +1033,26 @@ $.ajax(settings).done(function (response) {
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
-            "line": 29,
+            "line": 32,
             "function": "call_user_func_array"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
-            "line": 87,
+            "line": 90,
             "function": "Illuminate\\Container\\{closure}",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php",
-            "line": 31,
+            "line": 34,
             "function": "callBoundMethod",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php",
-            "line": 572,
+            "line": 580,
             "function": "call",
             "class": "Illuminate\\Container\\BoundMethod",
             "type": "::"
@@ -1128,14 +1080,14 @@ $.ajax(settings).done(function (response) {
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/symfony\/console\/Application.php",
-            "line": 901,
+            "line": 908,
             "function": "run",
             "class": "Illuminate\\Console\\Command",
             "type": "->"
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/symfony\/console\/Application.php",
-            "line": 262,
+            "line": 269,
             "function": "doRunCommand",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
@@ -1149,7 +1101,7 @@ $.ajax(settings).done(function (response) {
         },
         {
             "file": "\/home\/ze\/projects\/trm\/neotrm\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php",
-            "line": 89,
+            "line": 90,
             "function": "run",
             "class": "Symfony\\Component\\Console\\Application",
             "type": "->"
@@ -1312,841 +1264,211 @@ $.ajax(settings).done(function (response) {
 [
     {
         "id": 1,
-        "created_at": "2019-02-08 07:13:50",
-        "updated_at": "2019-02-08 07:13:50",
+        "created_at": "2019-03-09 01:47:51",
+        "updated_at": "2019-03-09 01:47:51",
         "trips": [
             {
                 "id": 1,
-                "rp": "Emmalee Schamberger",
-                "invoice": "13245",
-                "client": "Mante-Lemke",
-                "intermediary": "Ritchie, Howell and Baumbach",
+                "rp": "Prof. Samanta Beer Sr.",
+                "invoice": "11578",
+                "client": "VonRueden-Dooley",
+                "intermediary": "Robel, Schultz and White",
                 "origin_id": "1",
                 "destination_id": "2",
-                "mon_type": "5",
-                "line": "Schuppe-Mitchell",
-                "scheduled_load": "2014-05-13 02:55:59",
-                "scheduled_departure": "1982-12-21 06:24:00",
-                "scheduled_arrival": "2011-08-03 19:56:52",
-                "scheduled_unload": "1991-08-04 00:48:12",
+                "mon_type": "8",
+                "line": "Walter-Hayes",
+                "scheduled_load": "2012-01-15 13:52:34",
+                "scheduled_departure": "1996-03-24 20:34:02",
+                "scheduled_arrival": "1971-04-24 22:21:05",
+                "scheduled_unload": "2002-06-08 01:26:10",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 1,
-                "created_at": "2019-02-08 07:13:50",
-                "updated_at": "2019-02-08 07:13:50"
+                "created_at": "2019-03-09 01:47:51",
+                "updated_at": "2019-03-09 01:47:51"
             },
             {
                 "id": 2,
-                "rp": "Mr. Bartholome Stamm",
-                "invoice": "49880",
-                "client": "Ebert, Schaden and Renner",
-                "intermediary": "Steuber PLC",
+                "rp": "Kristy Grady",
+                "invoice": "90741",
+                "client": "Howell Ltd",
+                "intermediary": "Simonis Group",
                 "origin_id": "3",
                 "destination_id": "4",
-                "mon_type": "2",
-                "line": "Kilback Ltd",
-                "scheduled_load": "2002-03-20 04:51:39",
-                "scheduled_departure": "1976-03-13 07:25:07",
-                "scheduled_arrival": "2006-05-02 21:24:21",
-                "scheduled_unload": "1992-08-23 06:40:09",
+                "mon_type": "9",
+                "line": "Prosacco, Collier and Heidenreich",
+                "scheduled_load": "1975-08-24 19:13:04",
+                "scheduled_departure": "1974-03-23 06:19:07",
+                "scheduled_arrival": "1995-06-15 01:25:44",
+                "scheduled_unload": "2004-08-27 21:07:10",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 1,
-                "created_at": "2019-02-08 07:13:50",
-                "updated_at": "2019-02-08 07:13:50"
+                "created_at": "2019-03-09 01:47:51",
+                "updated_at": "2019-03-09 01:47:51"
             },
             {
                 "id": 3,
-                "rp": "Blaise Ryan PhD",
-                "invoice": "90084",
-                "client": "O'Connell-Weber",
-                "intermediary": "Ernser-Keeling",
+                "rp": "Theresa Aufderhar",
+                "invoice": "93297",
+                "client": "Streich, Erdman and Turcotte",
+                "intermediary": "Hermiston and Sons",
                 "origin_id": "5",
                 "destination_id": "6",
                 "mon_type": "4",
-                "line": "Medhurst-Batz",
-                "scheduled_load": "1996-07-11 22:20:30",
-                "scheduled_departure": "1987-08-19 02:53:37",
-                "scheduled_arrival": "2012-07-10 20:51:41",
-                "scheduled_unload": "2006-11-29 14:56:04",
+                "line": "Gusikowski-Schroeder",
+                "scheduled_load": "2018-09-27 15:23:02",
+                "scheduled_departure": "1992-07-22 15:56:19",
+                "scheduled_arrival": "1998-01-20 09:41:43",
+                "scheduled_unload": "1989-05-28 18:41:47",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 1,
-                "created_at": "2019-02-08 07:13:50",
-                "updated_at": "2019-02-08 07:13:50"
+                "created_at": "2019-03-09 01:47:51",
+                "updated_at": "2019-03-09 01:47:51"
             }
         ]
     },
     {
         "id": 2,
-        "created_at": "2019-02-08 07:13:50",
-        "updated_at": "2019-02-08 07:13:50",
+        "created_at": "2019-03-09 01:47:51",
+        "updated_at": "2019-03-09 01:47:51",
         "trips": [
             {
                 "id": 4,
-                "rp": "Rogelio Swaniawski",
-                "invoice": "17073",
-                "client": "Mante, Greenfelder and Hudson",
-                "intermediary": "Friesen-Leffler",
+                "rp": "Prof. Stewart Davis IV",
+                "invoice": "28134",
+                "client": "Hermann-Hermann",
+                "intermediary": "Bashirian, Ullrich and Rowe",
                 "origin_id": "7",
                 "destination_id": "8",
-                "mon_type": "1",
-                "line": "Prosacco-Bayer",
-                "scheduled_load": "1997-04-08 08:24:30",
-                "scheduled_departure": "1978-09-23 21:44:28",
-                "scheduled_arrival": "1981-06-27 11:32:24",
-                "scheduled_unload": "1997-01-13 22:28:08",
+                "mon_type": "2",
+                "line": "Gutmann, Upton and Crooks",
+                "scheduled_load": "2016-07-16 20:46:42",
+                "scheduled_departure": "2012-09-02 13:14:14",
+                "scheduled_arrival": "1988-01-20 02:23:03",
+                "scheduled_unload": "2002-08-27 11:55:55",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 2,
-                "created_at": "2019-02-08 07:13:50",
-                "updated_at": "2019-02-08 07:13:50"
+                "created_at": "2019-03-09 01:47:51",
+                "updated_at": "2019-03-09 01:47:51"
             },
             {
                 "id": 5,
-                "rp": "Tianna Ritchie",
-                "invoice": "29960",
-                "client": "Hahn, Schultz and West",
-                "intermediary": "Greenholt-Torp",
+                "rp": "Dr. Bonnie Abbott",
+                "invoice": "60484",
+                "client": "Carter, Paucek and Stroman",
+                "intermediary": "Bruen-Sipes",
                 "origin_id": "9",
                 "destination_id": "10",
-                "mon_type": "9",
-                "line": "Hackett LLC",
-                "scheduled_load": "1972-06-29 06:40:12",
-                "scheduled_departure": "1996-07-24 18:19:21",
-                "scheduled_arrival": "2000-06-23 11:31:09",
-                "scheduled_unload": "2014-03-25 21:13:06",
+                "mon_type": "8",
+                "line": "Frami-Murray",
+                "scheduled_load": "1986-03-18 08:45:45",
+                "scheduled_departure": "1979-01-23 12:50:31",
+                "scheduled_arrival": "2016-08-29 20:48:04",
+                "scheduled_unload": "2002-10-19 14:35:49",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 2,
-                "created_at": "2019-02-08 07:13:50",
-                "updated_at": "2019-02-08 07:13:50"
+                "created_at": "2019-03-09 01:47:51",
+                "updated_at": "2019-03-09 01:47:51"
             },
             {
                 "id": 6,
-                "rp": "Dr. Eleazar Nienow Jr.",
-                "invoice": "75721",
-                "client": "Turcotte-Tremblay",
-                "intermediary": "Senger PLC",
+                "rp": "Peggie Bergnaum",
+                "invoice": "92177",
+                "client": "Wisoky Ltd",
+                "intermediary": "Gleichner, DuBuque and Larson",
                 "origin_id": "11",
                 "destination_id": "12",
-                "mon_type": "7",
-                "line": "Gerhold LLC",
-                "scheduled_load": "2012-10-04 10:07:35",
-                "scheduled_departure": "1985-04-03 19:15:47",
-                "scheduled_arrival": "1973-09-17 14:28:52",
-                "scheduled_unload": "1978-01-26 06:27:47",
+                "mon_type": "4",
+                "line": "Berge, Crona and Renner",
+                "scheduled_load": "2014-03-02 07:57:35",
+                "scheduled_departure": "1978-03-13 04:29:57",
+                "scheduled_arrival": "1992-11-24 15:51:33",
+                "scheduled_unload": "1989-10-20 08:55:43",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 2,
-                "created_at": "2019-02-08 07:13:50",
-                "updated_at": "2019-02-08 07:13:50"
+                "created_at": "2019-03-09 01:47:51",
+                "updated_at": "2019-03-09 01:47:51"
             }
         ]
     },
     {
         "id": 3,
-        "created_at": "2019-02-08 07:13:51",
-        "updated_at": "2019-02-08 07:13:51",
+        "created_at": "2019-03-09 01:47:52",
+        "updated_at": "2019-03-09 01:47:52",
         "trips": [
             {
                 "id": 7,
-                "rp": "Janiya Hoeger",
-                "invoice": "5018",
-                "client": "Rosenbaum, Glover and Haag",
-                "intermediary": "Casper-Blick",
+                "rp": "Regan Hodkiewicz",
+                "invoice": "53948",
+                "client": "Johns-Schultz",
+                "intermediary": "Morar, Kshlerin and Murray",
                 "origin_id": "13",
                 "destination_id": "14",
                 "mon_type": "9",
-                "line": "Anderson, Hayes and Gutkowski",
-                "scheduled_load": "1996-07-17 20:16:42",
-                "scheduled_departure": "1996-06-30 11:50:49",
-                "scheduled_arrival": "2007-05-14 19:31:04",
-                "scheduled_unload": "1978-08-03 22:44:39",
+                "line": "Schneider, Christiansen and Quitzon",
+                "scheduled_load": "2005-09-08 21:16:09",
+                "scheduled_departure": "2003-05-11 23:50:30",
+                "scheduled_arrival": "1976-06-14 13:41:41",
+                "scheduled_unload": "1986-12-30 14:27:52",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 3,
-                "created_at": "2019-02-08 07:13:51",
-                "updated_at": "2019-02-08 07:13:51"
+                "created_at": "2019-03-09 01:47:52",
+                "updated_at": "2019-03-09 01:47:52"
             },
             {
                 "id": 8,
-                "rp": "Patrick Predovic",
-                "invoice": "72630",
-                "client": "Stanton-Larkin",
-                "intermediary": "Lehner, Tromp and Will",
+                "rp": "Arden Reichel",
+                "invoice": "83210",
+                "client": "Doyle-Luettgen",
+                "intermediary": "Feest, Koss and Harber",
                 "origin_id": "15",
                 "destination_id": "16",
-                "mon_type": "4",
-                "line": "Stanton, McKenzie and Bergnaum",
-                "scheduled_load": "1990-03-20 17:09:46",
-                "scheduled_departure": "1997-07-25 23:08:56",
-                "scheduled_arrival": "1994-08-05 19:41:13",
-                "scheduled_unload": "1988-06-14 09:31:51",
+                "mon_type": "9",
+                "line": "Pfeffer-Lakin",
+                "scheduled_load": "2015-04-24 22:56:24",
+                "scheduled_departure": "2016-10-11 10:34:46",
+                "scheduled_arrival": "2000-06-17 17:28:58",
+                "scheduled_unload": "1978-07-22 02:05:45",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 3,
-                "created_at": "2019-02-08 07:13:51",
-                "updated_at": "2019-02-08 07:13:51"
+                "created_at": "2019-03-09 01:47:52",
+                "updated_at": "2019-03-09 01:47:52"
             },
             {
                 "id": 9,
-                "rp": "Laverne Sipes",
-                "invoice": "42952",
-                "client": "Kerluke-Langworth",
-                "intermediary": "Effertz Inc",
+                "rp": "Anabelle Auer",
+                "invoice": "71650",
+                "client": "Erdman Ltd",
+                "intermediary": "Von-Robel",
                 "origin_id": "17",
                 "destination_id": "18",
-                "mon_type": "5",
-                "line": "McClure, Weimann and Beahan",
-                "scheduled_load": "1998-08-12 14:32:52",
-                "scheduled_departure": "1980-01-21 23:44:15",
-                "scheduled_arrival": "2007-07-05 19:29:58",
-                "scheduled_unload": "1988-05-26 09:38:03",
+                "mon_type": "7",
+                "line": "Bergstrom, Abernathy and Rogahn",
+                "scheduled_load": "1978-03-19 04:12:57",
+                "scheduled_departure": "1987-12-24 05:39:11",
+                "scheduled_arrival": "1996-04-05 06:27:47",
+                "scheduled_unload": "2000-03-26 19:22:09",
                 "bulk": null,
                 "tag": null,
                 "device_id": null,
                 "convoy_id": 3,
-                "created_at": "2019-02-08 07:13:51",
-                "updated_at": "2019-02-08 07:13:51"
-            }
-        ]
-    },
-    {
-        "id": 4,
-        "created_at": "2019-02-13 00:04:32",
-        "updated_at": "2019-02-13 00:04:32",
-        "trips": [
-            {
-                "id": 18,
-                "rp": "Moshe Simonis",
-                "invoice": "40800",
-                "client": "Ferry, Rice and Ritchie",
-                "intermediary": "Lueilwitz and Sons",
-                "origin_id": "34",
-                "destination_id": "35",
-                "mon_type": "7",
-                "line": "Hodkiewicz-Upton",
-                "scheduled_load": "2009-12-28 16:15:07",
-                "scheduled_departure": "1970-08-19 01:39:08",
-                "scheduled_arrival": "2016-03-26 05:14:33",
-                "scheduled_unload": "1993-12-02 02:07:46",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 4,
-                "created_at": "2019-02-13 00:04:32",
-                "updated_at": "2019-02-13 00:04:32"
-            },
-            {
-                "id": 19,
-                "rp": "Warren Durgan",
-                "invoice": "69242",
-                "client": "Goyette, Schaden and Klein",
-                "intermediary": "Rowe-Romaguera",
-                "origin_id": "36",
-                "destination_id": "37",
-                "mon_type": "0",
-                "line": "Fahey, Kessler and Feest",
-                "scheduled_load": "1998-02-26 09:15:21",
-                "scheduled_departure": "1999-05-20 08:02:45",
-                "scheduled_arrival": "2000-12-28 01:47:14",
-                "scheduled_unload": "1992-07-07 23:17:47",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 4,
-                "created_at": "2019-02-13 00:04:32",
-                "updated_at": "2019-02-13 00:04:32"
-            },
-            {
-                "id": 20,
-                "rp": "Glen Dooley",
-                "invoice": "62708",
-                "client": "Boehm, Kub and Hamill",
-                "intermediary": "Wuckert-Franecki",
-                "origin_id": "38",
-                "destination_id": "39",
-                "mon_type": "6",
-                "line": "Erdman-Brown",
-                "scheduled_load": "1982-06-19 06:43:07",
-                "scheduled_departure": "2016-07-12 15:12:18",
-                "scheduled_arrival": "2016-02-27 13:34:54",
-                "scheduled_unload": "2018-03-29 09:18:34",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 4,
-                "created_at": "2019-02-13 00:04:32",
-                "updated_at": "2019-02-13 00:04:32"
-            }
-        ]
-    },
-    {
-        "id": 5,
-        "created_at": "2019-02-13 00:04:32",
-        "updated_at": "2019-02-13 00:04:32",
-        "trips": [
-            {
-                "id": 21,
-                "rp": "Danika Langosh DDS",
-                "invoice": "2640",
-                "client": "Lueilwitz, Harber and Herman",
-                "intermediary": "Baumbach Inc",
-                "origin_id": "40",
-                "destination_id": "41",
-                "mon_type": "8",
-                "line": "Gutkowski PLC",
-                "scheduled_load": "1992-01-11 12:39:42",
-                "scheduled_departure": "2012-04-01 19:06:01",
-                "scheduled_arrival": "1991-10-08 20:12:33",
-                "scheduled_unload": "1985-12-21 17:40:29",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 5,
-                "created_at": "2019-02-13 00:04:32",
-                "updated_at": "2019-02-13 00:04:32"
-            },
-            {
-                "id": 22,
-                "rp": "Aisha Rodriguez V",
-                "invoice": "72480",
-                "client": "Kautzer, Simonis and Swaniawski",
-                "intermediary": "Wunsch, Rolfson and Deckow",
-                "origin_id": "42",
-                "destination_id": "43",
-                "mon_type": "1",
-                "line": "Oberbrunner, Auer and Rath",
-                "scheduled_load": "1975-03-22 23:55:26",
-                "scheduled_departure": "2004-12-10 12:31:46",
-                "scheduled_arrival": "1990-09-10 04:05:36",
-                "scheduled_unload": "2018-05-27 23:31:37",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 5,
-                "created_at": "2019-02-13 00:04:32",
-                "updated_at": "2019-02-13 00:04:32"
-            },
-            {
-                "id": 23,
-                "rp": "Kris Dickinson",
-                "invoice": "40426",
-                "client": "Steuber PLC",
-                "intermediary": "Bednar Inc",
-                "origin_id": "44",
-                "destination_id": "45",
-                "mon_type": "9",
-                "line": "Ferry, Greenfelder and Jakubowski",
-                "scheduled_load": "1976-08-15 15:22:23",
-                "scheduled_departure": "1998-07-09 11:36:12",
-                "scheduled_arrival": "1973-05-03 06:55:34",
-                "scheduled_unload": "2018-05-18 14:06:00",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 5,
-                "created_at": "2019-02-13 00:04:32",
-                "updated_at": "2019-02-13 00:04:32"
-            }
-        ]
-    },
-    {
-        "id": 6,
-        "created_at": "2019-02-13 00:04:33",
-        "updated_at": "2019-02-13 00:04:33",
-        "trips": [
-            {
-                "id": 24,
-                "rp": "Lucas Moen",
-                "invoice": "51539",
-                "client": "Strosin LLC",
-                "intermediary": "Bins-Upton",
-                "origin_id": "46",
-                "destination_id": "47",
-                "mon_type": "4",
-                "line": "O'Kon, Koelpin and Rowe",
-                "scheduled_load": "2015-06-17 13:45:05",
-                "scheduled_departure": "2013-04-02 20:02:17",
-                "scheduled_arrival": "2017-10-02 08:45:48",
-                "scheduled_unload": "2013-02-23 02:58:10",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 6,
-                "created_at": "2019-02-13 00:04:33",
-                "updated_at": "2019-02-13 00:04:33"
-            },
-            {
-                "id": 25,
-                "rp": "Willard Wiza Sr.",
-                "invoice": "75080",
-                "client": "Beer-Keebler",
-                "intermediary": "Doyle-Donnelly",
-                "origin_id": "48",
-                "destination_id": "49",
-                "mon_type": "8",
-                "line": "Runte, Hamill and Gleason",
-                "scheduled_load": "1987-06-18 16:08:42",
-                "scheduled_departure": "1977-04-07 07:55:12",
-                "scheduled_arrival": "1985-10-07 05:55:41",
-                "scheduled_unload": "1973-02-02 11:04:34",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 6,
-                "created_at": "2019-02-13 00:04:33",
-                "updated_at": "2019-02-13 00:04:33"
-            },
-            {
-                "id": 26,
-                "rp": "Prof. Arvid Predovic III",
-                "invoice": "63611",
-                "client": "Stamm and Sons",
-                "intermediary": "Marks-Schowalter",
-                "origin_id": "50",
-                "destination_id": "51",
-                "mon_type": "6",
-                "line": "Howell and Sons",
-                "scheduled_load": "1974-04-03 01:43:04",
-                "scheduled_departure": "1986-12-04 15:22:25",
-                "scheduled_arrival": "1985-08-24 04:05:28",
-                "scheduled_unload": "2002-07-24 02:07:14",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 6,
-                "created_at": "2019-02-13 00:04:33",
-                "updated_at": "2019-02-13 00:04:33"
-            }
-        ]
-    },
-    {
-        "id": 7,
-        "created_at": "2019-02-13 00:07:39",
-        "updated_at": "2019-02-13 00:07:39",
-        "trips": [
-            {
-                "id": 35,
-                "rp": "Jalon Donnelly",
-                "invoice": "43703",
-                "client": "Hudson-Bartoletti",
-                "intermediary": "Turner and Sons",
-                "origin_id": "67",
-                "destination_id": "68",
-                "mon_type": "1",
-                "line": "Bernier, Legros and Larkin",
-                "scheduled_load": "2002-08-06 16:25:01",
-                "scheduled_departure": "2001-10-03 23:18:51",
-                "scheduled_arrival": "1975-12-05 21:23:42",
-                "scheduled_unload": "2002-11-20 23:19:32",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 7,
-                "created_at": "2019-02-13 00:07:39",
-                "updated_at": "2019-02-13 00:07:39"
-            },
-            {
-                "id": 36,
-                "rp": "Gertrude Daugherty",
-                "invoice": "27338",
-                "client": "Cremin, Turner and O'Kon",
-                "intermediary": "Purdy-Barton",
-                "origin_id": "69",
-                "destination_id": "70",
-                "mon_type": "6",
-                "line": "Greenfelder, Wuckert and Johnston",
-                "scheduled_load": "1991-07-18 12:39:40",
-                "scheduled_departure": "2010-07-10 06:10:10",
-                "scheduled_arrival": "1976-06-19 12:16:36",
-                "scheduled_unload": "2010-06-20 03:12:13",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 7,
-                "created_at": "2019-02-13 00:07:39",
-                "updated_at": "2019-02-13 00:07:39"
-            },
-            {
-                "id": 37,
-                "rp": "Annamae Daugherty",
-                "invoice": "6268",
-                "client": "Fisher Ltd",
-                "intermediary": "Stoltenberg-Hilpert",
-                "origin_id": "71",
-                "destination_id": "72",
-                "mon_type": "4",
-                "line": "Quigley Group",
-                "scheduled_load": "1993-09-03 20:52:48",
-                "scheduled_departure": "2016-06-18 22:29:30",
-                "scheduled_arrival": "1977-11-30 08:08:56",
-                "scheduled_unload": "2010-06-28 05:51:56",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 7,
-                "created_at": "2019-02-13 00:07:39",
-                "updated_at": "2019-02-13 00:07:39"
-            }
-        ]
-    },
-    {
-        "id": 8,
-        "created_at": "2019-02-13 00:07:40",
-        "updated_at": "2019-02-13 00:07:40",
-        "trips": [
-            {
-                "id": 38,
-                "rp": "Daisha Lind",
-                "invoice": "27437",
-                "client": "Wunsch-Bayer",
-                "intermediary": "Armstrong, Douglas and Rutherford",
-                "origin_id": "73",
-                "destination_id": "74",
-                "mon_type": "7",
-                "line": "Beatty-Howell",
-                "scheduled_load": "1990-07-20 18:55:26",
-                "scheduled_departure": "2003-12-08 08:42:33",
-                "scheduled_arrival": "2012-05-14 06:41:44",
-                "scheduled_unload": "1983-12-27 16:33:35",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 8,
-                "created_at": "2019-02-13 00:07:40",
-                "updated_at": "2019-02-13 00:07:40"
-            },
-            {
-                "id": 39,
-                "rp": "Chaim Gusikowski IV",
-                "invoice": "24576",
-                "client": "Stracke, Trantow and Gaylord",
-                "intermediary": "Ledner, Konopelski and Rutherford",
-                "origin_id": "75",
-                "destination_id": "76",
-                "mon_type": "5",
-                "line": "Haley-Rippin",
-                "scheduled_load": "1990-05-22 18:16:10",
-                "scheduled_departure": "2005-08-24 05:27:42",
-                "scheduled_arrival": "1995-07-10 23:31:22",
-                "scheduled_unload": "1972-01-21 08:38:00",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 8,
-                "created_at": "2019-02-13 00:07:40",
-                "updated_at": "2019-02-13 00:07:40"
-            },
-            {
-                "id": 40,
-                "rp": "Jammie Turner IV",
-                "invoice": "80715",
-                "client": "Mosciski Ltd",
-                "intermediary": "Beier-Grady",
-                "origin_id": "77",
-                "destination_id": "78",
-                "mon_type": "0",
-                "line": "Mosciski, Baumbach and Gulgowski",
-                "scheduled_load": "2016-06-07 07:39:35",
-                "scheduled_departure": "1973-12-12 14:52:06",
-                "scheduled_arrival": "1979-10-12 16:17:11",
-                "scheduled_unload": "1995-09-25 06:01:08",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 8,
-                "created_at": "2019-02-13 00:07:40",
-                "updated_at": "2019-02-13 00:07:40"
-            }
-        ]
-    },
-    {
-        "id": 9,
-        "created_at": "2019-02-13 00:07:40",
-        "updated_at": "2019-02-13 00:07:40",
-        "trips": [
-            {
-                "id": 41,
-                "rp": "Saul Douglas",
-                "invoice": "87791",
-                "client": "Kunze Inc",
-                "intermediary": "Doyle Inc",
-                "origin_id": "79",
-                "destination_id": "80",
-                "mon_type": "4",
-                "line": "Kihn, Windler and Olson",
-                "scheduled_load": "1978-12-19 00:43:31",
-                "scheduled_departure": "2002-07-10 17:23:57",
-                "scheduled_arrival": "1999-04-25 11:40:21",
-                "scheduled_unload": "1995-02-06 14:49:18",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 9,
-                "created_at": "2019-02-13 00:07:40",
-                "updated_at": "2019-02-13 00:07:40"
-            },
-            {
-                "id": 42,
-                "rp": "Dr. Mollie Altenwerth",
-                "invoice": "37060",
-                "client": "Metz Group",
-                "intermediary": "Romaguera, Reilly and Nader",
-                "origin_id": "81",
-                "destination_id": "82",
-                "mon_type": "1",
-                "line": "Metz-Reinger",
-                "scheduled_load": "1981-06-08 21:14:44",
-                "scheduled_departure": "1988-09-12 15:25:19",
-                "scheduled_arrival": "1987-11-05 20:49:56",
-                "scheduled_unload": "1999-11-30 05:26:15",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 9,
-                "created_at": "2019-02-13 00:07:40",
-                "updated_at": "2019-02-13 00:07:40"
-            },
-            {
-                "id": 43,
-                "rp": "Ryley Tremblay",
-                "invoice": "10769",
-                "client": "Krajcik-Farrell",
-                "intermediary": "Collins, Yundt and Miller",
-                "origin_id": "83",
-                "destination_id": "84",
-                "mon_type": "4",
-                "line": "Swaniawski and Sons",
-                "scheduled_load": "1987-10-21 23:53:02",
-                "scheduled_departure": "1988-04-09 10:00:14",
-                "scheduled_arrival": "1993-04-26 01:24:03",
-                "scheduled_unload": "1990-01-21 07:13:42",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 9,
-                "created_at": "2019-02-13 00:07:40",
-                "updated_at": "2019-02-13 00:07:40"
-            }
-        ]
-    },
-    {
-        "id": 10,
-        "created_at": "2019-02-13 00:10:04",
-        "updated_at": "2019-02-13 00:10:04",
-        "trips": [
-            {
-                "id": 52,
-                "rp": "Delia Gibson",
-                "invoice": "11263",
-                "client": "Zieme and Sons",
-                "intermediary": "Daugherty Group",
-                "origin_id": "100",
-                "destination_id": "101",
-                "mon_type": "3",
-                "line": "Goodwin, Rau and Berge",
-                "scheduled_load": "1970-05-29 16:03:59",
-                "scheduled_departure": "1990-12-14 22:46:48",
-                "scheduled_arrival": "2004-03-26 11:52:27",
-                "scheduled_unload": "2004-02-17 23:57:50",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 10,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            },
-            {
-                "id": 53,
-                "rp": "Dashawn Wintheiser",
-                "invoice": "89288",
-                "client": "Mohr-Barton",
-                "intermediary": "Deckow Inc",
-                "origin_id": "102",
-                "destination_id": "103",
-                "mon_type": "9",
-                "line": "Tremblay-Borer",
-                "scheduled_load": "1993-03-23 17:14:00",
-                "scheduled_departure": "1984-09-03 21:04:35",
-                "scheduled_arrival": "1983-11-09 02:33:39",
-                "scheduled_unload": "2006-02-16 09:15:37",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 10,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            },
-            {
-                "id": 54,
-                "rp": "Jayda Stamm",
-                "invoice": "70882",
-                "client": "Pfannerstill-King",
-                "intermediary": "Tillman Group",
-                "origin_id": "104",
-                "destination_id": "105",
-                "mon_type": "9",
-                "line": "Ritchie Inc",
-                "scheduled_load": "1972-03-13 18:09:38",
-                "scheduled_departure": "1988-08-02 08:34:32",
-                "scheduled_arrival": "2008-04-21 15:32:16",
-                "scheduled_unload": "2015-08-27 08:26:26",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 10,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            }
-        ]
-    },
-    {
-        "id": 11,
-        "created_at": "2019-02-13 00:10:04",
-        "updated_at": "2019-02-13 00:10:04",
-        "trips": [
-            {
-                "id": 55,
-                "rp": "Dr. Arlo Gorczany PhD",
-                "invoice": "41405",
-                "client": "Beier-Dicki",
-                "intermediary": "Rosenbaum PLC",
-                "origin_id": "106",
-                "destination_id": "107",
-                "mon_type": "2",
-                "line": "Wilkinson and Sons",
-                "scheduled_load": "2004-07-04 00:23:17",
-                "scheduled_departure": "1985-12-10 05:51:48",
-                "scheduled_arrival": "2014-03-01 02:48:32",
-                "scheduled_unload": "2005-04-25 09:25:54",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 11,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            },
-            {
-                "id": 56,
-                "rp": "Rhoda Kunde",
-                "invoice": "32029",
-                "client": "Schuster, Becker and Ledner",
-                "intermediary": "Ryan, Gulgowski and Russel",
-                "origin_id": "108",
-                "destination_id": "109",
-                "mon_type": "1",
-                "line": "Spinka and Sons",
-                "scheduled_load": "1985-08-02 16:28:23",
-                "scheduled_departure": "1982-10-26 19:07:19",
-                "scheduled_arrival": "1978-09-28 06:36:32",
-                "scheduled_unload": "1979-11-12 01:41:56",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 11,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            },
-            {
-                "id": 57,
-                "rp": "Austin Swaniawski",
-                "invoice": "91699",
-                "client": "Murray PLC",
-                "intermediary": "Schamberger-Weber",
-                "origin_id": "110",
-                "destination_id": "111",
-                "mon_type": "7",
-                "line": "Kohler-Eichmann",
-                "scheduled_load": "1997-02-10 06:57:01",
-                "scheduled_departure": "2003-03-04 16:37:40",
-                "scheduled_arrival": "2008-09-09 05:06:34",
-                "scheduled_unload": "1980-05-02 11:59:43",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 11,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            }
-        ]
-    },
-    {
-        "id": 12,
-        "created_at": "2019-02-13 00:10:04",
-        "updated_at": "2019-02-13 00:10:04",
-        "trips": [
-            {
-                "id": 58,
-                "rp": "Prof. Taya Bartoletti",
-                "invoice": "77239",
-                "client": "Reichel-Mueller",
-                "intermediary": "Welch-Nolan",
-                "origin_id": "112",
-                "destination_id": "113",
-                "mon_type": "2",
-                "line": "Howell Inc",
-                "scheduled_load": "1987-11-22 06:40:40",
-                "scheduled_departure": "2017-06-11 00:21:21",
-                "scheduled_arrival": "1982-05-15 20:13:50",
-                "scheduled_unload": "1985-12-17 19:49:14",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 12,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            },
-            {
-                "id": 59,
-                "rp": "Prof. Irwin Hirthe IV",
-                "invoice": "56838",
-                "client": "Raynor, Gleason and Lubowitz",
-                "intermediary": "Sipes-Aufderhar",
-                "origin_id": "114",
-                "destination_id": "115",
-                "mon_type": "4",
-                "line": "Mayer PLC",
-                "scheduled_load": "2015-03-06 01:04:04",
-                "scheduled_departure": "1976-01-21 16:56:14",
-                "scheduled_arrival": "2004-02-18 22:29:32",
-                "scheduled_unload": "1991-02-27 20:14:09",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 12,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
-            },
-            {
-                "id": 60,
-                "rp": "Miss Dolores Reichel III",
-                "invoice": "13948",
-                "client": "Vandervort, Sipes and Kessler",
-                "intermediary": "Roob-Veum",
-                "origin_id": "116",
-                "destination_id": "117",
-                "mon_type": "1",
-                "line": "Bashirian Group",
-                "scheduled_load": "2017-02-12 21:12:04",
-                "scheduled_departure": "2004-12-03 18:04:28",
-                "scheduled_arrival": "1997-05-04 16:21:38",
-                "scheduled_unload": "1991-12-18 02:41:40",
-                "bulk": null,
-                "tag": null,
-                "device_id": null,
-                "convoy_id": 12,
-                "created_at": "2019-02-13 00:10:04",
-                "updated_at": "2019-02-13 00:10:04"
+                "created_at": "2019-03-09 01:47:52",
+                "updated_at": "2019-03-09 01:47:52"
             }
         ]
     }
@@ -2200,6 +1522,39 @@ $.ajax(settings).done(function (response) {
 <!-- END_382abdc909b8b29c80a049d72f982249 -->
 
 #Device
+<!-- START_45f7ecd2c9cbf7f9a228f160a8e5f1eb -->
+## Liga unidad a dispositivos existentes
+
+> Example request:
+
+```bash
+curl -X POST "http://localhost:8000/api/v1/devices/{device}/link_unit" \
+    -H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/devices/{device}/link_unit",
+    "method": "POST",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`POST api/v1/devices/{device}/link_unit`
+
+
+<!-- END_45f7ecd2c9cbf7f9a228f160a8e5f1eb -->
+
 <!-- START_e96c6711c1ea3212afa6af75fb23e97c -->
 ## Display a listing of the Devices.
 
@@ -2233,52 +1588,30 @@ $.ajax(settings).done(function (response) {
     "data": [
         {
             "id": 1,
-            "gps": "Flatley-Rowe",
-            "plate": "9507296",
-            "internal_number": "9826963014",
-            "carrier_id": 71
+            "name": "Mallie Gleichner76928",
+            "gps": null,
+            "plate": null,
+            "internal_number": null,
+            "carrier_id": null,
+            "reference_data": null
         },
         {
             "id": 2,
-            "gps": "Macejkovic-Thiel",
-            "plate": "3105233",
-            "internal_number": "6483198509",
-            "carrier_id": 72
+            "name": "Ms. Kailey Macejkovic Jr.95103",
+            "gps": null,
+            "plate": null,
+            "internal_number": null,
+            "carrier_id": null,
+            "reference_data": null
         },
         {
             "id": 3,
-            "gps": "Parker Ltd",
-            "plate": "829078",
-            "internal_number": "5646748382",
-            "carrier_id": 73
-        },
-        {
-            "id": 4,
-            "gps": "Yost-Weissnat",
-            "plate": "4942403",
-            "internal_number": "4680246534",
-            "carrier_id": 74
-        },
-        {
-            "id": 5,
-            "gps": "Sawayn Group",
-            "plate": "3244810",
-            "internal_number": "1992711918",
-            "carrier_id": 75
-        },
-        {
-            "id": 6,
-            "gps": "Lockman PLC",
-            "plate": "4468863",
-            "internal_number": "3873198472",
-            "carrier_id": 76
-        },
-        {
-            "id": 7,
-            "gps": "Vandervort, Rempel and Kreiger",
-            "plate": "6085767",
-            "internal_number": "985005408",
-            "carrier_id": 77
+            "name": "Marie Murazik22574",
+            "gps": "Heathcote-Stanton",
+            "plate": "9483036",
+            "internal_number": "8867173135",
+            "carrier_id": 5,
+            "reference_data": null
         }
     ],
     "links": {
@@ -2293,8 +1626,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/devices",
         "per_page": 15,
-        "to": 7,
-        "total": 7
+        "to": 3,
+        "total": 3
     }
 }
 ```
@@ -2388,11 +1721,13 @@ $.ajax(settings).done(function (response) {
 {
     "data": {
         "id": null,
+        "name": null,
         "gps": null,
         "plate": null,
         "internal_number": null,
         "carrier_id": null,
-        "trips": []
+        "trips": [],
+        "reference_data": null
     }
 }
 ```
@@ -2618,52 +1953,30 @@ $.ajax(settings).done(function (response) {
     "data": [
         {
             "id": 1,
-            "gps": "Flatley-Rowe",
-            "plate": "9507296",
-            "internal_number": "9826963014",
-            "carrier_id": 71
+            "name": "Mallie Gleichner76928",
+            "gps": null,
+            "plate": null,
+            "internal_number": null,
+            "carrier_id": null,
+            "reference_data": null
         },
         {
             "id": 2,
-            "gps": "Macejkovic-Thiel",
-            "plate": "3105233",
-            "internal_number": "6483198509",
-            "carrier_id": 72
+            "name": "Ms. Kailey Macejkovic Jr.95103",
+            "gps": null,
+            "plate": null,
+            "internal_number": null,
+            "carrier_id": null,
+            "reference_data": null
         },
         {
             "id": 3,
-            "gps": "Parker Ltd",
-            "plate": "829078",
-            "internal_number": "5646748382",
-            "carrier_id": 73
-        },
-        {
-            "id": 4,
-            "gps": "Yost-Weissnat",
-            "plate": "4942403",
-            "internal_number": "4680246534",
-            "carrier_id": 74
-        },
-        {
-            "id": 5,
-            "gps": "Sawayn Group",
-            "plate": "3244810",
-            "internal_number": "1992711918",
-            "carrier_id": 75
-        },
-        {
-            "id": 6,
-            "gps": "Lockman PLC",
-            "plate": "4468863",
-            "internal_number": "3873198472",
-            "carrier_id": 76
-        },
-        {
-            "id": 7,
-            "gps": "Vandervort, Rempel and Kreiger",
-            "plate": "6085767",
-            "internal_number": "985005408",
-            "carrier_id": 77
+            "name": "Marie Murazik22574",
+            "gps": "Heathcote-Stanton",
+            "plate": "9483036",
+            "internal_number": "8867173135",
+            "carrier_id": 5,
+            "reference_data": null
         }
     ],
     "links": {
@@ -2678,8 +1991,8 @@ $.ajax(settings).done(function (response) {
         "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/external\/devices",
         "per_page": 15,
-        "to": 7,
-        "total": 7
+        "to": 3,
+        "total": 3
     }
 }
 ```
@@ -2722,10 +2035,10 @@ $.ajax(settings).done(function (response) {
 ```json
 {
     "data": {
-        "id": 1038,
-        "name": "Eldridge Franecki",
+        "id": 232,
+        "name": "Dr. Rae Hane DDS",
         "lastname": "",
-        "email": "velitigusikowski@example.net",
+        "email": "maioresanibal74@example.com",
         "username": ""
     }
 }
@@ -2776,6 +2089,46 @@ $.ajax(settings).done(function (response) {
 
 
 <!-- END_6a0e5684f22e4fc2cc18bad45b5c2db9 -->
+
+<!-- START_3a3dcd53d6f460210966ca323d4f6ab5 -->
+## Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost:8000/api/v1/me/accounts" \
+    -H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/me/accounts",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "data": []
+}
+```
+
+### HTTP Request
+`GET api/v1/me/accounts`
+
+
+<!-- END_3a3dcd53d6f460210966ca323d4f6ab5 -->
 
 <!-- START_16b8eda3aa41185a0a777ba89f36b669 -->
 ## Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel
@@ -2850,95 +2203,35 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "name": "Molestiae est totam et facilis",
-            "phone": "Consequat Amet labore ut omnis laborum Veritatis",
+            "name": "Manley Abshire",
+            "phone": "445.625.3764",
             "active": false
         },
         {
-            "name": "Molestiae est totam et facilis",
-            "phone": "Consequat Amet labore ut omnis laborum Veritatis",
-            "active": false
-        },
-        {
-            "name": "Nemo quae ipsa nostrum beatae ad in esse",
-            "phone": "Occaecat enim fugiat perferendis pariatur Aut quaerat consequatur et eius nulla aliquid cillum nulla ex",
-            "active": false
-        },
-        {
-            "name": "Nemo quae ipsa nostrum beatae ad in esse",
-            "phone": "Occaecat enim fugiat perferendis pariatur Aut quaerat consequatur et eius nulla aliquid cillum nulla ex",
-            "active": false
-        },
-        {
-            "name": "Nemo quae ipsa nostrum beatae ad in esse",
-            "phone": "Occaecat enim fugiat perferendis pariatur Aut quaerat consequatur et eius nulla aliquid cillum nulla ex",
-            "active": false
-        },
-        {
-            "name": "Deserunt officiis et sunt non sit repellendus Totam",
-            "phone": "Facere nostrum est quae aut quia",
-            "active": false
-        },
-        {
-            "name": "Dolore non odit ut necessitatibus quis nesciunt et sunt quis enim",
-            "phone": "Quibusdam in qui voluptatem sequi quam quos sunt odit accusamus do culpa sit a perferendis id ex",
-            "active": false
-        },
-        {
-            "name": "Dolore non odit ut necessitatibus quis nesciunt et sunt quis enim",
-            "phone": "Quibusdam in qui voluptatem sequi quam quos sunt odit accusamus do culpa sit a perferendis id ex",
-            "active": false
-        },
-        {
-            "name": "holla",
-            "phone": "Veniam quo nobis placeat vel qui incididunt eveniet qui omnis commodi voluptatem Dolor non modi nobis",
-            "active": false
-        },
-        {
-            "name": "Telly Brown",
-            "phone": "(874) 833-5181 x25029",
-            "active": false
-        },
-        {
-            "name": "Dr. Everett Huel III",
-            "phone": "1-779-251-8869 x048",
-            "active": false
-        },
-        {
-            "name": "Cooper Cremin IV",
-            "phone": "510.802.0284",
-            "active": false
-        },
-        {
-            "name": "Nicole Boyer",
-            "phone": "615.328.2037",
+            "name": "Dr. Laila Gusikowski II",
+            "phone": "1-246-231-4790 x2939",
             "active": true
         },
         {
-            "name": "Mr. Clemens Gottlieb",
-            "phone": "835.869.0827 x7275",
-            "active": true
-        },
-        {
-            "name": "Prof. Joaquin Gleason",
-            "phone": "563-328-0349",
-            "active": true
+            "name": "Golda Wunsch",
+            "phone": "652-751-2835 x09932",
+            "active": false
         }
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/operators?page=1",
-        "last": "http:\/\/localhost\/api\/v1\/operators?page=2",
+        "last": "http:\/\/localhost\/api\/v1\/operators?page=1",
         "prev": null,
-        "next": "http:\/\/localhost\/api\/v1\/operators?page=2"
+        "next": null
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 2,
+        "last_page": 1,
         "path": "http:\/\/localhost\/api\/v1\/operators",
         "per_page": 15,
-        "to": 15,
-        "total": 21
+        "to": 3,
+        "total": 3
     }
 }
 ```
@@ -3191,16 +2484,115 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "name": "list-users"
+            "name": "POST|api\/v1\/devices\/{device}\/link_unit"
         },
         {
-            "name": "add-user"
+            "name": "POST|api\/v1\/devices"
         },
         {
-            "name": "list-users"
+            "name": "PATCH|api\/v1\/devices\/{device}"
         },
         {
-            "name": "add-user"
+            "name": "DELETE|api\/v1\/devices\/{device}"
+        },
+        {
+            "name": "POST|api\/v1\/contacts\/{contact}\/tags"
+        },
+        {
+            "name": "POST|api\/v1\/contacts"
+        },
+        {
+            "name": "PATCH|api\/v1\/contacts\/{contact}"
+        },
+        {
+            "name": "DELETE|api\/v1\/contacts\/{contact}"
+        },
+        {
+            "name": "PUT|api\/v1\/permissions\/user_sync\/{user}"
+        },
+        {
+            "name": "POST|api\/v1\/roles\/{role}\/user"
+        },
+        {
+            "name": "POST|api\/v1\/roles"
+        },
+        {
+            "name": "PATCH|api\/v1\/roles\/{role}"
+        },
+        {
+            "name": "DELETE|api\/v1\/roles\/{role}"
+        },
+        {
+            "name": "POST|api\/v1\/trips\/convoys"
+        },
+        {
+            "name": "POST|api\/v1\/trips\/upload"
+        },
+        {
+            "name": "POST|api\/v1\/trips\/{trip}\/tags"
+        },
+        {
+            "name": "POST|api\/v1\/trips\/filtered_with_tags"
+        },
+        {
+            "name": "POST|api\/v1\/trips\/{trip}\/traces"
+        },
+        {
+            "name": "POST|api\/v1\/trips"
+        },
+        {
+            "name": "PATCH|api\/v1\/trips\/{trip}"
+        },
+        {
+            "name": "DELETE|api\/v1\/trips\/{trip}"
+        },
+        {
+            "name": "POST|api\/v1\/operators"
+        },
+        {
+            "name": "PATCH|api\/v1\/operators\/{operator}"
+        },
+        {
+            "name": "DELETE|api\/v1\/operators\/{operator}"
+        },
+        {
+            "name": "POST|api\/v1\/geofences"
+        },
+        {
+            "name": "POST|api\/v1\/notification_types"
+        },
+        {
+            "name": "PATCH|api\/v1\/notification_types\/{notification_type}"
+        },
+        {
+            "name": "POST|api\/v1\/carriers"
+        },
+        {
+            "name": "PATCH|api\/v1\/carriers\/{carrier}"
+        },
+        {
+            "name": "DELETE|api\/v1\/carriers\/{carrier}"
+        },
+        {
+            "name": "POST|api\/v1\/places"
+        },
+        {
+            "name": "PATCH|api\/v1\/places\/{place}"
+        },
+        {
+            "name": "DELETE|api\/v1\/places\/{place}"
+        },
+        {
+            "name": "POST|api\/v1\/settings"
+        },
+        {
+            "name": "POST|api\/v1\/wialon\/notifications"
+        },
+        {
+            "name": "POST|api\/v1\/external\/devices\/{device}\/localization"
+        },
+        {
+            "name": "POST|api\/v1\/external\/devices"
         }
     ]
 }
@@ -3245,110 +2637,110 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "name": "Winifred Hermiston",
-            "person_in_charge": "Sasha Hintz",
-            "address": "4034 Gregorio Fords Apt. 197\nNew Halie, CO 25794",
-            "phone": "802-599-0818 x9799"
+            "name": "Rhett Schaefer DVM",
+            "person_in_charge": "Prof. Tierra Williamson",
+            "address": "145 Kemmer Valleys Apt. 547\nLake Darrylshire, NV 85765",
+            "phone": "(916) 736-3523 x3871"
         },
         {
-            "name": "Yvette Mante",
-            "person_in_charge": "Prof. Kay Heathcote",
-            "address": "238 Adriana Street Suite 282\nLeschmouth, AR 18893-5865",
-            "phone": "889-369-2768"
+            "name": "Malinda Dach V",
+            "person_in_charge": "Skyla Lueilwitz",
+            "address": "13554 Gutmann Rest Apt. 143\nSchimmelchester, GA 45412-1742",
+            "phone": "1-998-635-1730 x33761"
         },
         {
-            "name": "Avis Kovacek",
-            "person_in_charge": "Ms. Maybell Robel III",
-            "address": "7026 Ray Lock\nHartmannside, MO 11343-9587",
-            "phone": "(343) 344-1043"
+            "name": "Dr. Wilford Larson DDS",
+            "person_in_charge": "Jesse Kulas",
+            "address": "157 Reichel Flat Suite 044\nPadbergside, LA 96238-1299",
+            "phone": "912.499.3666"
         },
         {
-            "name": "Mathias Kerluke",
-            "person_in_charge": "Mr. Cale Auer II",
-            "address": "8092 Schiller Pines\nMarilynechester, OH 80884-1513",
-            "phone": "(405) 352-2890 x1625"
+            "name": "Elaina Okuneva V",
+            "person_in_charge": "Keshawn Huels",
+            "address": "2064 Brown Tunnel\nDamionfurt, UT 84189",
+            "phone": "+15723994855"
         },
         {
-            "name": "Ms. Rosina Bogan",
-            "person_in_charge": "Misael Mitchell",
-            "address": "950 Brandi Hollow Apt. 570\nLake Evanland, GA 67925-0017",
-            "phone": "589-446-0004 x069"
+            "name": "Eloise Gorczany",
+            "person_in_charge": "Miss Vernie Barrows",
+            "address": "7758 Terry Expressway Suite 395\nHintzborough, CO 56853-5967",
+            "phone": "312-894-6399 x287"
         },
         {
-            "name": "Flavio Roob",
-            "person_in_charge": "Jacques Borer",
-            "address": "6232 Angus Forges Suite 024\nPort Taylorhaven, KS 14894-6259",
-            "phone": "463.388.6164 x36771"
+            "name": "Dr. Ronny Gislason PhD",
+            "person_in_charge": "Dayton Langworth",
+            "address": "595 Darrion Cape\nSisterside, NY 84090",
+            "phone": "482.822.2202 x64352"
         },
         {
-            "name": "Ms. Alexane Brown",
-            "person_in_charge": "Karli Auer",
-            "address": "51214 Velma Rue\nSouth Ignatius, KS 94216",
-            "phone": "1-760-941-4960"
+            "name": "Dr. Dario Wilderman MD",
+            "person_in_charge": "Elisa McGlynn IV",
+            "address": "14365 Witting Crossroad Apt. 508\nFrancostad, NJ 11488-7014",
+            "phone": "204.717.4598"
         },
         {
-            "name": "Ms. Janice Koss",
-            "person_in_charge": "Shania Sporer",
-            "address": "860 Roy Field Suite 867\nWest Neil, IL 74403-9016",
-            "phone": "1-241-339-0892"
+            "name": "Darron Zemlak",
+            "person_in_charge": "Dr. Camren Franecki Jr.",
+            "address": "8913 Wuckert Plaza Apt. 903\nToybury, ID 46716-2684",
+            "phone": "+1-832-457-4691"
         },
         {
-            "name": "Miss Maybelle Jerde IV",
-            "person_in_charge": "Hosea Grimes",
-            "address": "507 Vickie Brook\nWest Guido, UT 27883",
-            "phone": "1-695-971-1459 x195"
+            "name": "Christina Schinner",
+            "person_in_charge": "Moses Ullrich",
+            "address": "992 Schiller Corner\nStokestown, ID 78052",
+            "phone": "364-289-7738"
         },
         {
-            "name": "Linwood Ondricka",
-            "person_in_charge": "Dr. Kianna Greenholt",
-            "address": "4381 Savion Ways Apt. 109\nNorth Jordyview, WA 60937",
-            "phone": "685-550-5867"
+            "name": "Ms. Pearl Moore",
+            "person_in_charge": "Mr. Keagan Conn",
+            "address": "749 Wiza Haven\nJerroldmouth, GA 22344-2526",
+            "phone": "+1-976-314-4439"
         },
         {
-            "name": "Osvaldo Kuhn",
-            "person_in_charge": "Ms. Jacklyn Stokes",
-            "address": "2686 Marilyne Mews\nMcGlynnberg, HI 39698-9290",
-            "phone": "+1-861-787-3244"
+            "name": "Meredith Schimmel",
+            "person_in_charge": "Orlo Brown",
+            "address": "6477 Klein Lock Suite 233\nNew Abelardo, NY 40417",
+            "phone": "(565) 726-1657 x532"
         },
         {
-            "name": "Prof. Buck Beahan",
-            "person_in_charge": "Clara Sanford PhD",
-            "address": "22326 Emmie Ranch Apt. 135\nLake Ernesto, TX 88441-2572",
-            "phone": "(994) 346-5086"
+            "name": "Giovanni Hamill I",
+            "person_in_charge": "Dortha Metz",
+            "address": "680 Ondricka Lock\nPort Judahside, WV 48921",
+            "phone": "470-908-8841 x89039"
         },
         {
-            "name": "Dr. Domenic O'Conner II",
-            "person_in_charge": "Jeromy Turner",
-            "address": "8852 Hudson Expressway\nDedrickmouth, IA 62364",
-            "phone": "206.942.1037 x09432"
+            "name": "Lynn Hudson",
+            "person_in_charge": "Miss Abbie Schroeder",
+            "address": "2535 Francesca View\nViolaland, KS 76244-2927",
+            "phone": "(467) 434-2429"
         },
         {
-            "name": "Wyman Koepp",
-            "person_in_charge": "Fabiola Mueller",
-            "address": "84765 Marquardt Ridge\nNorth Demetrismouth, NY 08909-2799",
-            "phone": "603.335.8865"
+            "name": "Rico Schimmel PhD",
+            "person_in_charge": "Lizeth Doyle",
+            "address": "919 Maximus Throughway\nCliffordville, DE 23812-1443",
+            "phone": "718-669-6385 x9562"
         },
         {
-            "name": "Prof. Elva Hahn",
-            "person_in_charge": "Keith Stark",
-            "address": "2040 Bahringer Freeway\nPort Triston, MD 54725-8700",
-            "phone": "286.759.5034"
+            "name": "Bessie Welch I",
+            "person_in_charge": "Amelia Volkman",
+            "address": "7377 Clara Valley\nDonnellymouth, PA 73931-1261",
+            "phone": "(864) 559-1252 x64526"
         }
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/places?page=1",
-        "last": "http:\/\/localhost\/api\/v1\/places?page=9",
+        "last": "http:\/\/localhost\/api\/v1\/places?page=3",
         "prev": null,
         "next": "http:\/\/localhost\/api\/v1\/places?page=2"
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 9,
+        "last_page": 3,
         "path": "http:\/\/localhost\/api\/v1\/places",
         "per_page": 15,
         "to": 15,
-        "total": 128
+        "total": 32
     }
 }
 ```
@@ -3589,150 +2981,31 @@ $.ajax(settings).done(function (response) {
 [
     {
         "id": 1,
-        "name": "monitorista",
+        "name": "Keanuquisquam",
         "guard_name": "api",
-        "created_at": "2019-01-17 08:20:31",
-        "updated_at": "2019-01-17 08:20:31"
+        "created_at": "2019-03-09 01:48:12",
+        "updated_at": "2019-03-09 01:48:12"
     },
     {
         "id": 2,
-        "name": "monitorista",
+        "name": "ghilpert",
         "guard_name": "api",
-        "created_at": "2019-01-17 09:05:08",
-        "updated_at": "2019-01-17 09:05:08"
+        "created_at": "2019-03-09 01:48:12",
+        "updated_at": "2019-03-09 01:48:12"
     },
     {
         "id": 3,
-        "name": "Loyalearum",
-        "guard_name": "api",
-        "created_at": "2019-02-08 07:14:10",
-        "updated_at": "2019-02-08 07:14:10"
+        "name": "cory85",
+        "guard_name": "web",
+        "created_at": "2019-03-09 01:48:12",
+        "updated_at": "2019-03-09 01:48:12"
     },
     {
         "id": 4,
-        "name": "willis.mclaughlin",
+        "name": "schmidt.adelle",
         "guard_name": "web",
-        "created_at": "2019-02-08 07:14:10",
-        "updated_at": "2019-02-08 07:14:10"
-    },
-    {
-        "id": 5,
-        "name": "ashley.willms",
-        "guard_name": "web",
-        "created_at": "2019-02-08 07:14:10",
-        "updated_at": "2019-02-08 07:14:10"
-    },
-    {
-        "id": 6,
-        "name": "littel.ludie",
-        "guard_name": "web",
-        "created_at": "2019-02-08 07:14:10",
-        "updated_at": "2019-02-08 07:14:10"
-    },
-    {
-        "id": 8,
-        "name": "ellsworth.prosacco",
-        "guard_name": "web",
-        "created_at": "2019-02-08 07:14:43",
-        "updated_at": "2019-02-08 07:14:43"
-    },
-    {
-        "id": 9,
-        "name": "antwon.gerhold",
-        "guard_name": "web",
-        "created_at": "2019-02-08 07:14:43",
-        "updated_at": "2019-02-08 07:14:43"
-    },
-    {
-        "id": 10,
-        "name": "sawayn.maribel",
-        "guard_name": "web",
-        "created_at": "2019-02-08 07:14:43",
-        "updated_at": "2019-02-08 07:14:43"
-    },
-    {
-        "id": 11,
-        "name": "Keenannihil",
-        "guard_name": "api",
-        "created_at": "2019-02-13 00:04:47",
-        "updated_at": "2019-02-13 00:04:47"
-    },
-    {
-        "id": 12,
-        "name": "dakota68",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:04:47",
-        "updated_at": "2019-02-13 00:04:47"
-    },
-    {
-        "id": 13,
-        "name": "garry.schmidt",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:04:48",
-        "updated_at": "2019-02-13 00:04:48"
-    },
-    {
-        "id": 14,
-        "name": "vbartell",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:04:48",
-        "updated_at": "2019-02-13 00:04:48"
-    },
-    {
-        "id": 16,
-        "name": "Thurmansapiente",
-        "guard_name": "api",
-        "created_at": "2019-02-13 00:07:57",
-        "updated_at": "2019-02-13 00:07:57"
-    },
-    {
-        "id": 17,
-        "name": "gage.casper",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:07:58",
-        "updated_at": "2019-02-13 00:07:58"
-    },
-    {
-        "id": 18,
-        "name": "kristy33",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:07:58",
-        "updated_at": "2019-02-13 00:07:58"
-    },
-    {
-        "id": 19,
-        "name": "myrna.stehr",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:07:58",
-        "updated_at": "2019-02-13 00:07:58"
-    },
-    {
-        "id": 21,
-        "name": "Raheemvoluptatem",
-        "guard_name": "api",
-        "created_at": "2019-02-13 00:10:23",
-        "updated_at": "2019-02-13 00:10:23"
-    },
-    {
-        "id": 22,
-        "name": "amalia.mccullough",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:10:23",
-        "updated_at": "2019-02-13 00:10:23"
-    },
-    {
-        "id": 23,
-        "name": "mckayla.crooks",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:10:23",
-        "updated_at": "2019-02-13 00:10:23"
-    },
-    {
-        "id": 24,
-        "name": "barney03",
-        "guard_name": "web",
-        "created_at": "2019-02-13 00:10:23",
-        "updated_at": "2019-02-13 00:10:23"
+        "created_at": "2019-03-09 01:48:13",
+        "updated_at": "2019-03-09 01:48:13"
     }
 ]
 ```
@@ -3806,8 +3079,12 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "name": "monitorista",
-    "permissions": []
+    "name": "Keanuquisquam",
+    "permissions": [
+        {
+            "name": "POST|api\/v1\/devices\/{device}\/link_unit"
+        }
+    ]
 }
 ```
 
@@ -4167,32 +3444,32 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "id": 67,
-            "rp": "Abelardo Schowalter",
-            "invoice": "86590",
-            "client": "Kutch-Olson",
-            "intermediary": "Hammes and Sons",
-            "origin_id": "129",
-            "destination_id": "130",
+            "id": 16,
+            "rp": "Verda Mitchell",
+            "invoice": "85297",
+            "client": "Buckridge-Eichmann",
+            "intermediary": "Lebsack-Labadie",
+            "origin_id": "30",
+            "destination_id": "31",
             "mon_type": "9",
-            "line": "Mohr, Weissnat and Haley",
+            "line": "McDermott Group",
             "scheduled_load": {
-                "date": "2006-10-04 00:20:19.000000",
+                "date": "1996-12-17 09:02:14.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_departure": {
-                "date": "2002-04-19 18:49:05.000000",
+                "date": "1998-09-23 10:09:58.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_arrival": {
-                "date": "1998-12-23 08:26:57.000000",
+                "date": "1995-07-31 06:37:46.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_unload": {
-                "date": "2007-10-06 22:57:33.000000",
+                "date": "2005-10-02 00:03:25.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
@@ -4202,32 +3479,32 @@ $.ajax(settings).done(function (response) {
             "convoy_id": null
         },
         {
-            "id": 68,
-            "rp": "Darryl Schinner DVM",
-            "invoice": "38074",
-            "client": "Schaden Ltd",
-            "intermediary": "Lueilwitz, Kohler and Schmidt",
-            "origin_id": "131",
-            "destination_id": "132",
+            "id": 17,
+            "rp": "Trisha Halvorson",
+            "invoice": "24501",
+            "client": "Mills-Jones",
+            "intermediary": "Hackett, Boyer and Goyette",
+            "origin_id": "32",
+            "destination_id": "33",
             "mon_type": "8",
-            "line": "Mitchell PLC",
+            "line": "Davis LLC",
             "scheduled_load": {
-                "date": "1992-03-04 09:55:14.000000",
+                "date": "1971-11-06 17:43:57.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_departure": {
-                "date": "1978-01-08 17:14:47.000000",
+                "date": "1991-09-11 12:43:11.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_arrival": {
-                "date": "2004-08-25 19:17:12.000000",
+                "date": "1994-01-31 02:44:07.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_unload": {
-                "date": "1980-08-01 10:56:23.000000",
+                "date": "1971-08-04 02:22:21.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
@@ -4237,469 +3514,469 @@ $.ajax(settings).done(function (response) {
             "convoy_id": null
         },
         {
-            "id": 61,
-            "rp": "Dr. Damaris Schimmel II",
-            "invoice": "41159",
-            "client": "Stoltenberg, Pfannerstill and Legros",
-            "intermediary": "Kovacek-Pollich",
-            "origin_id": "123",
-            "destination_id": "124",
-            "mon_type": "0",
-            "line": "Kertzmann-Grady",
-            "scheduled_load": {
-                "date": "1989-05-17 23:11:42.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1986-01-15 18:56:31.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2005-04-27 02:32:17.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1983-12-15 01:08:50.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 62,
-            "rp": "Beaulah Grant",
-            "invoice": "56820",
-            "client": "Hill, Herzog and Block",
-            "intermediary": "Gleichner, Herman and Adams",
-            "origin_id": "125",
-            "destination_id": "126",
-            "mon_type": "1",
-            "line": "Zemlak-Schultz",
-            "scheduled_load": {
-                "date": "1983-11-12 01:32:21.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2011-05-25 03:43:11.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1988-02-04 11:45:07.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1999-05-24 03:25:37.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 63,
-            "rp": null,
-            "invoice": null,
-            "client": null,
-            "intermediary": null,
-            "origin_id": null,
-            "destination_id": null,
-            "mon_type": null,
-            "line": null,
-            "scheduled_load": null,
-            "scheduled_departure": null,
-            "scheduled_arrival": null,
-            "scheduled_unload": null,
-            "bulk": {
-                "rp": "Santos Murazik",
-                "invoice": 14550,
-                "client": "Lebsack-Stanton",
-                "intermediary": "Robel Ltd",
-                "origin": "156 Cydney Prairie\nLeonorborough, AZ 68866-2837",
-                "destination": "7879 Ray Circles\nRosellaberg, RI 52832",
-                "mon_type": 3,
-                "line": "Schowalter PLC",
-                "scheduled_load": "2019-02-13 00:10:25",
-                "scheduled_departure": "2019-02-14 00:10:25",
-                "scheduled_arrival": "2019-02-15 00:10:25",
-                "scheduled_unload": "2019-02-16 00:10:25"
-            },
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 64,
-            "rp": null,
-            "invoice": null,
-            "client": null,
-            "intermediary": null,
-            "origin_id": null,
-            "destination_id": null,
-            "mon_type": null,
-            "line": null,
-            "scheduled_load": null,
-            "scheduled_departure": null,
-            "scheduled_arrival": null,
-            "scheduled_unload": null,
-            "bulk": {
-                "rp": "Prof. Luis Quitzon II",
-                "invoice": 61104,
-                "client": "Hintz-Schultz",
-                "intermediary": "Bernhard-Fahey",
-                "origin": "75036 Torp Roads Suite 451\nMurrayshire, OH 25539",
-                "destination": "171 Gage Skyway Apt. 451\nParkerfurt, ME 43965",
-                "mon_type": 0,
-                "line": "Luettgen, Armstrong and Klocko",
-                "scheduled_load": "2019-02-13 00:10:25",
-                "scheduled_departure": "2019-02-14 00:10:25",
-                "scheduled_arrival": "2019-02-15 00:10:25",
-                "scheduled_unload": "2019-02-16 00:10:25"
-            },
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 66,
-            "rp": "Dr. Vern Moen",
-            "invoice": "34641",
-            "client": "McCullough-Reynolds",
-            "intermediary": "Metz Group",
-            "origin_id": "127",
-            "destination_id": "128",
-            "mon_type": "2",
-            "line": "Johnson Inc",
-            "scheduled_load": {
-                "date": "1976-04-02 17:17:58.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1981-06-14 00:07:11.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1995-03-19 12:02:43.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1971-03-03 14:13:07.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": null
-        },
-        {
-            "id": 52,
-            "rp": "Delia Gibson",
-            "invoice": "11263",
-            "client": "Zieme and Sons",
-            "intermediary": "Daugherty Group",
-            "origin_id": "100",
-            "destination_id": "101",
-            "mon_type": "3",
-            "line": "Goodwin, Rau and Berge",
-            "scheduled_load": {
-                "date": "1970-05-29 16:03:59.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1990-12-14 22:46:48.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2004-03-26 11:52:27.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "2004-02-17 23:57:50.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": 10
-        },
-        {
-            "id": 53,
-            "rp": "Dashawn Wintheiser",
-            "invoice": "89288",
-            "client": "Mohr-Barton",
-            "intermediary": "Deckow Inc",
-            "origin_id": "102",
-            "destination_id": "103",
-            "mon_type": "9",
-            "line": "Tremblay-Borer",
-            "scheduled_load": {
-                "date": "1993-03-23 17:14:00.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1984-09-03 21:04:35.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1983-11-09 02:33:39.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "2006-02-16 09:15:37.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": 10
-        },
-        {
-            "id": 54,
-            "rp": "Jayda Stamm",
-            "invoice": "70882",
-            "client": "Pfannerstill-King",
-            "intermediary": "Tillman Group",
-            "origin_id": "104",
-            "destination_id": "105",
-            "mon_type": "9",
-            "line": "Ritchie Inc",
-            "scheduled_load": {
-                "date": "1972-03-13 18:09:38.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1988-08-02 08:34:32.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2008-04-21 15:32:16.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "2015-08-27 08:26:26.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": 10
-        },
-        {
-            "id": 55,
-            "rp": "Dr. Arlo Gorczany PhD",
-            "invoice": "41405",
-            "client": "Beier-Dicki",
-            "intermediary": "Rosenbaum PLC",
-            "origin_id": "106",
-            "destination_id": "107",
-            "mon_type": "2",
-            "line": "Wilkinson and Sons",
-            "scheduled_load": {
-                "date": "2004-07-04 00:23:17.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1985-12-10 05:51:48.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2014-03-01 02:48:32.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "2005-04-25 09:25:54.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": 11
-        },
-        {
-            "id": 56,
-            "rp": "Rhoda Kunde",
-            "invoice": "32029",
-            "client": "Schuster, Becker and Ledner",
-            "intermediary": "Ryan, Gulgowski and Russel",
-            "origin_id": "108",
-            "destination_id": "109",
-            "mon_type": "1",
-            "line": "Spinka and Sons",
-            "scheduled_load": {
-                "date": "1985-08-02 16:28:23.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "1982-10-26 19:07:19.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1978-09-28 06:36:32.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1979-11-12 01:41:56.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": 11
-        },
-        {
-            "id": 57,
-            "rp": "Austin Swaniawski",
-            "invoice": "91699",
-            "client": "Murray PLC",
-            "intermediary": "Schamberger-Weber",
-            "origin_id": "110",
-            "destination_id": "111",
-            "mon_type": "7",
-            "line": "Kohler-Eichmann",
-            "scheduled_load": {
-                "date": "1997-02-10 06:57:01.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2003-03-04 16:37:40.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "2008-09-09 05:06:34.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1980-05-02 11:59:43.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": 11
-        },
-        {
-            "id": 58,
-            "rp": "Prof. Taya Bartoletti",
-            "invoice": "77239",
-            "client": "Reichel-Mueller",
-            "intermediary": "Welch-Nolan",
-            "origin_id": "112",
-            "destination_id": "113",
-            "mon_type": "2",
-            "line": "Howell Inc",
-            "scheduled_load": {
-                "date": "1987-11-22 06:40:40.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_departure": {
-                "date": "2017-06-11 00:21:21.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_arrival": {
-                "date": "1982-05-15 20:13:50.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "scheduled_unload": {
-                "date": "1985-12-17 19:49:14.000000",
-                "timezone_type": 3,
-                "timezone": "UTC"
-            },
-            "bulk": null,
-            "tag": null,
-            "device_id": null,
-            "convoy_id": 12
-        },
-        {
-            "id": 59,
-            "rp": "Prof. Irwin Hirthe IV",
-            "invoice": "56838",
-            "client": "Raynor, Gleason and Lubowitz",
-            "intermediary": "Sipes-Aufderhar",
-            "origin_id": "114",
-            "destination_id": "115",
+            "id": 15,
+            "rp": "Grace Altenwerth",
+            "invoice": "38937",
+            "client": "Smith-Boyle",
+            "intermediary": "Little, Waters and Ebert",
+            "origin_id": "28",
+            "destination_id": "29",
             "mon_type": "4",
-            "line": "Mayer PLC",
+            "line": "Hintz LLC",
             "scheduled_load": {
-                "date": "2015-03-06 01:04:04.000000",
+                "date": "2005-10-04 23:09:56.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_departure": {
-                "date": "1976-01-21 16:56:14.000000",
+                "date": "1998-09-24 18:25:16.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_arrival": {
-                "date": "2004-02-18 22:29:32.000000",
+                "date": "1989-07-30 07:55:26.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "scheduled_unload": {
-                "date": "1991-02-27 20:14:09.000000",
+                "date": "1995-08-25 05:16:06.000000",
                 "timezone_type": 3,
                 "timezone": "UTC"
             },
             "bulk": null,
             "tag": null,
             "device_id": null,
-            "convoy_id": 12
+            "convoy_id": null
+        },
+        {
+            "id": 12,
+            "rp": null,
+            "invoice": null,
+            "client": null,
+            "intermediary": null,
+            "origin_id": null,
+            "destination_id": null,
+            "mon_type": null,
+            "line": null,
+            "scheduled_load": null,
+            "scheduled_departure": null,
+            "scheduled_arrival": null,
+            "scheduled_unload": null,
+            "bulk": {
+                "rp": "Jarvis Bayer",
+                "invoice": 11402,
+                "client": "Boyle, Willms and Zieme",
+                "intermediary": "Jenkins Inc",
+                "origin": "462 Bode Islands\nDenesikport, RI 63218-4080",
+                "destination": "95196 Dibbert Summit\nWest Pattiemouth, WY 47061-6086",
+                "mon_type": 2,
+                "line": "Weissnat, Stanton and Rogahn",
+                "scheduled_load": "2019-03-09 01:48:18",
+                "scheduled_departure": "2019-03-10 01:48:18",
+                "scheduled_arrival": "2019-03-11 01:48:18",
+                "scheduled_unload": "2019-03-12 01:48:18"
+            },
+            "tag": null,
+            "device_id": null,
+            "convoy_id": null
+        },
+        {
+            "id": 13,
+            "rp": null,
+            "invoice": null,
+            "client": null,
+            "intermediary": null,
+            "origin_id": null,
+            "destination_id": null,
+            "mon_type": null,
+            "line": null,
+            "scheduled_load": null,
+            "scheduled_departure": null,
+            "scheduled_arrival": null,
+            "scheduled_unload": null,
+            "bulk": {
+                "rp": "Prof. Garett McLaughlin",
+                "invoice": 99555,
+                "client": "McDermott, Cremin and Gerlach",
+                "intermediary": "Cummerata, Rath and Pacocha",
+                "origin": "280 Nichole Orchard\nCarmellamouth, SC 67916",
+                "destination": "333 Mathias Harbor Suite 017\nAustinton, MT 28115-3085",
+                "mon_type": 6,
+                "line": "Carter-Stiedemann",
+                "scheduled_load": "2019-03-09 01:48:18",
+                "scheduled_departure": "2019-03-10 01:48:18",
+                "scheduled_arrival": "2019-03-11 01:48:18",
+                "scheduled_unload": "2019-03-12 01:48:18"
+            },
+            "tag": null,
+            "device_id": null,
+            "convoy_id": null
+        },
+        {
+            "id": 10,
+            "rp": "Gaetano Becker",
+            "invoice": "85583",
+            "client": "Walsh and Sons",
+            "intermediary": "Metz-Kozey",
+            "origin_id": "24",
+            "destination_id": "25",
+            "mon_type": "2",
+            "line": "McDermott, Torp and Roob",
+            "scheduled_load": {
+                "date": "1975-11-25 07:20:43.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "2008-08-06 11:10:36.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "2005-08-25 00:07:32.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "1972-10-29 09:06:05.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": null
+        },
+        {
+            "id": 11,
+            "rp": "Arnaldo Jaskolski",
+            "invoice": "96391",
+            "client": "Padberg, Bogisich and Schneider",
+            "intermediary": "Schoen-Mayer",
+            "origin_id": "26",
+            "destination_id": "27",
+            "mon_type": "7",
+            "line": "Botsford Group",
+            "scheduled_load": {
+                "date": "1991-10-04 14:40:49.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "2002-01-23 09:32:06.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "2002-03-08 05:18:56.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "1985-05-04 07:57:40.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": null
+        },
+        {
+            "id": 7,
+            "rp": "Regan Hodkiewicz",
+            "invoice": "53948",
+            "client": "Johns-Schultz",
+            "intermediary": "Morar, Kshlerin and Murray",
+            "origin_id": "13",
+            "destination_id": "14",
+            "mon_type": "9",
+            "line": "Schneider, Christiansen and Quitzon",
+            "scheduled_load": {
+                "date": "2005-09-08 21:16:09.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "2003-05-11 23:50:30.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "1976-06-14 13:41:41.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "1986-12-30 14:27:52.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 3
+        },
+        {
+            "id": 8,
+            "rp": "Arden Reichel",
+            "invoice": "83210",
+            "client": "Doyle-Luettgen",
+            "intermediary": "Feest, Koss and Harber",
+            "origin_id": "15",
+            "destination_id": "16",
+            "mon_type": "9",
+            "line": "Pfeffer-Lakin",
+            "scheduled_load": {
+                "date": "2015-04-24 22:56:24.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "2016-10-11 10:34:46.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "2000-06-17 17:28:58.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "1978-07-22 02:05:45.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 3
+        },
+        {
+            "id": 9,
+            "rp": "Anabelle Auer",
+            "invoice": "71650",
+            "client": "Erdman Ltd",
+            "intermediary": "Von-Robel",
+            "origin_id": "17",
+            "destination_id": "18",
+            "mon_type": "7",
+            "line": "Bergstrom, Abernathy and Rogahn",
+            "scheduled_load": {
+                "date": "1978-03-19 04:12:57.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "1987-12-24 05:39:11.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "1996-04-05 06:27:47.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "2000-03-26 19:22:09.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 3
+        },
+        {
+            "id": 1,
+            "rp": "Prof. Samanta Beer Sr.",
+            "invoice": "11578",
+            "client": "VonRueden-Dooley",
+            "intermediary": "Robel, Schultz and White",
+            "origin_id": "1",
+            "destination_id": "2",
+            "mon_type": "8",
+            "line": "Walter-Hayes",
+            "scheduled_load": {
+                "date": "2012-01-15 13:52:34.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "1996-03-24 20:34:02.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "1971-04-24 22:21:05.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "2002-06-08 01:26:10.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 1
+        },
+        {
+            "id": 2,
+            "rp": "Kristy Grady",
+            "invoice": "90741",
+            "client": "Howell Ltd",
+            "intermediary": "Simonis Group",
+            "origin_id": "3",
+            "destination_id": "4",
+            "mon_type": "9",
+            "line": "Prosacco, Collier and Heidenreich",
+            "scheduled_load": {
+                "date": "1975-08-24 19:13:04.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "1974-03-23 06:19:07.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "1995-06-15 01:25:44.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "2004-08-27 21:07:10.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 1
+        },
+        {
+            "id": 3,
+            "rp": "Theresa Aufderhar",
+            "invoice": "93297",
+            "client": "Streich, Erdman and Turcotte",
+            "intermediary": "Hermiston and Sons",
+            "origin_id": "5",
+            "destination_id": "6",
+            "mon_type": "4",
+            "line": "Gusikowski-Schroeder",
+            "scheduled_load": {
+                "date": "2018-09-27 15:23:02.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "1992-07-22 15:56:19.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "1998-01-20 09:41:43.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "1989-05-28 18:41:47.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 1
+        },
+        {
+            "id": 4,
+            "rp": "Prof. Stewart Davis IV",
+            "invoice": "28134",
+            "client": "Hermann-Hermann",
+            "intermediary": "Bashirian, Ullrich and Rowe",
+            "origin_id": "7",
+            "destination_id": "8",
+            "mon_type": "2",
+            "line": "Gutmann, Upton and Crooks",
+            "scheduled_load": {
+                "date": "2016-07-16 20:46:42.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "2012-09-02 13:14:14.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "1988-01-20 02:23:03.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "2002-08-27 11:55:55.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 2
+        },
+        {
+            "id": 5,
+            "rp": "Dr. Bonnie Abbott",
+            "invoice": "60484",
+            "client": "Carter, Paucek and Stroman",
+            "intermediary": "Bruen-Sipes",
+            "origin_id": "9",
+            "destination_id": "10",
+            "mon_type": "8",
+            "line": "Frami-Murray",
+            "scheduled_load": {
+                "date": "1986-03-18 08:45:45.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_departure": {
+                "date": "1979-01-23 12:50:31.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_arrival": {
+                "date": "2016-08-29 20:48:04.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "scheduled_unload": {
+                "date": "2002-10-19 14:35:49.000000",
+                "timezone_type": 3,
+                "timezone": "UTC"
+            },
+            "bulk": null,
+            "tag": null,
+            "device_id": null,
+            "convoy_id": 2
         }
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/trips?page=1",
-        "last": "http:\/\/localhost\/api\/v1\/trips?page=5",
+        "last": "http:\/\/localhost\/api\/v1\/trips?page=2",
         "prev": null,
         "next": "http:\/\/localhost\/api\/v1\/trips?page=2"
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 5,
+        "last_page": 2,
         "path": "http:\/\/localhost\/api\/v1\/trips",
         "per_page": 15,
         "to": 15,
-        "total": 64
+        "total": 16
     }
 }
 ```
@@ -4725,10 +4002,10 @@ curl -X POST "http://localhost:8000/api/v1/trips" \
         -d "destination"="provident" \
         -d "mon_type"="provident" \
         -d "line"="provident" \
-        -d "scheduled_load"="1996-01-27" \
-        -d "scheduled_departure"="Sunday, 28-Jan-96 00:00:00 UTC" \
-        -d "scheduled_arrival"="Monday, 29-Jan-96 00:00:00 UTC" \
-        -d "scheduled_unload"="Tuesday, 30-Jan-96 00:00:00 UTC" 
+        -d "scheduled_load"="1996-02-09" \
+        -d "scheduled_departure"="Saturday, 10-Feb-96 00:00:00 UTC" \
+        -d "scheduled_arrival"="Sunday, 11-Feb-96 00:00:00 UTC" \
+        -d "scheduled_unload"="Monday, 12-Feb-96 00:00:00 UTC" 
 ```
 
 ```javascript
@@ -4745,10 +4022,10 @@ var settings = {
         "destination": "provident",
         "mon_type": "provident",
         "line": "provident",
-        "scheduled_load": "1996-01-27",
-        "scheduled_departure": "Sunday, 28-Jan-96 00:00:00 UTC",
-        "scheduled_arrival": "Monday, 29-Jan-96 00:00:00 UTC",
-        "scheduled_unload": "Tuesday, 30-Jan-96 00:00:00 UTC"
+        "scheduled_load": "1996-02-09",
+        "scheduled_departure": "Saturday, 10-Feb-96 00:00:00 UTC",
+        "scheduled_arrival": "Sunday, 11-Feb-96 00:00:00 UTC",
+        "scheduled_unload": "Monday, 12-Feb-96 00:00:00 UTC"
     },
     "headers": {
         "accept": "application/json"
@@ -4782,6 +4059,44 @@ Parameter | Type | Status | Description
 
 <!-- END_b0bfe967e103764914eff25d075c572c -->
 
+<!-- START_f180e8d0cb6014ae69b957b6d4ab2872 -->
+## Display the specified resource.
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost:8000/api/v1/trips/{trip}" \
+    -H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/trips/{trip}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+null
+```
+
+### HTTP Request
+`GET api/v1/trips/{trip}`
+
+
+<!-- END_f180e8d0cb6014ae69b957b6d4ab2872 -->
+
 <!-- START_18a55de27e6b4e429ded5fdedbab7cf4 -->
 ## Editar viaje
 
@@ -4797,10 +4112,10 @@ curl -X PUT "http://localhost:8000/api/v1/trips/{trip}" \
         -d "destination"="commodi" \
         -d "mon_type"="commodi" \
         -d "line"="commodi" \
-        -d "scheduled_load"="1987-11-05" \
-        -d "scheduled_departure"="Friday, 06-Nov-87 00:00:00 UTC" \
-        -d "scheduled_arrival"="Saturday, 07-Nov-87 00:00:00 UTC" \
-        -d "scheduled_unload"="Sunday, 08-Nov-87 00:00:00 UTC" 
+        -d "scheduled_load"="1987-11-14" \
+        -d "scheduled_departure"="Sunday, 15-Nov-87 00:00:00 UTC" \
+        -d "scheduled_arrival"="Monday, 16-Nov-87 00:00:00 UTC" \
+        -d "scheduled_unload"="Tuesday, 17-Nov-87 00:00:00 UTC" 
 ```
 
 ```javascript
@@ -4817,10 +4132,10 @@ var settings = {
         "destination": "commodi",
         "mon_type": "commodi",
         "line": "commodi",
-        "scheduled_load": "1987-11-05",
-        "scheduled_departure": "Friday, 06-Nov-87 00:00:00 UTC",
-        "scheduled_arrival": "Saturday, 07-Nov-87 00:00:00 UTC",
-        "scheduled_unload": "Sunday, 08-Nov-87 00:00:00 UTC"
+        "scheduled_load": "1987-11-14",
+        "scheduled_departure": "Sunday, 15-Nov-87 00:00:00 UTC",
+        "scheduled_arrival": "Monday, 16-Nov-87 00:00:00 UTC",
+        "scheduled_unload": "Tuesday, 17-Nov-87 00:00:00 UTC"
     },
     "headers": {
         "accept": "application/json"
@@ -4926,8 +4241,8 @@ $.ajax(settings).done(function (response) {
             "id": 734477,
             "measure_units": 0,
             "position": {
-                "lat": 52.32188,
-                "lon": 9.80264
+                "lat": 52.32448,
+                "lon": 9.80124
             }
         },
         {
@@ -4940,28 +4255,8 @@ $.ajax(settings).done(function (response) {
             }
         },
         {
-            "name": "Bennie Champlin4469",
-            "id": 18759632,
-            "measure_units": 0
-        },
-        {
-            "name": "Berneice Towne II20986",
-            "id": 18759631,
-            "measure_units": 0
-        },
-        {
             "name": "BicicletaChema",
-            "id": 18215090,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaChema",
-            "id": 18665526,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaChema",
-            "id": 18665568,
+            "id": 18667840,
             "measure_units": 0
         },
         {
@@ -4971,22 +4266,17 @@ $.ajax(settings).done(function (response) {
         },
         {
             "name": "BicicletaChema",
-            "id": 18667840,
+            "id": 18665568,
             "measure_units": 0
         },
         {
-            "name": "BicicletaPunksolid",
-            "id": 18158577,
+            "name": "BicicletaChema",
+            "id": 18665526,
             "measure_units": 0
         },
         {
-            "name": "BicicletaPunksolid",
-            "id": 18158571,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaPunksolid",
-            "id": 18158570,
+            "name": "BicicletaChema",
+            "id": 18215090,
             "measure_units": 0
         },
         {
@@ -5005,6 +4295,21 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
+            "name": "BicicletaPunksolid",
+            "id": 18158570,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid",
+            "id": 18158571,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid",
+            "id": 18158577,
+            "measure_units": 0
+        },
+        {
             "name": "BicicletaPunksolid2",
             "id": 18158605,
             "measure_units": 0
@@ -5016,22 +4321,12 @@ $.ajax(settings).done(function (response) {
         },
         {
             "name": "BicicletaPunksolid8",
-            "id": 18158698,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaPunksolid8",
             "id": 18158700,
             "measure_units": 0
         },
         {
-            "name": "BicicletaPunksolid15",
-            "id": 18158650,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaPunksolid15",
-            "id": 18158664,
+            "name": "BicicletaPunksolid8",
+            "id": 18158698,
             "measure_units": 0
         },
         {
@@ -5041,7 +4336,22 @@ $.ajax(settings).done(function (response) {
         },
         {
             "name": "BicicletaPunksolid15",
+            "id": 18158664,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid15",
+            "id": 18158650,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid15",
             "id": 18158625,
+            "measure_units": 0
+        },
+        {
+            "name": "Birdie Raynor14402",
+            "id": 18789045,
             "measure_units": 0
         },
         {
@@ -5049,8 +4359,8 @@ $.ajax(settings).done(function (response) {
             "id": 734455,
             "measure_units": 0,
             "position": {
-                "lat": 52.3211272307,
-                "lon": 9.80878472328
+                "lat": 52.3183761301,
+                "lon": 9.80153739452
             }
         },
         {
@@ -5082,8 +4392,8 @@ $.ajax(settings).done(function (response) {
             "id": 734459,
             "measure_units": 0,
             "position": {
-                "lat": 52.3217142,
-                "lon": 9.8017359
+                "lat": 52.3197992,
+                "lon": 9.8004055
             }
         },
         {
@@ -5107,6 +4417,11 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
+            "name": "Emerald Pollich2594",
+            "id": 18765306,
+            "measure_units": 0
+        },
+        {
             "name": "GOL 2",
             "id": 13791580,
             "measure_units": 0
@@ -5114,11 +4429,6 @@ $.ajax(settings).done(function (response) {
         {
             "name": "Gunnar Mueller12883",
             "id": 18759626,
-            "measure_units": 0
-        },
-        {
-            "name": "Hayden Hoppe9479",
-            "id": 18759649,
             "measure_units": 0
         },
         {
@@ -5132,8 +4442,18 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
-            "name": "Layne Monahan60962",
-            "id": 18759635,
+            "name": "Laborevelitsunt",
+            "id": 18788616,
+            "measure_units": 0
+        },
+        {
+            "name": "Leora Wiegand II16421",
+            "id": 18789042,
+            "measure_units": 0
+        },
+        {
+            "name": "Makayla Bogan14677",
+            "id": 18777675,
             "measure_units": 0
         },
         {
@@ -5147,8 +4467,8 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
-            "name": "Mr. Nathaniel Labadie21700",
-            "id": 18759633,
+            "name": "Mrs. Sandrine Schinner42501",
+            "id": 18789044,
             "measure_units": 0
         },
         {
@@ -5157,8 +4477,28 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
+            "name": "Nikita Greenholt22206",
+            "id": 18765305,
+            "measure_units": 0
+        },
+        {
+            "name": "Nulla sapiente venia",
+            "id": 18764951,
+            "measure_units": 0
+        },
+        {
             "name": "Prof. Elmer Ziemann DVM77833",
             "id": 18759370,
+            "measure_units": 0
+        },
+        {
+            "name": "Prof. Lue Block16249",
+            "id": 18789040,
+            "measure_units": 0
+        },
+        {
+            "name": "Prof. Stevie Conroy Jr.918",
+            "id": 18765309,
             "measure_units": 0
         },
         {
@@ -5185,9 +4525,19 @@ $.ajax(settings).done(function (response) {
             "id": 6582733,
             "measure_units": 0,
             "position": {
-                "lat": 47.1004316,
-                "lon": 17.54746
+                "lat": 47.09942,
+                "lon": 17.54692
             }
+        },
+        {
+            "name": "testing_unit_to_destroy2",
+            "id": 18761093,
+            "measure_units": 0
+        },
+        {
+            "name": "testing_unit_to_destroy2",
+            "id": 18761055,
+            "measure_units": 0
         },
         {
             "name": "tttt",
@@ -5199,8 +4549,8 @@ $.ajax(settings).done(function (response) {
             "id": 6582726,
             "measure_units": 0,
             "position": {
-                "lat": 47.044432,
-                "lon": 17.3282192
+                "lat": 47.0992736,
+                "lon": 17.547264
             }
         }
     ]
@@ -5249,8 +4599,8 @@ $.ajax(settings).done(function (response) {
             "id": 734477,
             "measure_units": 0,
             "position": {
-                "lat": 52.32188,
-                "lon": 9.80264
+                "lat": 52.32448,
+                "lon": 9.80124
             }
         },
         {
@@ -5263,28 +4613,8 @@ $.ajax(settings).done(function (response) {
             }
         },
         {
-            "name": "Bennie Champlin4469",
-            "id": 18759632,
-            "measure_units": 0
-        },
-        {
-            "name": "Berneice Towne II20986",
-            "id": 18759631,
-            "measure_units": 0
-        },
-        {
             "name": "BicicletaChema",
-            "id": 18215090,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaChema",
-            "id": 18665526,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaChema",
-            "id": 18665568,
+            "id": 18667840,
             "measure_units": 0
         },
         {
@@ -5294,22 +4624,17 @@ $.ajax(settings).done(function (response) {
         },
         {
             "name": "BicicletaChema",
-            "id": 18667840,
+            "id": 18665568,
             "measure_units": 0
         },
         {
-            "name": "BicicletaPunksolid",
-            "id": 18158577,
+            "name": "BicicletaChema",
+            "id": 18665526,
             "measure_units": 0
         },
         {
-            "name": "BicicletaPunksolid",
-            "id": 18158571,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaPunksolid",
-            "id": 18158570,
+            "name": "BicicletaChema",
+            "id": 18215090,
             "measure_units": 0
         },
         {
@@ -5328,6 +4653,21 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
+            "name": "BicicletaPunksolid",
+            "id": 18158570,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid",
+            "id": 18158571,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid",
+            "id": 18158577,
+            "measure_units": 0
+        },
+        {
             "name": "BicicletaPunksolid2",
             "id": 18158605,
             "measure_units": 0
@@ -5339,22 +4679,12 @@ $.ajax(settings).done(function (response) {
         },
         {
             "name": "BicicletaPunksolid8",
-            "id": 18158698,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaPunksolid8",
             "id": 18158700,
             "measure_units": 0
         },
         {
-            "name": "BicicletaPunksolid15",
-            "id": 18158650,
-            "measure_units": 0
-        },
-        {
-            "name": "BicicletaPunksolid15",
-            "id": 18158664,
+            "name": "BicicletaPunksolid8",
+            "id": 18158698,
             "measure_units": 0
         },
         {
@@ -5364,7 +4694,22 @@ $.ajax(settings).done(function (response) {
         },
         {
             "name": "BicicletaPunksolid15",
+            "id": 18158664,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid15",
+            "id": 18158650,
+            "measure_units": 0
+        },
+        {
+            "name": "BicicletaPunksolid15",
             "id": 18158625,
+            "measure_units": 0
+        },
+        {
+            "name": "Birdie Raynor14402",
+            "id": 18789045,
             "measure_units": 0
         },
         {
@@ -5372,8 +4717,8 @@ $.ajax(settings).done(function (response) {
             "id": 734455,
             "measure_units": 0,
             "position": {
-                "lat": 52.3211272307,
-                "lon": 9.80878472328
+                "lat": 52.3183761301,
+                "lon": 9.80153739452
             }
         },
         {
@@ -5405,8 +4750,8 @@ $.ajax(settings).done(function (response) {
             "id": 734459,
             "measure_units": 0,
             "position": {
-                "lat": 52.3217142,
-                "lon": 9.8017359
+                "lat": 52.3197992,
+                "lon": 9.8004055
             }
         },
         {
@@ -5430,6 +4775,11 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
+            "name": "Emerald Pollich2594",
+            "id": 18765306,
+            "measure_units": 0
+        },
+        {
             "name": "GOL 2",
             "id": 13791580,
             "measure_units": 0
@@ -5437,11 +4787,6 @@ $.ajax(settings).done(function (response) {
         {
             "name": "Gunnar Mueller12883",
             "id": 18759626,
-            "measure_units": 0
-        },
-        {
-            "name": "Hayden Hoppe9479",
-            "id": 18759649,
             "measure_units": 0
         },
         {
@@ -5455,8 +4800,18 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
-            "name": "Layne Monahan60962",
-            "id": 18759635,
+            "name": "Laborevelitsunt",
+            "id": 18788616,
+            "measure_units": 0
+        },
+        {
+            "name": "Leora Wiegand II16421",
+            "id": 18789042,
+            "measure_units": 0
+        },
+        {
+            "name": "Makayla Bogan14677",
+            "id": 18777675,
             "measure_units": 0
         },
         {
@@ -5470,8 +4825,8 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
-            "name": "Mr. Nathaniel Labadie21700",
-            "id": 18759633,
+            "name": "Mrs. Sandrine Schinner42501",
+            "id": 18789044,
             "measure_units": 0
         },
         {
@@ -5480,8 +4835,28 @@ $.ajax(settings).done(function (response) {
             "measure_units": 0
         },
         {
+            "name": "Nikita Greenholt22206",
+            "id": 18765305,
+            "measure_units": 0
+        },
+        {
+            "name": "Nulla sapiente venia",
+            "id": 18764951,
+            "measure_units": 0
+        },
+        {
             "name": "Prof. Elmer Ziemann DVM77833",
             "id": 18759370,
+            "measure_units": 0
+        },
+        {
+            "name": "Prof. Lue Block16249",
+            "id": 18789040,
+            "measure_units": 0
+        },
+        {
+            "name": "Prof. Stevie Conroy Jr.918",
+            "id": 18765309,
             "measure_units": 0
         },
         {
@@ -5508,9 +4883,19 @@ $.ajax(settings).done(function (response) {
             "id": 6582733,
             "measure_units": 0,
             "position": {
-                "lat": 47.1004316,
-                "lon": 17.54746
+                "lat": 47.09942,
+                "lon": 17.54692
             }
+        },
+        {
+            "name": "testing_unit_to_destroy2",
+            "id": 18761093,
+            "measure_units": 0
+        },
+        {
+            "name": "testing_unit_to_destroy2",
+            "id": 18761055,
+            "measure_units": 0
         },
         {
             "name": "tttt",
@@ -5522,8 +4907,8 @@ $.ajax(settings).done(function (response) {
             "id": 6582726,
             "measure_units": 0,
             "position": {
-                "lat": 47.044432,
-                "lon": 17.3282192
+                "lat": 47.0992736,
+                "lon": 17.547264
             }
         }
     ]
@@ -5604,125 +4989,125 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
-            "id": 1038,
-            "name": "Eldridge Franecki",
+            "id": 232,
+            "name": "Dr. Rae Hane DDS",
             "lastname": "",
-            "email": "velitigusikowski@example.net",
+            "email": "maioresanibal74@example.com",
             "username": ""
         },
         {
-            "id": 1036,
-            "name": "Golden Ratke",
+            "id": 231,
+            "name": "Alvina Conroy Sr.",
             "lastname": "",
-            "email": "adraphaelle27@example.org",
+            "email": "recusandaewhagenes@example.net",
             "username": ""
         },
         {
-            "id": 1037,
-            "name": "Lucy Swift",
+            "id": 230,
+            "name": "Miss Demetris Ernser Sr.",
             "lastname": "",
-            "email": "illumokeefe.rebeca@example.org",
+            "email": "voluptaswboyer@example.org",
             "username": ""
         },
         {
-            "id": 1034,
-            "name": "Laura Price",
+            "id": 229,
+            "name": "Pablo O'Hara",
             "lastname": "",
-            "email": "corruptiwkoss@example.com",
+            "email": "perspiciatisbrenden01@example.net",
             "username": ""
         },
         {
-            "id": 1035,
-            "name": "Ernest Deckow V",
+            "id": 228,
+            "name": "Dianna Kovacek",
             "lastname": "",
-            "email": "quisngrady@example.org",
+            "email": "nihilemard.jovani@example.com",
             "username": ""
         },
         {
-            "id": 1033,
-            "name": "Josefa Greenfelder",
+            "id": 227,
+            "name": "Elijah Gaylord",
             "lastname": "",
-            "email": "nequelhoppe@example.org",
+            "email": "necessitatibusmhammes@example.org",
             "username": ""
         },
         {
-            "id": 1032,
-            "name": "Camron Murazik",
+            "id": 226,
+            "name": "Edmond Bergstrom",
             "lastname": "",
-            "email": "sintkhammes@example.net",
+            "email": "utsidney40@example.com",
             "username": ""
         },
         {
-            "id": 1031,
-            "name": "Mustafa Fay Jr.",
+            "id": 225,
+            "name": "Dr. Fritz Wolff",
             "lastname": "",
-            "email": "utfbrown@example.com",
+            "email": "voluptatempamela10@example.com",
             "username": ""
         },
         {
-            "id": 1030,
-            "name": "Randal Senger",
+            "id": 224,
+            "name": "Maud Denesik",
             "lastname": "",
-            "email": "minimayeichmann@example.net",
+            "email": "eakeebler.lincoln@example.com",
             "username": ""
         },
         {
-            "id": 1028,
-            "name": "Dora Klocko II",
+            "id": 223,
+            "name": "Mrs. Karina Goyette V",
             "lastname": "",
-            "email": "repellendusdon.hammes@example.net",
+            "email": "pariaturwhitney05@example.org",
             "username": ""
         },
         {
-            "id": 1029,
-            "name": "Deven Mann",
+            "id": 222,
+            "name": "Stacey Murphy",
             "lastname": "",
-            "email": "nonkertzmann.diana@example.net",
+            "email": "nihillabadie.litzy@example.com",
             "username": ""
         },
         {
-            "id": 1026,
-            "name": "Pearlie Murazik III",
+            "id": 221,
+            "name": "Dr. Afton Kertzmann",
             "lastname": "",
-            "email": "eumnzemlak@example.net",
+            "email": "sitabshire.whitney@example.com",
             "username": ""
         },
         {
-            "id": 1027,
-            "name": "Ms. Amy Toy DVM",
+            "id": 220,
+            "name": "Rachael Schmidt III",
             "lastname": "",
-            "email": "injeff99@example.net",
+            "email": "remcornell62@example.net",
             "username": ""
         },
         {
-            "id": 1024,
-            "name": "Prof. Simone Jacobson DDS",
+            "id": 219,
+            "name": "Archibald Bartell",
             "lastname": "",
-            "email": "commodistiedemann.kristina@example.net",
+            "email": "etnienow.maurice@example.com",
             "username": ""
         },
         {
-            "id": 1025,
-            "name": "Dion Cassin",
+            "id": 218,
+            "name": "Jovan Ortiz",
             "lastname": "",
-            "email": "nihilbecker.devon@example.net",
+            "email": "officiisjast.lupe@example.net",
             "username": ""
         }
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/v1\/users?page=1",
-        "last": "http:\/\/localhost\/api\/v1\/users?page=61",
+        "last": "http:\/\/localhost\/api\/v1\/users?page=16",
         "prev": null,
         "next": "http:\/\/localhost\/api\/v1\/users?page=2"
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 61,
+        "last_page": 16,
         "path": "http:\/\/localhost\/api\/v1\/users",
         "per_page": 15,
         "to": 15,
-        "total": 913
+        "total": 232
     }
 }
 ```
@@ -5777,6 +5162,44 @@ Parameter | Type | Status | Description
     email | email |  required  | 
 
 <!-- END_4194ceb9a20b7f80b61d14d44df366b4 -->
+
+<!-- START_cedc85e856362e0e3b46f5dcd9f8f5d0 -->
+## Display the specified users.
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost:8000/api/v1/users/{user}" \
+    -H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/v1/users/{user}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+null
+```
+
+### HTTP Request
+`GET api/v1/users/{user}`
+
+
+<!-- END_cedc85e856362e0e3b46f5dcd9f8f5d0 -->
 
 <!-- START_296fac4bf818c99f6dd42a4a0eb56b58 -->
 ## Update the specified users in storage.
@@ -6001,6 +5424,118 @@ $.ajax(settings).done(function (response) {
         {
             "name": "asdewd1dolorumnesciuntquas",
             "id": 18759289
+        },
+        {
+            "name": "asdewd1distinctioinventoremagnam",
+            "id": 18789046
+        },
+        {
+            "name": "asdewd1recusandaeestaut",
+            "id": 18790073
+        },
+        {
+            "name": "asdewd1beataeofficiavoluptatem",
+            "id": 18790080
+        },
+        {
+            "name": "asdewd1uteaquesint",
+            "id": 18790109
+        },
+        {
+            "name": "asdewd1maximeestvoluptatem",
+            "id": 18791143
+        },
+        {
+            "name": "asdewd1nonquospariatur",
+            "id": 18791319
+        },
+        {
+            "name": "asdewd1maximevoluptatemad",
+            "id": 18795884
+        },
+        {
+            "name": "asdewd1quisequivoluptatibus",
+            "id": 18795900
+        },
+        {
+            "name": "asdewd1quietut",
+            "id": 18795909
+        },
+        {
+            "name": "asdewd1abaliquamdicta",
+            "id": 18818509
+        },
+        {
+            "name": "asdewd1molestiaeinventoremagni",
+            "id": 18847568
+        },
+        {
+            "name": "asdewd1molestiasblanditiisitaque",
+            "id": 18847698
+        },
+        {
+            "name": "asdewd1saepeutiste",
+            "id": 18847702
+        },
+        {
+            "name": "asdewd1suscipitestipsam",
+            "id": 18847775
+        },
+        {
+            "name": "asdewd1laborumsedqui",
+            "id": 18900856
+        },
+        {
+            "name": "asdewd1officiadolorequo",
+            "id": 18900867
+        },
+        {
+            "name": "asdewd1autemquibusdamut",
+            "id": 18900919
+        },
+        {
+            "name": "asdewd1nemodolornisi",
+            "id": 18900925
+        },
+        {
+            "name": "asdewd1cumexplicaboassumenda",
+            "id": 18900938
+        },
+        {
+            "name": "asdewd1quaerepudiandaevero",
+            "id": 18900942
+        },
+        {
+            "name": "asdewd1velveritatissuscipit",
+            "id": 18901139
+        },
+        {
+            "name": "asdewd1rerumatqueimpedit",
+            "id": 18901182
+        },
+        {
+            "name": "asdewd1doloresseconsectetur",
+            "id": 18901297
+        },
+        {
+            "name": "asdewd1remasperioresratione",
+            "id": 18901585
+        },
+        {
+            "name": "asdewd1autvoluptatesed",
+            "id": 18901595
+        },
+        {
+            "name": "asdewd1quiseosconsectetur",
+            "id": 18901600
+        },
+        {
+            "name": "asdewd1quiexpeditaut",
+            "id": 18904278
+        },
+        {
+            "name": "asdewd1utcumquenon",
+            "id": 18911420
         }
     ]
 }
@@ -6094,27 +5629,7 @@ $.ajax(settings).done(function (response) {
             "name": "Audi_retr"
         },
         {
-            "id": 18759632,
-            "nm": "Bennie Champlin4469",
-            "name": "Bennie Champlin4469"
-        },
-        {
-            "id": 18759631,
-            "nm": "Berneice Towne II20986",
-            "name": "Berneice Towne II20986"
-        },
-        {
-            "id": 18215090,
-            "nm": "BicicletaChema",
-            "name": "BicicletaChema"
-        },
-        {
-            "id": 18665526,
-            "nm": "BicicletaChema",
-            "name": "BicicletaChema"
-        },
-        {
-            "id": 18665568,
+            "id": 18667840,
             "nm": "BicicletaChema",
             "name": "BicicletaChema"
         },
@@ -6124,24 +5639,19 @@ $.ajax(settings).done(function (response) {
             "name": "BicicletaChema"
         },
         {
-            "id": 18667840,
+            "id": 18665568,
             "nm": "BicicletaChema",
             "name": "BicicletaChema"
         },
         {
-            "id": 18158577,
-            "nm": "BicicletaPunksolid",
-            "name": "BicicletaPunksolid"
+            "id": 18665526,
+            "nm": "BicicletaChema",
+            "name": "BicicletaChema"
         },
         {
-            "id": 18158571,
-            "nm": "BicicletaPunksolid",
-            "name": "BicicletaPunksolid"
-        },
-        {
-            "id": 18158570,
-            "nm": "BicicletaPunksolid",
-            "name": "BicicletaPunksolid"
+            "id": 18215090,
+            "nm": "BicicletaChema",
+            "name": "BicicletaChema"
         },
         {
             "id": 18158556,
@@ -6159,6 +5669,21 @@ $.ajax(settings).done(function (response) {
             "name": "BicicletaPunksolid"
         },
         {
+            "id": 18158570,
+            "nm": "BicicletaPunksolid",
+            "name": "BicicletaPunksolid"
+        },
+        {
+            "id": 18158571,
+            "nm": "BicicletaPunksolid",
+            "name": "BicicletaPunksolid"
+        },
+        {
+            "id": 18158577,
+            "nm": "BicicletaPunksolid",
+            "name": "BicicletaPunksolid"
+        },
+        {
             "id": 18158605,
             "nm": "BicicletaPunksolid2",
             "name": "BicicletaPunksolid2"
@@ -6169,17 +5694,17 @@ $.ajax(settings).done(function (response) {
             "name": "BicicletaPunksolid2"
         },
         {
-            "id": 18158698,
-            "nm": "BicicletaPunksolid8",
-            "name": "BicicletaPunksolid8"
-        },
-        {
             "id": 18158700,
             "nm": "BicicletaPunksolid8",
             "name": "BicicletaPunksolid8"
         },
         {
-            "id": 18158650,
+            "id": 18158698,
+            "nm": "BicicletaPunksolid8",
+            "name": "BicicletaPunksolid8"
+        },
+        {
+            "id": 18158671,
             "nm": "BicicletaPunksolid15",
             "name": "BicicletaPunksolid15"
         },
@@ -6189,7 +5714,7 @@ $.ajax(settings).done(function (response) {
             "name": "BicicletaPunksolid15"
         },
         {
-            "id": 18158671,
+            "id": 18158650,
             "nm": "BicicletaPunksolid15",
             "name": "BicicletaPunksolid15"
         },
@@ -6197,6 +5722,11 @@ $.ajax(settings).done(function (response) {
             "id": 18158625,
             "nm": "BicicletaPunksolid15",
             "name": "BicicletaPunksolid15"
+        },
+        {
+            "id": 18789045,
+            "nm": "Birdie Raynor14402",
+            "name": "Birdie Raynor14402"
         },
         {
             "id": 734455,
@@ -6249,6 +5779,11 @@ $.ajax(settings).done(function (response) {
             "name": "Elta Nader40675"
         },
         {
+            "id": 18765306,
+            "nm": "Emerald Pollich2594",
+            "name": "Emerald Pollich2594"
+        },
+        {
             "id": 13791580,
             "nm": "GOL 2",
             "name": "GOL 2"
@@ -6257,11 +5792,6 @@ $.ajax(settings).done(function (response) {
             "id": 18759626,
             "nm": "Gunnar Mueller12883",
             "name": "Gunnar Mueller12883"
-        },
-        {
-            "id": 18759649,
-            "nm": "Hayden Hoppe9479",
-            "name": "Hayden Hoppe9479"
         },
         {
             "id": 13795823,
@@ -6274,9 +5804,19 @@ $.ajax(settings).done(function (response) {
             "name": "Krista Rath MD21043"
         },
         {
-            "id": 18759635,
-            "nm": "Layne Monahan60962",
-            "name": "Layne Monahan60962"
+            "id": 18788616,
+            "nm": "Laborevelitsunt",
+            "name": "Laborevelitsunt"
+        },
+        {
+            "id": 18789042,
+            "nm": "Leora Wiegand II16421",
+            "name": "Leora Wiegand II16421"
+        },
+        {
+            "id": 18777675,
+            "nm": "Makayla Bogan14677",
+            "name": "Makayla Bogan14677"
         },
         {
             "id": 18759541,
@@ -6289,9 +5829,9 @@ $.ajax(settings).done(function (response) {
             "name": "Mr. Kieran Barrows MD44283"
         },
         {
-            "id": 18759633,
-            "nm": "Mr. Nathaniel Labadie21700",
-            "name": "Mr. Nathaniel Labadie21700"
+            "id": 18789044,
+            "nm": "Mrs. Sandrine Schinner42501",
+            "name": "Mrs. Sandrine Schinner42501"
         },
         {
             "id": 18759621,
@@ -6299,9 +5839,29 @@ $.ajax(settings).done(function (response) {
             "name": "Ms. Aniya Abshire35456"
         },
         {
+            "id": 18765305,
+            "nm": "Nikita Greenholt22206",
+            "name": "Nikita Greenholt22206"
+        },
+        {
+            "id": 18764951,
+            "nm": "Nulla sapiente venia",
+            "name": "Nulla sapiente venia"
+        },
+        {
             "id": 18759370,
             "nm": "Prof. Elmer Ziemann DVM77833",
             "name": "Prof. Elmer Ziemann DVM77833"
+        },
+        {
+            "id": 18789040,
+            "nm": "Prof. Lue Block16249",
+            "name": "Prof. Lue Block16249"
+        },
+        {
+            "id": 18765309,
+            "nm": "Prof. Stevie Conroy Jr.918",
+            "name": "Prof. Stevie Conroy Jr.918"
         },
         {
             "id": 13684162,
@@ -6322,6 +5882,16 @@ $.ajax(settings).done(function (response) {
             "id": 6582733,
             "nm": "TestE3",
             "name": "TestE3"
+        },
+        {
+            "id": 18761093,
+            "nm": "testing_unit_to_destroy2",
+            "name": "testing_unit_to_destroy2"
+        },
+        {
+            "id": 18761055,
+            "nm": "testing_unit_to_destroy2",
+            "name": "testing_unit_to_destroy2"
         },
         {
             "id": 18118088,
@@ -6457,6 +6027,10 @@ null
 
 <!-- START_8c0e48cd8efa861b308fc45872ff0837 -->
 ## Login user and create token
+Para acceder a las cuentas es necesario 3 pasos en el frontend.
+El usuario puede hacer autenticación con este endpoint, pero para acceder a los datos extras
+es indispensable entregar un header 'X-Tenant-Id' con el value uuid de la cuenta a la que se quiere 
+accesar. 
 
 Recibe 'email', 'password'
 
@@ -6489,7 +6063,6 @@ $.ajax(settings).done(function (response) {
 
 
 <!-- END_8c0e48cd8efa861b308fc45872ff0837 -->
-
 <!-- START_fb2ae43e2e99ff4e90f22ba03801a735 -->
 ## Log the user out of the application.
 

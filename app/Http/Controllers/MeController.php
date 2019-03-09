@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\AccountResource;
 use App\Http\Resources\InternalNotificationResource;
 use App\Http\Resources\UsersResource;
 use App\User;
@@ -57,5 +58,14 @@ class MeController extends Controller
                 "data" => auth()->user()->getAllPermissions()
             ]
         );
+    }
+
+    /**
+     * Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function accounts()
+    {
+        return AccountResource::collection(auth()->user()->accounts);
     }
 }

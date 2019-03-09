@@ -58,7 +58,7 @@ abstract class TestCase extends BaseTestCase
         }
 
         app(WebsiteRepository::class)->create($this->account);
-        dump($this->account->uuid);
+
         $this->setWebsiteEnvironment();
 
 

@@ -30,8 +30,8 @@ Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
     Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");
     Route::get("accounts/active_accounts", "Admin\AccountsController@activeAccounts");
     Route::get("accounts/near_to_expire", "Admin\AccountsController@nearToExpire");
-    Route::resource("accounts", "Admin\AccountsController");
-//        ->except("edit", "create");
+    Route::resource("accounts", "Admin\AccountsController")
+        ->except("edit", "create");
 
 //Dashboard
     Route::get('dashboard/accounts', 'Admin\DashboardController@accounts');
@@ -39,7 +39,7 @@ Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
 //Licenses
     Route::post("licenses/{license}/assign_to_account", "LicenseController@assignToAccount");
     Route::post("licenses/{license}/revoke", "LicenseController@revoke");
-    Route::resource("licenses", "LicenseController")->except("create");
+    Route::resource("licenses", "LicenseController")->except("create","edit","update");
 
     //Settings
 
