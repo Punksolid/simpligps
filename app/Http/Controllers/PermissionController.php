@@ -22,6 +22,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::all();
+
         return PermissionResource::collection($permissions);
 
     }

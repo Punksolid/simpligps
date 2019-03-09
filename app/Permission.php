@@ -22,7 +22,7 @@ class Permission extends SpatiePermission
     {
         $database = $this->getConnection()->getDatabaseName();
         $table_name = config('permission.table_names.role_has_permissions');
-        dump($database.$table_name);
+
         return $this->belongsToMany(
             Role::class,
             "$database.$table_name"

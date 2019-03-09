@@ -12,6 +12,8 @@ use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Testing\Fakes\MailFake;
 use Laravel\Passport\ClientRepository;
 use Laravel\Passport\Passport;
@@ -36,6 +38,7 @@ class RegisterUserTest extends TestCase
 
     public function test_enviar_reestablecimiento_de_contrasenha()
     {
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create();
         \Notification::fake();
         Mail::fake();
@@ -44,7 +47,7 @@ class RegisterUserTest extends TestCase
         ]);
 
         \Notification::assertSentTo(
-            [$user], ResetPassword::class
+            [$user], PasswordResetRequest::class
         );
 
 
@@ -52,25 +55,38 @@ class RegisterUserTest extends TestCase
 
     public function test_cambiar_contrasenha_despues_de_recibir_email()
     {
+        /**
+         * El token que se tiene que enviar es un hash no el token que se encuentra en la base de datos
+         * El token es enviado en el email, hace falta buscar una manera de generar un token en base de
+         * un password reset
+         */
+        $this->withoutExceptionHandling();
         $user = factory(User::class)->create([
             'password' => bcrypt('87654321')
         ]);
-
+        \Notification::fake();
         $call = $this->postJson("/api/v1/password/send_email", [
             "email" => $user->email
         ]);
-        $password_reset = PasswordReset::where("email", $user->email)->first();
+        $token = '';
+        \Notification::assertSentTo(
+            $user,
+            PasswordResetRequest::class,
+            function ($notification, $channels) use (&$token) {
+                $token = $notification->token;
 
+                return true;
+            });
 
         $call = $this->postJson("/api/v1/password/change/", [
             "email" => $user->email,
             "password" => "87654321",
             "password_confirmation" => "87654321",
-            "token" => $password_reset->token
+            "token" => $token
         ]);
-        $call->assertJsonFragment([
-            "name" => $user->name
-        ]);
+
+
+
         $call->assertStatus(200);
     }
 
