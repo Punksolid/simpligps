@@ -145,13 +145,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     {
         $account = new Account(["easyname" => "temp_name"]);
         app(WebsiteRepository::class)->create($account);
-        dump($account->toArray());
-//        usleep(800);
-//        \Artisan::call("tenancy:db:seed", [
-//            "--website_id" => ["$account->id"],
-//            "--class" => "MainSeedTenants"
-//        ]);
-
+        
         return $account;
 
     }
