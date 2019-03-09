@@ -15,6 +15,11 @@
 use Hyn\Tenancy\Database\Connection;
 
 return [
+    /**
+     * Random key used for tenant database user password
+     */
+    'key' => env('TENANCY_KEY', env('APP_KEY')),
+
     'models' => [
         /**
          * Specify different models to be used for the global, system database
@@ -27,9 +32,8 @@ return [
         // Must implement \Hyn\Tenancy\Contracts\Hostname
         'hostname' => \Hyn\Tenancy\Models\Hostname::class,
 
-        // Must implement \Hyn\Tenancy\Contracts\Website
 //        'website' => \Hyn\Tenancy\Models\Website::class // original
-        'website' => \App\Website::class //  local personalized
+        'website' => \App\Account::class //  local personalized
     ],
     /**
      * The package middleware. Removing a middleware here will disable it.
@@ -130,7 +134,7 @@ return [
          *
          * @see src/Jobs/HostnameIdentification.php
          */
-        'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', false),
+        'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
 
         /**
          * In case you want to have the tenancy environment set up early,
@@ -214,6 +218,7 @@ return [
          * base_path() or database_path() to set this up.
          */
         'tenant-migrations-path' => database_path('migrations/tenant'),
+//        'tenant-migrations-path' => false,
 
         /**
          * The default Seeder class used on newly created databases and while
@@ -224,8 +229,9 @@ return [
          *
          * @warn specify a valid fully qualified class name.
          */
-//        'tenant-seed-class' => App\Seeders\ MainSeedTenants::class,
+
         'tenant-seed-class' => CreateTenantPermissionsSeeder::class,
+//        'tenant-seed-class' => MainSeedTenants::class,
 //      eg an admin seeder under `app/Seeders/AdminSeeder.php`:
 //        'tenant-seed-class' => App\Seeders\AdminSeeder::class,
 
@@ -247,6 +253,19 @@ return [
          * @info set to false to disable.
          */
         'auto-create-tenant-database-user' => false,
+
+        /**
+         * Set of database privileges to give to the tenant database user.
+         *
+         * @info Useful in case your database restricts the privileges you
+         *       can set (for example AWS RDS).
+         * @info These privileges are only used in case tenant database users
+         *       are set to be created.
+         *
+         * @info null by default means "ALL PRIVILEGES". Override with a list
+         *       of privileges as a string, e.g. 'SELECT, UPDATE'.
+         */
+        'tenant-database-user-privileges' => null,
 
         /**
          * Automatically rename the tenant database when the random id of the
@@ -280,16 +299,14 @@ return [
          * @info Useful for overriding the connection of third party packages.
          */
         'force-tenant-connection-of-models' => [
-
             App\Role::class,
             App\Permission::class,
             Spatie\Permission\Models\Role::class,
             Spatie\Permission\Models\Permission::class,
-            \Spatie\Permission\PermissionRegistrar::class,
-            \App\Http\Controllers\RolesController::class
         ],
         'force-system-connection-of-models' => [
             App\User::class,
+            \App\Account::class
         ],
     ],
 
