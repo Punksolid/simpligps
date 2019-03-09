@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Account;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -27,5 +28,24 @@ class MeTest extends TestCase
         ]);
 
         $call->assertStatus(200);
+    }
+
+    public function test_usuario_puede_acceder_a_sus_cuentas()
+    {
+        $account = factory(Account::class)->create();
+        $account->addUser($this->user);
+        $call = $this->getJson("/api/v1/me/accounts");
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    "easyname",
+                    "uuid"
+                ]
+            ]
+        ]);
+
+        $call->assertJsonFragment([
+            "uuid" => $account->uuid
+        ]);
     }
 }
