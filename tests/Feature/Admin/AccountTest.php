@@ -31,7 +31,8 @@ class AccountTest extends TestCase
     public function test_crear_nueva_cuenta()
     {
         $account_details = [
-            "easyname" => $this->faker->unique()->word . $this->faker->unique()->word
+            "easyname" => $this->faker->unique()->word . $this->faker->unique()->word,
+            "email" => $this->faker->email
         ];
 
         $call = $this->postJson("api/sysadmin/v1/accounts",
@@ -191,5 +192,31 @@ class AccountTest extends TestCase
         $call->assertDontSee($active_account->uuid);
     }
 
+    public function test_asignar_usuario_inexistente_a_cuenta()
+    {
+        $email = $this->faker->email;
+        $account  = factory(Account::class)->create();
+        $call = $this->postJson("api/sysadmin/v1/accounts/{$account->id}/add_user",[
+            "email" => $email
+        ]);
 
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            "email" => $email
+        ]);
+    }
+
+    public function test_asignar_usuario_existente_a_cuenta()
+    {
+        $user = factory(User::class)->create();
+        $account  = factory(Account::class)->create();
+        $call = $this->postJson("api/sysadmin/v1/accounts/{$account->id}/add_user",[
+            "email" => $user->email
+        ]);
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            "email" => $user->email
+        ]);
+    }
 }

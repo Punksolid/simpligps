@@ -6,6 +6,7 @@ use App\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Http\Resources\AccountResource;
+use App\User;
 use function foo\func;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Database\Connection;
@@ -52,6 +53,11 @@ class AccountsController extends Controller
         if ($account->createAccount()) {
             return AccountResource::make($account);
         }
+
+        $user = User::firstOrCreate([
+            "email" => $request->email
+        ]);
+
 
         return abort(500, "Something Happened");
 
@@ -146,5 +152,28 @@ class AccountsController extends Controller
         $accounts = Account::with("activeLicenses")->nearToExpire()->get();
 
         return AccountResource::collection($accounts);
+    }
+
+    public function addUser(Account $account, Request $request)
+    {
+        $this->validate($request, [
+            "email" => "required|email"
+        ]);
+
+        $user = User::firstOrCreate([
+            "email" => $request->email
+        ],[
+            "name" => "Invitado",
+            "email" => $request->email,
+            "password" => bcrypt(Str::random(16))
+        ]);
+
+        $account->addUser($user);
+
+        return response()->json([
+            "data" => [
+                "user" => $user
+            ]
+        ]);
     }
 }
