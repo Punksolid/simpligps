@@ -69,7 +69,19 @@ class LicenseController extends Controller
      */
     public function destroy(License $license)
     {
-        //@todo COLOCAR VALIDACIONES de relaciones antes de elimianar
+        if ($license->hasAnyRelationship()){
+            return response()->json([
+                "data" => "La licencia ha sido usada y no puede ser eliminada"
+            ]);
+        }
+
+        if ($license->delete()){
+            return response()->json("La licencia ha sido eliminada.");
+        }
+
+        return response()->json([
+            "message" => "Aconteció un error al eliminar la licencia."
+        ]);
     }
 
     /**

@@ -47,4 +47,17 @@ class License extends Model
         }
     }
 
+    /**
+     * Devuelve si una licencia tiene alguna relación existente
+     * @return bool
+     */
+    public function hasAnyRelationship():bool
+    {
+        if ($this->accounts()->exists()){
+            return true;
+        }
+
+        return false;
+    }
+
 }
