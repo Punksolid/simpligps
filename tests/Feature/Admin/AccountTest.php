@@ -220,12 +220,6 @@ class AccountTest extends TestCase
         ]);
     }
 
-//    public function test_puede_asignar_wialon_key_a_cuenta()
-//    {
-//
-//        $call = $this->postJson("api/sysadmin/v1/accounts/{$account->id}/settings")
-//    }
-
     public function test_guardar_wialon_api_key()
     {
         $key = '5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8';

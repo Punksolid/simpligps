@@ -66,6 +66,10 @@ class Device extends Model
     public function linkUnit(Unit $unit):bool
     {
         return (bool)$this->update(["reference_data" => $unit]);
+    }
 
+    public function linked():bool
+    {
+        return (bool)$this->reference_data;
     }
 }

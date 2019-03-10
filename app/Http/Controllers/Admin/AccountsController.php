@@ -6,6 +6,7 @@ use App\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Http\Resources\AccountResource;
+use App\Setting;
 use App\User;
 use function foo\func;
 use Hyn\Tenancy\Models\Website;
@@ -173,6 +174,42 @@ class AccountsController extends Controller
         return response()->json([
             "data" => [
                 "user" => $user
+            ]
+        ]);
+    }
+
+
+    public function general(Account $account, Request $request)
+    {
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($account);
+
+        $setting_wialon_key = Setting::where('key', 'wialon_key')->first();
+        $setting_wialon_key->value = $request->wialon_key;
+        if ($setting_wialon_key->save()){
+
+            return response([
+                'data' => [
+                    'message' => 'Se actualizó correctamente',
+                    'wialon_key' => $request->wialon_key
+                ]
+            ]);
+        } else {
+            return response('Aconteció un error');
+        }
+
+    }
+
+    public function getSettings(Account $account)
+    {
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($account);
+
+        $settings = Setting::all();
+
+        return response([
+            'data' => [
+                'wialon_key' => $settings->where('key','wialon_key')->first()->value
             ]
         ]);
     }
