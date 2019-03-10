@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\UserLinkedToAccountNotification;
 use Carbon\Carbon;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 //use Hyn\Tenancy\Repositories\WebsiteRepository;
@@ -44,6 +45,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     {
         try {
             $this->users()->attach($user->id);
+            $user->notify(new UserLinkedToAccountNotification($this));
             return true;
         } catch (\Exception $e) {
             info("Error en addUser");
