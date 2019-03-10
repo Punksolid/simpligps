@@ -21,4 +21,10 @@ class Setting extends Model
         $wialon_row_data = $this->where('key', 'wialon_key')->first();
         return $wialon_row_data->value;
     }
+
+
+    public function setWialonToken()
+    {
+
+    }
 }

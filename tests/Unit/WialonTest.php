@@ -2,6 +2,9 @@
 
 namespace Tests\Unit;
 
+use App\Device;
+use Illuminate\Support\Str;
+use Punksolid\Wialon\Unit;
 use Punksolid\Wialon\Wialon;
 use Punksolid\Wialon\WialonError;
 use Tests\TestCase;
@@ -23,7 +26,6 @@ class WialonTest extends TestCase
         $result = $wialon_api->login(config('services.wialon.token'));
 
         $json = json_decode($result);
-        //print_r($json);
         $sid = $json->eid;
         $this->assertNotNull($sid);
 
@@ -48,5 +50,24 @@ class WialonTest extends TestCase
         dump($notificaciones);
     }
 
+    public function test_link_device_with_NOT_existing_wialon_unit()
+    {
+        $this->setWebsiteEnvironment();
 
+        $device = factory(Device::class)->create();
+
+        $this->assertFalse($device->linked());
+    }
+
+    public function test_device_linked_to_an_existing_wialon_unit()
+    {
+        $this->setWebsiteEnvironment();
+        $device = factory(Device::class)->create();
+
+        $unit = Unit::make($this->faker->name.Str::random(6));
+
+        $device->linkUnit($unit);
+
+        $this->assertTrue($device->linked());
+    }
 }

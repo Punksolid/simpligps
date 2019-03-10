@@ -41,7 +41,7 @@ Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
     Route::resource("licenses", "LicenseController")->except("create");
 
     //Settings
-
+    Route::post("accounts/{account}/settings", "Admin\AccountsController@general");
 });
 
 //Accounts

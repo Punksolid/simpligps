@@ -6,6 +6,8 @@ use App\Account;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Http\Resources\AccountResource;
+use App\Setting;
+use App\User;
 use function foo\func;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Database\Connection;
@@ -46,15 +48,19 @@ class AccountsController extends Controller
      */
     public function store(AccountRequest $request)
     {
+        $account = new Account([
+            "easyname" => $request->easyname
+        ]);
+        if ($account->createAccount()) {
+            return AccountResource::make($account);
+        }
 
-        $tenant = Account::create([
-            "easyname" => $request->easyname,
-            "uuid" => \Illuminate\Support\Str::uuid()
+        $user = User::firstOrCreate([
+            "email" => $request->email
         ]);
 
-        \Artisan::call("trm:new_account", ["easyname" => $request->easyname]);
 
-        return AccountResource::make($tenant);
+        return abort(500, "Something Happened");
 
     }
 
@@ -65,9 +71,9 @@ class AccountsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Account $account)
     {
-        //
+        return AccountResource::make($account->load(['users', 'licenses']));
     }
 
     /**
@@ -88,15 +94,8 @@ class AccountsController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($account_id)
+    public function destroy(Account $account)
     {
-
-        $account = Account::findOrFail($account_id);
-
-        \Artisan::call("trm:delete_account", [
-            "easyname" => $account->easyname
-        ]);
-
 
         $account->delete();
 
@@ -154,5 +153,64 @@ class AccountsController extends Controller
         $accounts = Account::with("activeLicenses")->nearToExpire()->get();
 
         return AccountResource::collection($accounts);
+    }
+
+    public function addUser(Account $account, Request $request)
+    {
+        $this->validate($request, [
+            "email" => "required|email"
+        ]);
+
+        $user = User::firstOrCreate([
+            "email" => $request->email
+        ],[
+            "name" => "Invitado",
+            "email" => $request->email,
+            "password" => bcrypt(Str::random(16))
+        ]);
+
+        $account->addUser($user);
+
+        return response()->json([
+            "data" => [
+                "user" => $user
+            ]
+        ]);
+    }
+
+
+    public function general(Account $account, Request $request)
+    {
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($account);
+
+        $setting_wialon_key = Setting::where('key', 'wialon_key')->first();
+        $setting_wialon_key->value = $request->wialon_key;
+        if ($setting_wialon_key->save()){
+
+            return response([
+                'data' => [
+                    'message' => 'Se actualizó correctamente',
+                    'wialon_key' => $request->wialon_key
+                ]
+            ]);
+        } else {
+            return response('Aconteció un error');
+        }
+
+    }
+
+    public function getSettings(Account $account)
+    {
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($account);
+
+        $settings = Setting::all();
+
+        return response([
+            'data' => [
+                'wialon_key' => $settings->where('key','wialon_key')->first()->value
+            ]
+        ]);
     }
 }
