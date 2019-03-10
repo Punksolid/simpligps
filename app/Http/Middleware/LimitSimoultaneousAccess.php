@@ -34,7 +34,7 @@ class LimitSimoultaneousAccess
                 $colleagues = new Collection([auth()->user()]);
             }
 
-            \Cache::set("active_sessions_$account->id",$colleagues, 1);
+            \Cache::set("active_sessions_$account->id",$colleagues, 60);
 
             $active_sessions = cache("active_sessions_$account->id")->count();
 
@@ -42,7 +42,6 @@ class LimitSimoultaneousAccess
 
             if ($active_sessions > $limit_active_sessions){
                 abort(401, "Demasiadas sesiones activas, superó su limite de $limit_active_sessions sesiones activas");
-
             }
         }catch (\Exception $e){
             abort(401, "Se encontró un error con su licencia, favor de contactar al administrador.");

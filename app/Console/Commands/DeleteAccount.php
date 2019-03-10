@@ -34,7 +34,7 @@ class DeleteAccount extends Command
 
     /**
      * Execute the console command.
-     *
+     * @deprecated
      * @return mixed
      */
     public function handle()

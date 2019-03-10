@@ -3,6 +3,9 @@
 namespace App\Console\Commands;
 
 use App\Account;
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+//use Hyn\Tenancy\Models\Website;
+use App\Website;
 use Illuminate\Console\Command;
 use Psy\Util\Str;
 
@@ -13,7 +16,7 @@ class NewAccount extends Command
      *
      * @var string
      */
-    protected $signature = 'trm:new_account {easyname}';
+    protected $signature = 'trm:new_account';
 
     /**
      * The console command description.
@@ -39,29 +42,20 @@ class NewAccount extends Command
      */
     public function handle()
     {
-        $easyname = $this->argument("easyname");
-        $validator = \Validator::make([
-            "easyname" => $easyname
-        ], [
-            "easyname" => "required|string|alpha_dash"
+//        $website = new Website();
+        $website = new Account(["easyname" => "temp_name"]);
+        app(WebsiteRepository::class)->create($website);
+
+
+        $this->info("Account Id: ".$website->id);
+        $this->info("Uuid: ". $website->uuid);
+        sleep(1);
+        $call = $this->call("tenancy:db:seed", [
+            "--website_id" => ["$website->id"],
+            "--class" => "MainSeedTenants"
         ]);
 
-        abort_if($validator->fails(), "Ese nombre no es valido, solo alfanumericos");
-
-
-        if (\DB::connection("mysql")->statement("CREATE DATABASE $easyname")) {
-            $default = \Config::get("database.connections.mysql");
-            $default["database"] = $easyname;
-            \Config::set("database.connections.temporal", $default);
-            $connection = \DB::connection("temporal");
-
-            $this->call("migrate", [
-                "--database" => "temporal"
-            ]);
-
-            \Config::set("database.default", "mysql");
-
-        }
+        return response($website);
 
     }
 }

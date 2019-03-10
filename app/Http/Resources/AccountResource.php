@@ -18,6 +18,9 @@ class AccountResource extends JsonResource
             "id" => $this->id,
             "easyname" => $this->easyname,
             "uuid" => $this->uuid,
+            //relationships
+            "users" => UsersResource::collection($this->whenLoaded('users')),
+            "licenses" => LicenseResource::collection($this->whenLoaded("licenses"))
             //@todo agregar contador de dias faltantes para expirar
 //            "expires_in" => $this->whenPivotLoaded("licenses_accounts", function (){
 //

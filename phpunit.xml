@@ -31,5 +31,7 @@
         <env name="MAIL_DRIVER" value="array"/>
         <env name="CLOCKWORK_ENABLE" value="false"/>
         <env name="DEBUGBAR_ENABLED" value="false"/>
+        <env name="TELESCOPE_ENABLED" value="false"/>
+        <env name="DB_HOST" value="127.0.0.1"/>
     </php>
 </phpunit>

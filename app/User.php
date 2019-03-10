@@ -3,20 +3,17 @@
 namespace App;
 
 use App\Notifications\PasswordResetRequest;
-use App\Observers\UserObserver;
+use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Orchestra\Tenanti\Contracts\TenantProvider;
-use Orchestra\Tenanti\Tenantor;
 use Spatie\Permission\Traits\HasRoles;
 
-//class User extends Authenticatable implements TenantProvider
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasRoles, Notifiable, HasApiTokens;
+    use HasRoles, Notifiable, HasApiTokens, UsesSystemConnection;
 
     protected $guard_name = 'api'; // changed from web to api bcz permissions sync using default
     /**
@@ -36,34 +33,6 @@ class User extends Authenticatable implements CanResetPassword
     protected $hidden = [
         'password', 'remember_token',
     ];
-
-//    public function asTenantor(): Tenantor
-//    {
-//        return Tenantor::fromEloquent('user',$this);
-//        // TODO: Implement asTenantor() method.
-//    }
-//    /**
-//     * Make a tenantor.
-//     *
-//     * @return \Orchestra\Tenanti\Tenantor
-//     */
-//    public static function makeTenantor($key, $connection = null): Tenantor
-//    {
-//        return Tenantor::make(
-//            'user', $key, $connection ?: (new static())->getConnectionName()
-//        );
-//    }
-//
-//    /**
-//     * The "booting" method of the model.
-//     */
-//    protected static function boot()
-//    {
-//        parent::boot();
-//
-//        static::observe(new UserObserver());
-//    }
-
 
     public function profile()
     {
@@ -133,5 +102,13 @@ class User extends Authenticatable implements CanResetPassword
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new PasswordResetRequest($token));
+    }
+
+
+    public function isInAccount(int $account_id):bool
+    {
+        return (bool)$this->accounts()->whereHas('users', function ($users_query) use($account_id){
+            $users_query->where('account_id',$account_id);
+        })->exists();
     }
 }

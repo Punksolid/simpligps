@@ -124,6 +124,7 @@ return [
         Illuminate\Broadcasting\BroadcastServiceProvider::class,
         Illuminate\Bus\BusServiceProvider::class,
         Illuminate\Cache\CacheServiceProvider::class,
+        \App\Providers\CacheServiceProvider::class, //personalized
         Illuminate\Foundation\Providers\ConsoleSupportServiceProvider::class,
         Illuminate\Cookie\CookieServiceProvider::class,
         Illuminate\Database\DatabaseServiceProvider::class,
@@ -153,12 +154,13 @@ return [
         App\Providers\AuthServiceProvider::class,
          App\Providers\BroadcastServiceProvider::class, //PUSHER
         App\Providers\EventServiceProvider::class,
+//        App\Providers\TelescopeServiceProvider::class, //only on dev local
         App\Providers\RouteServiceProvider::class,
 
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
 //        Punksolid\Wialon\WialonServiceProvider::class,
-        Orchestra\Tenanti\TenantiServiceProvider::class,
-        Orchestra\Tenanti\CommandServiceProvider::class,
+//        Hyn\Tenancy\Providers\TenancyProvider::class,
+
     ],
 
     /*
@@ -210,7 +212,7 @@ return [
 
         //Personalized
         'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-        'Tenanti' => Orchestra\Support\Facades\Tenanti::class,
+//        'Tenanti' => Orchestra\Support\Facades\Tenanti::class, // deprecated in favor of hyn multi tenant
     ],
 
 ];

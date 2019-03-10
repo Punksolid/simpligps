@@ -2,11 +2,14 @@
 
 namespace App;
 
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Punksolid\Wialon\Unit;
 
 class Device extends Model
 {
+    use UsesTenantConnection;
+
     protected $fillable = [
         "name",
         "plate",

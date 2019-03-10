@@ -44,7 +44,7 @@ class AccountsController extends Controller
      * Store a newly created account in storage.
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return AccountResource
      */
     public function store(AccountRequest $request)
     {

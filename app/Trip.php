@@ -2,13 +2,14 @@
 
 namespace App;
 
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Spatie\Tags\HasTags;
 
 class Trip extends Model
 {
-    use HasTags;
+    use HasTags, UsesTenantConnection;
 
     protected $fillable = [
             "rp",

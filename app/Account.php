@@ -2,12 +2,24 @@
 
 namespace App;
 
+use App\Notifications\UserLinkedToAccountNotification;
 use Carbon\Carbon;
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+//use Hyn\Tenancy\Repositories\WebsiteRepository;
+use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Validation\ValidationException;
 
-class Account extends Model
+class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contracts\Website
 {
+    use UsesSystemConnection, SoftDeletes;
+
+    protected $table = "accounts"; // parece que esto hace que no tenga migraciones automaticas
+//    protected $table = "websites"; // Con este funciona la creación vía WebsiteRepositoryContract
+    // y su migración automatica, también parece funcionar mejor con las validaciones
+
     protected $fillable = [
         "easyname",
         "uuid",
@@ -18,6 +30,12 @@ class Account extends Model
         "bulk" => "array"
     ];
 
+    public function hostnames(): HasMany
+    {
+        // TODO: Implement hostnames() method.
+        return null;
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, "users_accounts");
@@ -27,6 +45,7 @@ class Account extends Model
     {
         try {
             $this->users()->attach($user->id);
+            $user->notify(new UserLinkedToAccountNotification($this));
             return true;
         } catch (\Exception $e) {
             info("Error en addUser");
@@ -64,11 +83,11 @@ class Account extends Model
                     "expires_at" => "required|date"
                 ]);
 
-                throw_if( $v->fails(),
+                throw_if($v->fails(),
                     ValidationException::withMessages([
-                        "error" => [
-                            "Argumentos invalidos en los pivots"
-                        ]]
+                            "error" => [
+                                "Argumentos invalidos en los pivots"
+                            ]]
                     )
                 );
 
@@ -122,5 +141,13 @@ class Account extends Model
     public function isActive(): bool
     {
         return (bool)$this->activeLicenses()->first();
+    }
+
+    public function createAccount()
+    {
+        app(WebsiteRepository::class)->create($this);
+        
+        return $this;
+
     }
 }
