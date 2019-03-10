@@ -94,4 +94,15 @@ class LicenseTest extends TestCase
         $call->assertSuccessful();
     }
 
+    public function test_eliminar_licencias_no_usadas()
+    {
+        $license = factory(License::class)->create();
+        $call = $this->deleteJson("api/sysadmin/v1/licenses/{$license->id}");
+
+        $call->assertSuccessful();
+        $this->assertDatabaseMissing("licenses",[
+            "name" => $license->name
+        ]);
+    }
+
 }
