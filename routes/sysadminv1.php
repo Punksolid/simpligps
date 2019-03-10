@@ -30,6 +30,7 @@ Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
     Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");
     Route::get("accounts/active_accounts", "Admin\AccountsController@activeAccounts");
     Route::get("accounts/near_to_expire", "Admin\AccountsController@nearToExpire");
+    Route::post("accounts/{account}/add_user", "Admin\AccountsController@addUser");
     Route::resource("accounts", "Admin\AccountsController")
         ->except("edit", "create");
 
