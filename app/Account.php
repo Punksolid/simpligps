@@ -143,10 +143,9 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
 
     public function createAccount()
     {
-        $account = new Account(["easyname" => "temp_name"]);
-        app(WebsiteRepository::class)->create($account);
+        app(WebsiteRepository::class)->create($this);
         
-        return $account;
+        return $this;
 
     }
 }
