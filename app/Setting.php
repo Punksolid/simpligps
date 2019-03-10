@@ -26,8 +26,5 @@ class Setting extends Model
     }
 
 
-    public function setWialonToken()
-    {
 
-    }
 }

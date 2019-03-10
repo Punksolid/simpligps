@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 //use Hyn\Tenancy\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Traits\UsesSystemConnection;
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -148,6 +149,18 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         app(WebsiteRepository::class)->create($this);
         
         return $this;
-
     }
+
+    public function getTenantData( $model): Model
+    {
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($this);
+
+        return new $model;
+//        dd(new $model);
+//        return $model;
+//        $wialon_key = (new Setting)->getWialonToken();
+    }
+
+
 }
