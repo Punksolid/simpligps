@@ -31,7 +31,7 @@ class AccountTest extends TestCase
     public function test_crear_nueva_cuenta()
     {
         $account_details = [
-            "easyname" => $this->faker->unique()->word.$this->faker->unique()->word
+            "easyname" => $this->faker->unique()->word.$this->faker->unique()->word,
         ];
 
         $call = $this->postJson("api/sysadmin/v1/accounts",
@@ -82,7 +82,7 @@ class AccountTest extends TestCase
         $account->addUser(factory(User::class)->create());
         $account->addLicense(factory(License::class)->create());
         $call = $this->getJson("api/sysadmin/v1/accounts/{$account->id}");
-
+        $call->dump();
         $call->assertJsonStructure([
             "data" => [
                 "id",
@@ -97,7 +97,8 @@ class AccountTest extends TestCase
                     "*" => [
                         "name"
                     ]
-                ]
+                ],
+                "wialon_key"
             ]
         ]);
         $call->assertSuccessful();
@@ -236,68 +237,18 @@ class AccountTest extends TestCase
         ]);
         $call->assertSuccessful();
     }
-
-    public function test_obtener_settings()
-    {
-        $account = factory(Account::class)->make();
-        $account->createAccount();
-
-    public function test_asignar_usuario_existente_a_cuenta()
-    {
-        $user = factory(User::class)->create();
-        $account  = factory(Account::class)->create();
-        $call = $this->postJson("api/sysadmin/v1/accounts/{$account->id}/add_user",[
-            "email" => $user->email
-        ]);
-        $call = $this->getJson("api/sysadmin/v1/accounts/{$account->id}");
-
-        $call->assertSuccessful();
-        $call->assertJsonFragment([
-            "email" => $user->email
-        ]);
-    }
-
-//    public function test_puede_asignar_wialon_key_a_cuenta()
-//    {
-//
-//        $call = $this->postJson("api/sysadmin/v1/accounts/{$account->id}/settings")
-//    }
-
-    public function test_guardar_wialon_api_key()
-    {
-        $key = '5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8';
-        $account = factory(Account::class)->make();
-        $account->createAccount();
-
-        $call = $this->postJson("api/sysadmin/v1/accounts/{$account->id}/settings", [
-            "wialon_key" => $key
-        ] );
-
-        $call->assertJson([
-            "data" => [
-                "wialon_key" => $key
-            ]
-        ]);
-        $call->assertSuccessful();
-    }
-
-    public function test_obtener_settings()
+    public function test_ver_settings_en_detalles_de_cuenta()
     {
         $account = factory(Account::class)->make();
         $account->createAccount();
 
         $call = $this->getJson("api/sysadmin/v1/accounts/{$account->id}");
-
         $call->assertJsonFragment([
-            'wialon_key' => '5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8'
+            'wialon_key' => ''
         ]);
+
         $call->assertSuccessful();
 
     }
-        $call->assertJsonFragment([
-            'wialon_key' => '5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8'
-        ]);
-        $call->assertSuccessful();
 
-    }
 }

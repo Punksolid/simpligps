@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Account;
+use App\Device;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Http\Resources\AccountResource;
@@ -73,7 +74,12 @@ class AccountsController extends Controller
      */
     public function show(Account $account)
     {
-        return AccountResource::make($account->load(['users', 'licenses']));
+
+        $account->load(['users', 'licenses']);
+        $account->wialon_key = $account->getTenantData(Setting::class)->getWialonToken();
+
+        return AccountResource::make($account);
+
     }
 
     /**
