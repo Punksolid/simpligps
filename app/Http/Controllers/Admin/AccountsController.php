@@ -76,7 +76,10 @@ class AccountsController extends Controller
     {
 
         $account->load(['users', 'licenses']);
-        $account->wialon_key = $account->getTenantData(Setting::class)->getWialonToken();
+        if ($account->hasDatabaseAccesible()){
+
+            $account->wialon_key = $account->getTenantData(Setting::class)->getWialonToken();
+        }
 
         return AccountResource::make($account);
 

@@ -32,6 +32,7 @@ class AccountTest extends TestCase
     {
         $account_details = [
             "easyname" => $this->faker->unique()->word.$this->faker->unique()->word,
+            "email" => $this->faker->email
         ];
 
         $call = $this->postJson("api/sysadmin/v1/accounts",
@@ -40,7 +41,8 @@ class AccountTest extends TestCase
 
         $call->assertJson([
             "data" => [
-                "easyname" => $account_details["easyname"]
+                "easyname" => $account_details["easyname"],
+
             ]
         ]);
 
@@ -82,7 +84,6 @@ class AccountTest extends TestCase
         $account->addUser(factory(User::class)->create());
         $account->addLicense(factory(License::class)->create());
         $call = $this->getJson("api/sysadmin/v1/accounts/{$account->id}");
-        $call->dump();
         $call->assertJsonStructure([
             "data" => [
                 "id",

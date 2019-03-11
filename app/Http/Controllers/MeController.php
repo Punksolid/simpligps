@@ -18,11 +18,13 @@ class MeController extends Controller
     /**
      * Logged user information
      *
-     * @return \Illuminate\Http\Response
+     * @return UsersResource
      */
     public function meInfo()
     {
-        return UsersResource::make(auth()->user());
+        $user = auth()->user();
+
+        return UsersResource::make($user);
     }
 
     /**

@@ -106,6 +106,10 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         }
     }
 
+    /**
+     * Licencias por periodo activo basados en la fecha
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function activeLicenses()
     {
         $now = Carbon::now();
@@ -157,10 +161,24 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         $environment->tenant($this);
 
         return new $model;
-//        dd(new $model);
-//        return $model;
-//        $wialon_key = (new Setting)->getWialonToken();
+
     }
 
+    /**
+     * Devuelve si la cuenta puede conectarse a su propia base de datos
+     * util para revisar integridad de cuentas
+     * @return bool
+     */
+    public function hasDatabaseAccesible():bool
+    {
+        config(["database.connections.tenant.database" => $this->uuid]);
+        try {
+            $database_response = \DB::connection("tenant")->getPdo();
 
+        }catch (\Exception $exception){
+            return false;
+        }
+
+        return (bool)$database_response;
+    }
 }
