@@ -79,6 +79,7 @@ Route::group(["middleware" => [
             //WIALON SECTION
             Route::get('wialon/resources', "WialonController@getResources");
             Route::get('wialon/notifications', "WialonController@getNotifications");
+            Route::delete('wialon/notifications/{id}', "WialonController@deleteNotification");
             Route::get('wialon/units', "WialonController@getUnits");
             Route::post('wialon/notifications', 'WialonController@store');
         });

@@ -9,17 +9,18 @@ class WialonNotificationResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return array
      */
     public function toArray($request)
     {
         return [
-          "name" => $this->n,
+            "id" => $this->id,
+            "name" => $this->n,
             "txt" => $this->txt,
             "control_type" => $this->trg,
             "actions" => $this->act,
-            "resource" => "resource" //@todo
+            "resource" => $this->resource //@todo
         ];
 
     }

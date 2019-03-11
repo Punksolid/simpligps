@@ -37,6 +37,20 @@ class WialonController extends Controller
         return WialonNotificationResource::collection($notifications);
     }
 
+    public function deleteNotification($id)
+    {
+        $notification = Notification::all()->where("id",$id)->first();
+
+        if ($notification->destroy()){
+            return response()->json([
+                "message" => "Success"
+            ]);
+        }
+
+        return response()->json([
+            "message" => "Error deleting notification"
+        ]);
+    }
 
     public function getUnits()
     {

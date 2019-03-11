@@ -239,6 +239,7 @@ class AccountTest extends TestCase
         ]);
         $call->assertSuccessful();
     }
+
     public function test_ver_settings_en_detalles_de_cuenta()
     {
         $account = factory(Account::class)->make();
