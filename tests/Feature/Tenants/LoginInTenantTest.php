@@ -48,7 +48,6 @@ class LoginInTenantTest extends TestCase
 
         $call3 = $this->actingAs($user3, "api")->getJson("api/v1/devices");
 
-        $this->markTestIncomplete("falta agregar la verificacion en multitenant");
 
     }
 

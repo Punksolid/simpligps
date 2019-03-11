@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Device;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Punksolid\Wialon\Unit;
 use Punksolid\Wialon\Wialon;
@@ -69,5 +70,15 @@ class WialonTest extends TestCase
         $device->linkUnit($unit);
 
         $this->assertTrue($device->linked());
+    }
+
+    public function test_import_units_to_devices()
+    {
+        $this->setWebsiteEnvironment();
+        $wialon = new \App\Wialon("5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8");
+
+        $devices = $wialon->import();
+
+        $this->assertInstanceOf(Collection::class,$devices);
     }
 }

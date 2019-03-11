@@ -99,7 +99,8 @@ class AccountTest extends TestCase
                         "name"
                     ]
                 ],
-                "wialon_key"
+                "wialon_key",
+                "integrity"
             ]
         ]);
         $call->assertSuccessful();

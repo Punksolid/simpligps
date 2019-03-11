@@ -9,6 +9,7 @@ use App\Http\Requests\AccountRequest;
 use App\Http\Resources\AccountResource;
 use App\Setting;
 use App\User;
+use App\Wialon;
 use function foo\func;
 use Hyn\Tenancy\Models\Website;
 use Illuminate\Database\Connection;
@@ -190,13 +191,21 @@ class AccountsController extends Controller
 
     public function general(Account $account, Request $request)
     {
+        $this->validate($request,[
+           "wialon_key" => "required",
+           "import" => "required|bool"
+        ]);
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($account);
 
         $setting_wialon_key = Setting::where('key', 'wialon_key')->first();
         $setting_wialon_key->value = $request->wialon_key;
-        if ($setting_wialon_key->save()){
 
+        if ($setting_wialon_key->save()){
+            if ($request->import){
+                $wialon_devices = new Wialon($request->wialon_key);
+                $wialon_devices->import();
+            }
             return response([
                 'data' => [
                     'message' => 'Se actualizó correctamente',
