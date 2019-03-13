@@ -19,6 +19,8 @@ use Illuminate\Validation\ValidationException;
  */
 class UsersController extends Controller
 {
+    private $account;
+
     public function __construct()
     {
         $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
@@ -32,7 +34,6 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-
         $query = $this->repository->orderByDesc("created_at") ;
         if ($request->filled('email')){
             $query->where($request->all(['email']));
@@ -56,7 +57,7 @@ class UsersController extends Controller
 
         return UsersResource::collection($users);
     }
- 
+
     /**
      * Store a newly created users in storage.
      *
@@ -140,6 +141,8 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
+        $user = User::findOrFail($id);
+        $this->account->removeUser($user);
         if (User::find($id)->delete()) {
             return response(["data" => "Deleted user"]);
         }

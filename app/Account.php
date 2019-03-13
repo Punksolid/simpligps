@@ -56,6 +56,11 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
 
     }
 
+    public function removeUser(User $user): bool
+    {
+        return (bool)$this->users()->detach($user->id);
+    }
+
     /**
      * An account has some licenses
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -151,11 +156,11 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     public function createAccount()
     {
         app(WebsiteRepository::class)->create($this);
-        
+
         return $this;
     }
 
-    public function getTenantData( $model): Model
+    public function getTenantData($model): Model
     {
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($this);
@@ -169,22 +174,22 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
      * util para revisar integridad de cuentas
      * @return bool
      */
-    public function hasDatabaseAccesible():bool
+    public function hasDatabaseAccesible(): bool
     {
         config(["database.connections.tenant.database" => $this->uuid]);
         try {
             $database_response = \DB::connection("tenant")->getPdo();
 
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return false;
         }
 
         return (bool)$database_response;
     }
 
-    public function userExists(User $user):bool
+    public function userExists(User $user): bool
     {
-        return $this->whereHas('users', function ($query) use($user){
+        return $this->whereHas('users', function ($query) use ($user) {
             $query->whereEmail($user->email);
         })->exists();
     }

@@ -2,10 +2,12 @@
 
 namespace Tests\Feature;
 
+use App\Http\Middleware\LimitExpiredLicenseAccess;
+use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\User;
-use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Tenants\TestCase;
 
 class UsersTest extends TestCase
 {
@@ -18,7 +20,8 @@ class UsersTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, "api");
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
-
+        $this->withoutExceptionHandling();
+        $this->withHeader("X-Tenant-Id", $this->account->uuid);
     }
 
     public function test_se_puede_editar_un_usuario()
@@ -42,12 +45,17 @@ class UsersTest extends TestCase
         $users = factory(User::class, 2)->create();
         $response = $this->getJson('/api/v1/users');
 
+        $user1 = $users->first();
+        $user2 = $users->last();
+        $this->account->addUser($user1);
+        $this->account->addUser($user2);
+
         $response
             ->assertJsonFragment([
-                "email" => $users->first()->email
+                "email" => $user1->email
             ])
             ->assertJsonFragment([
-                "email" => $users->last()->email
+                "email" => $user2->email
             ])
             ->assertStatus(200);
 
@@ -57,7 +65,7 @@ class UsersTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user_to_search = factory(User::class)->create();
-
+        $this->account->addUser($user_to_search);
         $call = $this->getJson("api/v1/users?email=$user_to_search->email");
 
         $call->assertJsonFragment([
@@ -65,6 +73,7 @@ class UsersTest extends TestCase
         ]);
 
         $user_to_search_2 = User::first();
+        $this->account->addUser($user_to_search_2);
 
         $call = $this->getJson("api/v1/users?email=$user_to_search_2->email");
 
@@ -77,11 +86,13 @@ class UsersTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user_to_search = factory(User::class)->create();
+        $this->account->addUser($user_to_search);
         $user_to_search->profile()->create($profile = [
             "lastname" => $this->faker->lastName,
             "username" => $this->faker->userName
         ]);
         $user_to_search->with('profile')->get();
+
 
         $call = $this->getJson("api/v1/users?username={$profile['username']}");
 
@@ -95,6 +106,8 @@ class UsersTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $user_to_search = factory(User::class)->create();
+        $this->account->addUser($user_to_search);
+
         $user_to_search->profile()->create($profile = [
             "lastname" => $this->faker->lastName,
             "username" => $this->faker->userName
@@ -106,5 +119,17 @@ class UsersTest extends TestCase
         $call->assertJsonFragment([
             "username" => $profile['username']
         ]);
+    }
+
+    public function test_usuario_puede_eliminar_usuario_de_su_plataforma()
+    {
+        $user = factory(User::class)->create();
+        $this->account->addUser($user);
+
+        $call = $this->deleteJson("api/v1/users/$user->id");
+
+        $call->assertSuccessful();
+
+        $this->assertFalse($this->account->userExists($user));
     }
 }
