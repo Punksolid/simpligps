@@ -181,4 +181,11 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
 
         return (bool)$database_response;
     }
+
+    public function userExists(User $user):bool
+    {
+        return $this->whereHas('users', function ($query) use($user){
+            $query->whereEmail($user->email);
+        })->exists();
+    }
 }

@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
+use App\Events\AddedUserToAccount;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UsersResource;
 use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class UsersController
@@ -16,6 +19,12 @@ use Illuminate\Support\Facades\Auth;
  */
 class UsersController extends Controller
 {
+    public function __construct()
+    {
+        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
+        $this->repository = $this->account->users();
+    }
+
     /**
      * Display a listing of the users.
      * filtra usuarios por parametros enviados via get query parameters: "name","email","lastname","username"
@@ -24,7 +33,7 @@ class UsersController extends Controller
     public function index(Request $request)
     {
 
-        $query = User::query()->orderByDesc("created_at");
+        $query = $this->repository->orderByDesc("created_at") ;
         if ($request->filled('email')){
             $query->where($request->all(['email']));
         }
@@ -56,13 +65,25 @@ class UsersController extends Controller
      */
     public function store(UserRequest $request)
     {
-
-        $user = User::create([
-            'name' => $request->name,
+        $user = User::firstOrCreate([
             'email' => $request->email,
+        ],[
+            'name' => $request->name,
             'password' => bcrypt($request->password),
         ]);
+
+        if ($this->account->userExists($user)){
+            throw ValidationException::withMessages([
+                "email"=> [
+                    "User already exists"
+                ]
+            ]);
+        }
         $user->profile()->save(new Profile($request->all()));
+
+        if ($this->account->addUser($user)){
+            event(AddedUserToAccount::class);
+        };
 
         return UsersResource::make($user->fresh());
     }
