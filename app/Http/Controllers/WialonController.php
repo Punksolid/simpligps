@@ -79,11 +79,43 @@ class WialonController extends Controller
         $control_type = new ControlType($validatedData['control_type']);
         $units = Unit::findMany($validatedData['units']);
         $action = new Notification\Action('push_messages', [
-            "url" => url('api/v1/webhook/alert')
+            "url" => url(config("app.url").'api/v1/webhook/alert')
         ]);
 
+        $text = '"unit=%UNIT%&
+        timestamp=%CURR_TIME%&
+        location=%LOCATION%&
+        last_location=%LAST_LOCATION%&
+        locator_link=%LOCATOR_LINK(60,T)%&
+        smallest_geofence_inside=%ZONE_MIN%&
+        all_geofences_inside=%ZONES_ALL%&
+        UNIT_GROUP=%UNIT_GROUP%&
+        SPEED=%SPEED%&
+        POS_TIME=%POS_TIME%&
+        MSG_TIME=%MSG_TIME%&
+        DRIVER=%DRIVER%&
+        DRIVER_PHONE=%DRIVER_PHONE%&
+        TRAILER=%TRAILER%&
+        SENSOR=%SENSOR(*)%&
+        ENGINE_HOURS=%ENGINE_HOURS%&
+        MILEAGE=%MILEAGE%&
+        LAT=%LAT%&
+        LON=%LON%&
+        LATD=%LATD%&
+        LOND=%LOND%&
+        GOOGLE_LINK=%GOOGLE_LINK%&
+        CUSTOM_FIELD=%CUSTOM_FIELD(*)%&
+        UNIT_ID=%UNIT_ID%&
+        MSG_TIME_INT=%MSG_TIME_INT%&
+        NOTIFICATION=%NOTIFICATION%&
+        X-Tenant-Id='.$request->tenant_account->uuid.'
+        "';
 
-        $notification = Notification::make($resource, $units, $control_type, $request->name, $action);
+        $text = str_replace(["\r","\n"," "], "", $text);
+
+        $notification = Notification::make($resource, $units, $control_type, $request->name, $action, [
+            "txt" => $text
+        ]);
 
         return WialonNotificationResource::make($notification);
     }

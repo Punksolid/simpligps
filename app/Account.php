@@ -45,7 +45,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     public function addUser(User $user): bool
     {
         try {
-            $this->users()->attach($user->id);
+            $this->users()->syncWithoutDetaching([$user->id]);
             $user->notify(new UserLinkedToAccountNotification($this));
             return true;
         } catch (\Exception $e) {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Http\Requests\NotificationTypeRequest;
 use App\Notifications\DynamicNotification;
 use App\Notifications\WialonWebhookNotification;
@@ -111,12 +112,16 @@ class NotificationTypeController extends Controller
 
     public function webhookAlert(Request $request)
     {
+        try {
+            $account = Account::whereUuid($request->get("X-Tenant-Id"))->first();
+            info($account->users->toArray());
+            \Notification::send($account->users, new WialonWebhookNotification("Check unit {$request->get('unit')}"));
 
+            return \response()->json('ok');
+        } catch (\Exception $e) {
+            \Log::critical("Can't send to users check as fast as you can", $request->all());
+        }
 
-
-        \Notification::send(User::all(), new WialonWebhookNotification());
-
-        return \response()->json('ok');
     }
 
     public function destroyWialonNotification($notification_id)

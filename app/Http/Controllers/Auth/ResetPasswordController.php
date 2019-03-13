@@ -138,7 +138,7 @@ class ResetPasswordController extends Controller
         event(new PasswordResetEvent($user));
 
 //        $this->guard("web")->login($user);
-//        dd("b");
+
     }
 
 }

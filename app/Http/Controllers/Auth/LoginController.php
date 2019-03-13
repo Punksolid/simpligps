@@ -65,8 +65,7 @@ class LoginController extends Controller
         ]);
 
         $credentials = request(['email', 'password']);
-//        $x = \auth()->attempt($credentials);
-//        dd($x);
+
 
         if (!Auth::attempt($credentials))
             return response()->json([
@@ -83,6 +82,7 @@ class LoginController extends Controller
         $token->save();
 
         return response()->json([
+            "id" => $user->id,
             'access_token' => $tokenResult->accessToken,
             'token_type' => 'Bearer',
             'expires_at' => Carbon::parse(

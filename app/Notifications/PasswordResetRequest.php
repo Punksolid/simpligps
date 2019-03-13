@@ -42,7 +42,6 @@ class PasswordResetRequest extends Notification
     public function toMail($notifiable)
     {
 //        $url = url('/api/password/find/'.$this->token);
-//        dd(config('app'));
         $url = config("app.frontend_url")."/#/login?token=".$this->token;
 //        http://localhost:9528/#/login?token=7ed86e62fb633caf9c628edded27f88821b7d02e2fe2c8c27f979865009ff6c4
         return (new MailMessage)
