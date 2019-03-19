@@ -115,7 +115,7 @@ class NotificationTypeController extends Controller
         try {
             $account = Account::whereUuid($request->get("X-Tenant-Id"))->first();
             info($account->users->toArray());
-            \Notification::send($account->users, new WialonWebhookNotification("Check unit {$request->get('unit')}"));
+            \Notification::send($account->users, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
 
             return \response()->json('ok');
         } catch (\Exception $e) {
