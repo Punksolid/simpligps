@@ -19,6 +19,7 @@ Route::group(["middleware" => [
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     //Laravel Normal Notifications Access
     Route::get('me/notifications', "MeController@getNotifications");
+    Route::post('me/notifications/{id}/mark_as_read', "MeController@markAsRead");
     Route::get("/me", "MeController@meInfo");
 
     Route::get("/me/permissions", "MeController@permissions");

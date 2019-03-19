@@ -6,6 +6,7 @@ use App\Http\Resources\AccountResource;
 use App\Http\Resources\InternalNotificationResource;
 use App\Http\Resources\UsersResource;
 use App\User;
+use http\Client\Response;
 use Illuminate\Http\Request;
 
 /**
@@ -33,8 +34,21 @@ class MeController extends Controller
      */
     public function getNotifications()
     {
-        $notifications = auth()->user()->notifications;
+        $notifications = auth()->user()->unreadNotifications;
         return InternalNotificationResource::collection($notifications);
+    }
+
+    public function markAsRead($uuid)
+    {
+        try {
+            auth()->user()->notifications()->where('id', $uuid)->first()->markAsRead();
+            return \response()->json(['data' => 'ok']);
+        } catch (\Exception $e) {
+            \Log::error('Failed mark as read', $e->getMessage());
+            return response()->json([
+                'message' => 'An error occurred'
+            ]);
+        }
     }
 
     /**
