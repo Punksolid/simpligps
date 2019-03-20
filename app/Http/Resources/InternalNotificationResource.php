@@ -15,10 +15,9 @@ class InternalNotificationResource extends JsonResource
     public function toArray($request)
     {
 
-        return [
-            'id' => $this->id,
-            'message' => $this->data['message'],
-            'link' => $this->data['link']
-        ];
+        return array_merge([
+            'id' => $this->id
+        ],
+            $this->data );
     }
 }

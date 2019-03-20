@@ -34,7 +34,14 @@ class MeController extends Controller
      */
     public function getNotifications()
     {
-        $notifications = auth()->user()->unreadNotifications;
+        $account = \request()->header('X-Tenant-Id', null);
+
+        $notifications = auth()
+            ->user()
+            ->unreadNotifications()
+            ->where('data->X-Tenant-Id', $account)
+            ->get();
+
         return InternalNotificationResource::collection($notifications);
     }
 
