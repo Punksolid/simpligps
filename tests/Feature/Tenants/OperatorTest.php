@@ -87,6 +87,7 @@ class OperatorTest extends TestCase
         $call->assertJsonStructure([
             "data" => [
                 "*" => [
+                    "id",
                     "name",
                     "phone",
                     "active"
