@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\WialonNotificationRequest;
 use App\Http\Resources\WialonNotificationResource;
 use App\Http\Resources\WialonResourceResource;
 use App\Http\Resources\WialonUnitResource;
 use App\Setting;
+use Cache;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\ControlType;
 use Punksolid\Wialon\Notification;
@@ -32,15 +34,18 @@ class WialonController extends Controller
 
     public function getNotifications()
     {
+//        @todo Implementar cache para multitenant
+//        $notifications = Cache::remember('notifications', 300, function () {
+//            return Notification::all();
+//        });
         $notifications = Notification::all();
-
         return WialonNotificationResource::collection($notifications);
     }
 
     public function deleteNotification($id)
     {
         $notification = Notification::all()->where("id",$id)->first();
-
+//        Cache::forget('notifications');
         if ($notification->destroy()){
             return response()->json([
                 "message" => "Success"
@@ -64,20 +69,16 @@ class WialonController extends Controller
      * @param Request $request
      * @return WialonNotificationResource|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      * @throws \Punksolid\Wialon\WialonErrorException
+     * @throws \Exception
      */
-    public function store(Request $request)
+    public function store(WialonNotificationRequest $request)
     {
 
-        $validatedData = $request->validate([
-            'name' => 'required|max:40',
-            'units.*' => 'required|integer',
-            'control_type' => 'required',
-            'resource' => 'required'
-        ]);
+//        $validatedData = $request->validate();
 
-        $resource = Resource::find($validatedData['resource']);
-        $control_type = new ControlType($validatedData['control_type']);
-        $units = Unit::findMany($validatedData['units']);
+        $resource = Resource::find($request->resource);
+        $control_type = new ControlType($request->control_type, $request->params);
+        $units = Unit::findMany($request->units);
         $action = new Notification\Action('push_messages', [
             "url" => url(config("app.url").'api/v1/webhook/alert')
         ]);
@@ -108,7 +109,7 @@ class WialonController extends Controller
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id='.$request->tenant_account->uuid.'
+        X-Tenant-Id='.$request->header('uuid').'
         "';
 
         $text = str_replace(["\r","\n"," "], "", $text);

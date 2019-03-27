@@ -20,6 +20,10 @@ class IdentifyTenantConnection
     public function handle($request, Closure $next)
     {
         //TODO add verification of user in account
+        if (!Account::where('uuid', $request->header('X-Tenant-id'))->exists()) {
+            abort(404);
+        }
+
         $request->tenant_account = Account::where('uuid', $request->header('X-Tenant-id'))->first();
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($request->tenant_account);
