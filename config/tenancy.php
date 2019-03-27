@@ -303,6 +303,7 @@ return [
             App\Permission::class,
             Spatie\Permission\Models\Role::class,
             Spatie\Permission\Models\Permission::class,
+            \App\Operator::class
         ],
         'force-system-connection-of-models' => [
             App\User::class,

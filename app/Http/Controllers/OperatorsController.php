@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
  * @package App\Http\Controllers
  * @resource Operadores
  */
-class OperatorController extends Controller
+class OperatorsController extends Controller
 {
     /**
      * Muestra listado de operadores.
@@ -47,8 +47,9 @@ class OperatorController extends Controller
      * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function show(Operator $operator)
+    public function show($operator)
     {
+        $operator = Operator::findOrFail($operator);
 
         return OperatorResource::make($operator->load("carrier"));
     }
@@ -62,8 +63,10 @@ class OperatorController extends Controller
      * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function update(OperatorRequest $request, Operator $operator)
+    public function update(OperatorRequest $request,  $operator)
     {
+        $operator = Operator::findOrFail($operator);
+
         if ($operator->update($request->all())){
             return OperatorResource::make($operator);
         }
@@ -81,14 +84,15 @@ class OperatorController extends Controller
      * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Operator $operator)
+    public function destroy( $operator)
     {
+        $operator = Operator::findOrFail($operator);
         if ($operator->delete()){
             return response([
-                "message" => "El operador ha sido eliminado con éxito."
+                "message" => "The Operator was deleted succesfully."
             ]);
         }
 
-        return response(["message" => "Ocurrió un error al eliminar el operador."]);
+        return response(["message" => "Ocurrió un error al eliminar el operador."])->setStatusCode(422);
     }
 }

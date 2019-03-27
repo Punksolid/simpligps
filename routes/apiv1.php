@@ -62,7 +62,7 @@ Route::group(["middleware" => [
         ]);
 
         //OPERATORS
-        Route::resource("operators", "OperatorController", [
+        Route::resource("operators", "OperatorsController", [
             "except" => ["edit", "create"]
         ]);
 

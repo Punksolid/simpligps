@@ -21,11 +21,7 @@ class UsersController extends Controller
 {
     private $account;
 
-    public function __construct()
-    {
-        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
-        $this->repository = $this->account->users();
-    }
+
 
     /**
      * Display a listing of the users.
@@ -34,6 +30,12 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
+
+        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
+        $this->repository = $this->account->users();
+
+
+
         $query = $this->repository->orderByDesc("created_at") ;
         if ($request->filled('email')){
             $query->where($request->all(['email']));

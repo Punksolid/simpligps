@@ -51,6 +51,8 @@ abstract class TestCase extends BaseTestCase
 
         $this->setWebsiteEnvironment();
 
+        $this->withHeader('X-Tenant-Id', $this->account->uuid);
+
 
     }
 

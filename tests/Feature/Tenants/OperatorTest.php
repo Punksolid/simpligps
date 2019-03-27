@@ -99,12 +99,11 @@ class OperatorTest extends TestCase
 
     public function test_eliminar_operador()
     {
-
-        $operador = factory(Operator::class)->create();
-        $call = $this->json("DELETE", "api/v1/operators/$operador->id");
-
+        $this->withoutExceptionHandling();
+        $operator = factory(Operator::class)->create();
+        $call = $this->deleteJson( "/api/v1/operators/$operator->id");
         $call->assertJson([
-            "message" => "El operador ha sido eliminado con éxito."
+            "message" => "The Operator was deleted succesfully."
         ]);
         $call->assertStatus(200);
     }

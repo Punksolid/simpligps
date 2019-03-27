@@ -53,6 +53,7 @@ class PlacesTest extends TestCase
         $call->assertJsonStructure([
             "data" => [
                 "*" => [
+                    "id",
                     "name",
                     "person_in_charge",
                     "address",
