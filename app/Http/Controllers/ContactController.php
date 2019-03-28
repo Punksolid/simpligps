@@ -51,8 +51,9 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function show(Contact $contact)
+    public function show( $contact)
     {
+        $contact = Contact::findOrFail($contact);
 
         return ContactResource::make($contact);
 
@@ -65,9 +66,11 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Contact $contact)
+    public function update(Request $request,  $contact)
     {
-;        if ($contact->update($request->all())){
+        $contact = Contact::findOrFail($contact);
+
+        ;        if ($contact->update($request->all())){
             return ContactResource::make($contact);
         }
 
@@ -80,8 +83,10 @@ class ContactController extends Controller
      * @param  \App\Contact  $contact
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Contact $contact)
+    public function destroy( $contact)
     {
+        $contact = Contact::findOrFail($contact);
+
         if ($contact->delete()){
             return response([
                 "message" => "Se eliminó el contacto."
@@ -91,8 +96,11 @@ class ContactController extends Controller
         return response("Aconteció un error");
     }
 
-    public function attachtags(Contact $contact)
+    public function attachtags( $contact)
     {
+        $contact = Contact::findOrFail($contact);
+
+
         $contact->syncTags(\request()->tags);
 
         return ContactResource::make($contact->load("tags"));
