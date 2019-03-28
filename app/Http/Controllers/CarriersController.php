@@ -46,8 +46,10 @@ class CarriersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Carrier $carrier)
+    public function show( $carrier)
     {
+        $carrier = Carrier::findOrFail($carrier);
+
         return CarrierResource::make($carrier);
     }
 
@@ -58,8 +60,10 @@ class CarriersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CarrierRequest $request, Carrier $carrier)
+    public function update(CarrierRequest $request,  $carrier)
     {
+        $carrier = Carrier::findOrFail($carrier);
+
         if ($carrier->update($request->all())){
             return CarrierResource::make($carrier);
         }
@@ -73,8 +77,10 @@ class CarriersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Carrier $carrier)
+    public function destroy($carrier)
     {
+        $carrier = Carrier::findOrFail($carrier);
+
         if ($carrier->delete()){
             return response([
                 "message" => "Se eliminó la linea transportista."
