@@ -4,7 +4,7 @@ use App\Http\Controllers\ConvoyController;
 use App\Http\Middleware\IdentifyTenantConnection;
 use Illuminate\Http\Request;
 
-Route::post('login', 'Auth\LoginController@login');
+Route::post('login', 'Auth\LoginController@login')->middleware('verified');
 Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/change', 'Auth\ResetPasswordController@reset');
@@ -13,6 +13,7 @@ Route::post('password/change', 'Auth\ResetPasswordController@reset');
 Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
 
 Route::group(["middleware" => [
+    "verified",
     "auth:api",
 //    "limit_simoultaneous_access",
     \App\Http\Middleware\ProfilingTestMiddleware::class
@@ -32,6 +33,8 @@ Route::group(["middleware" => [
             "limit_expired_license_access"
         ]
     ],function($router){
+        // Dashboard
+        Route::get('dashboard', 'DashboardController@resume');
         //Devices
         Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
         Route::resource("devices", "DevicesController")->except(['create','edit']);

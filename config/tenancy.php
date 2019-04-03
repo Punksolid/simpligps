@@ -307,7 +307,8 @@ return [
         ],
         'force-system-connection-of-models' => [
             App\User::class,
-            \App\Account::class
+            \App\Account::class,
+            \App\PasswordReset::class
         ],
     ],
 

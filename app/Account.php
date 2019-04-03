@@ -56,6 +56,11 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
 
     }
 
+    /**
+     * Detachs user from account
+     * @param User $user
+     * @return bool
+     */
     public function removeUser(User $user): bool
     {
         return (bool)$this->users()->detach($user->id);
@@ -156,7 +161,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     public function createAccount()
     {
         app(WebsiteRepository::class)->create($this);
-
+        config(['database.default' => 'system']);
         return $this;
     }
 

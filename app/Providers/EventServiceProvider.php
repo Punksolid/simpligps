@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\AccountCreatedEvent;
+use App\Events\UserCreated;
+use App\Listeners\SendAccountSetPasswordEmail;
+use App\Listeners\SendUserActivationLink;
 use App\Listeners\UseMainConnectionListener;
 use Hyn\Tenancy\Events\Database\ConfigurationLoaded;
 use Hyn\Tenancy\Events\Database\ConfigurationLoading;
@@ -22,6 +26,12 @@ class EventServiceProvider extends ServiceProvider
         ],
         ConfigurationLoaded::class => [
             UseMainConnectionListener::class
+        ],
+        AccountCreatedEvent::class => [
+            SendAccountSetPasswordEmail::class
+        ],
+        UserCreated::class => [
+            SendUserActivationLink::class
         ]
     ];
 

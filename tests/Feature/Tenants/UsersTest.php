@@ -24,6 +24,17 @@ class UsersTest extends TestCase
         $this->withHeader("X-Tenant-Id", $this->account->uuid);
     }
 
+    public function test_usuario_puede_registrar_otro_usuario()
+    {
+        $user = factory(User::class)->make();
+
+        $call = $this->postJson('api/v1/users', [
+            'email' => $user->email
+        ]);
+
+
+    }
+
     public function test_se_puede_editar_un_usuario()
     {
         $user = factory(User::class)->create();
@@ -38,6 +49,7 @@ class UsersTest extends TestCase
         $call = $this->putJson("api/v1/users/{$user->id}", $new_data);
         unset($new_data["password"]);
         $call->assertJsonFragment($new_data);
+
     }
 
     public function test_listar_usuarios()

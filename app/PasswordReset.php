@@ -2,10 +2,13 @@
 
 namespace App;
 
+use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Database\Eloquent\Model;
 
 class PasswordReset extends Model
 {
+    use UsesSystemConnection;
+
     protected $primary_key = 'email';
 
 
