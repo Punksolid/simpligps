@@ -36,10 +36,72 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         // TODO: Implement hostnames() method.
         return null;
     }
-
+    #region Relationships
     public function users()
     {
         return $this->belongsToMany(User::class, "users_accounts");
+    }
+    /**
+     * An account has some licenses
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function licenses()
+    {
+        return $this->belongsToMany(License::class, "licenses_accounts")
+            ->withPivot([
+                "expires_at",
+                "created_at"
+            ]);
+    }
+    #endregion
+
+    /**
+     * Licencias por periodo activo basados en la fecha
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function activeLicenses()
+    {
+        $now = Carbon::now();
+        return $this->belongsToMany(License::class, "licenses_accounts")
+            ->withPivot(["expires_at", "created_at"])
+            ->wherePivot('expires_at', ">=", $now);
+    }
+    # region Scopes
+    public function scopeActive($query)
+    {
+        return $query->whereHas("activeLicenses");
+
+    }
+
+    public function scopeNearToExpire($query)
+    {
+        return $query->whereHas("nearToExpireLicenses");
+    }
+    # endregion
+    public function nearToExpireLicenses($days = 7)
+    {
+        $now = Carbon::now();
+        return $this->belongsToMany(License::class, "licenses_accounts")->withPivot(["expires_at"])
+            ->withPivot(["expires_at", "created_at"])
+            ->wherePivot('expires_at', ">=", $now->toDateTimeString())
+            ->wherePivot("expires_at", "<=", $now->addDays($days)->toDateTimeString());
+
+    }
+    /**
+     * Revisa si la cuenta tiene una licencia con periodo activo
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return (bool)$this->activeLicenses()->first();
+    }
+
+    #region Actions
+    public function createAccount()
+    {
+        app(WebsiteRepository::class)->create($this);
+
+        return $this;
     }
 
     public function addUser(User $user): bool
@@ -61,18 +123,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         return (bool)$this->users()->detach($user->id);
     }
 
-    /**
-     * An account has some licenses
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function licenses()
-    {
-        return $this->belongsToMany(License::class, "licenses_accounts")
-            ->withPivot([
-                "expires_at",
-                "created_at"
-            ]);
-    }
+
 
     /**
      * Adds license to an account
@@ -111,55 +162,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         }
     }
 
-    /**
-     * Licencias por periodo activo basados en la fecha
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function activeLicenses()
-    {
-        $now = Carbon::now();
-        return $this->belongsToMany(License::class, "licenses_accounts")
-            ->withPivot(["expires_at", "created_at"])
-            ->wherePivot('expires_at', ">=", $now);
-    }
-
-    public function scopeActive($query)
-    {
-        return $query->whereHas("activeLicenses");
-
-    }
-
-    public function nearToExpireLicenses($days = 7)
-    {
-        $now = Carbon::now();
-        return $this->belongsToMany(License::class, "licenses_accounts")->withPivot(["expires_at"])
-            ->withPivot(["expires_at", "created_at"])
-            ->wherePivot('expires_at', ">=", $now->toDateTimeString())
-            ->wherePivot("expires_at", "<=", $now->addDays($days)->toDateTimeString());
-
-    }
-
-    public function scopeNearToExpire($query)
-    {
-        return $query->whereHas("nearToExpireLicenses");
-    }
-
-    /**
-     * Revisa si la cuenta tiene una licencia con periodo activo
-     * @return bool
-     */
-    public function isActive(): bool
-    {
-        return (bool)$this->activeLicenses()->first();
-    }
-
-    public function createAccount()
-    {
-        app(WebsiteRepository::class)->create($this);
-
-        return $this;
-    }
-
+    #endregion
     public function getTenantData($model): Model
     {
         $environment = app(\Hyn\Tenancy\Environment::class);
@@ -187,6 +190,11 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         return (bool)$database_response;
     }
 
+    /**
+     * Checks if the given user exists or has access to the account
+     * @param User $user
+     * @return bool
+     */
     public function userExists(User $user): bool
     {
         return $this->whereHas('users', function ($query) use ($user) {

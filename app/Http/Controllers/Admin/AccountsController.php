@@ -37,7 +37,16 @@ class AccountsController extends Controller
      */
     public function index()
     {
-        $accounts = Account::paginate();
+        $request = request();
+        $account_query = Account::query()->orderByDesc('created_at');
+        if ($request->filled('easyname')){
+            $account_query->where('easyname', $request->easyname);
+        }
+        if ($request->filled('uuid')){
+            $account_query->where('uuid', $request->get('uuid'));
+        }
+
+        $accounts = $account_query->paginate($request->get('limit', 10));
 
         return AccountResource::collection($accounts);
     }
