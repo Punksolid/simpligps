@@ -64,8 +64,10 @@ class TripsController extends Controller
     public function store(TripRequest $request)
     {
         $trip = Trip::create(["bulk" => $request->all()]);
-        return response()->json(
-            array_merge(["id" => $trip->id], $trip->bulk));
+
+
+        return TripResource::make($trip);
+//
     }
 
     /**

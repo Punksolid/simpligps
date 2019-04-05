@@ -24,6 +24,7 @@ class TripsTest extends TestCase
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
 
     }
+
     public function test_crear_nuevo_viaje_manual()
     {
 
@@ -31,9 +32,11 @@ class TripsTest extends TestCase
             "rp" => $this->faker->name,
             "invoice" => $this->faker->randomNumber(5),
             "client" => $this->faker->company,
+
             "intermediary" => $this->faker->company,
             "origin" => $this->faker->address,
             "destination" => $this->faker->address,
+
             "mon_type" => $this->faker->randomNumber(1),
             "line" => $this->faker->company,
 
@@ -42,12 +45,34 @@ class TripsTest extends TestCase
             "scheduled_arrival" => Carbon::now()->addDays(2)->toDateTimeString(),
             "scheduled_unload" => Carbon::now()->addDays(3)->toDateTimeString()
 
+
         ];
-        $call = $this->json("POST", "/api/v1/trips", $trip);
+
+
+
+        $call = $this->postJson( "/api/v1/trips", $trip);
         $call->assertJson($trip);
         $call->assertStatus(200);
+        $call->assertJsonStructure([
+            'data' => [
+                'rp',
+                'invoice',
+                'client',
+                'origin',
+                'intermediary',
+                'destination',
 
-        return $call->getOriginalContent();
+                'mon_type',
+                'line',
+
+                "scheduled_load",
+                "scheduled_departure",
+                "scheduled_arrival",
+                "scheduled_unload"
+
+            ]
+        ]);
+//        return $call->getOriginalContent();
     }
 
     public function test_editar_viaje()
