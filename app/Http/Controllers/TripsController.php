@@ -28,6 +28,7 @@ class TripsController extends Controller
         if ($request->has("filter")){
             $query = $query->withAnyTags($request->filter);
         }
+
         $trips = $query->paginate();
         return TripResource::collection($trips);
 
@@ -59,15 +60,20 @@ class TripsController extends Controller
      * Creación de nuevo viaje
      *
      * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
+     * @return TripResource|\Illuminate\Http\Response
      */
     public function store(TripRequest $request)
     {
-        $trip = Trip::create(["bulk" => $request->all()]);
-
+        $trip = Trip::create($request->all());
+        $trip->origin_id = $request->origin_id;
+        $trip->destination_id = $request->destination_id;
+        $trip->carrier_id = $request->carrier_id;
+        foreach ($request->intermediates as $intermediate_id) {
+            $trip->addIntermediate($intermediate_id);
+        }
+        $trip->save();
 
         return TripResource::make($trip);
-//
     }
 
     /**
@@ -156,9 +162,13 @@ class TripsController extends Controller
      * @param  \App\Trip $trip
      * @return \Illuminate\Http\Response
      */
-    public function show(Trip $trip)
+    public function show($trip_id)
     {
-        //
+        $trip = Trip::with([
+            'origin','destination','intermediates','device'
+        ])->findOrFail($trip_id);
+
+        return TripResource::make($trip);
     }
 
     /**

@@ -19,8 +19,12 @@ class PlaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('all')){
+            return PlaceResource::collection(Place::all());
+        }
+
         $places = Place::paginate();
 
         return PlaceResource::collection($places);

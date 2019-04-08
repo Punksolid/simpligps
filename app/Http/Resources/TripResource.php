@@ -2,10 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Convoy;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TripResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -19,11 +21,13 @@ class TripResource extends JsonResource
             "rp" => $this->rp,
             "invoice" => $this->invoice,
             "client" => $this->client,
-            "intermediary" => $this->intermediary,
+            "intermediates" => PlaceResource::collection($this->whenLoaded('intermediates')),
             "origin_id" => $this->origin_id,
+            "origin_name" => $this->origin->name,
+            "destination_name" => $this->origin->name,
             "destination_id" => $this->destination_id,
             "mon_type" => $this->mon_type,
-            "line" => $this->line,
+            "carrier_id" => $this->carrier_id,
             "scheduled_load" => $this->scheduled_load,
             "scheduled_departure" => $this->scheduled_departure,
             "scheduled_arrival" => $this->scheduled_arrival,
@@ -31,8 +35,13 @@ class TripResource extends JsonResource
             "bulk" => $this->bulk,
             "tag" => $this->tag,
             "device_id" => $this->device_id,
-            "convoy_id" => $this->convoy_id
+            "convoy_id" => $this->convoy_id,
+            // Relationship Objects
+            "origin" => PlaceResource::make($this->whenLoaded('origin')),
+            "destination" => PlaceResource::make($this->whenLoaded('destination')),
+            "device" => DeviceResource::make($this->whenLoaded('device')),
         ];
+
 
     }
 }

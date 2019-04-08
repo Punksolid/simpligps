@@ -9,6 +9,7 @@ use App\Place;
 use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Punksolid\Wialon\Geofence;
 use Tests\Tenants\TestCase;
 
 class PlacesTest extends TestCase
@@ -32,6 +33,9 @@ class PlacesTest extends TestCase
      */
     public function test_usuario_debe_poder_crear_origenes_y_destino()
     {
+
+
+
         $place = [ //TODO tiene la misma estructura que line, preguntar si la line transportadora es igual a un lugar
             //TODO en caso afirmativo agregar line a places talvez
             "name" => $this->faker->name,
@@ -120,5 +124,20 @@ class PlacesTest extends TestCase
         }
         dump($account->count());
 
+    }
+
+    public function test_usuario_puede_ver_geocercas_de_wialon()
+    {
+        $call = $this->getJson('api/v1/wialon/geofences');
+
+        $call->assertJsonStructure([
+            'data' => [
+                '*' => [
+                    'id',
+                    'name',
+                    'description'
+                ]
+            ]
+        ]);
     }
 }

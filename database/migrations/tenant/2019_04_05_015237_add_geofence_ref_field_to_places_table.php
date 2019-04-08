@@ -26,7 +26,7 @@ class AddGeofenceRefFieldToPlacesTable extends Migration
     public function down()
     {
         Schema::table('places', function (Blueprint $table) {
-            //
+            $table->dropColumn("geofence_ref");
         });
     }
 }

@@ -56,7 +56,7 @@ Route::group(["middleware" => [
         Route::post("trips/upload", "TripsController@upload");
         Route::post("trips/{trip}/tags", "TripsController@assignTag");
         Route::post("trips/filtered_with_tags", "TripsController@filteredWithTags");
-        Route::resource("trips/{trip}/traces", "TraceController")->only(["index", "store"]);
+        Route::resource("trips/{trip}/traces", "TraceController")->only(["index", "store", "show"]);
         Route::resource("trips", "TripsController", [
             "except" => ["create","edit"]
         ]);
@@ -82,6 +82,7 @@ Route::group(["middleware" => [
             Route::get('wialon/notifications', "WialonController@getNotifications");
             Route::delete('wialon/notifications/{id}', "WialonController@deleteNotification");
             Route::get('wialon/units', "WialonController@getUnits");
+            Route::get('wialon/geofences', "WialonController@getGeofences");
             Route::post('wialon/notifications', 'WialonController@store');
         });
 

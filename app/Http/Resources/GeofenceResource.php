@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class PlaceResource extends JsonResource
+class GeofenceResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,8 @@ class PlaceResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            "name" => $this->name,
-            "person_in_charge" => $this->person_in_charge,
-            "address" => $this->address,
-            "phone" => $this->phone,
+            'name' => $this->n,
+            'description' => $this->d
         ];
     }
 }
