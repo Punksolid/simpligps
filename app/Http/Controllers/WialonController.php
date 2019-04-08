@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WialonNotificationRequest;
+use App\Http\Resources\GeofenceResource;
 use App\Http\Resources\WialonNotificationResource;
 use App\Http\Resources\WialonResourceResource;
 use App\Http\Resources\WialonUnitResource;
@@ -10,6 +11,7 @@ use App\Setting;
 use Cache;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\ControlType;
+use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
@@ -64,6 +66,13 @@ class WialonController extends Controller
         return WialonUnitResource::collection($units);
     }
 
+    public function getGeofences()
+    {
+
+        $geofences = Geofence::all();
+
+        return GeofenceResource::collection($geofences);
+    }
     /**
      * Create Wialon Notification
      * @param Request $request

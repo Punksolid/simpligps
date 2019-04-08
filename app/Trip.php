@@ -15,7 +15,6 @@ class Trip extends Model
             "rp",
             "invoice",
             "client",
-            "intermediary",
             "origin_id",
             "destination_id",
             "mon_type",
@@ -27,6 +26,7 @@ class Trip extends Model
             "bulk",
         //operationals
             "device_id",
+            "carrier_id",
         //tag
             "tag"
         ];
@@ -42,6 +42,7 @@ class Trip extends Model
         "scheduled_unload"
     ];
 
+    #region Relationships
     /**
      * Relacion al lugar de origen
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -64,7 +65,7 @@ class Trip extends Model
      * El viaje tiene un dispositivo asociado
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function devices()
+    public function device()
     {
         return $this->belongsTo(Device::class, "device_id");
     }
@@ -78,16 +79,56 @@ class Trip extends Model
         return $this->hasMany(Trace::class,"trip_id");
     }
 
-//    Override Tag class para aceptar mariadb
-    public static function getTagClassName(): string
-    {
-        return MariadbTag::class;
-    }
-
     public function tags(): MorphToMany
     {
         return $this
             ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
             ->orderBy('order_column');
+    }
+
+    /**
+     * Relacion muchos a muchos, puntos intermedios
+     */
+    public function places()
+    {
+        return $this->belongsToMany(
+            Place::class,
+            'places_trips',
+            'place_id',
+            'trip_id')
+            ->withPivot([
+                'order',
+                'type'
+            ]);
+    }
+
+    /**
+     * Alias de Places con pivot intermediate
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function intermediates()
+    {
+        return $this->places()->wherePivot('type','=','intermediate');
+    }
+    #endregion
+
+    #region actions
+    /**
+     * Add Intermediate Places points
+     * @param Place $place
+     */
+    public function addIntermediate( $place_id)
+    {
+        return $this->places()->attach($place_id, [
+            "type" => 'intermediate',
+            'order' => 0
+        ]);
+    }
+
+    #endregion
+    //    Override Tag class para aceptar mariadb
+    public static function getTagClassName(): string
+    {
+        return MariadbTag::class;
     }
 };

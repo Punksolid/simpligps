@@ -19,7 +19,8 @@ class CreateTripsTable extends Migration
             $table->string("rp")->nullable();
             $table->string("invoice")->nullable();
             $table->string("client")->nullable();
-            $table->string("intermediary")->nullable();
+            $table->json("intermediary")->nullable();
+
             $table->string("origin_id")
                 ->nullable();
 

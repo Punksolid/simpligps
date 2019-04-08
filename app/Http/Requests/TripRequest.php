@@ -23,16 +23,15 @@ class TripRequest extends FormRequest
      */
     public function rules()
     {
-        \Log::emergency($this);
         return [
             "rp" => "required",
             "invoice" => "required",
             "client" => "required",
-//            "intermediary",
-            "origin" => "required",
-            "destination" => "required",
+            "intermediate" => 'array',
+            "origin_id" => "required|integer",
+            "destination_id" => "required|integer",
             "mon_type" => "required",
-            "line" => "required",
+            "carrier_id" => "required|integer",
 
             "scheduled_load" => "required|date",
             "scheduled_departure" => [

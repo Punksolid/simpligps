@@ -45,7 +45,6 @@ class AccountTest extends TestCase
 
             ]
         ]);
-
         $call->assertSuccessful();
 
     }
