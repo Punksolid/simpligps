@@ -4,16 +4,17 @@ use App\Http\Controllers\ConvoyController;
 use App\Http\Middleware\IdentifyTenantConnection;
 use Illuminate\Http\Request;
 
-Route::post('login', 'Auth\LoginController@login')->middleware('verified');
+Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
 Route::post('password/change', 'Auth\ResetPasswordController@reset');
+Route::post('continue_registration', 'Auth\RegisterController@continueRegistration');
 
 //@todo proteger con autenticacion
 Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
 
 Route::group(["middleware" => [
-    "verified",
+//    "verified",
     "auth:api",
 //    "limit_simoultaneous_access",
     \App\Http\Middleware\ProfilingTestMiddleware::class

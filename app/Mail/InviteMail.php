@@ -25,9 +25,10 @@ class InviteMail extends Mailable
      *
      * @param User $user
      */
-    public function __construct(User $user)
+    public function __construct(User $user, $token = 'aaaa')
     {
         $this->user = $user;
+        $this->token = $token;
         $this->url =  config("app.frontend_url")."/#/login?continue_registration=".$this->token;
 //        http://localhost:9528/#/login?continue_registration=7ed86e62fb633caf9c628edded27f88821b7d02e2fe2c8c27f979865009ff6c4
     }

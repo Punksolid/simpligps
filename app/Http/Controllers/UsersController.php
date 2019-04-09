@@ -22,9 +22,9 @@ class UsersController extends Controller
     private $account;
     public function __construct()
     {
-
-        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
-        $this->repository = $this->account->users();
+//
+//        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
+//        $this->repository = $this->account->users();
     }
 
 

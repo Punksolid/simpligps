@@ -49,7 +49,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
             $user->notify(new UserLinkedToAccountNotification($this));
             return true;
         } catch (\Exception $e) {
-            info("Error en addUser");
+            info("Error in addUser");
             log($e);
             return false;
         }

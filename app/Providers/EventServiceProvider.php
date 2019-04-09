@@ -27,9 +27,9 @@ class EventServiceProvider extends ServiceProvider
         ConfigurationLoaded::class => [
             UseMainConnectionListener::class
         ],
-        AccountCreatedEvent::class => [
-            SendAccountSetPasswordEmail::class
-        ],
+//        AccountCreatedEvent::class => [
+//            SendAccountSetPasswordEmail::class
+//        ],
         UserCreated::class => [
             SendUserActivationLink::class
         ]

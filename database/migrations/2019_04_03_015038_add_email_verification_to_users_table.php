@@ -16,6 +16,8 @@ class AddEmailVerificationToUsersTable extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->timestamp('email_verified_at')->nullable();
         });
+
+        DB::table('users')->update(['email_verified_at' => \Carbon\Carbon::now()->toDateTimeString()]);
     }
 
     /**

@@ -13,7 +13,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
+
+class User extends Authenticatable implements MustVerifyEmail,CanResetPassword
 {
     use HasRoles, Notifiable, HasApiTokens, UsesSystemConnection;
 
@@ -126,7 +127,7 @@ class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
         })->exists();
     }
 
-    // SCOPES
+    #region scopes
     public function scopeTenant($query,  $tenant_uuid = null)
     {
         $tenant_uuid = $tenant_uuid ?: request('X-Tenant-id');
@@ -135,4 +136,5 @@ class User extends Authenticatable implements CanResetPassword, MustVerifyEmail
             $account_query->where('uuid', $tenant_uuid);
         });
     }
+    #endregion
 }
