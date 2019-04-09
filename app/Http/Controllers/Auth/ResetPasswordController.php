@@ -61,7 +61,6 @@ class ResetPasswordController extends Controller
 //        dd($this->credentials($request));
         $response = $this->broker()->reset(
             $this->credentials($request), function ($user, $password) {
-//                dd($this->guard("api"));
             $this->resetPassword($user, $password);
 
             }

@@ -111,13 +111,18 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
             $user->notify(new UserLinkedToAccountNotification($this));
             return true;
         } catch (\Exception $e) {
-            info("Error en addUser");
+            info("Error in addUser");
             log($e);
             return false;
         }
 
     }
 
+    /**
+     * Detachs user from account
+     * @param User $user
+     * @return bool
+     */
     public function removeUser(User $user): bool
     {
         return (bool)$this->users()->detach($user->id);
@@ -161,8 +166,9 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
             throw $exception;
         }
     }
-
     #endregion
+
+    #region Info
     public function getTenantData($model): Model
     {
         $environment = app(\Hyn\Tenancy\Environment::class);
@@ -201,4 +207,6 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
             $query->whereEmail($user->email);
         })->exists();
     }
+
+    #endregion
 }

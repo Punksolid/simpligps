@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Account;
 use App\Device;
+use App\Events\AccountCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
 use App\Http\Resources\AccountResource;
@@ -62,16 +63,23 @@ class AccountsController extends Controller
         $account = new Account([
             "easyname" => $request->easyname
         ]);
-        if ($account->createAccount()) {
-            return AccountResource::make($account);
-        }
+
+        $account->createAccount();
 
         $user = User::firstOrCreate([
             "email" => $request->email
+        ], [
+            'email' => $request->email,
+            'name' => '',
+            'password' => bcrypt(Str::random(10))
         ]);
 
+        $account->addUser($user);
 
-        return abort(500, "Something Happened");
+        event(new AccountCreatedEvent($user, $account));
+
+        return AccountResource::make($account);
+
 
     }
 

@@ -20,7 +20,12 @@ use Illuminate\Validation\ValidationException;
 class UsersController extends Controller
 {
     private $account;
-
+    public function __construct()
+    {
+//
+//        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
+//        $this->repository = $this->account->users();
+    }
 
 
     /**
@@ -30,11 +35,6 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-
-        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
-        $this->repository = $this->account->users();
-
-
 
         $query = $this->repository->orderByDesc("created_at") ;
         if ($request->filled('email')){
@@ -53,7 +53,6 @@ class UsersController extends Controller
                 $query_profile->where($request->all(["username"]));
             });
         }
-
 
         $users = $query->paginate();
 
@@ -145,10 +144,8 @@ class UsersController extends Controller
     {
         $user = User::findOrFail($id);
         $this->account->removeUser($user);
-        if (User::find($id)->delete()) {
-            return response(["data" => "Deleted user"]);
-        }
 
-        return response(["data" => "Error"])->setStatusCode(500);
+        return response(["data" => "Deleted user"]);
+
     }
 }

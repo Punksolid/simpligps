@@ -5,6 +5,7 @@ namespace App\Http;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use Barryvdh\Cors\HandleCors;
+use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
@@ -69,6 +70,8 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'limit_simoultaneous_access' => LimitSimoultaneousAccess::class,
-        "limit_expired_license_access" => LimitExpiredLicenseAccess::class
-     ];
+        "limit_expired_license_access" => LimitExpiredLicenseAccess::class,
+        'verified' => EnsureEmailIsVerified::class
+
+    ];
 }
