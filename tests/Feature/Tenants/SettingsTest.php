@@ -32,7 +32,8 @@ class SettingsTest extends TestCase
         $key = '5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8';
 
         $call = $this->actingAs($this->user)->postJson('api/v1/settings', [
-            "wialon_key" => $key
+            "wialon_key" => $key,
+            "import" => false
         ] );
 
         $call->assertJson([

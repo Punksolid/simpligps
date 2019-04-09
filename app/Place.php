@@ -16,5 +16,6 @@ class Place extends Model
         "person_in_charge",
         "address",
         "phone",
+        "geofence_ref"
     ];
 }

@@ -24,6 +24,7 @@ use Punksolid\Wialon\Unit;
 class WialonController extends Controller
 {
 
+
     public function getResources()
     {
 
@@ -68,7 +69,6 @@ class WialonController extends Controller
 
     public function getGeofences()
     {
-
         $geofences = Geofence::all();
 
         return GeofenceResource::collection($geofences);

@@ -30,18 +30,18 @@ class AccountTest extends TestCase
      */
     public function test_crear_nueva_cuenta()
     {
-        $account_details = [
+        $form = [
             "easyname" => $this->faker->unique()->word.$this->faker->unique()->word,
             "email" => $this->faker->email
         ];
 
         $call = $this->postJson("api/sysadmin/v1/accounts",
-            $account_details
+            $form
         );
 
         $call->assertJson([
             "data" => [
-                "easyname" => $account_details["easyname"],
+                "easyname" => $form["easyname"],
 
             ]
         ]);
@@ -228,7 +228,8 @@ class AccountTest extends TestCase
         $account->createAccount();
 
         $call = $this->postJson("api/sysadmin/v1/accounts/{$account->id}/settings", [
-            "wialon_key" => $key
+            "wialon_key" => $key,
+            "import" => false
         ] );
 
         $call->assertJson([

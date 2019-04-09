@@ -3,7 +3,9 @@
 namespace Tests;
 
 use App\Account;
+use App\Setting;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+use Hyn\Tenancy\Environment;
 use Illuminate\Contracts\Console\Kernel;
 use Tests\Tenants\TestCase;
 
@@ -36,12 +38,22 @@ trait CreatesApplication
             $this->account->easyname = "unittest_tenant_account";
         }
         app(WebsiteRepository::class)->create($this->account);
+
+        $environment = app(Environment::class);
+        $environment->tenant($this->account);
+        if (empty((new Setting)->getWialonToken())){
+            $setting_wialon_key = Setting::where('key', 'wialon_key')->first();
+            $setting_wialon_key->value = '5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8';
+            $setting_wialon_key->save();
+        }
+        $environment->tenant();
+
     }
 
     protected function setWebsiteEnvironment(): void
     {
         $this->createOrFindTestAccount();
-        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment = app(Environment::class);
 
         $environment->tenant($this->account);
     }

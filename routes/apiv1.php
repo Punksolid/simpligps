@@ -26,7 +26,7 @@ Route::group(["middleware" => [
 
     Route::get("/me/permissions", "MeController@permissions");
     Route::get("/me/accounts", "MeController@accounts");
-    Route::post('/me/change_password', 'UsersController@changePassword');
+    Route::post('/me/change_password', 'MeController@changePassword');
 
     Route::group([
         "middleware" => [

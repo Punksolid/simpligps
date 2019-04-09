@@ -100,7 +100,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     public function createAccount()
     {
         app(WebsiteRepository::class)->create($this);
-
+        config(['database.default' => 'system']);
         return $this;
     }
 

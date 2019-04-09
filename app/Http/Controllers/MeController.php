@@ -91,4 +91,6 @@ class MeController extends Controller
     {
         return AccountResource::collection(auth()->user()->accounts);
     }
+
+
 }

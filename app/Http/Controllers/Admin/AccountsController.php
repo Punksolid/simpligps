@@ -71,6 +71,7 @@ class AccountsController extends Controller
         ], [
             'email' => $request->email,
             'name' => '',
+            'lastname' => '',
             'password' => bcrypt(Str::random(10))
         ]);
 
@@ -191,8 +192,9 @@ class AccountsController extends Controller
         $user = User::firstOrCreate([
             "email" => $request->email
         ],[
-            "name" => "Invitado",
+            "name" => "",
             "email" => $request->email,
+            "lastname" => $request->email,
             "password" => bcrypt(Str::random(16))
         ]);
 

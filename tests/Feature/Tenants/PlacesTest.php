@@ -9,6 +9,7 @@ use App\Place;
 use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Str;
 use Punksolid\Wialon\Geofence;
 use Tests\Tenants\TestCase;
 
@@ -34,21 +35,19 @@ class PlacesTest extends TestCase
     public function test_usuario_debe_poder_crear_origenes_y_destino()
     {
 
-
-
         $place = [ //TODO tiene la misma estructura que line, preguntar si la line transportadora es igual a un lugar
             //TODO en caso afirmativo agregar line a places talvez
             "name" => $this->faker->name,
             "person_in_charge" => $this->faker->name,
             "address" => $this->faker->address,
             "phone" => $this->faker->phoneNumber,
-            "geofence_ref" => $this->faker->randomNumber(15)
+            "geofence_ref" => random_int(00000001, 100000000)
         ];
 
         $call = $this->postJson("api/v1/places", $place);
-        $call->assertJson([
-            "data" => $place
-        ]);
+        $call->assertJsonFragment(
+            $place
+        );
         $call->assertStatus(201);
     }
 

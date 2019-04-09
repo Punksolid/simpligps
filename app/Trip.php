@@ -18,7 +18,6 @@ class Trip extends Model
             "origin_id",
             "destination_id",
             "mon_type",
-            "line",
             "scheduled_load",
             "scheduled_departure",
             "scheduled_arrival",

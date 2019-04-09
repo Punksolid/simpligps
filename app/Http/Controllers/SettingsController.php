@@ -15,6 +15,12 @@ use Illuminate\Http\Request;
 class SettingsController extends Controller
 {
 
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
+     * @todo REFACTOR
+     */
     public function general(Request $request)
     {
         $this->validate($request,[

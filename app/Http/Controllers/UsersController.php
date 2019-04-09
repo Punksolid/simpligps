@@ -6,10 +6,10 @@ use App\Account;
 use App\Events\AddedUserToAccount;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UsersResource;
-use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
 /**
@@ -20,11 +20,14 @@ use Illuminate\Validation\ValidationException;
 class UsersController extends Controller
 {
     private $account;
+
     public function __construct()
     {
-//
-//        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
-//        $this->repository = $this->account->users();
+
+        $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
+        $this->repository = $this->account->users();
+
+        parent::__construct();
     }
 
 
@@ -35,23 +38,17 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-
         $query = $this->repository->orderByDesc("created_at") ;
+
         if ($request->filled('email')){
+            dump($request->all());
             $query->where($request->all(['email']));
         }
         if ($request->filled('name')){
             $query->where($request->all(['name']));
         }
         if ($request->filled('lastname')){
-            $query = $query->whereHas("profile",function ($query_profile) use($request){
-                $query_profile->where($request->all(["lastname"]));
-            });
-        }
-        if ($request->filled('username')){
-            $query = $query->whereHas("profile",function ($query_profile) use($request){
-                $query_profile->where($request->all(["username"]));
-            });
+            $query->where($request->all(['lastname']));
         }
 
         $users = $query->paginate();
@@ -70,10 +67,11 @@ class UsersController extends Controller
         $user = User::firstOrCreate([
             'email' => $request->email,
         ],[
-            'name' => $request->name,
-            'password' => bcrypt($request->password),
+            'name' => $request->get('name'),
+            'lastname' => $request->get('lastname'),
+            'password' => bcrypt(Str::random(15)),
         ]);
-
+//        dd($user);
         if ($this->account->userExists($user)){
             throw ValidationException::withMessages([
                 "email"=> [
@@ -81,7 +79,6 @@ class UsersController extends Controller
                 ]
             ]);
         }
-        $user->profile()->save(new Profile($request->all()));
 
         if ($this->account->addUser($user)){
             event(AddedUserToAccount::class);
@@ -90,21 +87,7 @@ class UsersController extends Controller
         return UsersResource::make($user->fresh());
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @deprecated para cambiar el password del usuario loggeado MeController@changePassword
-     */
-    public function changePassword(Request $request)
-    {
-        $request->validate([
-            "password" => "required|confirmed"
-        ]);
-        $user = Auth::user();
-        $user->password = bcrypt($request->password);
-        return response()->json($user->save());
 
-    }
     /**
      * Display the specified users.
      *
@@ -129,7 +112,6 @@ class UsersController extends Controller
         $user->update($request->all());
         $user->password = bcrypt($request->password);
         $user->save();
-        $user->profile()->save(new Profile($request->all()));
 
         return UsersResource::make($user->fresh());
     }

@@ -12,7 +12,7 @@ $factory->define(App\Trip::class, function (Faker $faker) {
         "origin_id" => factory(Place::class)->create()->id,
         "destination_id" => factory(Place::class)->create()->id,
         "mon_type" => $this->faker->randomNumber(1),
-        "line" => $this->faker->company,
+        "carrier_id" => factory(\App\Carrier::class)->create()->id,
 
         "scheduled_load" => $this->faker->dateTime,
         "scheduled_departure" => $this->faker->dateTime,

@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Account;
+use App\Http\Middleware\LimitExpiredLicenseAccess;
+use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,7 +24,7 @@ class MeTest extends TestCase
     public function test_usuario_loggeado_debe_poder_cambiar_su_contrasenha()
     {
         $user = factory(User::class)->create();
-        $call = $this->actingAs($user)->json("POST", "/api/v1/me/change_password", [
+        $call = $this->actingAs($user)->postJson("/api/v1/me/change_password", [
             "password" => "321321321",
             "password_confirmation" => "321321321"
         ]);

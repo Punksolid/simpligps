@@ -99,7 +99,7 @@ class TripsTest extends TestCase
                 'destination_id',
 
                 'mon_type',
-                'line',
+                'carrier_id',
 
                 "scheduled_load",
                 "scheduled_departure",
@@ -139,7 +139,7 @@ class TripsTest extends TestCase
             "origin" => $this->faker->address,
             "destination" => $this->faker->address,
             "mon_type" => $this->faker->randomNumber(1),
-            "line" => $this->faker->company,
+            "carrier_id" => $this->faker->company,
 
             "scheduled_load" => Carbon::now()->toDateTimeString(),
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
@@ -156,9 +156,10 @@ class TripsTest extends TestCase
 
     public function test_usuario_elimina_viaje()
     {
-        $trip_arr = $this->test_crear_nuevo_viaje_manual();
 
-        $call = $this->json("DELETE", "/api/v1/trips/".$trip_arr["id"]);
+        $trip_arr = factory(Trip::class)->create();
+
+        $call = $this->deleteJson("/api/v1/trips/".$trip_arr["id"]);
         $call->assertJson([
             "message" => "eliminado"
         ]);
@@ -180,7 +181,7 @@ class TripsTest extends TestCase
             "origin" => $this->faker->address,
             "destination" => $this->faker->address,
             "mon_type" => $this->faker->randomNumber(1),
-            "line" => $this->faker->company,
+            "carrier_id" => $this->faker->company,
 
             "scheduled_load" => Carbon::now()->toDateTimeString(),
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),

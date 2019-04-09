@@ -12,6 +12,9 @@
  * @see https://github.com/hyn/multi-tenant
  */
 
+use App\Account;
+use App\Operator;
+use App\PasswordReset;
 use Hyn\Tenancy\Database\Connection;
 
 return [
@@ -33,7 +36,7 @@ return [
         'hostname' => \Hyn\Tenancy\Models\Hostname::class,
 
 //        'website' => \Hyn\Tenancy\Models\Website::class // original
-        'website' => \App\Account::class //  local personalized
+        'website' => Account::class //  local personalized
     ],
     /**
      * The package middleware. Removing a middleware here will disable it.
@@ -303,12 +306,12 @@ return [
             App\Permission::class,
             Spatie\Permission\Models\Role::class,
             Spatie\Permission\Models\Permission::class,
-            \App\Operator::class
+            Operator::class
         ],
         'force-system-connection-of-models' => [
             App\User::class,
-            \App\Account::class,
-            \App\PasswordReset::class
+            Account::class,
+            PasswordReset::class
         ],
     ],
 

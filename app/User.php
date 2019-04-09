@@ -25,7 +25,7 @@ class User extends Authenticatable implements MustVerifyEmail,CanResetPassword
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'lastname'
     ];
 
     /**
@@ -40,20 +40,6 @@ class User extends Authenticatable implements MustVerifyEmail,CanResetPassword
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
     ];
-
-    /**
-     * Profile one to one relationship
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function profile()
-    {
-        return $this->hasOne(Profile::class, "user_id")
-            ->withDefault([
-                "name" => "",
-                "lastname" => "",
-                "username" => ""
-            ]);
-    }
 
     /**
      * A user can have many accounts
