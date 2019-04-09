@@ -23,8 +23,12 @@ class LicenseController extends Controller
      * @return \Illuminate\Http\Response
      *
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('all')){
+            return LicenseResource::collection(License::all());
+        }
+
         $licenses = License::paginate();
 
         return LicenseResource::collection($licenses);
