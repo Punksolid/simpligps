@@ -116,7 +116,7 @@ class User extends Authenticatable implements MustVerifyEmail,CanResetPassword
     #region scopes
     public function scopeTenant($query,  $tenant_uuid = null)
     {
-        $tenant_uuid = $tenant_uuid ?: request('X-Tenant-id');
+        $tenant_uuid = $tenant_uuid ?: request()->header('X-Tenant-id');
 
         return $query->whereHas('accounts', function ($account_query) use ($tenant_uuid) {
             $account_query->where('uuid', $tenant_uuid);
