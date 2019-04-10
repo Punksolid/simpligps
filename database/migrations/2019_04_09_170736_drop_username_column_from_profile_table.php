@@ -13,16 +13,19 @@ class DropUsernameColumnFromProfileTable extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table){
-           $table->string('lastname');
-        });
+        if (!Schema::hasColumn('users','lastname')) {
+            Schema::table('users', function (Blueprint $table){
+                $table->string('lastname');
+            });
 
-        $users = \App\User::all();
-        foreach ($users as $user) {
-            $user->lastname = $user->profile->lastname;
-            $user->save();
+            $users = \App\User::all();
+            foreach ($users as $user) {
+                $user->lastname = $user->profile->lastname;
+                $user->save();
+            }
+            Schema::drop('profiles');
         }
-        Schema::drop('profiles');
+
 
 
     }
