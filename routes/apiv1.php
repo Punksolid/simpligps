@@ -51,6 +51,12 @@ Route::group(["middleware" => [
         Route::post("roles/{role}/user", "RolesController@assignToUser");
         Route::resource("roles", "RolesController", ["except" => ["edit", "create"]]);
 
+
+        #region Trucks
+        Route::resource('trucks', 'TruckTractController')->except(['create', 'edit']);
+        #endregion
+
+        #region Trips
         //CONVOYS
         Route::post("trips/convoys", "ConvoyController@store");
         Route::get("trips/convoys", "ConvoyController@index");
@@ -64,7 +70,7 @@ Route::group(["middleware" => [
         Route::resource("trips", "TripsController", [
             "except" => ["create","edit"]
         ]);
-
+        #endregion
         //OPERATORS
         Route::resource("operators", "OperatorsController", [
             "except" => ["edit", "create"]
