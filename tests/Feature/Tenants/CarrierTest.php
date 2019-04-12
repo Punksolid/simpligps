@@ -6,6 +6,7 @@ use App\Account;
 use App\Carrier;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
+use App\Operator;
 use App\User;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -72,10 +73,24 @@ class CarrierTest extends \Tests\Tenants\TestCase
         $carrier = factory(Carrier::class)->create();
         $call = $this->deleteJson("api/v1/carriers/$carrier->id");
         usleep(500); //previene falsos positivos
-        $this->assertDatabaseMissing("carriers", [
+        $this->assertSoftDeleted("carriers", [
             "carrier_name" => $carrier->carrier_name
         ],'tenant');
 
+    }
+
+    public function test_eliminar_linea_transportista_que_tiene_relaciones()
+    {
+        $carrier = factory(Carrier::class)->create();
+        factory(Operator::class)->create([
+            'carrier_id' => $carrier->id
+        ]);
+
+        $call = $this->deleteJson("api/v1/carriers/$carrier->id");
+        usleep(500); //previene falsos positivos
+        $this->assertSoftDeleted("carriers", [
+            "carrier_name" => $carrier->carrier_name
+        ],'tenant');
     }
 
     public function test_listar_lineas_transportistas()

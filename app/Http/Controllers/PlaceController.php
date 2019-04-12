@@ -87,9 +87,7 @@ class PlaceController extends Controller
 
 
         if ($place->delete()){
-            return response([
-                "message" => "Se ha eliminado el registro del lugar"
-            ]);
+            return PlaceResource::make($place);
         }
 
         return response("Aconteció un error");
