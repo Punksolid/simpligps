@@ -6,6 +6,7 @@ use App\Account;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Place;
+use App\Trip;
 use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -75,7 +76,22 @@ class PlacesTest extends TestCase
         $call = $this->deleteJson("api/v1/places/$place->id");
 
         $call->assertSee("Se ha eliminado el registro del lugar");
-        $this->assertDatabaseMissing("places", [
+        $this->assertSoftDeleted("places", [
+            "name" => $place->name
+        ], 'tenant');
+    }
+
+
+    public function test_usuario_debe_poder_eliminar_lugares_que_tengan_relaciones_usa_softdelete()
+    {
+        $place = factory(Place::class)->create();
+        $trip = factory(Trip::class)->create([
+           'origin_id' => $place->id
+        ]);
+        $call = $this->deleteJson("api/v1/places/$place->id");
+
+        $call->assertSee("Se ha eliminado el registro del lugar");
+        $this->assertSoftDeleted("places", [
             "name" => $place->name
         ], 'tenant');
     }
@@ -109,20 +125,6 @@ class PlacesTest extends TestCase
 
             ]
         ]);
-    }
-
-    public function test_integrity_check()
-    {
-        $accounts = Account::all();
-//        dd($accounts->count());
-        foreach ($accounts as $account) {
-            dump($account->uuid. "   : ".$account->hasDatabaseAccesible());
-            if (!$account->hasDatabaseAccesible()) {
-                $account->delete();
-            }
-        }
-        dump($account->count());
-
     }
 
     public function test_usuario_puede_ver_geocercas_de_wialon()

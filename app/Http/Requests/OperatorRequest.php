@@ -26,7 +26,7 @@ class OperatorRequest extends FormRequest
         return [
             "name" => "required",
             "phone" => "required",
-            "active" => "bool"
+            "active" => "required|bool"
         ];
     }
 }
