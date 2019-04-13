@@ -25,6 +25,12 @@ class TruckTractResource extends JsonResource
             'color' => $this->color,
             'carrier_id' => $this->carrier_id,
             'device_id' => $this->device_id,
+            'operator_id' => $this->operator_id,
+
+            "carrier" => DeviceResource::make($this->whenLoaded('carrier')),
+            "device" => DeviceResource::make($this->whenLoaded('device')),
+            "operator" => DeviceResource::make($this->whenLoaded('operator')),
+
             'created_at' => $this->when($request->route()->name('trucktracts.show'), $this->created_at->toDateTimeString()),
             'updated_at' => $this->when($request->route()->name('trucktracts.show'), $this->updated_at->toDateTimeString())
         ];

@@ -15,7 +15,7 @@ class GeofenceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
+            'id' => "$this->rid.$this->id",
             'name' => $this->n,
             'description' => $this->d
         ];

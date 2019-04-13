@@ -34,11 +34,14 @@ class TruckTractTest extends TestCase
 
     public function test_crear_tracto()
     {
+        $this->withoutExceptionHandling();
         $truck = factory(TruckTract::class)->make();
+
         $call = $this->postJson('api/v1/trucks', $truck->toArray());
 
         $call->assertJsonFragment($truck->toArray());
     }
+
 
     public function test_ver_detalles_de_tracto()
     {

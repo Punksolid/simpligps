@@ -17,4 +17,16 @@ class TruckTract extends Model
         'gps',
         'color'
     ];
+
+    #region Relationships
+    /**
+     * Belongs to, un camion solo puede tener un operador a la vez
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function operator()
+    {
+        return $this->belongsTo(Operator::class);
+    }
+    #endregion
+
 }
