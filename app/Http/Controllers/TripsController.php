@@ -68,6 +68,7 @@ class TripsController extends Controller
         $trip->origin_id = $request->origin_id;
         $trip->destination_id = $request->destination_id;
         $trip->carrier_id = $request->carrier_id;
+        $trip->truck_tract_id = $request->truck_tract_id;
         foreach ($request->intermediates as $intermediate_id) {
             $trip->addIntermediate($intermediate_id);
         }

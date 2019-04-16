@@ -8,6 +8,7 @@ use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Place;
 use App\Trip;
+use App\TruckTract;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
@@ -45,6 +46,7 @@ class TripsTest extends TestCase
 
             "mon_type" => $this->faker->randomNumber(1),
             "carrier_id" => factory(Carrier::class)->create()->id,
+            "truck_tract_id" => factory(TruckTract::class)->create()->id,
 
             "scheduled_load" => Carbon::now()->toDateString(),
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateString(),
@@ -57,6 +59,10 @@ class TripsTest extends TestCase
         $call = $this->postJson( "/api/v1/trips", $trip);
 
         $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'truck_tract_id' => $trip['truck_tract_id']
+        ], 'asignar tracto a viaje');
+
         $call->assertJsonStructure([
             'data' => [
                 'device_id',
@@ -68,6 +74,7 @@ class TripsTest extends TestCase
                 'georoute_ref',
                 'mon_type',
                 'carrier_id',
+                'truck_tract_id',
 
                 "scheduled_load",
                 "scheduled_departure",
@@ -130,17 +137,18 @@ class TripsTest extends TestCase
 
     public function test_editar_viaje()
     {
-        $trip_arr = $this->test_crear_nuevo_viaje_manual();
+        $trip_arr = factory(Trip::class)->create()->toArray();
 
         $trip_modified = [
             "rp" => $this->faker->name,
             "invoice" => $this->faker->randomNumber(5),
             "client" => $this->faker->company,
             "intermediary" => $this->faker->company,
-            "origin" => $this->faker->address,
-            "destination" => $this->faker->address,
+            "origin_id" => factory(Carrier::class)->create()->id,
+            "destination_id" => factory(Carrier::class)->create()->id,
             "mon_type" => $this->faker->randomNumber(1),
-            "carrier_id" => $this->faker->company,
+            "carrier_id" => factory(Carrier::class)->create()->id,
+            "truck_tract_id" => factory(TruckTract::class)->create()->id,
 
             "scheduled_load" => Carbon::now()->toDateTimeString(),
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
@@ -148,7 +156,8 @@ class TripsTest extends TestCase
             "scheduled_unload" => Carbon::now()->addDays(3)->toDateTimeString()
 
         ];
-        $call = $this->json("PUT", "/api/v1/trips/".$trip_arr["id"], $trip_modified);
+
+        $call = $this->putJson( "/api/v1/trips/".$trip_arr["id"], $trip_modified);
         $call->assertJson($trip_modified);
         $call->assertStatus(200);
 

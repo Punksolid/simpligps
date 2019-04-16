@@ -28,6 +28,7 @@ class TripResource extends JsonResource
             "destination_id" => $this->destination_id,
             "mon_type" => $this->mon_type,
             "carrier_id" => $this->carrier_id,
+            "truck_tract_id" => $this->truck_tract_id,
             "scheduled_load" => $this->scheduled_load,
             "scheduled_departure" => $this->scheduled_departure,
             "scheduled_arrival" => $this->scheduled_arrival,

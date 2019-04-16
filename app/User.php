@@ -14,7 +14,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
 
 
-class User extends Authenticatable implements MustVerifyEmail,CanResetPassword
+class User extends Authenticatable implements CanResetPassword
 {
     use HasRoles, Notifiable, HasApiTokens, UsesSystemConnection;
 

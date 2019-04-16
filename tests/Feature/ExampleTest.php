@@ -24,4 +24,6 @@ class ExampleTest extends TestCase
         $call = $this->get("https://testing.dogoit.com");
         $call->assertSuccessful();
     }
+
+
 }

@@ -27,7 +27,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true]);
+//Auth::routes(['verify' => true]); // comentado por que truena comando route:list
 
 Route::get('/home', 'HomeController@index')->name('home');
 
