@@ -54,6 +54,7 @@ Route::group(["middleware" => [
 
         #region Trucks
         Route::resource('trucks', 'TruckTractController')->except(['create', 'edit']);
+        Route::resource('trailers', 'TrailerBoxController')->except(['create', 'edit', 'show']);
         #endregion
 
         #region Trips
