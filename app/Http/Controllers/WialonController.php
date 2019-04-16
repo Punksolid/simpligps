@@ -12,6 +12,7 @@ use Cache;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\ControlType;
 use Punksolid\Wialon\Geofence;
+use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
@@ -85,7 +86,12 @@ class WialonController extends Controller
 //        $validatedData = $request->validate();
 
         $resource = Resource::find($request->resource);
-        $control_type = new ControlType($request->control_type, $request->params);
+        if ($request->control_type == 'geofence'){
+            $control_type = new GeofenceControlType();
+            $control_type->addGeozoneId($request->params['geofence_id']);
+        } else {
+            $control_type = new ControlType($request->control_type, $request->params);
+        }
         $units = Unit::findMany($request->units);
         $action = new Notification\Action('push_messages', [
             "url" => url(config("app.url").'api/v1/webhook/alert')

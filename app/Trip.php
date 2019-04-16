@@ -23,6 +23,7 @@ class Trip extends Model
             "scheduled_arrival",
             "scheduled_unload",
             "bulk",
+            "georoute_ref",
         //operationals
             "device_id",
             "carrier_id",

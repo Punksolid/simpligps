@@ -41,6 +41,7 @@ class TripsTest extends TestCase
             ],
             "origin_id" => factory(Place::class)->create()->id,
             "destination_id" => factory(Place::class)->create()->id,
+            "georoute_ref" => $this->faker->shuffleString('alskdjflaskj'),
 
             "mon_type" => $this->faker->randomNumber(1),
             "carrier_id" => factory(Carrier::class)->create()->id,
@@ -64,7 +65,7 @@ class TripsTest extends TestCase
                 'client',
                 'origin_id',
                 'destination_id',
-
+                'georoute_ref',
                 'mon_type',
                 'carrier_id',
 
