@@ -50,6 +50,9 @@ class WialonNotificationRequest extends FormRequest
                     'maintenance'
                 ]),
             ],
+            'params' => 'required',
+            // params logic, required_if es necesario para cada tipo de control type de notificacion
+            'params.geofence_id' => 'required_if:control_type,geofence',
             'resource' => 'required'
 
 

@@ -36,6 +36,7 @@ class TripResource extends JsonResource
             "tag" => $this->tag,
             "device_id" => $this->device_id,
             "convoy_id" => $this->convoy_id,
+            "georoute_ref" => $this->georoute_ref,
             // Relationship Objects
             "origin" => PlaceResource::make($this->whenLoaded('origin')),
             "destination" => PlaceResource::make($this->whenLoaded('destination')),

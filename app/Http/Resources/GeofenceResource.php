@@ -15,7 +15,8 @@ class GeofenceResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => "$this->rid.$this->id",
+            'id' => "{$this->rid}_{$this->id}", // dando un id unico separado por guion bajo, igual al usado por wialon
+            'resource_id' => $this->rid,
             'name' => $this->n,
             'description' => $this->d
         ];
