@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TrailerBoxRequest;
+use App\Http\Resources\TrailerBoxResource;
 use App\TrailerBox;
 use Illuminate\Http\Request;
 
@@ -14,17 +16,9 @@ class TrailerBoxController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $trailers = TrailerBox::paginate();
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        return TrailerBoxResource::collection($trailers);
     }
 
     /**
@@ -33,31 +27,12 @@ class TrailerBoxController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TrailerBoxRequest $request)
     {
-        //
-    }
+        $trailer = new TrailerBox($request->all());
+        $trailer->carrier_id = $request->carrier_id;
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\TrailerBox  $trailerBox
-     * @return \Illuminate\Http\Response
-     */
-    public function show(TrailerBox $trailerBox)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\TrailerBox  $trailerBox
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(TrailerBox $trailerBox)
-    {
-        //
+        return TrailerBoxResource::make($trailer);
     }
 
     /**
@@ -67,9 +42,14 @@ class TrailerBoxController extends Controller
      * @param  \App\TrailerBox  $trailerBox
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, TrailerBox $trailerBox)
+    public function update(TrailerBoxRequest $request,  $trailerBox)
     {
-        //
+        $trailer = TrailerBox::findOrFail($trailerBox);
+
+        $trailer = $trailer->fill($request->all());
+        $trailer->carrier_id = $request->carrier_id;
+
+        return TrailerBoxResource::make($trailer);
     }
 
     /**
@@ -78,8 +58,13 @@ class TrailerBoxController extends Controller
      * @param  \App\TrailerBox  $trailerBox
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TrailerBox $trailerBox)
+    public function destroy($trailerBox)
     {
-        //
+        $trailer = TrailerBox::findOrFail($trailerBox);
+
+        $trailer->delete();
+
+        return TrailerBoxResource::make($trailer);
+
     }
 }
