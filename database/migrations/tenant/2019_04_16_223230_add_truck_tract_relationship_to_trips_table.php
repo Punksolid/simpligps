@@ -13,13 +13,16 @@ class AddTruckTractRelationshipToTripsTable extends Migration
      */
     public function up()
     {
-        Schema::table('trips', function (Blueprint $table) {
-            $table->bigInteger('truck_tract_id')->unsigned();
-        });
+        if (!Schema::hasColumn('trips','truck_tract_id')){
+            Schema::table('trips', function (Blueprint $table) {
+                $table->bigInteger('truck_tract_id')->unsigned();
+            });
 
-        Schema::table('trips', function (Blueprint $table){
-            $table->foreign('truck_tract_id')->references('id')->on('truck_tracts');
-        });
+            Schema::table('trips', function (Blueprint $table){
+                $table->foreign('truck_tract_id')->references('id')->on('truck_tracts');
+            });
+        }
+
     }
 
     /**
