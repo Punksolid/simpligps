@@ -14,7 +14,7 @@ class AddTruckTractRelationshipToTripsTable extends Migration
     public function up()
     {
         Schema::table('trips', function (Blueprint $table) {
-            $table->integer('truck_tract_id')->unsigned();
+            $table->bigInteger('truck_tract_id')->unsigned();
         });
 
         Schema::table('trips', function (Blueprint $table){

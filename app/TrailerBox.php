@@ -15,4 +15,18 @@ class TrailerBox extends Model
       'gps',
       'plate',
     ];
+
+    #region Relationships
+    public function trips()
+    {
+        return $this->belongsToMany(
+            'App\Trip',
+            'trailer_boxes_trips',
+            'trip_id',
+            'trailer_box_id'
+        )->withPivot([
+            'order'
+        ]);
+    }
+    #endregion
 }

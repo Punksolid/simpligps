@@ -110,6 +110,31 @@ class Trip extends Model
     {
         return $this->places()->wherePivot('type','=','intermediate');
     }
+
+    /**
+     * Un viaje puede tener varias Cajas (TrailerBoxes), el campo order en pivot representa el orden de las cajas
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function trailers()
+    {
+        return $this->belongsToMany(
+            'App\TrailerBox',
+            'trailer_boxes_trips',
+            'trip_id',
+            'trailer_box_id'
+        )->withPivot([
+            'order'
+        ]);
+    }
+
+    /**
+     * Un viaje puede tener un tracto
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function truck()
+    {
+        return $this->belongsTo(TruckTract::class);
+    }
     #endregion
 
     #region actions
@@ -121,6 +146,13 @@ class Trip extends Model
     {
         return $this->places()->attach($place_id, [
             "type" => 'intermediate',
+            'order' => 0
+        ]);
+    }
+
+    public function addTrailerBox(int $trailer_box_id)
+    {
+         $this->trailers()->attach($trailer_box_id, [
             'order' => 0
         ]);
     }
