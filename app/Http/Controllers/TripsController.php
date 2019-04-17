@@ -64,16 +64,21 @@ class TripsController extends Controller
      */
     public function store(TripRequest $request)
     {
-        $trip = Trip::create($request->all());
+        $trip = Trip::make($request->all());
         $trip->origin_id = $request->origin_id;
         $trip->destination_id = $request->destination_id;
         $trip->carrier_id = $request->carrier_id;
+        $trip->truck_tract_id = $request->truck_tract_id;
+        $trip->save();
         foreach ($request->intermediates as $intermediate_id) {
             $trip->addIntermediate($intermediate_id);
         }
-        $trip->save();
+        foreach ($request->trailers_ids as $trailers_id){
+            $trip->addTrailerBox($trailers_id);
+        }
 
-        return TripResource::make($trip);
+
+        return TripResource::make($trip->load('trailers'));
     }
 
     /**
@@ -165,7 +170,13 @@ class TripsController extends Controller
     public function show($trip_id)
     {
         $trip = Trip::with([
-            'origin','destination','intermediates','device'
+            'origin',
+            'destination',
+            'intermediates',
+            'device',
+            'trailers',
+            'tags',
+            'truck'
         ])->findOrFail($trip_id);
 
         return TripResource::make($trip);
@@ -178,11 +189,26 @@ class TripsController extends Controller
      * @param  \App\Trip $trip
      * @return \Illuminate\Http\Response
      */
-    public function update(TripRequest $request, Trip $trip)
+    public function update(TripRequest $request, $trip)
     {
-        $trip->update(["bulk" => $request->all()]);
-        return response()->json(
-            array_merge(["id" => $trip->id], $trip->bulk));
+        $trip = Trip::findOrFail($trip);
+
+        $trip->origin_id = $request->origin_id;
+        $trip->destination_id = $request->destination_id;
+        $trip->carrier_id = $request->carrier_id;
+        $trip->truck_tract_id = $request->truck_tract_id;
+
+        foreach ($request->intermediates as $intermediate_id) {
+            $trip->addIntermediate($intermediate_id);
+        }
+        foreach ($request->trailers_ids as $trailers_id){
+            $trip->addTrailerBox($trailers_id);
+        }
+
+        $trip->update($request->all());
+
+
+        return TripResource::make($trip->load('trailers'));
     }
 
     /**

@@ -21,13 +21,14 @@ class TripResource extends JsonResource
             "rp" => $this->rp,
             "invoice" => $this->invoice,
             "client" => $this->client,
-            "intermediates" => PlaceResource::collection($this->whenLoaded('intermediates')),
+
             "origin_id" => $this->origin_id,
             "origin_name" => optional($this->origin)->name,
             "destination_name" => optional($this->origin)->name,
             "destination_id" => $this->destination_id,
             "mon_type" => $this->mon_type,
             "carrier_id" => $this->carrier_id,
+            "truck_tract_id" => $this->truck_tract_id,
             "scheduled_load" => $this->scheduled_load,
             "scheduled_departure" => $this->scheduled_departure,
             "scheduled_arrival" => $this->scheduled_arrival,
@@ -38,9 +39,12 @@ class TripResource extends JsonResource
             "convoy_id" => $this->convoy_id,
             "georoute_ref" => $this->georoute_ref,
             // Relationship Objects
+            "truck" => TruckTractResource::make($this->whenLoaded('truck')),
             "origin" => PlaceResource::make($this->whenLoaded('origin')),
             "destination" => PlaceResource::make($this->whenLoaded('destination')),
             "device" => DeviceResource::make($this->whenLoaded('device')),
+            "intermediates" => PlaceResource::collection($this->whenLoaded('intermediates')),
+            "trailers" => TrailerBoxResource::collection($this->whenLoaded('trailers')),
         ];
 
 

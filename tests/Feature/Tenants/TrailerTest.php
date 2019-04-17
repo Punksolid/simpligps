@@ -44,7 +44,7 @@ class TrailerTest extends TestCase
         $trailer = factory(TrailerBox::class)->create();
         $new_trailer = factory(TrailerBox::class)->make();
 
-        $call = $this->postJson('api/v1/trailers', $new_trailer->toArray());
+        $call = $this->putJson('api/v1/trailers/'.$trailer->id, $new_trailer->toArray());
 
         $call->assertJsonFragment($new_trailer->toArray());
     }
