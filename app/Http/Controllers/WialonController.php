@@ -123,7 +123,7 @@ class WialonController extends Controller
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id='.$request->header('uuid').'
+        X-Tenant-Id='.$request->header('X-Tenant-Id').'
         "';
 
         $text = str_replace(["\r","\n"," "], "", $text);
