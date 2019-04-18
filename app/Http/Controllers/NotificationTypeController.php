@@ -22,7 +22,7 @@ class NotificationTypeController extends Controller
     /**
      * Store a newly created NotificationType in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(NotificationTypeRequest $request)
@@ -40,8 +40,8 @@ class NotificationTypeController extends Controller
     /**
      * Actualizar Tipo de Notificacion
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\NotificationType $notificationType
+     * @param \Illuminate\Http\Request $request
+     * @param \App\NotificationType $notificationType
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, NotificationType $notificationType)
@@ -54,7 +54,7 @@ class NotificationTypeController extends Controller
     /**
      * Remove the specified NotificationType from storage.
      *
-     * @param  \App\NotificationType $notificationType
+     * @param \App\NotificationType $notificationType
      * @return \Illuminate\Http\Response
      */
     public function destroy(NotificationType $notificationType)
@@ -90,7 +90,7 @@ class NotificationTypeController extends Controller
         $faker = Factory::create();
 
         $wialon_api = new Wialon();
-        $resource = $wialon_api->createResource("asdewd1".$faker->word . $faker->unique()->word.$faker->unique()->word);
+        $resource = $wialon_api->createResource("asdewd1" . $faker->word . $faker->unique()->word . $faker->unique()->word);
         //TODO resource puede ser creado si no es especificado o usar uno preexistente
 
         $geofence = Geofence::make(
@@ -112,15 +112,12 @@ class NotificationTypeController extends Controller
 
     public function webhookAlert(Request $request)
     {
-        try {
-            $account = Account::whereUuid($request->get("X-Tenant-Id"))->first();
-            info($account->users->toArray());
-            \Notification::send($account->users, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
+        $account = Account::whereUuid($request->get("X-Tenant-Id"))->firstOrFail();
+        info($account->toArray());
+        \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
 
-            return \response()->json('ok');
-        } catch (\Exception $e) {
-            \Log::critical("Can't send to users check as fast as you can", $request->all());
-        }
+        return response()->json('ok');
+
 
     }
 
@@ -129,7 +126,7 @@ class NotificationTypeController extends Controller
         $notification = Notification::find($notification_id);
 
         $notification->destroy();
-        
+
         return \response()->json(['data' => "ok"]);
     }
 }

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Notifications\DynamicNotification;
+use App\Notifications\WialonWebhookNotification;
 use App\NotificationType;
 use App\User;
 
@@ -121,13 +122,41 @@ class NotificationsTest extends TestCase
     {
         Notification::fake();
 
-        $metadata = [
-            'key_bla' => 'value_bla'
+
+        $callback = [
+            "unit" => "ITM 2412 TRM",
+            "timestamp" => "2019-04-18 03:32:23",
+            "location" => "Manuel Gómez Morín 6372, Pueblo Toluquilla, Tlaquepaque, Jalisco 45610, Mexico",
+            "last_location" => "Manuel Gómez Morín 6372, Pueblo Toluquilla, Tlaquepaque, Jalisco 45610, Mexico",
+            "locator_link" => "http://sh-loc.com/rcRj",
+            "smallest_geofence_inside" => "GDL02",
+            "all_geofences_inside" => "GDL02, trm_02",
+            "UNIT_GROUP" => "Certificacion",
+            "SPEED" => "0 km/h",
+            "POS_TIME" => "2019-04-18 03:32:06",
+            "MSG_TIME" => "2019-04-18 03:32:06",
+            "DRIVER" => "%DRIVER%",
+            "DRIVER_PHONE" => "%DRIVER_PHONE%",
+            "TRAILER" => "%TRAILER%",
+            "SENSOR" => "IGNICIÓN: Deactivated, KM GPS: 111839787.00 km, BOTÓN DE PÁNICO: Desactivado, CORTINA: Cerrada, BATERÍA:: 12.78 V, CHAPA: Abierta, BOTÓN DE AYUDA: Desactivado",
+            "ENGINE_HOURS" => "17519:53:42",
+            "MILEAGE" => "720137 km",
+            "LAT" => "N 20° 34.6897'",
+            "LON" => "W 103° 21.7663'",
+            "LATD" => "20.578162",
+            "LOND" => "-103.362772",
+            "GOOGLE_LINK" => "http://maps.google.com/?q=20.578162,-103.362772",
+            "CUSTOM_FIELD" => "ALTA EN WIALON: 11/03/2019, CELULAR: +526683963652, GPS: Ruptela FM Tco4, PLACAS: JV-57-700, UNIDAD: Tractocamión",
+            "UNIT_ID" => "18921279",
+            "MSG_TIME_INT" => "1555547526",
+            "NOTIFICATION" => "Exceso de Velocidad",
+            "X-Tenant-Id" => $this->account->uuid
         ];
-        $call = $this->postJson("api/v1/webhook/alert", $metadata);
+
+        $call = $this->postJson("api/v1/webhook/alert", $callback);
 
         Notification::assertSentTo(
-            [$this->user], DynamicNotification::class
+            [$this->account], WialonWebhookNotification::class
         );
 
         $call->assertSuccessful();
@@ -156,10 +185,37 @@ class NotificationsTest extends TestCase
         $this->withoutExceptionHandling();
 //        Notification::fake();
 
-        $metadata = [
-            'key_bla' => 'value_bla'
+        $callback = [
+            "unit" => "ITM 2412 TRM",
+            "timestamp" => "2019-04-18 03:32:23",
+            "location" => "Manuel Gómez Morín 6372, Pueblo Toluquilla, Tlaquepaque, Jalisco 45610, Mexico",
+            "last_location" => "Manuel Gómez Morín 6372, Pueblo Toluquilla, Tlaquepaque, Jalisco 45610, Mexico",
+            "locator_link" => "http://sh-loc.com/rcRj",
+            "smallest_geofence_inside" => "GDL02",
+            "all_geofences_inside" => "GDL02, trm_02",
+            "UNIT_GROUP" => "Certificacion",
+            "SPEED" => "0 km/h",
+            "POS_TIME" => "2019-04-18 03:32:06",
+            "MSG_TIME" => "2019-04-18 03:32:06",
+            "DRIVER" => "%DRIVER%",
+            "DRIVER_PHONE" => "%DRIVER_PHONE%",
+            "TRAILER" => "%TRAILER%",
+            "SENSOR" => "IGNICIÓN: Deactivated, KM GPS: 111839787.00 km, BOTÓN DE PÁNICO: Desactivado, CORTINA: Cerrada, BATERÍA:: 12.78 V, CHAPA: Abierta, BOTÓN DE AYUDA: Desactivado",
+            "ENGINE_HOURS" => "17519:53:42",
+            "MILEAGE" => "720137 km",
+            "LAT" => "N 20° 34.6897'",
+            "LON" => "W 103° 21.7663'",
+            "LATD" => "20.578162",
+            "LOND" => "-103.362772",
+            "GOOGLE_LINK" => "http://maps.google.com/?q=20.578162,-103.362772",
+            "CUSTOM_FIELD" => "ALTA EN WIALON: 11/03/2019, CELULAR: +526683963652, GPS: Ruptela FM Tco4, PLACAS: JV-57-700, UNIDAD: Tractocamión",
+            "UNIT_ID" => "18921279",
+            "MSG_TIME_INT" => "1555547526",
+            "NOTIFICATION" => "Exceso de Velocidad",
+            "X-Tenant-Id" => $this->account->uuid
         ];
-        $call = $this->postJson("api/v1/webhook/alert", $metadata);
+
+        $call = $this->postJson("api/v1/webhook/alert", $callback);
 //
 //        Notification::assertSentTo(
 //            [$this->user], WialonWebhookNotification::class

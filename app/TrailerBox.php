@@ -28,5 +28,10 @@ class TrailerBox extends Model
             'order'
         ]);
     }
+
+    public function carrier()
+    {
+        return $this->belongsTo(Carrier::class);
+    }
     #endregion
 }

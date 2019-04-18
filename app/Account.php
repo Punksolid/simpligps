@@ -11,11 +11,12 @@ use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\ValidationException;
 
 class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contracts\Website
 {
-    use UsesSystemConnection, SoftDeletes;
+    use UsesSystemConnection, SoftDeletes, Notifiable;
 
     protected $table = "accounts"; // parece que esto hace que no tenga migraciones automaticas
 //    protected $table = "websites"; // Con este funciona la creación vía WebsiteRepositoryContract

@@ -34,6 +34,9 @@ Route::group(["middleware" => [
             "limit_expired_license_access"
         ]
     ],function($router){
+        // Account Notifications
+        Route::get('account/notifications', "AccountController@getNotifications");
+        Route::post('account/notifications/{id}/mark_as_read', "AccountController@markAsRead");
         // Dashboard
         Route::get('dashboard', 'DashboardController@resume');
         //Devices

@@ -36,6 +36,11 @@ class TrailerTest extends TestCase
 
         $call = $this->postJson('api/v1/trailers', $trailer->toArray());
 
+        $call->assertJsonStructure([
+            'data' => [
+                'id'
+            ]
+        ]);
         $call->assertJsonFragment($trailer->toArray());
     }
 

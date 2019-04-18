@@ -16,7 +16,7 @@ class TrailerBoxResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'carrier_name' => optional($this->carrier)->name,
+            'carrier_name' => optional($this->carrier)->carrier_name,
             'internal_number' => $this->internal_number,
             'plate' => $this->plate,
             'gps' => $this->gps,
