@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\InternalNotificationResource;
 use App\Http\Resources\UsersResource;
@@ -90,6 +91,18 @@ class MeController extends Controller
     public function accounts()
     {
         return AccountResource::collection(auth()->user()->accounts);
+    }
+
+    /**
+     * Returns the details of an account
+     * @param $uuid
+     * @return AccountResource
+     */
+    public function getIdOfAccount($uuid)
+    {
+        $account = Account::where('uuid', $uuid)->firstOrFail();
+
+        return AccountResource::make($account);
     }
 
 
