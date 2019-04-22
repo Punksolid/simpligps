@@ -2,12 +2,16 @@
 
 namespace App\Notifications;
 
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 
+/**
+ * @property mixed notifiable
+ */
 class WialonWebhookNotification extends Notification
 {
     use Queueable;
@@ -49,6 +53,7 @@ class WialonWebhookNotification extends Notification
      */
     public function toMail($notifiable)
     {
+
         return (new MailMessage)
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
@@ -91,7 +96,23 @@ class WialonWebhookNotification extends Notification
      */
     public function toArray($notifiable)
     {
+
         return array_merge(['message' => $this->message], $this->contextual_data);
     }
+
+    /**
+     * Get the broadcastable representation of the notification.
+     *
+     * @param  mixed  $notifiable
+     * @return BroadcastMessage
+     */
+    public function toBroadcast($notifiable)
+    {
+        $broadcast_message = new BroadcastMessage(array_merge(['message' => $this->message], $this->contextual_data));
+
+        return $broadcast_message;
+    }
+
+
 
 }
