@@ -61,6 +61,9 @@ Route::group(["middleware" => [
         Route::resource('trailers', 'TrailerBoxController')->except(['create', 'edit', 'show']);
         #endregion
 
+        #region Situations
+        Route::resource('situations', 'SituationController')->except(['create','edit', 'show']);
+        #endregion
         #region Trips
         //CONVOYS
         Route::post("trips/convoys", "ConvoyController@store");
