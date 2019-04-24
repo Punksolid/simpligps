@@ -30,6 +30,10 @@ class TripsTest extends TestCase
 
     }
 
+    public function test_todos_los_campos_sean_requeridos()
+    {
+
+    }
     public function test_crear_nuevo_viaje_manual()
     {
         $trip = [
@@ -49,7 +53,7 @@ class TripsTest extends TestCase
             "destination_id" => factory(Place::class)->create()->id,
             "georoute_ref" => $this->faker->shuffleString('alskdjflaskj'),
 
-            "mon_type" => $this->faker->randomNumber(1),
+            "mon_type" => $this->faker->randomNumber(1), // tipo de monitoreo es una relacion
             "carrier_id" => factory(Carrier::class)->create()->id,
             "truck_tract_id" => factory(TruckTract::class)->create()->id,
 
@@ -59,6 +63,9 @@ class TripsTest extends TestCase
             "scheduled_unload" => Carbon::now()->addDays(3)->toDateString()
 
         ];
+
+
+
         $this->withoutExceptionHandling();
         $call = $this->postJson( "/api/v1/trips", $trip);
         $call->assertSuccessful();

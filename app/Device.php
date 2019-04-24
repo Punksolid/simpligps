@@ -4,11 +4,12 @@ namespace App;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Punksolid\Wialon\Unit;
 
 class Device extends Model
 {
-    use UsesTenantConnection;
+    use UsesTenantConnection, Notifiable;
 
     protected $fillable = [
         "name",

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Events\ReceivedAlertHookEvent;
 use App\Http\Requests\NotificationTypeRequest;
 use App\Notifications\DynamicNotification;
 use App\Notifications\WialonWebhookNotification;
@@ -105,17 +106,19 @@ class NotificationTypeController extends Controller
 
     }
 
-    public function getGeofences()
-    {
-
-    }
 
     public function webhookAlert(Request $request)
     {
         $account = Account::whereUuid($request->get("X-Tenant-Id"))->firstOrFail();
         info($account->toArray());
-        \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
 
+//        $notification->broadcastOn("private-App.Account.{$account->uuid}");
+//
+        $account->notify(
+            new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all())
+        );
+//        event(new ReceivedAlertHookEvent($account));
+//        broadcast(new ReceivedAlertHookEvent($account, $request->all()));
         return response()->json('ok');
 
 
