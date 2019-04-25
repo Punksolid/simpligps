@@ -161,6 +161,8 @@ return [
 //        Punksolid\Wialon\WialonServiceProvider::class,
 //        Hyn\Tenancy\Providers\TenancyProvider::class,
 
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class
+
     ],
 
     /*
