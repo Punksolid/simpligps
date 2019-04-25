@@ -33,7 +33,6 @@ class TruckTractController extends Controller
         $truck = TruckTract::make($request->all());
         $truck->carrier_id = $request->carrier_id;
         $truck->device_id = $request->device_id;
-        $truck->operator_id = $request->operator_id;
 
         $truck->save();
 
@@ -48,7 +47,7 @@ class TruckTractController extends Controller
      */
     public function show($truckTract)
     {
-        $truckTract = TruckTract::with('operator')->findOrFail($truckTract);
+        $truckTract = TruckTract::findOrFail($truckTract);
 
         return TruckTractResource::make($truckTract);
     }
@@ -65,7 +64,6 @@ class TruckTractController extends Controller
         $truckTract = TruckTract::findOrFail($truckTract);
         $truckTract->carrier_id = $request->carrier_id;
         $truckTract->device_id = $request->device_id;
-        $truckTract->operator_id = $request->operator_id;
         $truckTract->update($request->all());
 
         $truckTract->save();

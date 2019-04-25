@@ -135,6 +135,15 @@ class Trip extends Model
     {
         return $this->belongsTo(TruckTract::class);
     }
+
+    /**
+     * Un viaje tiene un operador asignado al viaje
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function operator()
+    {
+        return $this->belongsTo(Operator::class);
+    }
     #endregion
 
     #region actions
