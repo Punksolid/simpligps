@@ -6,6 +6,7 @@ use App\Carrier;
 use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
+use App\Operator;
 use App\Place;
 use App\TrailerBox;
 use App\Trip;
@@ -52,6 +53,7 @@ class TripsTest extends TestCase
             "mon_type" => $this->faker->randomNumber(1),
             "carrier_id" => factory(Carrier::class)->create()->id,
             "truck_tract_id" => factory(TruckTract::class)->create()->id,
+            "operator_id" => factory(Operator::class)->create()->id,
 
             "scheduled_load" => Carbon::now()->toDateString(),
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateString(),
@@ -64,7 +66,8 @@ class TripsTest extends TestCase
         $call->assertSuccessful();
 
         $call->assertJsonFragment([
-            'truck_tract_id' => $trip['truck_tract_id']
+            'truck_tract_id' => $trip['truck_tract_id'],
+            'operator_id' => $trip['operator_id']
         ], 'asignar tracto a viaje');
 
 
@@ -81,6 +84,7 @@ class TripsTest extends TestCase
                 'mon_type',
                 'carrier_id',
                 'truck_tract_id',
+                'operator_id',
 
                 "scheduled_load",
                 "scheduled_departure",
@@ -98,7 +102,8 @@ class TripsTest extends TestCase
             'origin_id' => factory(Place::class)->create()->id,
             'destination_id' => factory(Place::class)->create()->id,
             'device_id' => factory(Device::class)->create()->id,
-            'truck_tract_id' => factory(TruckTract::class)->create()->id
+            'truck_tract_id' => factory(TruckTract::class)->create()->id,
+            'operator_id' => factory(Operator::class)->create()->id
         ]);
 
         $call = $this->getJson("api/v1/trips/{$trip->id}");
@@ -138,6 +143,7 @@ class TripsTest extends TestCase
                     'id'
                 ],
                 'truck',
+                'operator'
 
             ]
         ]);
@@ -146,7 +152,6 @@ class TripsTest extends TestCase
 
     public function test_editar_viaje()
     {
-        $this->withoutExceptionHandling();
         $trip_arr = factory(Trip::class)->create()->toArray();
 
         $trip_modified = [
@@ -161,6 +166,7 @@ class TripsTest extends TestCase
             "mon_type" => $this->faker->randomNumber(1),
             "carrier_id" => factory(Carrier::class)->create()->id,
             "truck_tract_id" => factory(TruckTract::class)->create()->id,
+            "operator_id" => factory(Operator::class)->create()->id,
             "trailers_ids" => [
               factory(TrailerBox::class)->create()->id
             ],
@@ -172,6 +178,7 @@ class TripsTest extends TestCase
         ];
 
         $call = $this->putJson( "/api/v1/trips/".$trip_arr["id"], $trip_modified);
+
         $call->assertJson([
             'data' => [
                 "rp" => $trip_modified['rp']

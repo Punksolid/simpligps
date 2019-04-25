@@ -53,6 +53,7 @@ class TruckTractTest extends TestCase
 
     public function test_actualizar_detalles_de_tracto()
     {
+
         $truck = factory(TruckTract::class)->create();
         $new = factory(TruckTract::class)->make();
         $call = $this->putJson("api/v1/trucks/$truck->id", $new->toArray());

@@ -32,6 +32,8 @@ class TripRequest extends FormRequest
             "destination_id" => "required|integer",
             "mon_type" => "required",
             "carrier_id" => "required|integer",
+            "truck_tract_id" => "required|integer",
+            "operator_id" => "required|integer",
 
             "scheduled_load" => "required|date",
             "scheduled_departure" => [
