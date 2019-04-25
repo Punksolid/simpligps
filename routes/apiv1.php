@@ -44,6 +44,8 @@ Route::group(["middleware" => [
         Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
         Route::resource("devices", "DevicesController")->except(['create','edit']);
 
+        //Clients
+        Route::resource('clients', "ClientController")->except(['create', 'edit']);
         //Contacts
         Route::get("contacts/filter_tags", "ContactController@filterTags");
         Route::post("contacts/{contact}/tags", "ContactController@attachtags");
