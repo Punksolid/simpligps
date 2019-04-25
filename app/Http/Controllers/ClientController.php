@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Client;
+use App\Http\Requests\ClientRequest;
+use App\Http\Resources\ClientResource;
 use App\Http\Resources\ContactResource;
 use Illuminate\Http\Request;
 
@@ -17,7 +19,7 @@ class ClientController extends Controller
     {
         $clients = Client::paginate();
 
-        return ContactResource::collection($clients);
+        return ClientResource::collection($clients);
     }
 
 
@@ -27,11 +29,11 @@ class ClientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ClientRequest $request)
     {
         $client = Client::create($request->all());
 
-        return ContactResource::make($client);
+        return ClientResource::make($client);
     }
 
     /**
@@ -56,12 +58,12 @@ class ClientController extends Controller
      * @param  \App\Client  $clientModel
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $client_id)
+    public function update(ClientRequest $request, $client_id)
     {
         $client = Client::findOrFail($client_id);
         $client->update($request->all());
 
-        return ContactResource::make($client);
+        return ClientResource::make($client);
     }
 
     /**
@@ -76,6 +78,6 @@ class ClientController extends Controller
 
         $client->delete();
 
-        return ContactResource::make($client);
+        return ClientResource::make($client);
     }
 }

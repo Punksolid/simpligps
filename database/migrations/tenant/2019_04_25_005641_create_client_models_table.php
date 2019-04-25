@@ -15,12 +15,17 @@ class CreateClientModelsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
-            $table->string('company');
-            $table->string('phone');
-            $table->string('contact');
-            $table->string('email');
+            $table->string('company_name');
+            $table->string('description');
             $table->string('address');
+            $table->string('city');
+            $table->string('state');
+            $table->string('phone');
+            $table->string('email');
+            $table->string('contact');
+            $table->boolean('status');
+            $table->unsignedSmallInteger('email_frequency');
+
 
             $table->softDeletes();
             $table->timestamps();

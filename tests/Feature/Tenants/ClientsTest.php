@@ -14,12 +14,16 @@ class ClientsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $form = [
-            'name' => $this->faker->name,
-            'company' => $this->faker->company,
-            'phone' => $this->faker->phoneNumber,
-            'contact' => 'esto para que?',
-            'email' => $this->faker->email,
-            'address' => $this->faker->address
+            'description' => $this->faker->name,
+            'company_name' => $this->faker->company,
+            'address' => $this->faker->name,
+            'city' => $this->faker->name,
+            'state' => $this->faker->name,
+            'phone' => $this->faker->name,
+            'email' => $this->faker->name,
+            'contact' => $this->faker->name,
+            'status' => $this->faker->boolean,
+            'email_frequency' => $this->faker->numberBetween(0,2) // 0 no envios, 1 envio individual, 2 envio agrupado
         ];
 
         $call = $this->postJson('api/v1/clients', $form);
@@ -35,19 +39,23 @@ class ClientsTest extends TestCase
 //        $this->markTestIncomplete();
 
         $client = factory(Client::class)->create();
-        $form = [
-            'name' => $this->faker->name,
-            'company' => $this->faker->company,
-            'phone' => $this->faker->phoneNumber,
-            'contact' => 'esto para que?',
-            'email' => $this->faker->email,
-            'address' => $this->faker->address
+        $form =  [
+            'description' => $this->faker->name,
+            'company_name' => $this->faker->company,
+            'address' => $this->faker->name,
+            'city' => $this->faker->name,
+            'state' => $this->faker->name,
+            'phone' => $this->faker->name,
+            'email' => $this->faker->name,
+            'contact' => $this->faker->name,
+            'status' => $this->faker->boolean,
+            'email_frequency' => $this->faker->numberBetween(0,2) // 0 no envios, 1 envio individual, 2 envio agrupado
         ];
 
         $call = $this->putJson('api/v1/clients/' . $client->id, $form);
 
         $call->assertSuccessful();
-//        $call->assertJsonFragment($form);
+        $call->assertJsonFragment($form);
 
 
     }
@@ -76,7 +84,7 @@ class ClientsTest extends TestCase
 
         $call->assertSuccessful();
         $this->assertDatabaseHas('clients', [
-            "name" => $client->name
+            "description" => $client->description
         ], 'tenant');
     }
 }

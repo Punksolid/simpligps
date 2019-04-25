@@ -11,11 +11,15 @@ class Client extends Model
     use UsesTenantConnection, SoftDeletes;
 
     protected $fillable = [
-        'name',
-        'company',
+        'description',
+        'company_name',
+        'address',
+        'city',
+        'state',
         'phone',
         'email',
-        'address',
-        'contact'
+        'contact',
+        'status',
+        'email_frequency'
     ];
 }
