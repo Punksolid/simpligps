@@ -22,7 +22,7 @@ class CreateClientModelsTable extends Migration
             $table->string('state');
             $table->string('phone');
             $table->string('email');
-            $table->string('contact');
+            $table->string('contact'); //changed in next migration
             $table->boolean('status');
             $table->unsignedSmallInteger('email_frequency');
 

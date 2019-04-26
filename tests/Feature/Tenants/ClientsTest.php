@@ -21,7 +21,7 @@ class ClientsTest extends TestCase
             'state' => $this->faker->name,
             'phone' => $this->faker->name,
             'email' => $this->faker->name,
-            'contact' => $this->faker->name,
+            'person_name' => $this->faker->name,
             'status' => $this->faker->boolean,
             'email_frequency' => $this->faker->numberBetween(0,2) // 0 no envios, 1 envio individual, 2 envio agrupado
         ];
@@ -47,7 +47,7 @@ class ClientsTest extends TestCase
             'state' => $this->faker->name,
             'phone' => $this->faker->name,
             'email' => $this->faker->name,
-            'contact' => $this->faker->name,
+            'person_name' => $this->faker->name,
             'status' => $this->faker->boolean,
             'email_frequency' => $this->faker->numberBetween(0,2) // 0 no envios, 1 envio individual, 2 envio agrupado
         ];
