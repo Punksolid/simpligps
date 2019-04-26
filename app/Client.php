@@ -18,7 +18,7 @@ class Client extends Model
         'state',
         'phone',
         'email',
-        'contact',
+        'person_name',
         'status',
         'email_frequency'
     ];

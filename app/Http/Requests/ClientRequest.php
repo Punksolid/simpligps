@@ -31,7 +31,7 @@ class ClientRequest extends FormRequest
             'state' => 'required',
             'phone' => 'required',
             'email' => 'required',
-            'contact' => 'required',
+            'person_name' => 'required',
             'status' => 'required|bool',
             'email_frequency' => 'required|min:0|max:2'
         ];
