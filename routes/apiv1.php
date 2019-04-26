@@ -11,7 +11,7 @@ Route::post('password/change', 'Auth\ResetPasswordController@reset');
 Route::post('continue_registration', 'Auth\RegisterController@continueRegistration');
 
 //@todo proteger con autenticacion
-Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
+Route::post('webhook/alert', 'NotificationTriggersController@webhookAlert');
 
 Route::group(["middleware" => [
 //    "verified",
@@ -106,16 +106,16 @@ Route::group(["middleware" => [
             Route::post('wialon/notifications', 'WialonController@store');
         });
 
-        //NOTIFICATIONS
-        Route::get("notification_activate/{notification_type}", "NotificationTypeController@activate");
-        Route::resource("notification_types", "NotificationTypeController", [
+        #Region NOTIFICATIONS
+        Route::get("notification_activate/{notification_type}", "NotificationTriggersController@activate");
+        Route::resource("notification_triggers", "NotificationTriggersController", [
             "only" => ["store", "update"]
         ]);
-
+        #endregion
         Route::resource("users", "UsersController", ["except" => ["edit", "create"]]);
 
         // GEOFENCES
-        Route::post('geofences', 'NotificationTypeController@createGeofence');
+        Route::post('geofences', 'NotificationTriggersController@createGeofence');
 
         // Settings
         Route::post("settings", "SettingsController@general");
