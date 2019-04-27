@@ -29,6 +29,7 @@ class NotificationTriggerRequest extends FormRequest
                 "required"
 //                \Illuminate\Validation\Rule::unique('tenant.notification_triggers','name')
             ],
+            "devices_ids" => 'required|array',
             "active" => 'required|bool'
         ];
     }

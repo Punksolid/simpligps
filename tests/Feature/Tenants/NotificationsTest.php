@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Notifications\DynamicNotification;
@@ -12,6 +13,7 @@ use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
 
 class NotificationsTest extends TestCase
@@ -40,23 +42,36 @@ class NotificationsTest extends TestCase
 //        'units', // devices relationship
 //        'active' //bool
 
-
+        $device = factory(Device::class)->create();
+        $unit = Unit::all()->first();
+        $device->linkUnit($unit);
         $form = [
             "name" => $this->faker->name,
             "control_type" => "panic_button",
-            "units" => [
-                "17471332"
+            "devices_ids" => [
+                $device->id
             ],
             "active" => 1
         ];
 
         $call = $this->postJson("api/v1/notification_triggers", $form);
 
-        $call->dump();
+        $this->assertDatabaseHas('notification_triggers', [
+            'name' => $form['name']
+        ], 'tenant');
+
         $call->assertJson([
             "data" => [
-                "alias" => $form["alias"],
-                "deactivation_mode" => $form["deactivation_mode"]
+                "name" => $form["name"],
+                "active" => $form["active"]
+            ]
+        ]);
+
+        $call->assertJsonStructure([
+            "data" => [
+                'name',
+                'active',
+                'control_type'
             ]
         ]);
 

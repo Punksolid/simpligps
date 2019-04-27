@@ -4,24 +4,24 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class WialonNotificationResource extends JsonResource
+class NotificationTriggerResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     * @deprecated Usamos en cambio un NotificationTriggerResourceParaElementosLocales
-     * @param  \Illuminate\Http\Request $request
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return array
      */
     public function toArray($request)
     {
         return [
             "id" => $this->id,
-            "name" => $this->n,
+            "name" => $this->name,
+            'active' => $this->active,
             "txt" => $this->txt,
-            "control_type" => $this->trg,
-            "actions" => $this->act,
+            "control_type" => $this->resource->trg,
+            "actions" => $this->resource->act,
             "resource" => $this->resource //@todo
         ];
-
     }
 }

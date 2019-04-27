@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Device;
 use App\Http\Requests\NotificationTriggerRequest;
-use App\Http\Resources\WialonNotificationResource;
+use App\Http\Resources\NotificationTriggerResource;
 use App\Notifications\DynamicNotification;
 use App\Notifications\WialonWebhookNotification;
 use App\NotificationTrigger;
@@ -13,11 +14,16 @@ use Faker\Factory;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\Notification;
+use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Wialon;
 
 class NotificationTriggersController extends Controller
 {
 
+    public function index()
+    {
+        return NotificationTriggerResource::collection(NotificationTrigger::paginate());
+    }
 
     /**
      * Store a newly created NotificationTrigger in storage.
@@ -27,12 +33,15 @@ class NotificationTriggersController extends Controller
      */
     public function store(NotificationTriggerRequest $request)
     {
-        $notification = $request->all();
 
-        $notification_type = NotificationTrigger::create($request->all());
+        $notification_type = NotificationTrigger::create($request->all()); // internal
+        foreach ($request->devices_ids as $device_id) {
+            $device = Device::findOrFail($device_id);
+            $notification_type->addDevice($device);
+        }
+        $notification_type->createExternalNotification($request->control_type, $request->params); // wialon
 
-
-        return WialonNotificationResource::make($notification_type);
+        return NotificationTriggerResource::make($notification_type);
 
     }
 
@@ -57,9 +66,23 @@ class NotificationTriggersController extends Controller
      * @param \App\NotificationTrigger $notificationType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(NotificationTrigger $notificationType)
+    public function destroy($notification_trigger_id)
     {
-        //
+        $notification_trigger = NotificationTrigger::findOrFail($notification_trigger_id);
+
+        $wialon_notification = Notification::findByUniqueId($notification_trigger->wialon_id);
+        $wialon_notification->resource = new Resource(["id" => explode("_",$notification_trigger->wialon_id)[0]]);
+
+
+        if ($wialon_notification->destroy() && $notification_trigger->delete()){
+            return response()->json([
+                "message" => "Success"
+            ]);
+        }
+
+        return response()->json([
+            "message" => "Error deleting notification"
+        ]);
     }
 
 

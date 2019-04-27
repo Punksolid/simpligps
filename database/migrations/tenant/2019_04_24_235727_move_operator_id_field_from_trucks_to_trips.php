@@ -13,7 +13,9 @@ class MoveOperatorIdFieldFromTrucksToTrips extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('truck_tracts', 'operator_id')) {
+        Schema::disableForeignKeyConstraints();
+
+        if (Schema::hasColumns('truck_tracts', ['operator_id', 'truck_tracts_operator_id_foreign'])) {
             Schema::table('truck_tracts', function (Blueprint $table) {
                 $table->dropForeign('truck_tracts_operator_id_foreign');
                 $table->dropColumn('operator_id');
@@ -26,7 +28,7 @@ class MoveOperatorIdFieldFromTrucksToTrips extends Migration
                 $table->foreign('operator_id')->references('id')->on('operators');
             });
         }
-
+        Schema::enableForeignKeyConstraints();
     }
 
     /**

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConvoyController;
 use App\Http\Middleware\IdentifyTenantConnection;
+use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Http\Request;
 
 Route::post('login', 'Auth\LoginController@login');
@@ -92,7 +93,7 @@ Route::group(["middleware" => [
         //Places (origenes y destinos)
         Route::resource("places", "PlaceController")->except(["edit", "create"]);
 
-        Route::group(["middleware" => \App\Http\Middleware\SetWialonTokenMiddleware::class],function ($router){
+        Route::group(["middleware" => SetWialonTokenMiddleware::class],function ($router){
             //Units
             Route::get("units", "UnitsController@listUnits");
             Route::get("units/with_localization", "UnitsController@listUnitsLocalization");
@@ -104,14 +105,16 @@ Route::group(["middleware" => [
             Route::get('wialon/units', "WialonController@getUnits");
             Route::get('wialon/geofences', "WialonController@getGeofences");
             Route::post('wialon/notifications', 'WialonController@store');
+
+            #Region NOTIFICATIONS
+            Route::get("notification_activate/{notification_type}", "NotificationTriggersController@activate");
+            Route::resource("notification_triggers", "NotificationTriggersController", [
+                "only" => ["index","store", "update", "destroy"]
+            ]);
+            #endregion
         });
 
-        #Region NOTIFICATIONS
-        Route::get("notification_activate/{notification_type}", "NotificationTriggersController@activate");
-        Route::resource("notification_triggers", "NotificationTriggersController", [
-            "only" => ["store", "update"]
-        ]);
-        #endregion
+
         Route::resource("users", "UsersController", ["except" => ["edit", "create"]]);
 
         // GEOFENCES
