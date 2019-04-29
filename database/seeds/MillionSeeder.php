@@ -15,7 +15,7 @@ class MillionSeeder extends Seeder
         factory(\App\Carrier::class,10000)->create();
         factory(\App\Convoy::class,10000)->create();
         factory(\App\Device::class,10000)->create();
-//        factory(\App\NotificationType::class,10000)->create();
+//        factory(\App\NotificationTrigger::class,10000)->create();
         factory(\App\Operator::class,10000)->create();
 //        factory(\App\Permission::class,10000)->create();
         factory(\App\Trace::class,10000)->create();
