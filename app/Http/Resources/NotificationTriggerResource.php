@@ -19,7 +19,8 @@ class NotificationTriggerResource extends JsonResource
             "name" => $this->name,
             'active' => $this->active,
             "txt" => $this->txt,
-            "control_type" => $this->resource->trg,
+            "control_type" => $this->control_type,
+            "level" => $this->level,
             "actions" => $this->resource->act,
             "resource" => $this->resource //@todo
         ];

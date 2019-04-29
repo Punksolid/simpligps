@@ -3,7 +3,11 @@
 namespace App\Providers;
 
 use App\Events\AccountCreatedEvent;
+use App\Events\NotificationTriggerCreated;
+use App\Events\NotificationTriggerDeleted;
 use App\Events\UserCreated;
+use App\Listeners\CreateExternalNotification;
+use App\Listeners\DeleteExternalNotification;
 use App\Listeners\SendAccountSetPasswordEmail;
 use App\Listeners\SendUserActivationLink;
 use App\Listeners\UseMainConnectionListener;
@@ -32,6 +36,12 @@ class EventServiceProvider extends ServiceProvider
 //        ],
         UserCreated::class => [
             SendUserActivationLink::class
+        ],
+        NotificationTriggerCreated::class => [
+            CreateExternalNotification::class
+        ],
+        NotificationTriggerDeleted::class => [
+            DeleteExternalNotification::class
         ]
     ];
 

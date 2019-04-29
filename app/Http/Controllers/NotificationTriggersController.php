@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Account;
 use App\Device;
+use App\Events\NotificationTriggerCreated;
+use App\Events\NotificationTriggerDeleted;
 use App\Http\Requests\NotificationTriggerRequest;
 use App\Http\Resources\NotificationTriggerResource;
 use App\Notifications\DynamicNotification;
@@ -39,26 +41,27 @@ class NotificationTriggersController extends Controller
             $device = Device::findOrFail($device_id);
             $notification_type->addDevice($device);
         }
-        $notification_type->createExternalNotification($request->control_type, $request->params); // wialon
+
+        event(new NotificationTriggerCreated($notification_type, $request->control_type, $request->params));
 
         return NotificationTriggerResource::make($notification_type);
 
     }
 
 
-    /**
-     * Actualizar Tipo de Notificacion
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\NotificationTrigger $notificationType
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, NotificationTrigger $notificationType)
-    {
-        $notificationType->update($request->all());
-
-        return response($notificationType);
-    }
+//    /**
+//     * Actualizar Tipo de Notificacion
+//     *
+//     * @param \Illuminate\Http\Request $request
+//     * @param \App\NotificationTrigger $notificationType
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function update(Request $request, NotificationTrigger $notificationType)
+//    {
+//        $notificationType->update($request->all());
+//
+//        return response($notificationType);
+//    }
 
     /**
      * Remove the specified NotificationTrigger from storage.
@@ -70,11 +73,9 @@ class NotificationTriggersController extends Controller
     {
         $notification_trigger = NotificationTrigger::findOrFail($notification_trigger_id);
 
-        $wialon_notification = Notification::findByUniqueId($notification_trigger->wialon_id);
-        $wialon_notification->resource = new Resource(["id" => explode("_",$notification_trigger->wialon_id)[0]]);
+        event(new NotificationTriggerDeleted($notification_trigger));
 
-
-        if ($wialon_notification->destroy() && $notification_trigger->delete()){
+        if ( $notification_trigger->delete()){
             return response()->json([
                 "message" => "Success"
             ]);
@@ -141,14 +142,13 @@ class NotificationTriggersController extends Controller
 
         return response()->json('ok');
 
-
     }
 
     public function destroyWialonNotification($notification_id)
     {
-        $notification = Notification::find($notification_id);
+        $notification_trigger = NotificationTrigger::findOrFail($notification_id);
 
-        $notification->destroy();
+        $notification_trigger->destroy();
 
         return \response()->json(['data' => "ok"]);
     }

@@ -5,6 +5,7 @@ namespace App;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Log;
 use Punksolid\Wialon\ControlType;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
@@ -19,9 +20,14 @@ class NotificationTrigger extends Model
     protected $fillable = [
         "name",
         "level",
-        'control_type_obj',
+        "control_type",
         'audit_obj',
         "active",
+    ];
+
+    protected $guarded = [
+        'wialon_id', // id wialon con formato resourceId_Localid
+        'control_type_obj'
     ];
 
     protected $casts = [
@@ -70,8 +76,17 @@ class NotificationTrigger extends Model
 
     public function createExternalNotification($control_type, $params = null)
     {
+        // Se identifica conexión para luego tomar los settings y el wialon token
 
         $tenant_uuid = config('database.connections.tenant.database');
+//        Log::info("WialonTokenCheck", config('services.wialon.token')); // cuando es asincrono el config todavia no se ha cargado para este punto
+
+
+        $wialon_token  = (new Setting)->getWialonToken();
+        config(['services.wialon.token' => $wialon_token]);
+        Log::info("WialonTokenSet", [config('services.wialon.token')]); // cuando es asincrono el config todavia no se ha cargado para este punto
+//        Log::info("DebugDatabaseInNotificationTriggerModel", config('database')); // cuando es asincrono el config todavia no se ha cargado para este punto
+//        Log::info("DebugServices", config('services.wialon')); // cuando es asincrono el config todavia no se ha cargado para este punto
 
         $resource = Resource::findByName('trm_notifications.'.$tenant_uuid);
 
@@ -129,7 +144,9 @@ class NotificationTrigger extends Model
 
         $text = str_replace(["\r", "\n", " "], "", $text);
 
-
+        Log::alert('ConnectionName', [
+            'ConnectionName' => $this->getConnectionName()
+        ]);
         $notification = Notification::make($resource, $units, $control_type, $this->name, $action, [
             "txt" => $text
         ]);
