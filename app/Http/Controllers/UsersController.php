@@ -20,14 +20,17 @@ use Illuminate\Validation\ValidationException;
 class UsersController extends Controller
 {
     private $account;
+    public $repository;
 
     public function __construct()
     {
-        if(!\App::runningInConsole()){
-            $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->first();
-            $this->repository = $this->account->users();
-        }
 
+        try {
+            $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->firstOrFail();
+            $this->repository = $this->account->users();
+        }catch (\Exception $e){
+            \Log::alert("No se pudo especificar repositorio");
+        }
         parent::__construct();
     }
 
@@ -42,7 +45,7 @@ class UsersController extends Controller
         $query = $this->repository->orderByDesc("created_at") ;
 
         if ($request->filled('email')){
-            dump($request->all());
+
             $query->where($request->all(['email']));
         }
         if ($request->filled('name')){

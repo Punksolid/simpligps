@@ -49,6 +49,15 @@ class NotificationTrigger extends Model
     #endregion
 
     #region ExtraMethods
+    public function deactivate()
+    {
+        $this->update(['active' => false]);
+    }
+
+    public function activate()
+    {
+        $this->update(['active' => true]);
+    }
     /**
      * @param Device $device
      * @return bool
@@ -85,8 +94,6 @@ class NotificationTrigger extends Model
         $wialon_token  = (new Setting)->getWialonToken();
         config(['services.wialon.token' => $wialon_token]);
         Log::info("WialonTokenSet", [config('services.wialon.token')]); // cuando es asincrono el config todavia no se ha cargado para este punto
-//        Log::info("DebugDatabaseInNotificationTriggerModel", config('database')); // cuando es asincrono el config todavia no se ha cargado para este punto
-//        Log::info("DebugServices", config('services.wialon')); // cuando es asincrono el config todavia no se ha cargado para este punto
 
         $resource = Resource::findByName('trm_notifications.'.$tenant_uuid);
 

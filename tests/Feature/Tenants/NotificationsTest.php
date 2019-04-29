@@ -98,12 +98,25 @@ class NotificationsTest extends TestCase
         $notification_type = factory(NotificationTrigger::class)->create();
 
 
-        $call = $this->putJson("api/v1/notification_types/$notification_type->id", [
-            "active" => "false"
+        $call = $this->deleteJson("api/v1/activated_notification_triggers/$notification_type->id");
+
+        $call->assertJsonFragment([
+            "active" => false
+        ]);
+        $call->assertStatus(200);
+    }
+
+    public function test_activar_notificacion()
+    {
+        $notification_type = factory(NotificationTrigger::class)->create();
+
+
+        $call = $this->postJson("api/v1/activated_notification_triggers",[
+            'notification_id' => $notification_type->id
         ]);
 
-        $call->assertJson([
-            "active" => "false"
+        $call->assertJsonFragment([
+            "active" => true
         ]);
         $call->assertStatus(200);
     }

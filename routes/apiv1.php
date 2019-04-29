@@ -107,7 +107,9 @@ Route::group(["middleware" => [
             Route::post('wialon/notifications', 'WialonController@store');
 
             #Region NOTIFICATIONS
-            Route::get("notification_activate/{notification_type}", "NotificationTriggersController@activate");
+//            Route::put("notification_triggers/{notification_type}", "NotificationTriggersController@activate");
+            Route::delete("activated_notification_triggers/{id}", "ActivatedNotificationTriggerController@destroy");
+            Route::post("activated_notification_triggers", "ActivatedNotificationTriggerController@store");
             Route::resource("notification_triggers", "NotificationTriggersController", [
                 "only" => ["index","store", "update", "destroy"]
             ]);
