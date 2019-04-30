@@ -19,8 +19,12 @@ class PlaceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('all')){
+            return PlaceResource::collection(Place::all());
+        }
+
         $places = Place::paginate();
 
         return PlaceResource::collection($places);
@@ -60,8 +64,10 @@ class PlaceController extends Controller
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function update(PlaceRequest $request, Place $place)
+    public function update(PlaceRequest $request, $place)
     {
+        $place = Place::findOrFail($place);
+
         if ($place->update($request->all())){
             return PlaceResource::make($place);
         }
@@ -75,12 +81,13 @@ class PlaceController extends Controller
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Place $place)
+    public function destroy( $place)
     {
+        $place = Place::findOrFail($place);
+
+
         if ($place->delete()){
-            return response([
-                "message" => "Se ha eliminado el registro del lugar"
-            ]);
+            return PlaceResource::make($place);
         }
 
         return response("Aconteció un error");

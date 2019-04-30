@@ -22,6 +22,7 @@ class PermissionController extends Controller
     public function index()
     {
         $permissions = Permission::all();
+
         return PermissionResource::collection($permissions);
 
     }
@@ -37,16 +38,6 @@ class PermissionController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Permission $permission)
-    {
-        //
-    }
 
     /**
      * Actualiza los permisos individuales de un usuario
@@ -57,8 +48,9 @@ class PermissionController extends Controller
      */
     public function userSync(Request $request, User $user)
     {
+
         $user->syncPermissions($request->permissions);
-        return response($user->getAllPermissions()->pluck("name"));
+        return response()->json(["data" => $user->getAllPermissions()->pluck("name")]);
     }
 
     /**

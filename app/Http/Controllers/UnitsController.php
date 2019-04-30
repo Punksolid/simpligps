@@ -16,14 +16,6 @@ use Punksolid\Wialon\Wialon;
 class UnitsController extends Controller
 {
 
-    /**
-     * UnitsController constructor.
-     */
-    public function __construct()
-    {
-        $token = (new \App\Setting)->getWialonToken();
-        config(['services.wialon.token' => $token]);
-    }
 
 
     /**

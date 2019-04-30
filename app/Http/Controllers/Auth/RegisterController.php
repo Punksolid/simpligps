@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\PasswordReset;
 use App\User;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
+use http\Env\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -43,7 +46,7 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
@@ -58,7 +61,7 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param array $data
      * @return \App\User
      * @deprecated Usuarios no pueden crear cuentas por si mismos
      */
@@ -70,4 +73,38 @@ class RegisterController extends Controller
 //            'password' => Hash::make($data['password']),
 //        ]);
 //    }
+
+    /**
+     * Para continuar el registro es básicamente un reset del password y algunos datos de usuario en el mismo request,
+     * el usuario ya fue creado al crear la cuenta, sin embargo no sabemos la contraseña
+     */
+    public function continueRegistration()
+    {
+        $this->validate(request(),[
+            'email' => 'required',
+            'hash' => 'required',
+            'password' => 'required',
+            'name' => 'required'
+        ]);
+
+        $email = request('email');
+        $hash = request('hash');
+
+        $password_reset = PasswordReset::whereEmail($email)->first();
+
+        if (Hash::check($hash, $password_reset->token)) {
+            $user = User::whereEmail($email)->first();
+            $user->name = request('name');
+            $user->password = bcrypt(request('password'));
+            $user->email_verified_at = Carbon::now()->toDateTimeString();
+            if ($user->save()) {
+                return response()->json(['message' => "You can now login."]);
+            }
+
+        } else {
+            return \response(['message' => 'Invalid Token'], 422);
+        }
+
+        throw new \Exception('Something happened on new registration');
+    }
 }

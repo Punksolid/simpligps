@@ -13,5 +13,12 @@
 
 
 Broadcast::channel('App.User.{id}', function ($user, $id) {
+//    return true;
     return (int) $user->id === (int) $id;
+});
+Broadcast::channel('App.Account.{id}', function ($user, $id) {
+//    Log::info('websoket',[ $user, $id ]);
+//    return true;
+    $account  = \App\Account::findOrFail($id);
+    return $user->isInAccount($account->id);
 });

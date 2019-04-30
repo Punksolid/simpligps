@@ -33,11 +33,15 @@ return [
     */
 
     'channels' => [
+//        'stack' => [
+//            'driver' => 'stack',
+//            'channels' => ['single'],
+//
+//        ],
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['single'],
+            'channels' => ['tenant', 'bugsnag'],
         ],
-
         'single' => [
             'driver' => 'single',
             'path' => storage_path('logs/laravel.log'),
@@ -75,6 +79,14 @@ return [
         'errorlog' => [
             'driver' => 'errorlog',
             'level' => 'debug',
+        ],
+        'tenant' => [
+            'driver' => 'custom',
+            'via' => \Hyn\Tenancy\Logging\TenantAwareLogger::class,
+            'level' => 'debug',
+        ],
+        'bugsnag' => [
+            'driver' => 'bugsnag',
         ],
     ],
 

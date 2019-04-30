@@ -45,4 +45,21 @@ class AccountTest extends TestCase
         $this->assertEquals($colleague->name, $colleagues->first()->name);
     }
 
+    public function test_tenant_database_existence()
+    {
+        $account = factory(Account::class)->make();
+
+        $account->createAccount();
+
+        $this->assertTrue($account->hasDatabaseAccesible());
+    }
+
+    public function test_tenant_doesnt_have_database()
+    {
+        $account = factory(Account::class)->create();
+
+        $this->assertFalse($account->hasDatabaseAccesible());
+
+    }
+
 }

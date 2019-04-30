@@ -84,7 +84,38 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": []
+    "data": [
+        {
+            "id": 3,
+            "easyname": "aut",
+            "uuid": "379fafe3-809a-36c1-9eb9-ea717fd061c9"
+        },
+        {
+            "id": 5,
+            "easyname": "ipsa",
+            "uuid": "35dd9813-1de8-31fa-bf0d-44add2fbc560"
+        },
+        {
+            "id": 7,
+            "easyname": "dolor",
+            "uuid": "da0f312e-10a7-30ca-97ed-9db69026f174"
+        },
+        {
+            "id": 8,
+            "easyname": "id",
+            "uuid": "1a56436e-6f3c-3aae-8798-5fb8278f3963"
+        },
+        {
+            "id": 9,
+            "easyname": "beatae",
+            "uuid": "8121d598-752f-309e-9a8e-bc0cb1fb2902"
+        },
+        {
+            "id": 14,
+            "easyname": "quia",
+            "uuid": "cb440fa2-e9a5-3b7d-b068-b56d37911f37"
+        }
+    ]
 }
 ```
 
@@ -225,6 +256,87 @@ Parameter | Type | Status | Description
 
 <!-- END_e0f5766b2dfb164e01f41e64b8d74aee -->
 
+<!-- START_5a4935f72219a68bd159d91e59dfbf4c -->
+## Display the specified account.
+
+> Example request:
+
+```bash
+curl -X GET -G "http://localhost:8000/api/sysadmin/v1/accounts/{account}" \
+    -H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts/{account}",
+    "method": "GET",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+> Example response:
+
+```json
+{
+    "data": {
+        "id": null,
+        "easyname": null,
+        "uuid": null,
+        "users": [],
+        "licenses": []
+    }
+}
+```
+
+### HTTP Request
+`GET api/sysadmin/v1/accounts/{account}`
+
+
+<!-- END_5a4935f72219a68bd159d91e59dfbf4c -->
+
+<!-- START_aa63101565c582c3f9bb005962b381ae -->
+## Update the specified account in storage.
+
+> Example request:
+
+```bash
+curl -X PUT "http://localhost:8000/api/sysadmin/v1/accounts/{account}" \
+    -H "Accept: application/json"
+```
+
+```javascript
+var settings = {
+    "async": true,
+    "crossDomain": true,
+    "url": "http://localhost:8000/api/sysadmin/v1/accounts/{account}",
+    "method": "PUT",
+    "headers": {
+        "accept": "application/json"
+    }
+}
+
+$.ajax(settings).done(function (response) {
+    console.log(response);
+});
+```
+
+
+### HTTP Request
+`PUT api/sysadmin/v1/accounts/{account}`
+
+`PATCH api/sysadmin/v1/accounts/{account}`
+
+
+<!-- END_aa63101565c582c3f9bb005962b381ae -->
+
 <!-- START_4c5f8f865fd8af3686baee1a9f154b03 -->
 ## Elimina cuenta
 
@@ -289,7 +401,7 @@ $.ajax(settings).done(function (response) {
 
 ```json
 {
-    "data": 10
+    "data": 37
 }
 ```
 
@@ -398,6 +510,107 @@ $.ajax(settings).done(function (response) {
 {
     "data": [
         {
+            "id": 1,
+            "name": "Estevan Ryan",
+            "description": "Laborum unde voluptatem quis hic.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "76be59d3-7ac9-3102-9388-515ddfe18311"
+        },
+        {
+            "id": 2,
+            "name": "Josiah Wehner",
+            "description": "Officiis veniam veniam ut.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "bf7e0d7b-5621-3968-84d1-5c41b8bc4a04"
+        },
+        {
+            "id": 3,
+            "name": "Nikko Goldner",
+            "description": "Eum fugit veritatis id.",
+            "lapse": 3,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "ff9af5d0-543f-3967-9282-ac4547e55a16"
+        },
+        {
+            "id": 4,
+            "name": "Astrid Rice II",
+            "description": "Sit assumenda ducimus ipsum omnis enim eveniet.",
+            "lapse": 30,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "d0f7bda8-208b-3ecf-a124-e218b4fa5207"
+        },
+        {
+            "id": 5,
+            "name": "personalizado",
+            "description": "textotextotext",
+            "lapse": 50,
+            "modules": "monitoring",
+            "units": 70,
+            "number_active_sessions": 6,
+            "uuid": "35ddbf20-c971-4ff5-b9ec-869e0b4e2d2c"
+        },
+        {
+            "id": 6,
+            "name": "Prof. Derrick Von I",
+            "description": "Eum quidem maxime et voluptatibus excepturi.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "29aeafa9-96fd-33c7-9b08-522837626712"
+        },
+        {
+            "id": 7,
+            "name": "Albin Rolfson",
+            "description": "Enim ducimus et aut tempore.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "61c6d9af-a98d-317f-8e2b-ca4bf914ec68"
+        },
+        {
+            "id": 8,
+            "name": "Ms. Jane Schinner DVM",
+            "description": "Et in voluptates inventore quia ex.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "58368838-5ac5-37a2-98c3-ac6ac8db3dc0"
+        },
+        {
+            "id": 9,
+            "name": "Prof. Isadore Baumbach",
+            "description": "Quibusdam nam impedit ut sit quidem.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 2,
+            "uuid": "030da163-7982-3342-957e-55b4228dbc4a"
+        },
+        {
+            "id": 10,
+            "name": "Ms. Jane Hermiston Sr.",
+            "description": "Autem adipisci et omnis aperiam cumque iusto.",
+            "lapse": 10,
+            "modules": "string_cambiar",
+            "units": 10,
+            "number_active_sessions": 10,
+            "uuid": "1338f308-8953-3aa5-abfa-04e78c6be5f4"
+        },
+        {
+            "id": 11,
             "name": "Adella Labadie DDS",
             "description": "Nemo ipsa maiores id illo.",
             "lapse": 10,
@@ -407,6 +620,7 @@ $.ajax(settings).done(function (response) {
             "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
         },
         {
+            "id": 12,
             "name": "Adella Labadie DDS",
             "description": "Nemo ipsa maiores id illo.",
             "lapse": 10,
@@ -416,6 +630,7 @@ $.ajax(settings).done(function (response) {
             "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
         },
         {
+            "id": 13,
             "name": "Adella Labadie DDS",
             "description": "Nemo ipsa maiores id illo.",
             "lapse": 10,
@@ -425,6 +640,7 @@ $.ajax(settings).done(function (response) {
             "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
         },
         {
+            "id": 14,
             "name": "Adella Labadie DDS",
             "description": "Nemo ipsa maiores id illo.",
             "lapse": 10,
@@ -434,51 +650,7 @@ $.ajax(settings).done(function (response) {
             "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
         },
         {
-            "name": "Adella Labadie DDS",
-            "description": "Nemo ipsa maiores id illo.",
-            "lapse": 10,
-            "modules": "string_cambiar",
-            "units": 10,
-            "number_active_sessions": 10,
-            "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
-        },
-        {
-            "name": "Adella Labadie DDS",
-            "description": "Nemo ipsa maiores id illo.",
-            "lapse": 10,
-            "modules": "string_cambiar",
-            "units": 10,
-            "number_active_sessions": 10,
-            "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
-        },
-        {
-            "name": "Adella Labadie DDS",
-            "description": "Nemo ipsa maiores id illo.",
-            "lapse": 10,
-            "modules": "string_cambiar",
-            "units": 10,
-            "number_active_sessions": 10,
-            "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
-        },
-        {
-            "name": "Adella Labadie DDS",
-            "description": "Nemo ipsa maiores id illo.",
-            "lapse": 10,
-            "modules": "string_cambiar",
-            "units": 10,
-            "number_active_sessions": 10,
-            "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
-        },
-        {
-            "name": "Adella Labadie DDS",
-            "description": "Nemo ipsa maiores id illo.",
-            "lapse": 10,
-            "modules": "string_cambiar",
-            "units": 10,
-            "number_active_sessions": 10,
-            "uuid": "ed58af71-66fd-3bc2-8e6b-0d82f4ef6037"
-        },
-        {
+            "id": 15,
             "name": "Adella Labadie DDS",
             "description": "Nemo ipsa maiores id illo.",
             "lapse": 10,
@@ -490,18 +662,18 @@ $.ajax(settings).done(function (response) {
     ],
     "links": {
         "first": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=1",
-        "last": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=1",
+        "last": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=2",
         "prev": null,
-        "next": null
+        "next": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses?page=2"
     },
     "meta": {
         "current_page": 1,
         "from": 1,
-        "last_page": 1,
+        "last_page": 2,
         "path": "http:\/\/localhost\/api\/sysadmin\/v1\/licenses",
         "per_page": 15,
-        "to": 10,
-        "total": 10
+        "to": 15,
+        "total": 18
     }
 }
 ```
@@ -520,7 +692,9 @@ $.ajax(settings).done(function (response) {
 ```bash
 curl -X POST "http://localhost:8000/api/sysadmin/v1/licenses" \
     -H "Accept: application/json" \
-    -d "lapse"="5184" \
+    -d "name"="nisi" \
+        -d "description"="nisi" \
+        -d "lapse"="5184" \
         -d "modules"="nisi" \
         -d "units"="5184" \
         -d "number_active_sessions"="5184" 
@@ -533,6 +707,8 @@ var settings = {
     "url": "http://localhost:8000/api/sysadmin/v1/licenses",
     "method": "POST",
     "data": {
+        "name": "nisi",
+        "description": "nisi",
         "lapse": 5184,
         "modules": "nisi",
         "units": 5184,
@@ -556,6 +732,8 @@ $.ajax(settings).done(function (response) {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
+    name | string |  required  | 
+    description | string |  required  | 
     lapse | integer |  required  | 
     modules | string |  required  | 
     units | integer |  required  | 
@@ -594,6 +772,7 @@ $.ajax(settings).done(function (response) {
 ```json
 {
     "data": {
+        "id": null,
         "name": null,
         "description": null,
         "lapse": null,
@@ -611,79 +790,6 @@ $.ajax(settings).done(function (response) {
 
 
 <!-- END_27f50b09b14a244a8401e6792795806e -->
-
-<!-- START_f0460de1d101294c9f86e99a47302d9b -->
-## Show the form for editing the specified LICENSE.
-
-> Example request:
-
-```bash
-curl -X GET -G "http://localhost:8000/api/sysadmin/v1/licenses/{license}/edit" \
-    -H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}/edit",
-    "method": "GET",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-> Example response:
-
-```json
-null
-```
-
-### HTTP Request
-`GET api/sysadmin/v1/licenses/{license}/edit`
-
-
-<!-- END_f0460de1d101294c9f86e99a47302d9b -->
-
-<!-- START_2d1fada20eed91519f7d00ab9fe907e3 -->
-## Update the specified LICENSE in storage.
-
-> Example request:
-
-```bash
-curl -X PUT "http://localhost:8000/api/sysadmin/v1/licenses/{license}" \
-    -H "Accept: application/json"
-```
-
-```javascript
-var settings = {
-    "async": true,
-    "crossDomain": true,
-    "url": "http://localhost:8000/api/sysadmin/v1/licenses/{license}",
-    "method": "PUT",
-    "headers": {
-        "accept": "application/json"
-    }
-}
-
-$.ajax(settings).done(function (response) {
-    console.log(response);
-});
-```
-
-
-### HTTP Request
-`PUT api/sysadmin/v1/licenses/{license}`
-
-`PATCH api/sysadmin/v1/licenses/{license}`
-
-
-<!-- END_2d1fada20eed91519f7d00ab9fe907e3 -->
 
 <!-- START_d4bebbd83a3e2c56a655d375397dfc00 -->
 ## Remove the specified LICENSE from storage.

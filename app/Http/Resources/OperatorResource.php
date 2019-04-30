@@ -17,6 +17,7 @@ class OperatorResource extends JsonResource
     {
 
         return [
+            "id" => $this->id,
             "name" => $this->name,
             "phone" => $this->phone,
             "active" => (bool)$this->active,

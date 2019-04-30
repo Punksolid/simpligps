@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Account;
+use App\Events\AddedUserToAccount;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UsersResource;
-use App\Profile;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
+use Illuminate\Validation\ValidationException;
 
 /**
  * Class UsersController
@@ -16,6 +19,22 @@ use Illuminate\Support\Facades\Auth;
  */
 class UsersController extends Controller
 {
+    private $account;
+    public $repository;
+
+    public function __construct()
+    {
+
+        try {
+            $this->account = Account::whereUuid(\request()->header("X-Tenant-Id"))->firstOrFail();
+            $this->repository = $this->account->users();
+        }catch (\Exception $e){
+            \Log::alert("No se pudo especificar repositorio");
+        }
+        parent::__construct();
+    }
+
+
     /**
      * Display a listing of the users.
      * filtra usuarios por parametros enviados via get query parameters: "name","email","lastname","username"
@@ -23,22 +42,24 @@ class UsersController extends Controller
      */
     public function index(Request $request)
     {
-        $query = User::query()->orderByDesc("created_at");
-        if ($request->hasAny(['email','name','lastname'])){
-            $query->where($request->all());
-        }
-        if ($request->hasAny(["lastname","username"])){
+        $query = $this->repository->orderByDesc("created_at") ;
 
-            $query = $query->whereHas("profile",function ($query_profile) use($request){
-                $query_profile->where($request->all(["lastname","username"]));
-            },'or');
+        if ($request->filled('email')){
+
+            $query->where($request->all(['email']));
+        }
+        if ($request->filled('name')){
+            $query->where($request->all(['name']));
+        }
+        if ($request->filled('lastname')){
+            $query->where($request->all(['lastname']));
         }
 
         $users = $query->paginate();
 
         return UsersResource::collection($users);
     }
- 
+
     /**
      * Store a newly created users in storage.
      *
@@ -47,32 +68,30 @@ class UsersController extends Controller
      */
     public function store(UserRequest $request)
     {
-
-        $user = User::create([
-            'name' => $request->name,
+        $user = User::firstOrCreate([
             'email' => $request->email,
-            'password' => bcrypt($request->password),
+        ],[
+            'name' => $request->get('name'),
+            'lastname' => $request->get('lastname'),
+            'password' => bcrypt(Str::random(15)),
         ]);
-        $user->profile()->save(new Profile($request->all()));
+//        dd($user);
+        if ($this->account->userExists($user)){
+            throw ValidationException::withMessages([
+                "email"=> [
+                    "User already exists"
+                ]
+            ]);
+        }
+
+        if ($this->account->addUser($user)){
+            event(AddedUserToAccount::class);
+        };
 
         return UsersResource::make($user->fresh());
     }
 
-    /**
-     * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
-     * @deprecated para cambiar el password del usuario loggeado MeController@changePassword
-     */
-    public function changePassword(Request $request)
-    {
-        $request->validate([
-            "password" => "required|confirmed"
-        ]);
-        $user = Auth::user();
-        $user->password = bcrypt($request->password);
-        return response()->json($user->save());
 
-    }
     /**
      * Display the specified users.
      *
@@ -97,7 +116,6 @@ class UsersController extends Controller
         $user->update($request->all());
         $user->password = bcrypt($request->password);
         $user->save();
-        $user->profile()->save(new Profile($request->all()));
 
         return UsersResource::make($user->fresh());
     }
@@ -110,10 +128,10 @@ class UsersController extends Controller
      */
     public function destroy($id)
     {
-        if (User::find($id)->delete()) {
-            return response(["data" => "Deleted user"]);
-        }
+        $user = User::findOrFail($id);
+        $this->account->removeUser($user);
 
-        return response(["data" => "Error"])->setStatusCode(500);
+        return response(["data" => "Deleted user"]);
+
     }
 }

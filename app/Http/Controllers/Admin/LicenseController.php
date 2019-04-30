@@ -23,8 +23,12 @@ class LicenseController extends Controller
      * @return \Illuminate\Http\Response
      *
      */
-    public function index()
+    public function index(Request $request)
     {
+        if ($request->has('all')){
+            return LicenseResource::collection(License::all());
+        }
+
         $licenses = License::paginate();
 
         return LicenseResource::collection($licenses);
@@ -59,28 +63,7 @@ class LicenseController extends Controller
         return LicenseResource::make($license->load('accounts'));
     }
 
-    /**
-     * Show the form for editing the specified LICENSE.
-     *
-     * @param  \App\License $license
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(License $license)
-    {
-        //
-    }
 
-    /**
-     * Update the specified LICENSE in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \App\License $license
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, License $license)
-    {
-        //
-    }
 
     /**
      * Remove the specified LICENSE from storage.
@@ -90,7 +73,19 @@ class LicenseController extends Controller
      */
     public function destroy(License $license)
     {
-        //
+        if ($license->hasAnyRelationship()){
+            return response()->json([
+                "data" => "La licencia ha sido usada y no puede ser eliminada"
+            ]);
+        }
+
+        if ($license->delete()){
+            return response()->json("La licencia ha sido eliminada.");
+        }
+
+        return response()->json([
+            "message" => "Aconteció un error al eliminar la licencia."
+        ]);
     }
 
     /**
@@ -102,7 +97,6 @@ class LicenseController extends Controller
     public function assignToAccount(License $license, Request $request)
     {
         $account = Account::find($request->account_id);
-
 
         if ($license->assignToAccount($account)){
             return response(["data" =>  "Se asignó con exito"]);

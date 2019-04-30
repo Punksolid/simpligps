@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,9 @@ use Spatie\Tags\Tag;
  */
 class MariadbTag extends Tag
 {
+
+    use UsesTenantConnection;
+
     protected $table = "tags";
 
     protected static function convertToTags($values, $type = null, $locale = null)

@@ -43,7 +43,14 @@ class GenerateDocumentation extends Command
      */
     public function handle()
     {
+        config(['telescope.enabled' => false]);
         $this->warn('USER DOCUMENTATION');
+        $this->account = Account::where("uuid", '01b421a3055f4e9bab1d5a3e186a6149')->first();
+
+        $environment = app(\Hyn\Tenancy\Environment::class);
+
+        $environment->tenant($this->account);
+
 
         $user = factory(User::class)->create();
         $contact = factory(Contact::class)->create();
@@ -55,13 +62,12 @@ class GenerateDocumentation extends Command
                 '--routePrefix' => 'api/v1/*',
 //                '--output' => 'storage/app/public/docs/user',
 //                '--header' => "Authorization:Bearer $token",
-                '--force' => true,
+                '--force' => false,
                 '--env' => 'documentation',
                 '--actAsUserId' => $user->id,
                 '--middleware' => "auth:api",
                 '--output' => 'storage/app/public/docs/user/',
                 '--bindings' => "contact,$contact->id"
-
             ]);
 
         $this->warn('ADMIN DOCUMENTATION');

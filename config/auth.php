@@ -34,7 +34,10 @@ return [
     | Supported: "session", "token"
     |
     */
-
+    /**
+     * Hay un bug o algo por aquí que no te da el token al hacer login con ciertos guards
+     * me parece que nunca se probó el driver "token"
+     */
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -110,7 +113,7 @@ return [
         'users' => [
             'provider' => 'users',
             'table' => 'password_resets',
-            'expire' => 60,
+            'expire' => 120,
         ],
     ],
 

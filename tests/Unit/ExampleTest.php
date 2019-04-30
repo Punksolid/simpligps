@@ -7,13 +7,11 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ExampleTest extends TestCase
 {
-    /**
-     * A basic test example.
-     *
-     * @return void
-     */
-    public function testBasicTest()
+    public function test_command_route_list()
     {
-        $this->assertTrue(true);
+
+        $call = $this->artisan('route:list');
+
+        $call->assertExitCode(0);
     }
 }

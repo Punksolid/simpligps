@@ -16,9 +16,8 @@ class LimitExpiredLicenseAccess
      */
     public function handle($request, Closure $next)
     {
-        $account = \Auth::user()->accounts()->first();
-
-
+//        $account = \Auth::user()->accounts()->first();
+        $account = Account::whereUuid($request->header("X-Tenant-Id"))->first();
 
         //TODO Revisar todas las licencias ahora solo revisa una
         abort_unless($account->isActive(),401,"No tiene una licencia activa");

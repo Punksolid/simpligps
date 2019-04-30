@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateLocalizationRequest;
 use App\Http\Resources\DeviceResource;
 use App\Point;
 use Illuminate\Http\Request;
+use Punksolid\Wialon\Unit;
 
 /**
  * Class DevicesController
@@ -35,7 +36,12 @@ class DevicesController extends Controller
      */
     public function store(DeviceRequest $request)
     {
+
         $device = Device::create($request->all());
+        if ($device) {
+            $unit = Unit::make($request->name);
+            $device->update(["reference_data" => $unit]);
+        }
         return DeviceResource::make($device);
     }
 
@@ -67,6 +73,19 @@ class DevicesController extends Controller
      */
     public function destroy(Device $device)
     {
+        if (isset($device->reference_data["id"])){
+            try {
+
+                $unit = Unit::find($device->reference_data["id"]);
+                if ($unit){
+                    $unit->destroy();
+                }
+            } catch (\Exception $exception) {
+                \Log::warning("Failing destroying unit",[
+                    "wialon_unit" => $unit
+                ]);
+            }
+        }
         if ($device->delete()){
             return response([
                 "message" => "Se ha eliminado el registro del dispositivo"
@@ -100,5 +119,23 @@ class DevicesController extends Controller
     public function listDevices()
     {
         return $this->index();
+    }
+
+    /**
+     * Liga unidad a dispositivos existentes
+     * @param Device $device
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function linkUnit(Device $device, Request $request)
+    {
+        $unit = Unit::find($request->unit_id);
+        if ($device->linkUnit($unit)){
+            return response()->json([
+                "data" => $device
+            ]);
+        }
+
+        abort(500);
     }
 }

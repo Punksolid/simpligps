@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Carrier;
+use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Requests\CarrierRequest;
 use App\Http\Resources\CarrierResource;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ use Illuminate\Http\Request;
  */
 class CarriersController extends Controller
 {
+
     /**
      * Display a listing of the CARRIER.
      *
@@ -22,7 +24,6 @@ class CarriersController extends Controller
     public function index()
     {
         $carriers = Carrier::paginate();
-
         return CarrierResource::collection($carriers);
     }
 
@@ -35,6 +36,7 @@ class CarriersController extends Controller
     public function store(CarrierRequest $request)
     {
         $carrier = Carrier::create($request->all());
+
         return CarrierResource::make($carrier);
     }
 
@@ -44,8 +46,10 @@ class CarriersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Carrier $carrier)
+    public function show( $carrier)
     {
+        $carrier = Carrier::findOrFail($carrier);
+
         return CarrierResource::make($carrier);
     }
 
@@ -56,8 +60,10 @@ class CarriersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CarrierRequest $request, Carrier $carrier)
+    public function update(CarrierRequest $request,  $carrier)
     {
+        $carrier = Carrier::findOrFail($carrier);
+
         if ($carrier->update($request->all())){
             return CarrierResource::make($carrier);
         }
@@ -71,8 +77,10 @@ class CarriersController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Carrier $carrier)
+    public function destroy($carrier)
     {
+        $carrier = Carrier::findOrFail($carrier);
+
         if ($carrier->delete()){
             return response([
                 "message" => "Se eliminó la linea transportista."
