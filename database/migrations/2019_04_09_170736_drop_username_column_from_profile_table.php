@@ -19,10 +19,13 @@ class DropUsernameColumnFromProfileTable extends Migration
             });
 
             $users = \App\User::all();
-            foreach ($users as $user) {
-                $user->lastname = $user->profile->lastname;
-                $user->save();
+            if ($users){
+                foreach ($users as $user) {
+                    $user->lastname = $user->profile->lastname;
+                    $user->save();
+                }
             }
+
             Schema::drop('profiles');
         }
 
