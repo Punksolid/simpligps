@@ -31,8 +31,9 @@ class SettingsController extends Controller
         $setting_wialon_key->value = $request->wialon_key;
         if ($setting_wialon_key->save()){
             if ($request->import){
-                $wialon_devices = new Wialon($request->wialon_key);
-                $wialon_devices->import();
+                $wialon = new Wialon($request->wialon_key);
+                $wialon->import();
+                $wialon->importNotifications();
             }
             return response([
                 'data' => [

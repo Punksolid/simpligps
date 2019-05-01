@@ -14,6 +14,7 @@ $factory->define(App\Trip::class, function (Faker $faker) {
         "mon_type" => $this->faker->randomNumber(1),
         "carrier_id" => factory(\App\Carrier::class)->create()->id,
         "truck_tract_id" => factory(\App\TruckTract::class)->create()->id,
+        "operator_id" => factory(\App\Operator::class)->create()->id,
 
         "scheduled_load" => $this->faker->dateTime,
         "scheduled_departure" => $this->faker->dateTime,

@@ -2,7 +2,7 @@
 
 namespace App\Notifications;
 
-use App\NotificationType;
+use App\NotificationTrigger;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
@@ -20,7 +20,7 @@ class DynamicNotification extends Notification
      *
      * @return void
      */
-    public function __construct(NotificationType $notification_type)
+    public function __construct(NotificationTrigger $notification_type)
     {
        $this->alias = $notification_type->alias;
        $this->active = $notification_type->active;

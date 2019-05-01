@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ConvoyController;
 use App\Http\Middleware\IdentifyTenantConnection;
+use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Http\Request;
 
 Route::post('login', 'Auth\LoginController@login');
@@ -11,7 +12,7 @@ Route::post('password/change', 'Auth\ResetPasswordController@reset');
 Route::post('continue_registration', 'Auth\RegisterController@continueRegistration');
 
 //@todo proteger con autenticacion
-Route::post('webhook/alert', 'NotificationTypeController@webhookAlert');
+Route::post('webhook/alert', 'NotificationTriggersController@webhookAlert');
 
 Route::group(["middleware" => [
 //    "verified",
@@ -44,6 +45,8 @@ Route::group(["middleware" => [
         Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
         Route::resource("devices", "DevicesController")->except(['create','edit']);
 
+        //Clients
+        Route::resource('clients', "ClientController")->except(['create', 'edit']);
         //Contacts
         Route::get("contacts/filter_tags", "ContactController@filterTags");
         Route::post("contacts/{contact}/tags", "ContactController@attachtags");
@@ -90,7 +93,7 @@ Route::group(["middleware" => [
         //Places (origenes y destinos)
         Route::resource("places", "PlaceController")->except(["edit", "create"]);
 
-        Route::group(["middleware" => \App\Http\Middleware\SetWialonTokenMiddleware::class],function ($router){
+        Route::group(["middleware" => SetWialonTokenMiddleware::class],function ($router){
             //Units
             Route::get("units", "UnitsController@listUnits");
             Route::get("units/with_localization", "UnitsController@listUnitsLocalization");
@@ -102,18 +105,22 @@ Route::group(["middleware" => [
             Route::get('wialon/units', "WialonController@getUnits");
             Route::get('wialon/geofences', "WialonController@getGeofences");
             Route::post('wialon/notifications', 'WialonController@store');
+
+            #Region NOTIFICATIONS
+//            Route::put("notification_triggers/{notification_type}", "NotificationTriggersController@activate");
+            Route::delete("activated_notification_triggers/{id}", "ActivatedNotificationTriggerController@destroy");
+            Route::post("activated_notification_triggers", "ActivatedNotificationTriggerController@store");
+            Route::resource("notification_triggers", "NotificationTriggersController", [
+                "only" => ["index","store", "update", "destroy"]
+            ]);
+            #endregion
         });
 
-        //NOTIFICATIONS
-        Route::get("notification_activate/{notification_type}", "NotificationTypeController@activate");
-        Route::resource("notification_types", "NotificationTypeController", [
-            "only" => ["store", "update"]
-        ]);
 
         Route::resource("users", "UsersController", ["except" => ["edit", "create"]]);
 
         // GEOFENCES
-        Route::post('geofences', 'NotificationTypeController@createGeofence');
+        Route::post('geofences', 'NotificationTriggersController@createGeofence');
 
         // Settings
         Route::post("settings", "SettingsController@general");

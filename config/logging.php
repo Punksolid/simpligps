@@ -40,7 +40,7 @@ return [
 //        ],
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['tenant'],
+            'channels' => ['tenant', 'bugsnag'],
         ],
         'single' => [
             'driver' => 'single',
@@ -84,6 +84,9 @@ return [
             'driver' => 'custom',
             'via' => \Hyn\Tenancy\Logging\TenantAwareLogger::class,
             'level' => 'debug',
+        ],
+        'bugsnag' => [
+            'driver' => 'bugsnag',
         ],
     ],
 

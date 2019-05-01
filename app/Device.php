@@ -31,6 +31,7 @@ class Device extends Model
         "reference_data" => "array"
     ];
 
+    #region Relationships
     /**
      * Un dispositivo puede estar registrado en muchos viajes
      */
@@ -51,7 +52,7 @@ class Device extends Model
 
     /**
      * Un dispositivo tiene muchos puntos de localización
-     *
+     * @deprecated Posiblemente nunca utilizado
      */
     public function points()
     {
@@ -59,6 +60,11 @@ class Device extends Model
         return $this->hasMany(Point::class);
     }
 
+    public function notificationtriggers()
+    {
+        return $this->belongsToMany(NotificationTrigger::class, 'notification_triggers_devices');
+    }
+    #endregion
     /**
      * Liga a una unidad de wialon
      * @param Unit $unit

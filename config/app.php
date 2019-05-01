@@ -154,12 +154,15 @@ return [
         App\Providers\AuthServiceProvider::class,
          App\Providers\BroadcastServiceProvider::class, //PUSHER
         App\Providers\EventServiceProvider::class,
+        App\Providers\HorizonServiceProvider::class,
 //        App\Providers\TelescopeServiceProvider::class, //only on dev local
         App\Providers\RouteServiceProvider::class,
 
         Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class,
 //        Punksolid\Wialon\WialonServiceProvider::class,
 //        Hyn\Tenancy\Providers\TenancyProvider::class,
+
+        Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class
 
     ],
 

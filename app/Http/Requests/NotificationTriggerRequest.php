@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Sabberworm\CSS\Rule\Rule;
 
-class NotificationTypeRequest extends FormRequest
+class NotificationTriggerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +25,13 @@ class NotificationTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            "alias" => "required|unique:notification_types,alias",
-            "deactivation_mode" => "required"
+            "name" => [
+                "required"
+//                \Illuminate\Validation\Rule::unique('tenant.notification_triggers','name') // todo implement
+            ],
+            "devices_ids" => 'required|array',
+            "level" => '',
+            "active" => 'required|bool'
         ];
     }
 }

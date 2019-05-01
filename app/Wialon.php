@@ -10,6 +10,7 @@ namespace App;
 
 
 use Illuminate\Support\Collection;
+use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Unit;
 
 class Wialon
@@ -35,5 +36,19 @@ class Wialon
         }
 
         return $devices;
+    }
+
+    public function importNotifications()
+    {
+        $notifications = Notification::all();
+        $notifications_triggers = collect();
+        foreach ($notifications as $notification){
+            $notifications_triggers->push(NotificationTrigger::create([
+                "name" => $notification->n,
+                "active" => false
+            ]));
+        }
+
+        return $notifications_triggers;
     }
 }
