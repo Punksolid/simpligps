@@ -26,7 +26,7 @@ class TripRequest extends FormRequest
         return [
             "rp" => "required",
             "invoice" => "required",
-            "client" => "required",
+            "client_id" => "required|integer",
             "intermediates" => ['required', 'array'],
             "origin_id" => "required|integer",
             "destination_id" => "required|integer",

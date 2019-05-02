@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Carrier;
+use App\Client;
 use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
@@ -36,7 +37,7 @@ class TripsTest extends TestCase
         $trip = [
             "rp" => $this->faker->name,
             "invoice" => $this->faker->randomNumber(5),
-            "client" => $this->faker->company,
+            "client_id" => factory(Client::class)->create()->id,
             "device_id" => factory(Device::class)->create()->id,
             "intermediates" => [
                 factory(Place::class)->create()->id,
@@ -67,7 +68,8 @@ class TripsTest extends TestCase
 
         $call->assertJsonFragment([
             'truck_tract_id' => $trip['truck_tract_id'],
-            'operator_id' => $trip['operator_id']
+            'operator_id' => $trip['operator_id'],
+            'client_id' => $trip['client_id']
         ], 'asignar tracto a viaje');
 
 
@@ -77,7 +79,7 @@ class TripsTest extends TestCase
                 'device_id',
                 'rp',
                 'invoice',
-                'client',
+                'client_id',
                 'origin_id',
                 'destination_id',
                 'georoute_ref',
