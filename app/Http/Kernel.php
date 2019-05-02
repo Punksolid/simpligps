@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use Barryvdh\Cors\HandleCors;
@@ -11,6 +12,19 @@ use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
 class Kernel extends HttpKernel
 {
+
+    /**
+     * Added to apply model binding to Tenants
+     * @var array
+     */
+    protected $middlewarePriority = [
+        \Illuminate\Session\Middleware\StartSession::class,
+        \Illuminate\View\Middleware\ShareErrorsFromSession::class,
+        \Illuminate\Session\Middleware\AuthenticateSession::class,
+        IdentifyTenantConnection::class, // Tenant identifier
+        \Illuminate\Routing\Middleware\SubstituteBindings::class,
+        \Illuminate\Auth\Middleware\Authorize::class,
+    ];
     /**
      * The application's global HTTP middleware stack.
      *
@@ -40,6 +54,7 @@ class Kernel extends HttpKernel
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
+
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             CreateFreshApiToken::class
         ],
@@ -74,4 +89,8 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class
 
     ];
+
+
+
+
 }

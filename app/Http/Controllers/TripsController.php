@@ -79,8 +79,14 @@ class TripsController extends Controller
             $trip->addTrailerBox($trailers_id);
         }
 
+        try {
+            $trip->createWialonNotification();
 
-        return TripResource::make($trip->load('trailers'));
+        } catch (\Exception $exception) {
+            \Log::error('Something happened when creating external notifications', $trip->toArray());
+        }
+
+        return TripResource::make($trip);
     }
 
     /**

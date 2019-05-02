@@ -130,6 +130,23 @@ class AccountsController extends Controller
         return AccountResource::make($account);
     }
 
+    public function forceDestroy(Request $request, Account $account)
+    {
+        $validated = $this->validate($request, [
+            'uuid' => 'required'
+        ]);
+
+        if ($account->delete()){
+            \Artisan::call("trm:delete_account", [
+                'uuid' => $validated['uuid']
+            ]);
+
+            return AccountResource::make($account);
+        }
+
+        return new \Exception("An error ocurred");
+    }
+
     /**
      * Agrega datos fiscales
      * @param Account $account

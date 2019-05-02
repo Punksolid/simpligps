@@ -74,17 +74,17 @@ class DevicesController extends Controller
     public function destroy(Device $device)
     {
         if (isset($device->reference_data["id"])){
-            try {
-
-                $unit = Unit::find($device->reference_data["id"]);
-                if ($unit){
-                    $unit->destroy();
-                }
-            } catch (\Exception $exception) {
-                \Log::warning("Failing destroying unit",[
-                    "wialon_unit" => $unit
-                ]);
-            }
+//            try {
+//
+//                $unit = Unit::find($device->reference_data["id"]);
+//                if ($unit){
+//                    $unit->destroy();
+//                }
+//            } catch (\Exception $exception) {
+//                \Log::warning("Failing destroying unit",[
+//                    "wialon_unit" => $unit
+//                ]);
+//            }
         }
         if ($device->delete()){
             return response([

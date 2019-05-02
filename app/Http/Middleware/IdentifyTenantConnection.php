@@ -19,6 +19,7 @@ class IdentifyTenantConnection
      */
     public function handle($request, Closure $next)
     {
+
         //TODO add verification of user in account
         if (!Account::where('uuid', $request->header('X-Tenant-id'))->exists()) {
             abort(404);
