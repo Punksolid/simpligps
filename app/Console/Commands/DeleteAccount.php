@@ -13,7 +13,7 @@ class DeleteAccount extends Command
      *
      * @var string
      */
-    protected $signature = 'trm:delete_account {easyname}';
+    protected $signature = 'trm:delete_account {uuid}';
 
     /**
      * The console command description.
@@ -39,11 +39,11 @@ class DeleteAccount extends Command
      */
     public function handle()
     {
-        $easyname = $this->argument("easyname");
-        $account = Account::where("easyname",$easyname)->first();
+        $uuid = $this->argument("uuid");
+        $account = Account::where("uuid",$uuid)->first();
             $account->delete();
 
-        \DB::connection("mysql")->statement("DROP DATABASE $easyname;");
+        \DB::connection("mysql")->statement("DROP DATABASE $account->uuid;");
         return true;
 
 

@@ -28,7 +28,9 @@ class Wialon
         $wialon_units = Unit::all();
         $devices = collect();
         foreach ($wialon_units as $wialon_unit){
-            $device = factory(Device::class)->create(["name" => $wialon_unit->nm]);
+            $device = Device::create([
+                "name" => $wialon_unit->nm
+            ]);
 
             $device->linkUnit($wialon_unit);
 

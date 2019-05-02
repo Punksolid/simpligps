@@ -31,10 +31,7 @@ class TripsTest extends TestCase
 
     }
 
-    public function test_todos_los_campos_sean_requeridos()
-    {
 
-    }
     public function test_crear_nuevo_viaje_manual()
     {
         $trip = [

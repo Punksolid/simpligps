@@ -72,9 +72,16 @@ class Device extends Model
      */
     public function linkUnit(Unit $unit):bool
     {
-        return (bool)$this->update(["reference_data" => $unit]);
+        return (bool)$this->update([
+            "wialon_id" => $unit->id,
+            "reference_data" => $unit
+        ]);
     }
 
+    /**
+     * Comprueba si tiene una ligacion a un dispositivo externo
+     * @return bool
+     */
     public function linked():bool
     {
         return (bool)$this->reference_data;
