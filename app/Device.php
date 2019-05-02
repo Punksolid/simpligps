@@ -4,12 +4,13 @@ namespace App;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Punksolid\Wialon\Unit;
 
 class Device extends Model
 {
-    use UsesTenantConnection, Notifiable;
+    use UsesTenantConnection, Notifiable, SoftDeletes;
 
     protected $fillable = [
         "name",
@@ -63,6 +64,12 @@ class Device extends Model
     public function notificationtriggers()
     {
         return $this->belongsToMany(NotificationTrigger::class, 'notification_triggers_devices');
+    }
+
+    public function logs()
+    {
+        return $this->morphMany(\App\Log::class, 'loggable');
+
     }
     #endregion
     /**

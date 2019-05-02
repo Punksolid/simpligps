@@ -43,8 +43,11 @@ abstract class TestCase extends BaseTestCase
         parent::setUp();
 
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
+        $event_dispatcher = User::getEventDispatcher();
 
+        User::unsetEventDispatcher();
         $this->user = \factory(User::class)->create();
+        User::setEventDispatcher($event_dispatcher);
         $this->actingAs($this->user, "api");
 
         $this->createOrFindTestAccount();

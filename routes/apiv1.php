@@ -13,6 +13,9 @@ Route::post('continue_registration', 'Auth\RegisterController@continueRegistrati
 
 //@todo proteger con autenticacion
 Route::post('webhook/alert', 'NotificationTriggersController@webhookAlert');
+// api/v1/$tenant_uuid/alert/trips/".$this->id
+Route::post('{tennant_id}/alert/trips/{trip}', 'NotificationTriggersController@tripAlert');
+
 
 Route::group(["middleware" => [
 //    "verified",
@@ -33,7 +36,8 @@ Route::group(["middleware" => [
     Route::group([
         "middleware" => [
             IdentifyTenantConnection::class,
-            "limit_expired_license_access"
+            "limit_expired_license_access",
+            SetWialonTokenMiddleware::class
         ]
     ],function($router){
         // Account Notifications
@@ -42,6 +46,7 @@ Route::group(["middleware" => [
         // Dashboard
         Route::get('dashboard', 'DashboardController@resume');
         //Devices
+        Route::get("devices/{device}/logs", "DeviceLogsController@index");
         Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
         Route::resource("devices", "DevicesController")->except(['create','edit']);
 
@@ -74,6 +79,7 @@ Route::group(["middleware" => [
         Route::get("trips/convoys/{convoy}", "ConvoyController@show");
 
         //TRIPS
+        Route::get('trips/{trip}/logs', "TripsEventsController@index");
         Route::post("trips/upload", "TripsController@upload");
         Route::post("trips/{trip}/tags", "TripsController@assignTag");
         Route::post("trips/filtered_with_tags", "TripsController@filteredWithTags");

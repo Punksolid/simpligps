@@ -33,7 +33,7 @@ class SettingsController extends Controller
             if ($request->import){
                 $wialon = new Wialon($request->wialon_key);
                 $wialon->import();
-                $wialon->importNotifications();
+//                $wialon->importNotifications(); //como existe una capa intermedia de validacion, no es necesario importar notificaciones
             }
             return response([
                 'data' => [

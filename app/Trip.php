@@ -153,6 +153,16 @@ class Trip extends Model
     {
         return $this->belongsTo(Operator::class);
     }
+
+    /**
+     * Trip tiene muchos logs
+     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     */
+    public function logs()
+    {
+        return $this->morphMany(\App\Log::class, 'loggable');
+
+    }
     #endregion
 
     #region actions
@@ -186,23 +196,30 @@ class Trip extends Model
         if (!$resource) {
             $resource = Resource::make("trm.trips.{$this->id}.{$tenant_uuid}");
         }
+
         $unit_id = $this->getExternalUnitsIds();
+//        dd($unit_id->first());
         $unit_id = $unit_id->map(function($element){
-            return (string)$element;
+            return (int)$element;
         });
+//
 
         $wialon_units = Unit::findMany($unit_id->toArray());
+//        dd($wia);
+//        $wialon_units = collect(Unit::find($unit_id->first()->toArray()));
         /**
          * Y en las notificaciones agregas las geocercas que quieres tomar en cuenta
          * para que te reporten entradas y salidas 2 notificaciones
          * una con parametro de entrada y con todas las geocercas del viaje. y otra con parametro de salida con todas las geocercas del viaje
          */
         $control_type = new GeofenceControlType();
+
         $control_type->setType(0); // entrada
         $all_geofences = $this->getAllPlacesGeofences();
         foreach ($all_geofences as $geofence){
             $control_type->addGeozoneId($geofence);
         }
+
         $action = new Notification\Action('push_messages', [
             "url" => url(config("app.url") . "api/v1/$tenant_uuid/alert/trips/".$this->id)
         ]);
@@ -233,13 +250,14 @@ class Trip extends Model
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id=' . $tenant_uuid . '
-        trip_id=' . $this->id. '
+        X-Tenant-Id=' . $tenant_uuid . '&
+        trip_id=' . $this->id. '&
         device=' . $device. '
         "';
+
         $text = str_replace(["\r", "\n", " "], "", $text);
         $wialon_notifications = collect();
-
+//        dd($resource, $wialon_units, $control_type, "entering.{$this->id}", $action);
         $wialon_notifications->push(Notification::make($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, [
             "txt" => $text
         ])); // Notificacion de entradas
