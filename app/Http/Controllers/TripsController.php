@@ -70,6 +70,7 @@ class TripsController extends Controller
         $trip->carrier_id = $request->carrier_id;
         $trip->truck_tract_id = $request->truck_tract_id;
         $trip->operator_id = $request->operator_id;
+        $trip->client_id = $request->client_id;
         $trip->save();
         foreach ($request->intermediates as $intermediate_id) {
             $trip->addIntermediate($intermediate_id);
@@ -178,7 +179,8 @@ class TripsController extends Controller
             'trailers',
             'tags',
             'truck',
-            'operator'
+            'operator',
+            'client'
         ])->findOrFail($trip_id);
 
         return TripResource::make($trip);

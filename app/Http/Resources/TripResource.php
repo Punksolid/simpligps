@@ -20,7 +20,7 @@ class TripResource extends JsonResource
             "id" => $this->id,
             "rp" => $this->rp,
             "invoice" => $this->invoice,
-            "client" => $this->client,
+            "client_id" => $this->client_id,
 
             "origin_id" => $this->origin_id,
             "origin_name" => optional($this->origin)->name,
@@ -47,6 +47,7 @@ class TripResource extends JsonResource
             "device" => DeviceResource::make($this->whenLoaded('device')),
             "intermediates" => PlaceResource::collection($this->whenLoaded('intermediates')),
             "trailers" => TrailerBoxResource::collection($this->whenLoaded('trailers')),
+            "client" => ClientResource::collection($this->whenLoaded('client')),
         ];
 
 
