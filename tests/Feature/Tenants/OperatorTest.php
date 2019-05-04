@@ -108,4 +108,15 @@ class OperatorTest extends TestCase
         $call->assertStatus(200);
     }
 
+    public function test_se_puede_buscar_operador_por_nombre()
+    {
+        $operator = factory(Operator::class)->create();
+        $call = $this->getJson("api/v1/operators/search?name=$operator->name");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'name' => $operator->name
+        ]);
+    }
+
 }

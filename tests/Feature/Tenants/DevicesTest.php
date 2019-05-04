@@ -187,4 +187,17 @@ class DevicesTest extends TestCase
 
     }
 
+    public function test_puede_buscar_dispositivos_por_nombre()
+    {
+        $device = factory(Device::class)->create();
+
+        $call = $this->getJson("api/v1/devices/search?name=$device->name");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'name' => $device->name
+        ]);
+
+    }
+
 }

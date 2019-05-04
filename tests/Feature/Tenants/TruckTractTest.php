@@ -68,4 +68,15 @@ class TruckTractTest extends TestCase
 
         $call->assertSuccessful();
     }
+
+    public function test_puede_buscar_tracto_por_nombre()
+    {
+        $truck = factory(TruckTract::class)->create();
+        $call = $this->getJson("api/v1/trucks/search?plate=$truck->plate");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'plate' => $truck->plate
+        ]);
+    }
 }

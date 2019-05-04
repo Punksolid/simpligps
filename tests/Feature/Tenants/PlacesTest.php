@@ -141,4 +141,18 @@ class PlacesTest extends TestCase
             ]
         ]);
     }
+
+    public function test_se_pueden_buscar_lugares()
+    {
+        $place = factory(Place::class)->create();
+        /**
+         *         "name",
+         */
+        $call = $this->getJson("api/v1/places/search?name=$place->name");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'name' => $place->name
+        ]);
+    }
 }

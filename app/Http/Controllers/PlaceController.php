@@ -6,13 +6,14 @@ use App\Http\Requests\PlaceRequest;
 use App\Http\Resources\PlaceResource;
 use App\Place;
 use Illuminate\Http\Request;
+use App\Interfaces\SearchInterface;
 
 /**
  * Class PlaceController
  * @package App\Http\Controllers
  * @resource Place
  */
-class PlaceController extends Controller
+class PlaceController extends Controller implements SearchInterface
 {
     /**
      * Display a listing of the PLACE.
@@ -91,5 +92,14 @@ class PlaceController extends Controller
         }
 
         return response("Aconteció un error");
+    }
+
+    public function search(\Illuminate\Http\Request $request)
+    {
+        $places = Place::query()
+            ->where('name', 'LIKE', "%{$request->name}%")
+            ->get();
+
+        return PlaceResource::collection($places);
     }
 }
