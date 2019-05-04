@@ -81,7 +81,6 @@ class AccountsController extends Controller
 
         return AccountResource::make($account);
 
-
     }
 
 
@@ -267,4 +266,39 @@ class AccountsController extends Controller
             ]
         ]);
     }
+
+    /**
+     * Store a newly created account in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @return AccountResource
+     */
+    public function storeFromEcommerce(Request $request)
+    {
+        $validatedDataArry = $this->validate($request, [
+            'email' => 'required|email'
+        ]);
+        $account = new Account([
+            "easyname" => $validatedDataArry['email']
+        ]);
+
+        $account->createAccount();
+
+        $user = User::firstOrCreate([
+            "email" => $validatedDataArry['email']
+        ], [
+            'email' => $validatedDataArry['email'],
+            'name' => '',
+            'lastname' => '',
+            'password' => bcrypt(Str::random(10))
+        ]);
+
+        $account->addUser($user);
+        
+        event(new AccountCreatedEvent($user, $account));
+
+        return AccountResource::make($account);
+    }
 }
+
+

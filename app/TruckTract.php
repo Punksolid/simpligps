@@ -10,6 +10,7 @@ class TruckTract extends Model
     use UsesTenantConnection;
 
     protected $fillable = [
+        'name',
         'plate',
         'model',
         'internal_number',

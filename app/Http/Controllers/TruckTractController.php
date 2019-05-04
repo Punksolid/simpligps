@@ -93,10 +93,15 @@ class TruckTractController extends Controller implements SearchInterface
 
     public function search(\Illuminate\Http\Request $request)
     {
-        $trucks = TruckTract::query()
-            ->where('plate', 'LIKE', "%{$request->plate}%")
-            ->get();
+        $trucks_query = TruckTract::query();
+            
+        if($request->filled('name')){
+            $trucks_query-> where('name', 'LIKE', "%{$request->name}%");
+        }
+        if($request->filled('plate')){
+            $trucks_query-> where('plate', 'LIKE', "%{$request->plate}%");
+        }
 
-            return TruckTractResource::collection($trucks);
+        return TruckTractResource::collection($trucks_query->get());
     }
 }

@@ -6,6 +6,9 @@ use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+//ecommerce
+Route::post('ecommerce/1234567890', "Admin\AccountsController@storeFromEcommerce");
+
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
 Route::post('password/send_email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
