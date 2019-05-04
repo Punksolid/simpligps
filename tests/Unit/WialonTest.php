@@ -83,14 +83,13 @@ class WialonTest extends TestCase
         $this->assertInstanceOf(Collection::class,$devices);
     }
 
-    public function test_import_trucks()
+    public function test_importar_solo_devices_y_trucks_nuevos()
     {
         $this->setWebsiteEnvironment();
-        // $truck = TruckTract::create();
-        // dd($truck);
+        
         $wialon = new \App\Wialon("5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8");
+        $devices = $wialon->import();
 
-        $trucks = $wialon->importTrucks();
         dd($trucks);
         $this->assertInstanceOf(Collection::class, $trucks);
     }       

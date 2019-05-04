@@ -29,6 +29,7 @@ class Wialon
         $wialon_units = Unit::all();
         $devices = collect();
         foreach ($wialon_units as $wialon_unit){
+            if($this->deviceExists($wialon_unit))continue; // pasa a siguiente ciclo
             
             $device = Device::create([
                 "name" => $wialon_unit->nm
@@ -45,6 +46,11 @@ class Wialon
         }
 
         return $devices;
+    }
+
+    public function deviceExists(Unit $unit)
+    {
+        return Device::where('wialon_id', $unit->id)->exists();
     }
 
     public function importTrucks(): Collection
