@@ -6,13 +6,14 @@ use App\Http\Requests\OperatorRequest;
 use App\Http\Resources\OperatorResource;
 use App\Operator;
 use Illuminate\Http\Request;
+use App\Interfaces\SearchInterface;
 
 /**
  * Class OperatorController
  * @package App\Http\Controllers
  * @resource Operadores
  */
-class OperatorsController extends Controller
+class OperatorsController extends Controller implements SearchInterface
 {
     /**
      * Muestra listado de operadores.
@@ -94,5 +95,15 @@ class OperatorsController extends Controller
         }
 
         return response(["message" => "Ocurrió un error al eliminar el operador."])->setStatusCode(422);
+    }
+
+    public function search(\Illuminate\Http\Request $request)
+    {
+        
+        $operators = Operator::query()
+            ->where('name', 'LIKE', "%{$request->name}%")
+            ->get();
+
+        return OperatorResource::collection($operators);
     }
 }
