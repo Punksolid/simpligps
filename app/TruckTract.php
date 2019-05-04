@@ -45,4 +45,8 @@ class TruckTract extends Model
     }
     #endregion
 
+    public function assignDevice(Device $device)
+    {
+        return $this->update(['device_id', $device->id]);
+    }
 }
