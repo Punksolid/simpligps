@@ -53,6 +53,7 @@ Route::group(["middleware" => [
         Route::resource("devices", "DevicesController")->except(['create', 'edit']);
 
         //Clients
+        Route::get("clients/search", "ClientController@search");
         Route::resource('clients', "ClientController")->except(['create', 'edit']);
         //Contacts
         Route::get("contacts/filter_tags", "ContactController@filterTags");
