@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 //ecommerce
-Route::post('ecommerce/1234567890', "Admin\AccountsController@storeFromEcommerce");
+Route::any('ecommerce/1234567890', "Admin\AccountsController@storeFromEcommerce");
 
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
