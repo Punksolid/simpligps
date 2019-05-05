@@ -47,7 +47,7 @@ class TripResource extends JsonResource
             "device" => DeviceResource::make($this->whenLoaded('device')),
             "intermediates" => PlaceResource::collection($this->whenLoaded('intermediates')),
             "trailers" => TrailerBoxResource::collection($this->whenLoaded('trailers')),
-            "client" => ClientResource::collection($this->whenLoaded('client')),
+            "client" => ClientResource::make($this->whenLoaded('client')),
         ];
 
 

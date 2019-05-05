@@ -20,7 +20,7 @@ class Trip extends Model
     protected $fillable = [
             "rp",
             "invoice",
-            "client",
+            "client_id",
             "origin_id",
             "destination_id",
             "mon_type",
@@ -162,6 +162,14 @@ class Trip extends Model
     {
         return $this->morphMany(\App\Log::class, 'loggable');
 
+    }
+
+    /**
+     * Un Trip tiene un cliente asignado
+     */
+    public function client()
+    {
+        return $this->belongsTo(Client::class, 'client_id');
     }
     #endregion
 
