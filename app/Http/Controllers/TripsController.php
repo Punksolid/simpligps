@@ -64,7 +64,17 @@ class TripsController extends Controller
      */
     public function store(TripRequest $request)
     {
-        $trip = Trip::make($request->all());
+        $trip = Trip::make($request->except([
+            'scheduled_load',
+            'scheduled_departure',
+            'scheduled_arrival',
+            'scheduled_unload'
+            ]));
+        $trip->scheduled_load  = new Carbon($request->scheduled_load); // format 2019-05-25T14:35:00.000Z
+        $trip->scheduled_departure = new Carbon($request->scheduled_departure);
+        $trip->scheduled_arrival = new Carbon($request->scheduled_arrival);
+        $trip->scheduled_unload = new Carbon($request->scheduled_unload);
+
         $trip->origin_id = $request->origin_id;
         $trip->destination_id = $request->destination_id;
         $trip->carrier_id = $request->carrier_id;

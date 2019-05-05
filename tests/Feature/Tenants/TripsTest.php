@@ -35,6 +35,14 @@ class TripsTest extends TestCase
 
     public function test_crear_nuevo_viaje_manual()
     {
+        /** But problem is: seeding with factories work good and 
+        *   makes related records in my four tables  in correct way!
+        *   But it all makes 300 records in Person table, 
+        *   300 records in Card table, but because Card hasMany Person, 
+        *   I want to create 300 Card records and 3 Person  records for each Card records, but I still don't understand how to do it
+        */
+        
+
         $trip = [
             "rp" => $this->faker->name,
             "invoice" => $this->faker->randomNumber(5),
