@@ -35,7 +35,9 @@ class DeleteExternalNotification implements ShouldQueue
 
             $wialon_notification->resource = new Resource(["id" => explode("_",$event->notification_trigger->wialon_id)[0]]);
 
-            $wialon_notification->destroy();
+            if(!$wialon_notification->destroy()){
+                $event->notification_trigger->restore();
+            }
 
         }
     }
