@@ -97,15 +97,15 @@ class NotificationTrigger extends Model
         // $tenant_uuid = str_replace(' ', '-', $tenant_uuid); // Replaces all spaces with hyphens.
 
         try {
-            $resource = Resource::findByName('trm_notifications.' . $tenant_uuid);
+            $resource = Resource::findByName('trm.notifications.' . $tenant_uuid);
             Log::info('Busca un resource existente', [
                 'resource buscado' => $resource
             ]);
             if (!$resource) {
                 Log::warning('Alerta:intenta crear Resource con el nombre', [
-                    'trm_notifications.' . $tenant_uuid
+                    'trm.notifications.' . $tenant_uuid
                     ]);
-                $resource = Resource::make('trm_notifications.' . $tenant_uuid);
+                $resource = Resource::make('trm.notifications.' . $tenant_uuid);
 
                 Log::warning('Alerta: se supone que creó un resource nuevo', [
                     'resourece' => $resource
