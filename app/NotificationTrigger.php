@@ -156,7 +156,8 @@ class NotificationTrigger extends Model
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id=' . $tenant_uuid . '
+        X-Tenant-Id=' . $tenant_uuid . '&
+        notification_id=' . $this->id . '
         "';
 
             $text = str_replace(["\r", "\n", " "], "", $text);

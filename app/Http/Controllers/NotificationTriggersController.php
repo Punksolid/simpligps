@@ -141,12 +141,27 @@ class NotificationTriggersController extends Controller
 
     }
 
+    /**
+     * Aqui se cachan las notificaciones convencionales
+     */
     public function webhookAlert(Request $request)
     {
         $account = Account::whereUuid($request->get("X-Tenant-Id"))->firstOrFail();
-        info($account->toArray());
-        \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
 
+        $notification_trigger = $account->getTenantData(NotificationTrigger::class)->findOrFail($request->notification_id);
+
+        if($notification_trigger->active){
+            info($account->toArray());
+            \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
+            $devices = $notification_trigger->devices;
+            foreach($devices as $device) {
+                $device->logs()->create([
+                    "level" => $notification_trigger->level,
+                    "data" => $request->all()
+                    ]);
+            }
+        }
+        
         return response()->json('ok');
 
     }
