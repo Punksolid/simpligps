@@ -98,7 +98,7 @@ class PlaceController extends Controller implements SearchInterface
     {
         $places = Place::query()
             ->where('name', 'LIKE', "%{$request->name}%")
-            ->get();
+            ->paginate(50);
 
         return PlaceResource::collection($places);
     }

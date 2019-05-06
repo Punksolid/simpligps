@@ -94,7 +94,7 @@ class ClientController extends Controller implements SearchInterface
             $clients->where('person_name', 'LIKE', "%{$request->person_name}%");
         }
         
-        $clients = $clients->get();
+        $clients = $clients->paginate(50);
         
         return ClientResource::collection($clients);
     }

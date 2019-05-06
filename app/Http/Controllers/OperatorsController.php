@@ -102,7 +102,8 @@ class OperatorsController extends Controller implements SearchInterface
         
         $operators = Operator::query()
             ->where('name', 'LIKE', "%{$request->name}%")
-            ->get();
+            ->paginate(50); // Todo change for simple paginate
+            
 
         return OperatorResource::collection($operators);
     }

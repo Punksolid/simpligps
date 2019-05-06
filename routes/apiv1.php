@@ -102,6 +102,7 @@ Route::group(["middleware" => [
         ]);
 
         //Carriers
+        Route::get('carriers/search', "CarriersController@search");
         Route::resource("carriers", "CarriersController")->except(["edit", "create"]);
 
         //`Places` (origenes y destinos)
