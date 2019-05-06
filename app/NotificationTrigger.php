@@ -102,14 +102,16 @@ class NotificationTrigger extends Model
                 'resource buscado' => $resource
             ]);
             if (!$resource) {
-                Log::warning('Alerta:intenta crear Resource', [$resource]);
+                Log::warning('Alerta:intenta crear Resource con el nombre', [
+                    'trm_notifications.' . $tenant_uuid
+                    ]);
                 $resource = Resource::make('trm_notifications.' . $tenant_uuid);
 
                 Log::warning('Alerta: se supone que creó un resource nuevo', [
                     'resourece' => $resource
                 ]);
             };
-            
+
             if ($control_type == 'geofence') {
                 $control_type = new GeofenceControlType();
                 $control_type->addGeozoneId($params['geofence_id']);
