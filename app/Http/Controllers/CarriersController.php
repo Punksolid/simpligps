@@ -7,13 +7,14 @@ use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Requests\CarrierRequest;
 use App\Http\Resources\CarrierResource;
 use Illuminate\Http\Request;
+use App\Interfaces\SearchInterface;
 
 /**
  * Class CarriersController
  * @package App\Http\Controllers
  * @resource Carrier
  */
-class CarriersController extends Controller
+class CarriersController extends Controller implements SearchInterface
 {
 
     /**
@@ -88,5 +89,16 @@ class CarriersController extends Controller
         }
 
         return response("Aconteció un error");
+    }
+
+    public function search(\Illuminate\Http\Request $request)
+    {
+        $carriers = Carrier::query();
+        if($request->filled('carrier_name')) {
+            $carriers->where('carrier_name', 'LIKE', "%{$request->carrier_name}%");
+        }
+
+        return CarrierResource::collection($carriers->paginate(50));
+
     }
 }

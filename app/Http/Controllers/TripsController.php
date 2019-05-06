@@ -64,12 +64,23 @@ class TripsController extends Controller
      */
     public function store(TripRequest $request)
     {
-        $trip = Trip::make($request->all());
+        $trip = Trip::make($request->except([
+            'scheduled_load',
+            'scheduled_departure',
+            'scheduled_arrival',
+            'scheduled_unload'
+            ]));
+        $trip->scheduled_load  = new Carbon($request->scheduled_load); // format 2019-05-25T14:35:00.000Z
+        $trip->scheduled_departure = new Carbon($request->scheduled_departure);
+        $trip->scheduled_arrival = new Carbon($request->scheduled_arrival);
+        $trip->scheduled_unload = new Carbon($request->scheduled_unload);
+
         $trip->origin_id = $request->origin_id;
         $trip->destination_id = $request->destination_id;
         $trip->carrier_id = $request->carrier_id;
         $trip->truck_tract_id = $request->truck_tract_id;
         $trip->operator_id = $request->operator_id;
+        $trip->client_id = $request->client_id;
         $trip->save();
         foreach ($request->intermediates as $intermediate_id) {
             $trip->addIntermediate($intermediate_id);
@@ -78,8 +89,14 @@ class TripsController extends Controller
             $trip->addTrailerBox($trailers_id);
         }
 
+        try {
+            $trip->createWialonNotification();
 
-        return TripResource::make($trip->load('trailers'));
+        } catch (\Exception $exception) {
+            \Log::error('Something happened when creating external notifications', $trip->toArray());
+        }
+
+        return TripResource::make($trip);
     }
 
     /**
@@ -178,7 +195,8 @@ class TripsController extends Controller
             'trailers',
             'tags',
             'truck',
-            'operator'
+            'operator',
+            'client'
         ])->findOrFail($trip_id);
 
         return TripResource::make($trip);

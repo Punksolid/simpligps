@@ -4,11 +4,13 @@ namespace App;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Notifications\Notifiable;
 use Punksolid\Wialon\Unit;
 
 class Device extends Model
 {
-    use UsesTenantConnection;
+    use UsesTenantConnection, Notifiable, SoftDeletes;
 
     protected $fillable = [
         "name",
@@ -63,6 +65,12 @@ class Device extends Model
     {
         return $this->belongsToMany(NotificationTrigger::class, 'notification_triggers_devices');
     }
+
+    public function logs()
+    {
+        return $this->morphMany(\App\Log::class, 'loggable');
+
+    }
     #endregion
     /**
      * Liga a una unidad de wialon
@@ -71,9 +79,16 @@ class Device extends Model
      */
     public function linkUnit(Unit $unit):bool
     {
-        return (bool)$this->update(["reference_data" => $unit]);
+        return (bool)$this->update([
+            "wialon_id" => $unit->id,
+            "reference_data" => $unit
+        ]);
     }
 
+    /**
+     * Comprueba si tiene una ligacion a un dispositivo externo
+     * @return bool
+     */
     public function linked():bool
     {
         return (bool)$this->reference_data;

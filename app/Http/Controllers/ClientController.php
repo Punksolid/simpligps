@@ -7,8 +7,9 @@ use App\Http\Requests\ClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\ContactResource;
 use Illuminate\Http\Request;
+use App\Interfaces\SearchInterface;
 
-class ClientController extends Controller
+class ClientController extends Controller implements SearchInterface
 {
     /**
      * Display a listing of the resource.
@@ -79,5 +80,22 @@ class ClientController extends Controller
         $client->delete();
 
         return ClientResource::make($client);
+    }
+
+    public function search(\Illuminate\Http\Request $request)
+    {
+        $clients = Client::query();
+        
+        if($request->filled('company_name')){
+            $clients->where('company_name', 'LIKE', "%{$request->company_name}%");
+        }
+        
+        if($request->filled('person_name')){
+            $clients->where('person_name', 'LIKE', "%{$request->person_name}%");
+        }
+        
+        $clients = $clients->paginate(50);
+        
+        return ClientResource::collection($clients);
     }
 }

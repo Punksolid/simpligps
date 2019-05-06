@@ -8,9 +8,11 @@ use App\Events\NotificationTriggerCreated;
 use App\Events\NotificationTriggerDeleted;
 use App\Http\Requests\NotificationTriggerRequest;
 use App\Http\Resources\NotificationTriggerResource;
+use App\Log;
 use App\Notifications\DynamicNotification;
 use App\Notifications\WialonWebhookNotification;
 use App\NotificationTrigger;
+use App\Trip;
 use App\User;
 use Faker\Factory;
 use Illuminate\Http\Request;
@@ -18,7 +20,12 @@ use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Wialon;
-
+/**
+*   Este controlador se encarga de los Notification Triggers
+* En el se listan las notificaciones que se replican en wialon
+*
+*
+*/
 class NotificationTriggersController extends Controller
 {
 
@@ -142,6 +149,31 @@ class NotificationTriggersController extends Controller
 
         return response()->json('ok');
 
+    }
+/*
+* Aqui se reciben los webhooks de los trips, está separado de los de las notificaciones sencillas
+*
+*
+**/
+    public function tripAlert(Request $request, $tenant_uuid, $trip_id)
+    {
+        $account = Account::whereUuid($tenant_uuid)->firstOrFail();
+        \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
+
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($account);
+        $trip = Trip::findOrFail($trip_id);
+
+        $device = $trip->truck->device;
+        \Log::info("trip", $trip->toArray());
+        \Log::info("device", $device->toArray());
+        $trip->logs()->create(['data' => $request->all()]);
+        $device->logs()->create(['data' => $request->all()]);
+
+//        $device->notify(new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
+//        \Notification::send($devices, );
+
+        return response()->json('ok');
     }
 
     public function destroyWialonNotification($notification_id)

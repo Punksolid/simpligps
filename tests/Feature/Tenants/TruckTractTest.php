@@ -19,6 +19,7 @@ class TruckTractTest extends TestCase
             'data' => [
                 "*" => [
                     'id',
+                    'name',
                     'plate',
                     'model',
                     'internal_number',
@@ -36,7 +37,7 @@ class TruckTractTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $truck = factory(TruckTract::class)->make();
-
+        
         $call = $this->postJson('api/v1/trucks', $truck->toArray());
 
         $call->assertJsonFragment($truck->toArray());
@@ -67,5 +68,26 @@ class TruckTractTest extends TestCase
         $call = $this->deleteJson("api/v1/trucks/$truck->id");
 
         $call->assertSuccessful();
+    }
+
+    public function test_puede_buscar_tracto_por_placa()
+    {
+        $truck = factory(TruckTract::class)->create();
+        $call = $this->getJson("api/v1/trucks/search?plate=$truck->plate");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'plate' => $truck->plate
+        ]);
+    }
+    public function test_puede_buscar_tracto_por_nombre()
+    {
+        $truck = factory(TruckTract::class)->create();
+        $call = $this->getJson("api/v1/trucks/search?name=$truck->name");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'name' => $truck->name
+        ]);
     }
 }

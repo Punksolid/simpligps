@@ -87,4 +87,34 @@ class ClientsTest extends TestCase
             "description" => $client->description
         ], 'tenant');
     }
+
+    public function test_se_puede_buscar_clientes_por_nombre_de_companhia()
+    {
+        $client = factory(Client::class)->create();
+        /**        
+         * 'company_name',
+         * 'person_name', 
+        */
+        $call = $this->getJson("api/v1/clients/search?company_name=$client->company_name");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            "company_name" => $client->company_name
+        ]);
+    }
+
+    public function test_se_puede_buscar_clientes_por_nombre_de_persona()
+    {
+        $client = factory(Client::class)->create();
+        /**        
+         * 'company_name',
+         * 'person_name', 
+        */
+        $call = $this->getJson("api/v1/clients/search?person_name=$client->person_name");
+
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+            "person_name" => $client->person_name
+        ]);
+    }
 }

@@ -24,6 +24,7 @@ class TruckTractRequest extends FormRequest
     public function rules()
     {
         return [
+            'name' => 'required',
             'plate' => 'required',
             'model' => 'required',
             'internal_number' => 'required',

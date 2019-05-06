@@ -7,8 +7,9 @@ use App\Http\Resources\TruckTractResource;
 use App\TruckTract;
 use Illuminate\Http\Request;
 use Tests\Feature\TruckTractTest;
+use App\Interfaces\SearchInterface;
 
-class TruckTractController extends Controller
+class TruckTractController extends Controller implements SearchInterface
 {
     /**
      * Display a listing of the TruckTract.
@@ -88,5 +89,19 @@ class TruckTractController extends Controller
         }
 
         return response('error', 422);
+    }
+
+    public function search(\Illuminate\Http\Request $request)
+    {
+        $trucks_query = TruckTract::query();
+            
+        if($request->filled('name')){
+            $trucks_query-> where('name', 'LIKE', "%{$request->name}%");
+        }
+        if($request->filled('plate')){
+            $trucks_query-> where('plate', 'LIKE', "%{$request->plate}%");
+        }
+
+        return TruckTractResource::collection($trucks_query->get());
     }
 }

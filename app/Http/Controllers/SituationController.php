@@ -71,9 +71,8 @@ class SituationController extends Controller
      * @param  \App\Situation  $situation
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $situation)
+    public function destroy(Situation $situation)
     {
-        $situation = Situation::findOrFail($situation);
 
         $situation->delete();
 

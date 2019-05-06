@@ -9,13 +9,14 @@ use App\Http\Resources\DeviceResource;
 use App\Point;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Unit;
+use App\Interfaces\SearchInterface;
 
 /**
  * Class DevicesController
  * @package App\Http\Controllers
  * @resource Device
  */
-class DevicesController extends Controller
+class DevicesController extends Controller implements SearchInterface
 {
 
     /**
@@ -74,17 +75,17 @@ class DevicesController extends Controller
     public function destroy(Device $device)
     {
         if (isset($device->reference_data["id"])){
-            try {
-
-                $unit = Unit::find($device->reference_data["id"]);
-                if ($unit){
-                    $unit->destroy();
-                }
-            } catch (\Exception $exception) {
-                \Log::warning("Failing destroying unit",[
-                    "wialon_unit" => $unit
-                ]);
-            }
+//            try {
+//
+//                $unit = Unit::find($device->reference_data["id"]);
+//                if ($unit){
+//                    $unit->destroy();
+//                }
+//            } catch (\Exception $exception) {
+//                \Log::warning("Failing destroying unit",[
+//                    "wialon_unit" => $unit
+//                ]);
+//            }
         }
         if ($device->delete()){
             return response([
@@ -137,5 +138,16 @@ class DevicesController extends Controller
         }
 
         abort(500);
+    }
+
+    public function search(Request $request) 
+    {
+        $devices = Device::query()
+            ->where('name', 'LIKE', "%{$request->name}%")
+            ->get();
+
+        return DeviceResource::collection($devices);
+
+
     }
 }

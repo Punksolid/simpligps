@@ -12,6 +12,7 @@ namespace App;
 use Illuminate\Support\Collection;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Unit;
+use App\TruckTract as Truck; 
 
 class Wialon
 {
@@ -28,14 +29,46 @@ class Wialon
         $wialon_units = Unit::all();
         $devices = collect();
         foreach ($wialon_units as $wialon_unit){
-            $device = factory(Device::class)->create(["name" => $wialon_unit->nm]);
+            if($this->deviceExists($wialon_unit))continue; // pasa a siguiente ciclo
+            
+            $device = Device::create([
+                "name" => $wialon_unit->nm
+            ]);
 
             $device->linkUnit($wialon_unit);
+            $truck = Truck::create([
+                'name' => $device->name,
+                'device_id' => $device->id,
+                'internal_number' => $device->uacl
+            ]);
 
             $devices->push($device);
         }
 
         return $devices;
+    }
+
+    public function deviceExists(Unit $unit)
+    {
+        return Device::where('wialon_id', $unit->id)->exists();
+    }
+
+    public function importTrucks(): Collection
+    {
+        $wialon_units = Unit::all();
+        $trucks = collect();
+        dd($wialon_units->first());
+        foreach ($wialon_units as $wialon_unit) {
+            $truck = Truck::create([
+                "name" => $wialon_unit->nm
+            ]);
+
+            $truck->linkUnit($wialon_unit);
+
+            $trucks->push($truck);
+        }
+
+        return $trucks;
     }
 
     public function importNotifications()

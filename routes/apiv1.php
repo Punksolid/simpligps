@@ -4,6 +4,10 @@ use App\Http\Controllers\ConvoyController;
 use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+
+//ecommerce
+Route::any('ecommerce/1234567890', "PurchaseController@storeFromEcommerce");
 
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
@@ -13,6 +17,9 @@ Route::post('continue_registration', 'Auth\RegisterController@continueRegistrati
 
 //@todo proteger con autenticacion
 Route::post('webhook/alert', 'NotificationTriggersController@webhookAlert');
+// api/v1/$tenant_uuid/alert/trips/".$this->id
+Route::post('{tennant_id}/alert/trips/{trip}', 'NotificationTriggersController@tripAlert');
+
 
 Route::group(["middleware" => [
 //    "verified",
@@ -29,28 +36,32 @@ Route::group(["middleware" => [
     Route::get("/me/accounts", "MeController@accounts");
     Route::get("/me/accounts/{uuid}", "MeController@getIdOfAccount");
     Route::post('/me/change_password', 'MeController@changePassword');
-
+        
     Route::group([
         "middleware" => [
             IdentifyTenantConnection::class,
-            "limit_expired_license_access"
+            "limit_expired_license_access",
+            SetWialonTokenMiddleware::class
         ]
-    ],function($router){
+    ], function ($router) {
         // Account Notifications
         Route::get('account/notifications', "AccountController@getNotifications");
         Route::post('account/notifications/{id}/mark_as_read', "AccountController@markAsRead");
         // Dashboard
         Route::get('dashboard', 'DashboardController@resume');
         //Devices
+        Route::get("devices/search", "DevicesController@search");
+        Route::get("devices/{device}/logs", "DeviceLogsController@index");
         Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
-        Route::resource("devices", "DevicesController")->except(['create','edit']);
+        Route::resource("devices", "DevicesController")->except(['create', 'edit']);
 
         //Clients
+        Route::get("clients/search", "ClientController@search");
         Route::resource('clients', "ClientController")->except(['create', 'edit']);
         //Contacts
         Route::get("contacts/filter_tags", "ContactController@filterTags");
         Route::post("contacts/{contact}/tags", "ContactController@attachtags");
-        Route::resource("contacts", "ContactController")->except(['create','edit']);
+        Route::resource("contacts", "ContactController")->except(['create', 'edit']);
 
         //PERMISSIONS
         Route::put("permissions/user_sync/{user}", "PermissionController@userSync");
@@ -60,12 +71,13 @@ Route::group(["middleware" => [
 
 
         #region Trucks
+        Route::get('trucks/search', "TruckTractController@search");
         Route::resource('trucks', 'TruckTractController')->except(['create', 'edit']);
         Route::resource('trailers', 'TrailerBoxController')->except(['create', 'edit', 'show']);
         #endregion
 
         #region Situations
-        Route::resource('situations', 'SituationController')->except(['create','edit', 'show']);
+        Route::resource('situations', 'SituationController')->except(['create', 'edit', 'show']);
         #endregion
         #region Trips
         //CONVOYS
@@ -74,26 +86,30 @@ Route::group(["middleware" => [
         Route::get("trips/convoys/{convoy}", "ConvoyController@show");
 
         //TRIPS
+        Route::get('trips/{trip}/logs', "TripsEventsController@index");
         Route::post("trips/upload", "TripsController@upload");
         Route::post("trips/{trip}/tags", "TripsController@assignTag");
         Route::post("trips/filtered_with_tags", "TripsController@filteredWithTags");
         Route::resource("trips/{trip}/traces", "TraceController")->only(["index", "store", "show"]);
         Route::resource("trips", "TripsController", [
-            "except" => ["create","edit"]
+            "except" => ["create", "edit"]
         ]);
         #endregion
         //OPERATORS
+        Route::get('operators/search', "OperatorsController@search");
         Route::resource("operators", "OperatorsController", [
             "except" => ["edit", "create"]
         ]);
 
         //Carriers
-        Route::resource("carriers", "CarriersController")->except(["edit","create"]);
+        Route::get('carriers/search', "CarriersController@search");
+        Route::resource("carriers", "CarriersController")->except(["edit", "create"]);
 
-        //Places (origenes y destinos)
+        //`Places` (origenes y destinos)
+        Route::get('places/search', "PlaceController@search");
         Route::resource("places", "PlaceController")->except(["edit", "create"]);
 
-        Route::group(["middleware" => SetWialonTokenMiddleware::class],function ($router){
+        Route::group(["middleware" => SetWialonTokenMiddleware::class], function ($router) {
             //Units
             Route::get("units", "UnitsController@listUnits");
             Route::get("units/with_localization", "UnitsController@listUnitsLocalization");
@@ -107,11 +123,11 @@ Route::group(["middleware" => [
             Route::post('wialon/notifications', 'WialonController@store');
 
             #Region NOTIFICATIONS
-//            Route::put("notification_triggers/{notification_type}", "NotificationTriggersController@activate");
+            //            Route::put("notification_triggers/{notification_type}", "NotificationTriggersController@activate");
             Route::delete("activated_notification_triggers/{id}", "ActivatedNotificationTriggerController@destroy");
             Route::post("activated_notification_triggers", "ActivatedNotificationTriggerController@store");
             Route::resource("notification_triggers", "NotificationTriggersController", [
-                "only" => ["index","store", "update", "destroy"]
+                "only" => ["index", "store", "update", "destroy"]
             ]);
             #endregion
         });
@@ -138,10 +154,4 @@ Route::group(["middleware" => [
             Route::get("devices", "DevicesController@listDevices");
         });
     });
-
-
-
 });
-
-
-

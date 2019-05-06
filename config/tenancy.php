@@ -311,7 +311,8 @@ return [
         'force-system-connection-of-models' => [
             App\User::class,
             Account::class,
-            PasswordReset::class
+            PasswordReset::class,
+            \Illuminate\Notifications\DatabaseNotification::class
         ],
     ],
 
