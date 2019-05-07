@@ -214,8 +214,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         //Personalized
-        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
-//        'Tenanti' => Orchestra\Support\Facades\Tenanti::class, // deprecated in favor of hyn multi tenant
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class
     ],
 
 ];
