@@ -88,7 +88,9 @@ class PlaceController extends Controller implements SearchInterface
 
 
         if ($place->delete()){
-            return PlaceResource::make($place);
+            return PlaceResource::make($place)->additional([
+                'message' => "Place Deleted."
+            ]);
         }
 
         return response("Aconteció un error");
