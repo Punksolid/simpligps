@@ -24,7 +24,6 @@ class TenantTest extends TestCase
 
         $environment->tenant($website);
 
-        dump($this->getConnection()->getDriverName());
         $this->assertDatabaseHas("roles",[],$this->getConnection()->getDatabaseName());
     }
 }

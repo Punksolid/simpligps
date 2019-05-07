@@ -75,7 +75,7 @@ class PlacesTest extends TestCase
         $place = factory(Place::class)->create();
         $call = $this->deleteJson("api/v1/places/$place->id");
 
-        $call->assertSee("Se ha eliminado el registro del lugar");
+        $call->assertSee("Place Deleted");
         $this->assertSoftDeleted("places", [
             "name" => $place->name
         ], 'tenant');
@@ -88,9 +88,10 @@ class PlacesTest extends TestCase
         $trip = factory(Trip::class)->create([
            'origin_id' => $place->id
         ]);
+
         $call = $this->deleteJson("api/v1/places/$place->id");
 
-        $call->assertSee("Se ha eliminado el registro del lugar");
+        $call->assertSee("Place Deleted");
         $this->assertSoftDeleted("places", [
             "name" => $place->name
         ], 'tenant');

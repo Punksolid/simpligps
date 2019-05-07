@@ -86,7 +86,7 @@ class NotificationTrigger extends Model
     public function createExternalNotification($control_type, $params = null)
     {
         // Se identifica conexión para luego tomar los settings y el wialon token
-
+        
         $tenant_uuid = config('database.connections.tenant.database');
 //        Log::info("WialonTokenCheck", config('services.wialon.token')); // cuando es asincrono el config todavia no se ha cargado para este punto
 
@@ -94,33 +94,43 @@ class NotificationTrigger extends Model
         $wialon_token  = (new Setting)->getWialonToken();
         config(['services.wialon.token' => $wialon_token]);
         Log::info("WialonTokenSet", [config('services.wialon.token')]); // cuando es asincrono el config todavia no se ha cargado para este punto
+        // $tenant_uuid = str_replace(' ', '-', $tenant_uuid); // Replaces all spaces with hyphens.
 
-        $resource = Resource::findByName('trm_notifications.'.$tenant_uuid);
+        try {
+            // $tenant_uuid = str_replace("-","", $tenant_uuid);
+            $resource = Resource::findByName('trm.notify.' . $tenant_uuid);
+            Log::info('Busca un resource existente', [
+                'resource buscado' => $resource
+            ]);
+            if (!$resource) {
+                Log::warning('Alerta:intenta crear Resource con el nombre', [
+                    'trm.notify.' . $tenant_uuid
+                    ]);
+                $resource = Resource::make('trm.notify.' . $tenant_uuid);
 
-        if (!$resource) {
+                Log::warning('Alerta: se supone que creó un resource nuevo', [
+                    'resourece' => $resource
+                ]);
+            };
 
-            $resource = Resource::make('trm_notifications.'.$tenant_uuid);
+            if ($control_type == 'geofence') {
+                $control_type = new GeofenceControlType();
+                $control_type->addGeozoneId($params['geofence_id']);
+            } else {
+                $control_type = new ControlType($control_type, $params);
+            }
 
-        };
+            if (!$this->hasDevices()) {
+                throw new \Exception('No hay dispositivos');
+            }
 
-        if ($control_type == 'geofence') {
-            $control_type = new GeofenceControlType();
-            $control_type->addGeozoneId($params['geofence_id']);
-        } else {
-            $control_type = new ControlType($control_type, $params);
-        }
+            //        $units = Unit::findMany($request->units); // Devuelve Colleccion de objetos Unit de Punksolid/Wialon/Unit
+            $units = $this->prepareUnitsColectionFromDevices(); // @TODO Como esto es especifico de wialon, debe ser desacoplado de esta clase
+            $action = new Notification\Action('push_messages', [
+                "url" => url(config("app.url") . 'api/v1/webhook/alert')
+            ]);
 
-        if (!$this->hasDevices()){
-            throw new \Exception('No hay dispositivos');
-        }
-
-//        $units = Unit::findMany($request->units); // Devuelve Colleccion de objetos Unit de Punksolid/Wialon/Unit
-        $units = $this->prepareUnitsColectionFromDevices(); // @todo Como esto es especifico de wialon, debe ser desacoplado de esta clase
-        $action = new Notification\Action('push_messages', [
-            "url" => url(config("app.url") . 'api/v1/webhook/alert')
-        ]);
-
-        $text = '"unit=%UNIT%&
+            $text = '"unit=%UNIT%&
         timestamp=%CURR_TIME%&
         location=%LOCATION%&
         last_location=%LAST_LOCATION%&
@@ -146,17 +156,28 @@ class NotificationTrigger extends Model
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id=' . $tenant_uuid . '
+        X-Tenant-Id=' . $tenant_uuid . '&
+        notification_id=' . $this->id . '
         "';
 
-        $text = str_replace(["\r", "\n", " "], "", $text);
+            $text = str_replace(["\r", "\n", " "], "", $text);
 
-        Log::alert('ConnectionName', [
-            'ConnectionName' => $this->getConnectionName()
-        ]);
-        $notification = Notification::make($resource, $units, $control_type, $this->name, $action, [
-            "txt" => $text
-        ]);
+            Log::alert('ConnectionName', [
+                'ConnectionName' => $this->getConnectionName()
+            ]);
+            $notification = Notification::make($resource, $units, $control_type, $this->name, $action, [
+                "txt" => $text
+            ]);
+        } catch (\Exception $exception) {
+            Log::error('ERROR EXTERNAL NOTIFICATION CREATION', [
+                "resource wialon"  => $resource,
+                'ConnectionName' => $this->getConnectionName()
+            ]);
+            throw new \Exception("Fallo creacion de notification external");
+        }
+
+
+
         $this->control_type_obj = $control_type;
         $this->wialon_id = "{$resource->id}_{$notification->id}";
         $this->audit_obj = $notification;
