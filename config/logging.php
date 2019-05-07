@@ -40,7 +40,11 @@ return [
 //        ],
         'stack' => [
             'driver' => 'stack',
-            'channels' => ['tenant', 'bugsnag'],
+            'channels' => [
+                'tenant', 
+                'bugsnag',
+                'syslog'
+            ],
         ],
         'single' => [
             'driver' => 'single',

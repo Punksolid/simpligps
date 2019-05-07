@@ -57,7 +57,6 @@ class Wialon
     {
         $wialon_units = Unit::all();
         $trucks = collect();
-        dd($wialon_units->first());
         foreach ($wialon_units as $wialon_unit) {
             $truck = Truck::create([
                 "name" => $wialon_unit->nm
