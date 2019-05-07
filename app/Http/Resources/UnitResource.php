@@ -19,10 +19,10 @@ class UnitResource extends JsonResource
             "name" => $this->nm,
             "id" => $this->id,
             "measure_units" => $this->mu,
-            "position" => $this->when(isset($this->pos), [
+            "position" => [
                 "lat" => optional($this->pos)->y,
                 "lon" => optional($this->pos)->x
-            ])
+            ]
         ];
 
     }
