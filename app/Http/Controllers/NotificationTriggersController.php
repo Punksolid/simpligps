@@ -20,12 +20,14 @@ use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Wialon;
+use Illuminate\Support\Str;
+
 /**
-*   Este controlador se encarga de los Notification Triggers
-* En el se listan las notificaciones que se replican en wialon
-*
-*
-*/
+ *   Este controlador se encarga de los Notification Triggers
+ * En el se listan las notificaciones que se replican en wialon
+ *
+ *
+ */
 class NotificationTriggersController extends Controller
 {
 
@@ -52,23 +54,22 @@ class NotificationTriggersController extends Controller
         event(new NotificationTriggerCreated($notification_type, $request->control_type, $request->params));
 
         return NotificationTriggerResource::make($notification_type);
-
     }
 
 
-//    /**
-//     * Actualizar Tipo de Notificacion
-//     *
-//     * @param \Illuminate\Http\Request $request
-//     * @param \App\NotificationTrigger $notificationType
-//     * @return \Illuminate\Http\Response
-//     */
-//    public function update(Request $request, NotificationTrigger $notificationType)
-//    {
-//        $notificationType->update($request->all());
-//
-//        return response($notificationType);
-//    }
+    //    /**
+    //     * Actualizar Tipo de Notificacion
+    //     *
+    //     * @param \Illuminate\Http\Request $request
+    //     * @param \App\NotificationTrigger $notificationType
+    //     * @return \Illuminate\Http\Response
+    //     */
+    //    public function update(Request $request, NotificationTrigger $notificationType)
+    //    {
+    //        $notificationType->update($request->all());
+    //
+    //        return response($notificationType);
+    //    }
 
     /**
      * Remove the specified NotificationTrigger from storage.
@@ -82,7 +83,7 @@ class NotificationTriggersController extends Controller
 
         event(new NotificationTriggerDeleted($notification_trigger));
 
-        if ( $notification_trigger->delete()){
+        if ($notification_trigger->delete()) {
             return response()->json([
                 "message" => "Success"
             ]);
@@ -94,78 +95,43 @@ class NotificationTriggersController extends Controller
     }
 
 
-    /**
-     * Envía a todos los usuarios el mensaje de notification
-     * @param NotificationTrigger $notification_type
-     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
-     */
-    public function activate(NotificationTrigger $notification_type)
-    {
-        \Notification::send(User::all(), new DynamicNotification($notification_type));
 
-        return \response($notification_type);
-    }
-
-    /**
-     * Recibe Resource_ID, Nombre, Latitud, Longitud y  radio
-     */
-    public function createGeofence(Request $request)
-    {
-        //return \response()->json($request->all());
-        $name = $request->geofence_name;
-
-        $lat = $request->lat;
-        $lon = $request->lon;
-        $radius = $request->radius;
-
-        $faker = Factory::create();
-
-        $wialon_api = new Wialon();
-        $resource = $wialon_api->createResource("asdewd1" . $faker->word . $faker->unique()->word . $faker->unique()->word);
-        //TODO resource puede ser creado si no es especificado o usar uno preexistente
-
-        $geofence = Geofence::make(
-            $resource->id,
-            $name,
-            $lat,
-            $lon,
-            $radius,
-            3);
-
-        return \response()->json($geofence->toArray());
-
-    }
 
     public function getGeofences()
-    {
-
-    }
+    { }
 
     /**
      * Aqui se cachan las notificaciones convencionales
      */
     public function webhookAlert(Request $request)
     {
+        $data = $this->validate($request, [
+            'X-Tenant-Id' => [
+                "required",
+                'exists:accounts,uuid'
+            ],
+            'notification_id' => "required"
+        ]);
+
         $account = Account::whereUuid($request->get("X-Tenant-Id"))->firstOrFail();
 
         $notification_trigger = $account->getTenantData(NotificationTrigger::class)->findOrFail($request->notification_id);
 
-        if($notification_trigger->active){
-            info($account->toArray());
+        if ($notification_trigger->active) {
             \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
+
             $devices = $notification_trigger->devices;
-            foreach($devices as $device) {
+            foreach ($devices as $device) {
                 $device->logs()->create([
                     "level" => $notification_trigger->level,
                     "data" => $request->all()
-                    ]);
+                ]);
             }
         }
-        
-        return response()->json('ok');
 
+        return response()->json('ok');
     }
-/*
+    /*
 * Aqui se reciben los webhooks de los trips, está separado de los de las notificaciones sencillas
 *
 *
@@ -185,8 +151,8 @@ class NotificationTriggersController extends Controller
         $trip->logs()->create(['data' => $request->all()]);
         $device->logs()->create(['data' => $request->all()]);
 
-//        $device->notify(new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
-//        \Notification::send($devices, );
+        //        $device->notify(new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
+        //        \Notification::send($devices, );
 
         return response()->json('ok');
     }

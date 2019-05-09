@@ -49,7 +49,6 @@ class WialonTest extends TestCase
 
         $notificaciones = $wialon_api->listNotifications();
 
-        dump($notificaciones);
     }
 
     public function test_link_device_with_NOT_existing_wialon_unit()
@@ -76,7 +75,7 @@ class WialonTest extends TestCase
     public function test_import_units_to_devices()
     {
         $this->setWebsiteEnvironment();
-        $wialon = new \App\Wialon("5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8");
+        $wialon = new \App\Wialon( "5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8");
 
         $devices = $wialon->import();
 
@@ -90,7 +89,6 @@ class WialonTest extends TestCase
         $wialon = new \App\Wialon("5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8");
         $devices = $wialon->import();
 
-        dd($trucks);
         $this->assertInstanceOf(Collection::class, $trucks);
     }       
 

@@ -206,14 +206,11 @@ class Trip extends Model
         }
 
         $unit_id = $this->getExternalUnitsIds();
-//        dd($unit_id->first());
         $unit_id = $unit_id->map(function($element){
             return (int)$element;
         });
-//
 
         $wialon_units = Unit::findMany($unit_id->toArray());
-//        dd($wia);
 //        $wialon_units = collect(Unit::find($unit_id->first()->toArray()));
         /**
          * Y en las notificaciones agregas las geocercas que quieres tomar en cuenta
@@ -265,7 +262,6 @@ class Trip extends Model
 
         $text = str_replace(["\r", "\n", " "], "", $text);
         $wialon_notifications = collect();
-//        dd($resource, $wialon_units, $control_type, "entering.{$this->id}", $action);
         $wialon_notifications->push(Notification::make($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, [
             "txt" => $text
         ])); // Notificacion de entradas

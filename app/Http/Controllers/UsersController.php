@@ -75,7 +75,6 @@ class UsersController extends Controller
             'lastname' => $request->get('lastname'),
             'password' => bcrypt(Str::random(15)),
         ]);
-//        dd($user);
         if ($this->account->userExists($user)){
             throw ValidationException::withMessages([
                 "email"=> [

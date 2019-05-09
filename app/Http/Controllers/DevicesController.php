@@ -39,6 +39,7 @@ class DevicesController extends Controller implements SearchInterface
     {
 
         $device = Device::create($request->all());
+        
         if ($device) {
             $unit = Unit::make($request->name);
             $device->update(["reference_data" => $unit]);
@@ -59,7 +60,7 @@ class DevicesController extends Controller implements SearchInterface
      */
     public function update(DeviceRequest $request, Device $device)
     {
-        if ($device->update($request->all())){
+        if ($device->update($request->all())) {
             return DeviceResource::make($device);
         }
 
@@ -74,20 +75,20 @@ class DevicesController extends Controller implements SearchInterface
      */
     public function destroy(Device $device)
     {
-        if (isset($device->reference_data["id"])){
-//            try {
-//
-//                $unit = Unit::find($device->reference_data["id"]);
-//                if ($unit){
-//                    $unit->destroy();
-//                }
-//            } catch (\Exception $exception) {
-//                \Log::warning("Failing destroying unit",[
-//                    "wialon_unit" => $unit
-//                ]);
-//            }
+        if (isset($device->reference_data["id"])) {
+            //            try {
+            //
+            //                $unit = Unit::find($device->reference_data["id"]);
+            //                if ($unit){
+            //                    $unit->destroy();
+            //                }
+            //            } catch (\Exception $exception) {
+            //                \Log::warning("Failing destroying unit",[
+            //                    "wialon_unit" => $unit
+            //                ]);
+            //            }
         }
-        if ($device->delete()){
+        if ($device->delete()) {
             return response([
                 "message" => "Se ha eliminado el registro del dispositivo"
             ]);
@@ -98,7 +99,7 @@ class DevicesController extends Controller implements SearchInterface
 
     public function updateLocalization(Device $device, UpdateLocalizationRequest $request)
     {
-//        $point = new Point();
+        //        $point = new Point();
 
         $device->points()->create([
             "lat" => $request->lat,
@@ -106,20 +107,6 @@ class DevicesController extends Controller implements SearchInterface
         ]);
 
         return response()->json($device->load('points'));
-    }
-
-    public function storeExternal(DeviceRequest $request)
-    {
-        return $this->store($request);
-    }
-
-    /**
-     * Lista dispositivos, api para uso externo
-     * @return \Illuminate\Http\Response
-     */
-    public function listDevices()
-    {
-        return $this->index();
     }
 
     /**
@@ -131,7 +118,7 @@ class DevicesController extends Controller implements SearchInterface
     public function linkUnit(Device $device, Request $request)
     {
         $unit = Unit::find($request->unit_id);
-        if ($device->linkUnit($unit)){
+        if ($device->linkUnit($unit)) {
             return response()->json([
                 "data" => $device
             ]);
@@ -140,14 +127,12 @@ class DevicesController extends Controller implements SearchInterface
         abort(500);
     }
 
-    public function search(Request $request) 
+    public function search(Request $request)
     {
         $devices = Device::query()
             ->where('name', 'LIKE', "%{$request->name}%")
             ->get();
 
         return DeviceResource::collection($devices);
-
-
     }
 }

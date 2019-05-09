@@ -57,7 +57,6 @@ class PermissionsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $permission_name = Permission::firstOrFail()->name;
-        dump($permission_name);
         $call = $this->postJson("/api/v1/roles", [
             "name" => $this->faker->unique()->firstNameMale . $this->faker->unique()->word,
             "permissions" => [
