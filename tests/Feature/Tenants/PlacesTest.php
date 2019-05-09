@@ -42,7 +42,8 @@ class PlacesTest extends TestCase
             "person_in_charge" => $this->faker->name,
             "address" => $this->faker->address,
             "phone" => $this->faker->phoneNumber,
-            "geofence_ref" => random_int(00000001, 100000000)
+            "geofence_ref" => random_int(00000001, 100000000),
+            "high_risk" => $this->faker->boolean
         ];
 
         $call = $this->postJson("api/v1/places", $place);

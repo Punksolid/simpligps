@@ -20,6 +20,7 @@ class PlaceResource extends JsonResource
             "person_in_charge" => $this->person_in_charge,
             "address" => $this->address,
             "phone" => $this->phone,
+            "high_risk" => $this->high_risk,
             "geofence_ref" => $this->geofence_ref
         ];
     }
