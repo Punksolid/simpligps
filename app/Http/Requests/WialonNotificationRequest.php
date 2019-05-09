@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use Illuminate\Validation\Rules\RequiredIf;
 
 class WialonNotificationRequest extends FormRequest
 {
@@ -50,10 +51,14 @@ class WialonNotificationRequest extends FormRequest
                     'maintenance'
                 ]),
             ],
-            'params' => 'required',
+            'params' => [
+                Rule::requiredIf(function() {
+                    return request()->control_type != 'panic_button';
+                })
+            ],
             // params logic, required_if es necesario para cada tipo de control type de notificacion
             'params.geofence_id' => 'required_if:control_type,geofence',
-            'resource' => 'required'
+            'resource_id' => 'required'
 
 
             /*Depending on control type this conditions apply*/

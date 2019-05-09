@@ -2,8 +2,10 @@
 
 namespace Tests\Unit;
 
+use App\Account;
 use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Repositories\WebsiteRepository;
+use Illuminate\Support\Str;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -17,12 +19,19 @@ class TenantTest extends TestCase
      */
     public function test_tenant_creation()
     {
-        $website = new Website();
-        app(WebsiteRepository::class)->create($website);
+        try {
+            $account = Account::make([
+                'easyname' => Str::random(16),
+                'uuid' => Str::uuid()
+            ]);
+
+            app(WebsiteRepository::class)->create($account);
+        } catch (\Exception $exception) {
+        }
 
         $environment = app(\Hyn\Tenancy\Environment::class);
 
-        $environment->tenant($website);
+        $environment->tenant($account);
 
         $this->assertDatabaseHas("roles",[],$this->getConnection()->getDatabaseName());
     }

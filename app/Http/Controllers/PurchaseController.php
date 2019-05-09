@@ -21,17 +21,13 @@ class PurchaseController extends Controller
      */
     public function storeFromEcommerce(Request $request)
     {
-        
         $validatedDataArry = $this->validate($request, [
             'billing.email' => 'required|email',
             'line_items.0.sku' => 'required'
         ]);
-        // dd($validatedDataArry);
-        // // dd($request->line_items[0]["sku"]);
-        // // dd($request->toArray());
-        // // dd($request->billing["email"]);
 
-        // $license = $request->line_items[0]["sku"];
+
+        // $license = $request->line_items[0]["sku"]; is the buyed item
         $license = AppLicense::where("name", $request->line_items[0]["sku"])->firstOrFail();
         $email = $request->billing["email"];
         $purchase = Purchase::create([
@@ -59,5 +55,4 @@ class PurchaseController extends Controller
 
         return AccountResource::make($account);
     }
-
 }

@@ -116,14 +116,13 @@ Route::group(["middleware" => [
 
             //WIALON SECTION
             Route::get('wialon/resources', "WialonController@getResources");
-            Route::get('wialon/notifications', "WialonController@getNotifications");
-            Route::delete('wialon/notifications/{id}', "WialonController@deleteNotification");
             Route::get('wialon/units', "WialonController@getUnits");
             Route::get('wialon/geofences', "WialonController@getGeofences");
-            Route::post('wialon/notifications', 'WialonController@store');
+            Route::get('wialon/notifications', "WialonNotificationsController@index");
+            Route::post('wialon/notifications', 'WialonNotificationsController@store');
+            Route::delete('wialon/notifications/{id}', "WialonNotificationsController@destroy");
 
             #Region NOTIFICATIONS
-            //            Route::put("notification_triggers/{notification_type}", "NotificationTriggersController@activate");
             Route::delete("activated_notification_triggers/{id}", "ActivatedNotificationTriggerController@destroy");
             Route::post("activated_notification_triggers", "ActivatedNotificationTriggerController@store");
             Route::resource("notification_triggers", "NotificationTriggersController", [
@@ -136,7 +135,7 @@ Route::group(["middleware" => [
         Route::resource("users", "UsersController", ["except" => ["edit", "create"]]);
 
         // GEOFENCES
-        Route::post('geofences', 'NotificationTriggersController@createGeofence');
+        Route::post('wialon/geofences', 'WialonGeofencesController@store');
 
         // Settings
         Route::post("settings", "SettingsController@general");
@@ -149,7 +148,6 @@ Route::group(["middleware" => [
         ], function ($router) {
 
             //Units
-            Route::post("devices/{device}/localization", "DevicesController@updateLocalization");
             Route::post("devices", "DevicesController@storeExternal");
             Route::get("devices", "DevicesController@listDevices");
         });

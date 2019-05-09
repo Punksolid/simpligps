@@ -15,13 +15,14 @@
 namespace App\Validators;
 
 use Hyn\Tenancy\Abstracts\Validator;
+use Hyn\Tenancy\Validators\WebsiteValidator;
 
-class WebsiteValidator extends Validator
+class AccountValidator extends WebsiteValidator
 {
     protected $create = [
-        'uuid' => ['required', 'string', "unique:%system%.%accounts%,uuid"],
+        'uuid' => ['required', 'string', "unique:%system%.accounts,uuid"],
     ];
     protected $update = [
-        'uuid' => ['required', 'string', "unique:%system%.%accounts%,uuid,%id%"],
+        'uuid' => ['required', 'string', "unique:%system%.accounts,uuid,%id%"],
     ];
 }
