@@ -11,6 +11,7 @@ use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
+use Punksolid\Wialon\SensorControlType;
 
 class NotificationTrigger extends Model
 {
@@ -96,7 +97,7 @@ class NotificationTrigger extends Model
         Log::info("WialonTokenSet", [config('services.wialon.token')]); // cuando es asincrono el config todavia no se ha cargado para este punto
         // $tenant_uuid = str_replace(' ', '-', $tenant_uuid); // Replaces all spaces with hyphens.
 
-        try {
+        // try {
             // $tenant_uuid = str_replace("-","", $tenant_uuid);
             $resource = Resource::findByName('trm.notify.' . $tenant_uuid);
             Log::info('Busca un resource existente', [
@@ -116,6 +117,29 @@ class NotificationTrigger extends Model
             if ($control_type == 'geofence') {
                 $control_type = new GeofenceControlType();
                 $control_type->addGeozoneId($params['geofence_id']);
+            } elseif($control_type == 'sensor'){
+                // dd($params);
+                $control_type = new SensorControlType($params); // no necesita enviarse pero en un refactor quedaria listo
+                /**
+                 *  public $sensor_type = ""; // when empty, means "any"
+                    public $sensor_name_mask = '*';
+                    public $lower_bound = -1; //value_from
+                    public $upper_bound = 1;   // value_to
+                    public $prev_msg_diff = 0; //@Todo what does it means
+                    public $merge = 1; //@Todo what does it means
+                    public $type = 0; // "trigger when" for 0 = "in range" 1 = "out of range"
+                 */
+                if($params['sensor_type'] == null){
+                    $params['sensor_type'] = "";
+                }
+                
+                $control_type->sensor_name_mask = $params['sensor_name'];
+                $control_type->sensor_type      = $params['sensor_type'];
+                $control_type->type             = $params['trigger_when'];
+                $control_type->lower_bound      = $params['value_from'];
+                $control_type->upper_bound      = $params['value_to'];
+                $control_type->merge            = $params['similar_sensor'];
+                // dd($control_type->getTrg());
             } else {
                 $control_type = new ControlType($control_type, $params);
             }
@@ -168,13 +192,13 @@ class NotificationTrigger extends Model
             $notification = Notification::make($resource, $units, $control_type, $this->name, $action, [
                 "txt" => $text
             ]);
-        } catch (\Exception $exception) {
-            Log::error('ERROR EXTERNAL NOTIFICATION CREATION', [
-                "resource wialon"  => $resource,
-                'ConnectionName' => $this->getConnectionName()
-            ]);
-            throw new \Exception("Fallo creacion de notification external");
-        }
+        // } catch (\Exception $exception) {
+        //     Log::error('ERROR EXTERNAL NOTIFICATION CREATION', [
+        //         "resource wialon"  => $resource,
+        //         'ConnectionName' => $this->getConnectionName()
+        //     ]);
+        //     throw new \Exception("Fallo creacion de notification external");
+        // }
 
 
 

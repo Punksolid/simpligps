@@ -31,7 +31,14 @@ class NotificationTriggerRequest extends FormRequest
             ],
             "devices_ids" => 'required|array',
             "level" => '',
-            "active" => 'required|bool'
+            "active" => 'required|bool',
+            "control_type" => "required",
+            "params.sensor_name" => "required_if:control_type,sensor",
+            // "params.sensor_type" => "required_if:control_type,sensor",
+            "params.value_from" => "required_if:control_type,sensor|integer",
+            "params.value_to" => "required_if:control_type,sensor|integer",
+            "params.trigger_when" => "required_if:control_type,sensor",
+            "params.similar_sensor" => "required_if:control_type,sensor"
         ];
     }
 }
