@@ -17,6 +17,12 @@ class Place extends Model
         "person_in_charge",
         "address",
         "phone",
-        "geofence_ref"
+        "geofence_ref",
+        "high_risk"
     ];
+
+    protected $cast = [
+        "high_risk" => 'bool'
+    ];
+
 }

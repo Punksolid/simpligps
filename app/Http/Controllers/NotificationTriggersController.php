@@ -44,18 +44,19 @@ class NotificationTriggersController extends Controller
      */
     public function store(NotificationTriggerRequest $request)
     {
+        $request_arr = $request->toArray();
 
-        $notification_type = NotificationTrigger::create($request->all()); // internal
+     
+        $notification_type = NotificationTrigger::create($request_arr); // internal
         foreach ($request->devices_ids as $device_id) {
             $device = Device::findOrFail($device_id);
             $notification_type->addDevice($device);
         }
 
-        event(new NotificationTriggerCreated($notification_type, $request->control_type, $request->params));
+        event(new NotificationTriggerCreated($notification_type, $request->control_type, $request_arr['params']));
 
         return NotificationTriggerResource::make($notification_type);
     }
-
 
     //    /**
     //     * Actualizar Tipo de Notificacion

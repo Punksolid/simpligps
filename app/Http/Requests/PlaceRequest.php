@@ -28,6 +28,7 @@ class PlaceRequest extends FormRequest
             "person_in_charge" => "required",
             "address" => "required",
             "phone" => "required",
+            "high_risk" => "required|bool"
         ];
     }
 }

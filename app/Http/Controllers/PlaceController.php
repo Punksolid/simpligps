@@ -38,7 +38,7 @@ class PlaceController extends Controller implements SearchInterface
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PlaceRequest $request)
     {
         $place = Place::create($request->all());
 
