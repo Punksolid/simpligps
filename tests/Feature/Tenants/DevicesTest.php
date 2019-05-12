@@ -11,6 +11,7 @@ use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\TruckTract;
 
 class DevicesTest extends TestCase
 {
@@ -22,8 +23,6 @@ class DevicesTest extends TestCase
             "name" => $this->faker->name. $this->faker->unique()->randomNumber(5),
             "internal_number" => $this->faker->randomNumber(6).$this->faker->unique()->randomNumber(4),
             "gps" => $this->faker->company,
-            "carrier_id" => factory(Carrier::class)->create()->id,
-            "plate" => $this->faker->randomNumber(7)
         ];
     }
 
@@ -66,24 +65,55 @@ class DevicesTest extends TestCase
 
         $call->assertJson([
             "data" => [
+                "name" => $device->name,
                 "internal_number" => $device->internal_number,
-                "gps" => $device->gps,
-                "carrier_id" => $device->carrier_id,
-                "plate" => $device->plate,
-
+                "gps" => $device->gps
             ]
         ]);
+
         $call->assertJsonStructure([
             "data" => [
                 "internal_number",
                 "gps",
-                "carrier_id",
-                "plate",
                 "name",
                 "reference_data"
             ]
         ]);
 
+    }
+
+    public function test_usuario_puede_ver_truck_del_dispositivo_cuando_esta_asignado()
+    {
+        
+        $device = factory(Device::class)->create();
+        $truck = factory(TruckTract::class)->create([
+            'device_id' => $device->id
+        ]);
+        $call = $this->getJson("api/v1/devices/$device->id");
+        
+        $call->assertJsonStructure([
+            "data" => [
+                "truck" => [
+                    'name',
+                    'plate',
+                    'model',
+                    'internal_number',
+                    'brand',
+                    'gps',
+                    'color'
+                ]
+            ]
+        ]);
+
+        $call->assertJsonFragment([
+            'name' => $truck->name,
+            'plate' => $truck->plate,
+            'model' => $truck->model,
+            'internal_number' => $truck->internal_number,
+            'brand' => $truck->brand,
+            'gps' => $truck->gps,
+            'color' => $truck->color,
+        ]);
     }
 
     public function test_listar_dispositivos_paginados()
@@ -94,9 +124,7 @@ class DevicesTest extends TestCase
             "data" => [
                 "*" => [
                     "internal_number",
-                    "gps",
-                    "carrier_id",
-                    "plate"
+                    "gps"
                 ]
             ]
         ]);
@@ -107,6 +135,7 @@ class DevicesTest extends TestCase
     {
         $device = factory(Device::class)->create();
         $new_device = $this->deviceForm();
+        
         $call = $this->putJson("api/v1/devices/$device->id", $new_device);
         $call->assertJsonFragment($new_device);
         $call->assertStatus(200);

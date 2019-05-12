@@ -23,4 +23,10 @@ class Operator extends Model
     {
         return $this->belongsTo(Carrier::class,"carrier_id");
     }
+
+    public function trips()
+    {
+        return $this->hasMany(Trip::class);
+    }
+
 }

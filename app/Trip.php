@@ -12,6 +12,7 @@ use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 use Spatie\Tags\HasTags;
+use Carbon\Carbon;
 
 class Trip extends Model
 {
@@ -318,4 +319,14 @@ class Trip extends Model
     {
         return MariadbTag::class;
     }
+
+    #region Scopes
+    public function scopeOnlyOngoing($query)
+    {
+        
+        $query->where('scheduled_load', '<', Carbon::now());
+        $query->where('scheduled_unload', '>', Carbon::now());
+        return $query;
+    }
+    #endregion
 };

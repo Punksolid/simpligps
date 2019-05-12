@@ -48,8 +48,18 @@ class TruckTractController extends Controller implements SearchInterface
      */
     public function show($truckTract)
     {
-        $truckTract = TruckTract::findOrFail($truckTract);
-
+        $truckTract = TruckTract::with([
+            'device', 
+            'carrier', 
+            'currentOperator',
+            'operators'
+            // 'operators' => function ($query_operators) {
+            //     return $query_operators->whereHas('trips', function ($query_trips) {
+            //         return $query_trips->onlyOngoing();
+            //     });
+            // }
+        ])->findOrFail($truckTract);
+        // dd($truckTract->toArray());
         return TruckTractResource::make($truckTract);
     }
 
@@ -78,11 +88,11 @@ class TruckTractController extends Controller implements SearchInterface
      * @param  \App\TruckTract  $truckTract
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $truckTract)
+    public function destroy($truckTract)
     {
         $truckTract = TruckTract::findOrFail($truckTract);
 
-        if ($truckTract->delete()){
+        if ($truckTract->delete()) {
             return response([
                 'message' => 'Deleted Succesfully'
             ]);
@@ -94,12 +104,12 @@ class TruckTractController extends Controller implements SearchInterface
     public function search(\Illuminate\Http\Request $request)
     {
         $trucks_query = TruckTract::query();
-            
-        if($request->filled('name')){
-            $trucks_query-> where('name', 'LIKE', "%{$request->name}%");
+
+        if ($request->filled('name')) {
+            $trucks_query->where('name', 'LIKE', "%{$request->name}%");
         }
-        if($request->filled('plate')){
-            $trucks_query-> where('plate', 'LIKE', "%{$request->plate}%");
+        if ($request->filled('plate')) {
+            $trucks_query->where('plate', 'LIKE', "%{$request->plate}%");
         }
 
         return TruckTractResource::collection($trucks_query->get());

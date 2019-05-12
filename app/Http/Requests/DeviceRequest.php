@@ -26,9 +26,7 @@ class DeviceRequest extends FormRequest
         return [
             "name" => "required|min:4",
             "gps" => "required",
-            "plate" => "required",
             "internal_number" => "required",
-            "carrier_id" => "required"
          ];
     }
 }

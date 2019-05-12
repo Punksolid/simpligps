@@ -77,4 +77,22 @@ class TripModelTest extends TestCase
 
         return $trip;
     }
+
+    public function test_active_trip_by_interval_schedules_load_and_unload()
+    {
+        $ongoing_trip = factory(Trip::class)->create([
+            'scheduled_load' => Carbon::yesterday(),
+            'scheduled_unload' => Carbon::tomorrow()
+        ]);
+        $not_ongoing_trip = factory(Trip::class)->create([
+            'scheduled_load' => Carbon::now()->subWeek(1),
+            'scheduled_unload' => Carbon::yesterday()
+        ]);
+
+        $trips_search = Trip::onlyOngoing()->get();
+
+        $this->assertTrue($trips_search->contains($ongoing_trip));
+        $this->assertFalse($trips_search->contains($not_ongoing_trip));
+        
+    }
 }

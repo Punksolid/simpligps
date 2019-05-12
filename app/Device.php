@@ -14,14 +14,11 @@ class Device extends Model
 
     protected $fillable = [
         "name",
-        "plate",
         "internal_number",
-        "color",
         "brand",
-        "gps",
         "model",
+        "gps",
         "wialon_id",
-        "carrier_id",
         "group_id",
         "reference_data",
         "bulk"
@@ -59,6 +56,14 @@ class Device extends Model
     {
         return $this->morphMany(\App\Log::class, 'loggable');
 
+    }
+
+    /**
+     * Un truck tiene asignado un dispositivo
+     */
+    public function truck()
+    {
+        return $this->hasOne(TruckTract::class);
     }
     #endregion
     /**

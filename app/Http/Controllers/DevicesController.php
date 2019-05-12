@@ -49,7 +49,7 @@ class DevicesController extends Controller implements SearchInterface
 
     public function show(Device $device)
     {
-        return DeviceResource::make($device->load(["trips"]));
+        return DeviceResource::make($device->load(["trips", "truck"]));
     }
 
     /**

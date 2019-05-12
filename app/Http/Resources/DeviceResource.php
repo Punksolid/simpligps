@@ -18,10 +18,13 @@ class DeviceResource extends JsonResource
             "id" => $this->id,
             "name" => $this->name,
             "gps" => $this->gps,
+            "brand" => $this->brand,
+            "model" => $this->model,
             "plate" => $this->plate,
             "internal_number" => $this->internal_number,
             "carrier_id" => $this->carrier_id,
             "trips" => $this->whenLoaded("trips"),
+            "truck" => $this->whenLoaded("truck"),
             "reference_data" => $this->reference_data
         ];
     }
