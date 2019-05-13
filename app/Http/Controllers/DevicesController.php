@@ -37,11 +37,15 @@ class DevicesController extends Controller implements SearchInterface
      */
     public function store(DeviceRequest $request)
     {
-
         $device = Device::create($request->all());
         
-        if ($device) {
+        try {
             $unit = Unit::make($request->name);
+        }catch( \Exception $exception) {
+
+        }
+        
+        if (isset($unit)) {
             $device->update(["reference_data" => $unit]);
         }
         return DeviceResource::make($device);

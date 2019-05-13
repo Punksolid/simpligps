@@ -93,7 +93,7 @@ class DevicesTest extends TestCase
         
         $call->assertJsonStructure([
             "data" => [
-                "truck" => [
+                "truck" => [ //TRUCK
                     'name',
                     'plate',
                     'model',
