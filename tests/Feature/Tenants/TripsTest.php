@@ -292,7 +292,7 @@ class TripsTest extends TestCase
         $call = $this->actingAs($user)->json("POST", "/api/v1/trips/{$trip->id}/tags", [
             "tag" => $etiqueta
         ]);
-
+        
         $call->assertSee("riesgo");
         $call->assertStatus(200);
     }

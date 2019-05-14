@@ -21,9 +21,9 @@ class Kernel extends HttpKernel
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
+        \Illuminate\Auth\Middleware\Authorize::class, // Orden modificado, primero authoriza, luego identifica el tenant
         IdentifyTenantConnection::class, // Tenant identifier
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        \Illuminate\Auth\Middleware\Authorize::class,
+        \Illuminate\Routing\Middleware\SubstituteBindings::class, //Bindings for models here
     ];
     /**
      * The application's global HTTP middleware stack.
