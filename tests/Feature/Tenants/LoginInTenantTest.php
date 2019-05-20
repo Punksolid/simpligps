@@ -65,7 +65,7 @@ class LoginInTenantTest extends TestCase
         $this->user->attachAccount($this->account);
 
         $call = $this->getJson("api/v1/devices");
-
+        $call->assertStatus(403); // code for logged but not authorized
         \Cache::flush();
     }
 }

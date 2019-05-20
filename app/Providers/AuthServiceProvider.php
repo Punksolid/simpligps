@@ -7,6 +7,7 @@ use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvid
 use Illuminate\Support\Facades\Schema;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Bridge\AccessToken;
+use Illuminate\Support\Carbon;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -29,17 +30,11 @@ class AuthServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);  //https://laravel-news.com/laravel-5-4-key-too-long-error
         $this->registerPolicies();
         
-        // Passport::personalAccessClientId('client-id'); // 
-        /**
-         * passport configuration tokens
-         */
-
+        // Passport::personalAccessClientId('client-id'); // referencia
         // Passport::tokensExpireIn(now()->addSeconds(30));
 
-        // Passport::refreshTokensExpireIn(now()->addSeconds(30));
-
-        Passport::personalAccessTokensExpireIn(now()->addSeconds(20));
-        Passport::refreshTokensExpireIn(Carbon::now()->addSeconds(60));
+        Passport::personalAccessTokensExpireIn(now()->addMinutes(10));
+        Passport::refreshTokensExpireIn(Carbon::now()->addMinutes(300));
 //         Passport::routes(function ($router) {
 //            $router->forAccessTokens();
 //            $router->forClients();

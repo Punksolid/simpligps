@@ -24,8 +24,8 @@ class MeController extends Controller
      */
     public function meInfo()
     {
+        
         $user = auth()->user();
-
         return UsersResource::make($user);
     }
 
@@ -70,7 +70,6 @@ class MeController extends Controller
         $user = auth()->user();
         $user->password = bcrypt($request->password);
         return response()->json($user->save());
-
     }
 
     /*
@@ -78,7 +77,8 @@ class MeController extends Controller
      */
     public function permissions()
     {
-        return response()->json([
+        return response()->json(
+            [
                 "data" => auth()->user()->getAllPermissions()
             ]
         );
@@ -104,6 +104,4 @@ class MeController extends Controller
 
         return AccountResource::make($account);
     }
-
-
 }

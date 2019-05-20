@@ -5,6 +5,7 @@ use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
 
 //ecommerce
 Route::any('ecommerce/1234567890', "PurchaseController@storeFromEcommerce");
@@ -25,6 +26,7 @@ Route::group(["middleware" => [
 //    "verified",
     "auth:api",
 //    "limit_simoultaneous_access",
+    RefreshPersonalAccessTokenMiddleware::class,
     \App\Http\Middleware\ProfilingTestMiddleware::class
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     //Laravel Normal Notifications Access
