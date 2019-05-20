@@ -7,7 +7,11 @@ use Closure;
 use Hyn\Tenancy\Events\Websites\Identified;
 use Hyn\Tenancy\Models\Hostname;
 use Hyn\Tenancy\Models\Website;
+use Spatie\Permission\Exceptions\UnauthorizedException;
 
+/**
+ * Primero se ejecuta este middleware que el de authenticacion
+ */
 class IdentifyTenantConnection
 {
     /**
@@ -21,14 +25,22 @@ class IdentifyTenantConnection
     {
 
         //TODO add verification of user in account
-        if (!Account::where('uuid', $request->header('X-Tenant-id'))->exists()) {
-            abort(404);
-        }
+        // dd('aa'); // 
 
-        $request->tenant_account = Account::where('uuid', $request->header('X-Tenant-id'))->first();
-        $environment = app(\Hyn\Tenancy\Environment::class);
-        $environment->tenant($request->tenant_account);
+        // $user = auth()->check() ? auth()->user() : abort(401, "Not authenticated");
+        $uuid = $request->header('X-Tenant-id');
 
-        return $next($request);
+        // $request->tenant_account = $user->accounts()->whereUuid($uuid)->first();
+        $request->tenant_account = Account::whereUuid($uuid)->first();
+
+        // if ($request->tenant_account) {
+            $environment = app(\Hyn\Tenancy\Environment::class);
+            $environment->tenant($request->tenant_account);
+            return $next($request);
+        // }
+
+        // abort_if(Account::whereUuid($uuid)->exists(), 403, "Not Authorized");
+
+        abort(404, "Account Not Found");
     }
 }
