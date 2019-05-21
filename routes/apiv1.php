@@ -80,6 +80,8 @@ Route::group(["middleware" => [
 
         #region Situations
         Route::resource('situations', 'SituationController')->except(['create', 'edit', 'show']);
+        Route::resource('cancelation_reasons', 'CancelationReasonController')
+                ->except(['create', 'edit', 'show']);
         #endregion
         #region Trips
         //CONVOYS
