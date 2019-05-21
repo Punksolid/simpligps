@@ -68,4 +68,28 @@ class LoginInTenantTest extends TestCase
         $call->assertStatus(403); // code for logged but not authorized
         \Cache::flush();
     }
+
+    public function test_usuario_selecciona_una_cuenta()
+    {
+        $user = factory(User::class)->create();
+        factory(\Spatie\Activitylog\Models\Activity::class)->create([
+            'description' => "what",
+            'log_name' => 'access_log',
+            'causer_id' => $user->id,
+            'causer_type' => 'App\User'
+         ]);
+
+        $call = $this->getJson("api/v1/account/access_logs");
+        $call->assertSuccessful();
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    "id",
+                    "description",
+                    "message"
+                ]
+            ]
+        ]);
+        // $call->dump();
+    }
 }

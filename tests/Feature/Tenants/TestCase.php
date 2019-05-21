@@ -23,6 +23,7 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository; // contract
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\CreatesApplication;
+use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -42,7 +43,11 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
+        $this->withoutMiddleware([
+            LimitSimoultaneousAccess::class, 
+            LimitExpiredLicenseAccess::class,
+            RefreshPersonalAccessTokenMiddleware::class            
+        ]);
         $event_dispatcher = User::getEventDispatcher();
 
         User::unsetEventDispatcher();
