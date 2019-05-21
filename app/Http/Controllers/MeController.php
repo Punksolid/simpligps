@@ -104,4 +104,17 @@ class MeController extends Controller
 
         return AccountResource::make($account);
     }
+
+    public function setAccountSession(Request $request)
+    {
+        $account = Account::where('uuid', $request->uuid)->firstOrFail();
+        activity('access_log')
+            ->causedBy(auth()->user())
+            ->performedOn($account)
+            ->log('User Access');
+            // ->withProperties(['key' => 'value'])
+
+
+        return AccountResource::make($account);
+    }
 }

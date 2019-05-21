@@ -37,6 +37,7 @@ Route::group(["middleware" => [
     Route::get("/me/permissions", "MeController@permissions");
     Route::get("/me/accounts", "MeController@accounts");
     Route::get("/me/accounts/{uuid}", "MeController@getIdOfAccount");
+    Route::post("/me/set_account", "MeController@setAccountSession");
     Route::post('/me/change_password', 'MeController@changePassword');
         
     Route::group([
@@ -46,9 +47,11 @@ Route::group(["middleware" => [
             SetWialonTokenMiddleware::class
         ]
     ], function ($router) {
-        // Account Notifications
+        #region Account Notifications
+        Route::get('account/access_logs', "AccountController@accessLogs");
         Route::get('account/notifications', "AccountController@getNotifications");
         Route::post('account/notifications/{id}/mark_as_read', "AccountController@markAsRead");
+        #endregion
         // Dashboard
         Route::get('dashboard', 'DashboardController@resume');
         //Devices

@@ -13,13 +13,14 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Validation\ValidationException;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contracts\Website
 {
-    use UsesSystemConnection, SoftDeletes, Notifiable;
+    use UsesSystemConnection, SoftDeletes, Notifiable, LogsActivity;
 
     protected $table = "accounts"; // parece que esto hace que no tenga migraciones automaticas
-//    protected $table = "websites"; // Con este funciona la creación vía WebsiteRepositoryContract
+    // protected $table = "websites"; // Con este funciona la creación vía WebsiteRepositoryContract
     // y su migración automatica, también parece funcionar mejor con las validaciones
 
     protected $fillable = [
