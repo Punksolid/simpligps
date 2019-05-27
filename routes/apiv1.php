@@ -6,6 +6,7 @@ use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
+use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 
 //ecommerce
 Route::any('ecommerce/1234567890', "PurchaseController@storeFromEcommerce");
@@ -25,7 +26,7 @@ Route::post('{tennant_id}/alert/trips/{trip}', 'NotificationTriggersController@t
 Route::group(["middleware" => [
 //    "verified",
     "auth:api",
-//    "limit_simoultaneous_access",
+   "limit_simoultaneous_access",
     RefreshPersonalAccessTokenMiddleware::class,
     \App\Http\Middleware\ProfilingTestMiddleware::class
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
@@ -44,6 +45,7 @@ Route::group(["middleware" => [
         "middleware" => [
             IdentifyTenantConnection::class,
             "limit_expired_license_access",
+            IsUserPermittedInAccountMiddleware::class,
             SetWialonTokenMiddleware::class
         ]
     ], function ($router) {
@@ -57,6 +59,7 @@ Route::group(["middleware" => [
         //Devices
         Route::get("devices/search", "DevicesController@search");
         Route::get("devices/{device}/logs", "DeviceLogsController@index");
+        Route::post("devices/{device}/logs", "DeviceLogsController@store");
         Route::post("devices/{device}/link_unit", "DevicesController@linkUnit");
         Route::resource("devices", "DevicesController")->except(['create', 'edit']);
 

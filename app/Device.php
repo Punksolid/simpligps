@@ -7,9 +7,65 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Punksolid\Wialon\Unit;
+use Illuminate\Support\Carbon;
+use Psr\Log\LoggerTrait;
+use Psr\Log\AbstractLogger;
+use Psr\Log\LoggerInterface;
+use App\Traits\ModelLoggerTrait;
 
-class Device extends Model
+class Device extends Model implements LoggerInterface
 {
+    use LoggerTrait, ModelLoggerTrait;
+    /**
+     * Detailed debug information
+     */
+    const DEBUG = 100;
+
+    /**
+     * Interesting events
+     *
+     * Examples: User logs in, SQL logs.
+     */
+    const INFO = 200;
+
+    /**
+     * Uncommon events
+     */
+    const NOTICE = 250;
+
+    /**
+     * Exceptional occurrences that are not errors
+     *
+     * Examples: Use of deprecated APIs, poor use of an API,
+     * undesirable things that are not necessarily wrong.
+     */
+    const WARNING = 300;
+
+    /**
+     * Runtime errors
+     */
+    const ERROR = 400;
+
+    /**
+     * Critical conditions
+     *
+     * Example: Application component unavailable, unexpected exception.
+     */
+    const CRITICAL = 500;
+
+    /**
+     * Action must be taken immediately
+     *
+     * Example: Entire website down, database unavailable, etc.
+     * This should trigger the SMS alerts and wake you up.
+     */
+    const ALERT = 550;
+
+    /**
+     * Urgent alert.
+     */
+    const EMERGENCY = 600;
+
     use UsesTenantConnection, Notifiable, SoftDeletes;
 
     protected $fillable = [
@@ -44,7 +100,7 @@ class Device extends Model
      */
     public function carrier()
     {
-        return $this->belongsTo(Carrier::class,"carrier_id");
+        return $this->belongsTo(Carrier::class, "carrier_id");
     }
 
     public function notificationtriggers()
@@ -55,7 +111,6 @@ class Device extends Model
     public function logs()
     {
         return $this->morphMany(\App\Log::class, 'loggable');
-
     }
 
     /**
@@ -87,4 +142,8 @@ class Device extends Model
     {
         return (bool)$this->reference_data;
     }
+
+
+
+
 }
