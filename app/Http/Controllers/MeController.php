@@ -9,6 +9,7 @@ use App\Http\Resources\UsersResource;
 use App\User;
 use http\Client\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 /**
  * Class MeController
@@ -112,7 +113,7 @@ class MeController extends Controller
             ->causedBy(auth()->user())
             ->performedOn($account)
             ->log('User Access');
-            // ->withProperties(['key' => 'value'])
+        // ->withProperties(['key' => 'value'])
 
 
         return AccountResource::make($account);

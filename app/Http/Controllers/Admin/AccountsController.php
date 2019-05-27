@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Account;
-use App\Device;
 use App\Events\AccountCreatedEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountRequest;
@@ -11,13 +10,8 @@ use App\Http\Resources\AccountResource;
 use App\Setting;
 use App\User;
 use App\Wialon;
-use function foo\func;
-use Hyn\Tenancy\Models\Website;
-use Illuminate\Database\Connection;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Ramsey\Uuid\Uuid;
 
 /**
  * Class AccountsController

@@ -15,7 +15,6 @@ Route::get('api/', function (){
     if (\App\User::first()){
      return response()->json('ok');
     }
-    dd(\App\User::first());
     return abort(500, 'database problem');
 
 });

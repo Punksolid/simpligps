@@ -16,7 +16,7 @@ use Tests\Tenants\TestCase;
 
 class PlacesTest extends TestCase
 {
-    var $user;
+    public $user;
 
 
     protected function setUp(): void
@@ -25,7 +25,6 @@ class PlacesTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, "api");
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
-
     }
 
     /**
@@ -35,7 +34,6 @@ class PlacesTest extends TestCase
      */
     public function test_usuario_debe_poder_crear_origenes_y_destino()
     {
-
         $place = [ //TODO tiene la misma estructura que line, preguntar si la line transportadora es igual a un lugar
             //TODO en caso afirmativo agregar line a places talvez
             "name" => $this->faker->name,
@@ -100,16 +98,17 @@ class PlacesTest extends TestCase
 
     public function test_usuario_debe_poder_editar_lugares()
     {
-
         $place = factory(Place::class)->create();
         $new_place = factory(Place::class)->create();
 
         $call = $this->putJson("api/v1/places/$place->id", $new_place->toArray());
-
+        
         $call->assertStatus(200);
-        $this->assertDatabaseMissing("places",
+        $this->assertDatabaseMissing(
+            "places",
             $place->toArray(),
-            "tenant");
+            "tenant"
+        );
     }
 
     public function test_ver_detalles_de_lugar()

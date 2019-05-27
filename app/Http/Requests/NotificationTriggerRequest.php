@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Sabberworm\CSS\Rule\Rule;
+use Illuminate\Validation\Rule;
 
 class NotificationTriggerRequest extends FormRequest
 {
@@ -27,10 +27,20 @@ class NotificationTriggerRequest extends FormRequest
         return [
             "name" => [
                 "required"
-//                \Illuminate\Validation\Rule::unique('tenant.notification_triggers','name') // todo implement
+
             ],
             "devices_ids" => 'required|array',
-            "level" => '',
+            
+            "level" => Rule::in([
+                'emergency', 
+                'alert',
+                'critical',
+                'error',
+                'warning',
+                'notice',
+                'info',
+                'debug'
+                ]),
             "active" => 'required|bool',
             "control_type" => "required",
             "params.sensor_name" => "required_if:control_type,sensor",
@@ -41,4 +51,7 @@ class NotificationTriggerRequest extends FormRequest
             "params.similar_sensor" => "required_if:control_type,sensor"
         ];
     }
+    
 }
+
+//         \Illuminate\Validation\Rule::unique('tenant.notification_triggers','name') // todo implement

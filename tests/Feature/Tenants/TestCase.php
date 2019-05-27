@@ -24,6 +24,7 @@ use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository; // contract
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use Tests\CreatesApplication;
 use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
+use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 
 abstract class TestCase extends BaseTestCase
 {
@@ -42,11 +43,12 @@ abstract class TestCase extends BaseTestCase
     protected function setUp():void
     {
         parent::setUp();
-
+        
         $this->withoutMiddleware([
             LimitSimoultaneousAccess::class, 
             LimitExpiredLicenseAccess::class,
-            RefreshPersonalAccessTokenMiddleware::class            
+            RefreshPersonalAccessTokenMiddleware::class,
+            IsUserPermittedInAccountMiddleware::class
         ]);
         $event_dispatcher = User::getEventDispatcher();
 
@@ -60,7 +62,7 @@ abstract class TestCase extends BaseTestCase
         $this->setWebsiteEnvironment();
 
         $this->withHeader('X-Tenant-Id', $this->account->uuid);
-
+        
 
     }
 

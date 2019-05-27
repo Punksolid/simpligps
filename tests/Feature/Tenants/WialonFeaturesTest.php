@@ -10,6 +10,7 @@ class WialonFeaturesTest extends TestCase
 {
     public function test_crear_geocerca()
     {
+        $this->markTestSkipped("Deprecado, funcionalidad no necesaria");
         $this->withoutExceptionHandling();
         $name = $this->faker->uuid;
         $lat = $this->faker->latitude;

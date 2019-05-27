@@ -19,8 +19,9 @@ class RefreshPersonalAccessTokenMiddleware
 
         $user = auth()->user();
         $token = $user->token();
+        
         // now()->greaterThan()
-        if(now()->between($token->expires_at, $token->expires_at->copy()->subMinutes(5)) ){
+        if (now()->between($token->expires_at, $token->expires_at->copy()->subMinutes(5))) {
             $new_token = $user->createToken('Refreshed Personal Access Token')->accessToken;
             $response->header('X-Token', $new_token);
             $response->header('Access-Control-Expose-Headers', "X-Token");
