@@ -25,7 +25,7 @@ class WialonWebhookNotification extends Notification
      */
     public function __construct($message = null, $contextual_data = [], $device = null)
     {
-        $this->message = $message ?? "Attend! Wialon Notification!";
+        $this->message = $message ?? "Attend! Wialon Notification!"; 
         $this->contextual_data = $contextual_data;
         $this->device = $device;
         
@@ -98,7 +98,8 @@ class WialonWebhookNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        $arr = array_merge(['message' => $this->message], $this->contextual_data);
+        $arr = array_merge(['message' => $this->message], $this->contextual_data);+
+        dump($arr);
         // $arr['device'] = optional($this->device)->toArray();
         return $arr;
     }

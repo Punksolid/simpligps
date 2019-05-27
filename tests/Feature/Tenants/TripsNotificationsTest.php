@@ -46,7 +46,7 @@ class TripsNotificationsTest extends TestCase
             "notification_id" => "5",
             "trip_id" => $trip->id,
             "device" => $device->id
-        ];
+        ]; 
 
         $call = $this->postJson("api/v1/{$this->account->uuid}/alert/trips/$trip->id", [
             $payload
