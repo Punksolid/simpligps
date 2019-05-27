@@ -303,7 +303,7 @@ class Trip extends Model implements LoggerInterface
         NOTIFICATION=%NOTIFICATION%&
         X-Tenant-Id=' . $tenant_uuid . '&
         trip_id=' . $this->id. '&
-        device=' . $device. '
+        device_id=' . $device. '
         "';
 
         $text = str_replace(["\r", "\n", " "], "", $text);

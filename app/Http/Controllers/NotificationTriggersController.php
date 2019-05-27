@@ -31,7 +31,6 @@ use App\Http\Requests\DeviceNotificationRequest;
  */
 class NotificationTriggersController extends Controller
 {
-
     public function index()
     {
         return NotificationTriggerResource::collection(NotificationTrigger::paginate());
@@ -97,14 +96,14 @@ class NotificationTriggersController extends Controller
     }
 
     public function getGeofences()
-    { }
+    {
+    }
 
     /**
      * Aqui se cachan las notificaciones convencionales
      */
     public function webhookAlert(DeviceNotificationRequest $request)
     {
-
         $account = Account::whereUuid($request->get("X-Tenant-Id"))->firstOrFail();
 
         $notification_trigger = $account->getTenantData(NotificationTrigger::class)->findOrFail($request->notification_id);
@@ -114,7 +113,7 @@ class NotificationTriggersController extends Controller
             // $devices = $notification_trigger->devices;
             $device = Device::where("wialon_id", $request->unit_id)->first();
             \Notification::send($account, new WialonWebhookNotification("$notification_trigger->name.Check {$request->get('unit')}", $request->all(), $device));
-            if($device){
+            if ($device) {
                 $device->log($notification_trigger->level, $notification_trigger->name, $request->all());
             }
         }
@@ -129,23 +128,21 @@ class NotificationTriggersController extends Controller
     public function tripAlert(Request $request, $tenant_uuid, $trip_id)
     {
         $account = Account::whereUuid($tenant_uuid)->firstOrFail();
-        \Notification::send($account, new WialonWebhookNotification("Check TRIP {$request->get('unit')}", $request->all()));
-
+        
+        
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($account);
         $trip = Trip::findOrFail($trip_id);
-
+        
         $device = $trip->truck->device;
-        \Log::info("trip", $trip->toArray());
-        \Log::info("device", $device->toArray());
-        // $trip->logs()->create(['context' => $request->all()]); // old way, deprecated
         $trip->info("Update on Trip", $request->all());
         $device->info("Update on Device", $request->all());
-
-        // $device->logs()->create(['context' => $request->all()]);
-
-        //        $device->notify(new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
-        //        \Notification::send($devices, );
+        \Notification::send($account, new WialonWebhookNotification(
+            "Check TRIP {$request->get('unit')}", 
+            $request->all(),
+            $device
+        ));
+        
 
         return response()->json('ok');
     }

@@ -45,12 +45,12 @@ class TripsNotificationsTest extends TestCase
             "X-Tenant-Id" => "b51db8d2-a890-4629-9350-502fe18739c9",
             "notification_id" => "5",
             "trip_id" => $trip->id,
-            "device" => $device->id
+            "device_id" => $device->id
         ]; 
 
-        $call = $this->postJson("api/v1/{$this->account->uuid}/alert/trips/$trip->id", [
+        $call = $this->postJson("api/v1/{$this->account->uuid}/alert/trips/$trip->id", 
             $payload
-        ]);
+        );
         
         $call->assertSuccessful();
     }

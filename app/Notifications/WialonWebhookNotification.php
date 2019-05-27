@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
+use App\Http\Resources\DeviceResource;
 
 /**
  * @property mixed notifiable
@@ -25,10 +26,10 @@ class WialonWebhookNotification extends Notification
      */
     public function __construct($message = null, $contextual_data = [], $device = null)
     {
-        $this->message = $message ?? "Attend! Wialon Notification!"; 
+        $this->message = $message ?? "Attend! Wialon Notification!";
         $this->contextual_data = $contextual_data;
-        $this->device = $device;
         
+        $this->device = new DeviceResource( $device);
     }
 
     /**
@@ -39,12 +40,10 @@ class WialonWebhookNotification extends Notification
      */
     public function via($notifiable)
     {
-
         return [
             'database',
             'broadcast'
         ];
-
     }
 
     /**
@@ -55,7 +54,6 @@ class WialonWebhookNotification extends Notification
      */
     public function toMail($notifiable)
     {
-
         return (new MailMessage)
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
@@ -98,8 +96,12 @@ class WialonWebhookNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        $arr = array_merge(['message' => $this->message], $this->contextual_data);+
-        dump($arr);
+        $arr = array_merge(
+            ['message' => $this->message],
+            $this->contextual_data,
+            ["device" => $this->device]
+        );
+        
         // $arr['device'] = optional($this->device)->toArray();
         return $arr;
     }
@@ -116,7 +118,4 @@ class WialonWebhookNotification extends Notification
 
         return $broadcast_message;
     }
-
-
-
 }
