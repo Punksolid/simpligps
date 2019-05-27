@@ -13,10 +13,55 @@ use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 use Spatie\Tags\HasTags;
 use Carbon\Carbon;
+use App\Traits\ModelLoggerTrait;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerTrait;
 
-class Trip extends Model
+class Trip extends Model implements LoggerInterface
 {
-    use HasTags, UsesTenantConnection;
+    use HasTags, UsesTenantConnection,ModelLoggerTrait, LoggerTrait;
+    
+    // Detailed debug information
+    const DEBUG = 100;
+
+    /**
+     * Interesting events
+     *
+     * Examples: User logs in, SQL logs.
+     */
+    const INFO = 200;
+
+    // Uncommon events
+    const NOTICE = 250;
+
+    /**
+     * Exceptional occurrences that are not errors
+     *
+     * Examples: Use of deprecated APIs, poor use of an API,
+     * undesirable things that are not necessarily wrong.
+     */
+    const WARNING = 300;
+
+    //Runtime Errors
+    const ERROR = 400;
+
+    /**
+     * Critical conditions
+     *
+     * Example: Application component unavailable, unexpected exception.
+     */
+    const CRITICAL = 500;
+
+    /**
+     * Action must be taken immediately
+     *
+     * Example: Entire website down, database unavailable, etc.
+     * This should trigger the SMS alerts and wake you up.
+     */
+    const ALERT = 550;
+
+    // Urgent alert.
+    const EMERGENCY = 600;
 
     protected $fillable = [
             "rp",
@@ -258,7 +303,7 @@ class Trip extends Model
         NOTIFICATION=%NOTIFICATION%&
         X-Tenant-Id=' . $tenant_uuid . '&
         trip_id=' . $this->id. '&
-        device=' . $device. '
+        device_id=' . $device. '
         "';
 
         $text = str_replace(["\r", "\n", " "], "", $text);

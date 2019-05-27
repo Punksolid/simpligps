@@ -21,6 +21,7 @@ use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Wialon;
 use Illuminate\Support\Str;
+use App\Http\Requests\DeviceNotificationRequest;
 
 /**
  *   Este controlador se encarga de los Notification Triggers
@@ -30,7 +31,6 @@ use Illuminate\Support\Str;
  */
 class NotificationTriggersController extends Controller
 {
-
     public function index()
     {
         return NotificationTriggerResource::collection(NotificationTrigger::paginate());
@@ -95,65 +95,54 @@ class NotificationTriggersController extends Controller
         ]);
     }
 
-
-
-
     public function getGeofences()
-    { }
+    {
+    }
 
     /**
      * Aqui se cachan las notificaciones convencionales
      */
-    public function webhookAlert(Request $request)
+    public function webhookAlert(DeviceNotificationRequest $request)
     {
-        $data = $this->validate($request, [
-            'X-Tenant-Id' => [
-                "required",
-                'exists:accounts,uuid'
-            ],
-            'notification_id' => "required"
-        ]);
-
         $account = Account::whereUuid($request->get("X-Tenant-Id"))->firstOrFail();
 
         $notification_trigger = $account->getTenantData(NotificationTrigger::class)->findOrFail($request->notification_id);
 
         if ($notification_trigger->active) {
-            \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
-
-            $devices = $notification_trigger->devices;
-            foreach ($devices as $device) {
-                $device->logs()->create([
-                    "level" => $notification_trigger->level,
-                    "data" => $request->all()
-                ]);
+            
+            // $devices = $notification_trigger->devices;
+            $device = Device::where("wialon_id", $request->unit_id)->first();
+            \Notification::send($account, new WialonWebhookNotification("$notification_trigger->name.Check {$request->get('unit')}", $request->all(), $device));
+            if ($device) {
+                $device->log($notification_trigger->level, $notification_trigger->name, $request->all());
             }
         }
 
         return response()->json('ok');
     }
     /*
-* Aqui se reciben los webhooks de los trips, está separado de los de las notificaciones sencillas
-*
-*
-**/
+    * Aqui se reciben los webhooks de los trips, está separado de los de las notificaciones sencillas
+    *
+    *
+    **/
     public function tripAlert(Request $request, $tenant_uuid, $trip_id)
     {
         $account = Account::whereUuid($tenant_uuid)->firstOrFail();
-        \Notification::send($account, new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
-
+        
+        
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($account);
         $trip = Trip::findOrFail($trip_id);
-
+        
         $device = $trip->truck->device;
-        \Log::info("trip", $trip->toArray());
-        \Log::info("device", $device->toArray());
-        $trip->logs()->create(['data' => $request->all()]);
-        $device->logs()->create(['data' => $request->all()]);
-
-        //        $device->notify(new WialonWebhookNotification("Check unit {$request->get('unit')}", $request->all()));
-        //        \Notification::send($devices, );
+        $trip->info("Update on Trip", $request->all());
+        $device->info("Update on Device", $request->all());
+        \Notification::send($account, new WialonWebhookNotification(
+            "Check TRIP {$request->get('unit')}", 
+            $request->all(),
+            $device
+        ));
+        
 
         return response()->json('ok');
     }

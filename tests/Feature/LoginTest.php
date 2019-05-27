@@ -15,6 +15,8 @@ use Punksolid\Wialon\Account as PunksolidAccount;
 use Tymon\JWTAuth\Facades\JWTAuth;
 use Laravel\Passport\Passport;
 use Laravel\Passport\Token;
+use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
+use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 
 class LoginTest extends TestCase
 {
@@ -26,6 +28,7 @@ class LoginTest extends TestCase
 
     public function test_acting_as()
     {
+        $this->withoutMiddleware(RefreshPersonalAccessTokenMiddleware::class);
         $call = $this->actingAs($this->user, "api")->getJson("api/v1/me");
         $call->assertSee($this->user->email);
     }
@@ -55,10 +58,13 @@ class LoginTest extends TestCase
 
     public function test_access_token_expira_a_los_15_minutos()
     {
+        $this->markTestIncomplete("Falta agregar middleware que revisa expiracion");
+        $this->withoutExceptionHandling();
+  
         $user = factory(User::class)->create();
         // Personal
         Passport::personalAccessTokensExpireIn(now()->addMinutes(15));
-
+  
         $token = $user->createToken('Token TEST')->accessToken;
         // dd($token, $token->accessToken);
         // $token = $token->accessToken;
@@ -77,19 +83,21 @@ class LoginTest extends TestCase
         $call->assertStatus(401); // no hizo login
     }
 
+    /**
+     * @throwException Symfony\Component\HttpKernel\Exception\HttpException
+     */
     public function test_user_cannot_access_to_other_accounts()
     {
-        $this->withExceptionHandling();
-        $this->withMiddleware();
+        $this->withoutMiddleware(RefreshPersonalAccessTokenMiddleware::class);
+        $this->withMiddleware(IsUserPermittedInAccountMiddleware::class);
         $user = factory(User::class)->create();
         $account = factory(Account::class)->create();
-
+        
         $call  = $this
-            ->actingAs($user)
+            ->actingAs($user, 'api')
             ->getJson('api/v1/dashboard', [
                 'X-Tenant-Id' => $account->uuid
             ]);
-        
         $call->assertStatus(403);
     }
 }

@@ -6,16 +6,24 @@ use App\Http\Resources\InternalNotificationResource;
 use Illuminate\Http\Request;
 use App\Http\Resources\AccessLogResource;
 use App\User;
+use App\Account;
+use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 
 class AccountController extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct();
+        $this->middleware(IsUserPermittedInAccountMiddleware::class);
+    }
+
     public function accessLogs(Request $request)
     {
-        $account_uuid =  \request()->header('X-Tenant-Id', null);
-        $account = \request()->user()->accounts()->where('uuid', $account_uuid)->firstOrFail();
-        $logs = $account->activities()
+        $account_uuid =  $request->header('X-Tenant-Id', null);
+        
+        $logs = $request->tenant_account->activities()
         ->where('log_name', 'access_log')
-        ->paginate();        
+        ->paginate();
         // $logs = \Spatie\Activitylog\Models\Activity::
         //         where('log_name', 'access_log')
         //         // @TODO: select by account
@@ -32,8 +40,7 @@ class AccountController extends Controller
      */
     public function getNotifications()
     {
-        $account_uuid =  \request()->header('X-Tenant-Id', null);
-        $account = \request()->user()->accounts()->where('uuid', $account_uuid)->firstOrFail();
+        $account = $this->getAccount();
         $notifications = $account
             ->unreadNotifications()
             ->get();
@@ -43,14 +50,13 @@ class AccountController extends Controller
 
     public function markAsRead($uuid)
     {
-        try {
-            auth()->user()->notifications()->where('id', $uuid)->first()->markAsRead();
-            return \response()->json(['data' => 'ok']);
-        } catch (\Exception $e) {
-            \Log::error('Failed mark as read', $e->getMessage());
-            return response()->json([
-                'message' => 'An error occurred'
-            ]);
-        }
+        $this->getAccount()->notifications()->where('id', $uuid)->first()->markAsRead();
+        return \response()->json(['data' => 'ok']);
+    }
+
+    public function getAccount(): ?Account
+    {
+        $account_uuid =  \request()->header('X-Tenant-Id', null);
+        return \request()->user()->accounts()->where('uuid', $account_uuid)->firstOrFail();
     }
 }

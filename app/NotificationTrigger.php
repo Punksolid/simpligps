@@ -17,10 +17,20 @@ class NotificationTrigger extends Model
 {
     use UsesTenantConnection, SoftDeletes;
 
-
+/**
+ * lista de level
+    *   'emergency' 
+    *   'alert' 
+    *   'critical' 
+    *   'error' 
+    *   'warning' 
+    *   'notice' 
+    *   'info' 
+    *   'debug' 
+*/
     protected $fillable = [
         "name",
-        "level",
+        "level", // 
         "control_type",
         'audit_obj',
         "active",

@@ -31,7 +31,7 @@ class NotificationsTest extends TestCase
      *
      * @return void
      */
-    public function test_crear_activador_de_notification()
+    public function test_usuario_puede_crear_un_notificador_alias_notification_trigger()
     {
         //        $wialon_object = \Punksolid\Wialon\Notification::all()->first();
         //        'name',
@@ -49,11 +49,11 @@ class NotificationsTest extends TestCase
             "devices_ids" => [
                 $device->id
             ],
-            "active" => 1
+            "active" => 1,
+            "params" => [] // vacío pero presente cuando es panic button
         ];
 
         $call = $this->postJson("api/v1/notification_triggers", $form);
-
         $this->assertDatabaseHas('notification_triggers', [
             'name' => $form['name']
         ], 'tenant');
@@ -113,6 +113,7 @@ class NotificationsTest extends TestCase
 
     public function test_destroy_wialon_notification()
     {
+        $this->markAsRisky("DEPRECATED");
         $notification = \Punksolid\Wialon\Notification::all()->first();
         $call = $this->deleteJson("api/v1/wialon/notifications/$notification->id");
         $call->assertSuccessful();
@@ -120,6 +121,7 @@ class NotificationsTest extends TestCase
 
     public function test_enviar_notificacion_a_cuenta_por_webhook()
     {
+        $this->withoutExceptionHandling();
         Notification::fake();
         $notification = factory(NotificationTrigger::class)->create([
             "active" => true
@@ -169,12 +171,13 @@ class NotificationsTest extends TestCase
 
     public function test_crear_notificacion_wialon()
     {
-        $this->markTestIncomplete("Librería Wialon Fallando Refactorizar");
+        $this->markTestIncomplete("DEPRECADO, no se usa mas acceso directo a wialon, Librería Wialon Fallando Refactorizar");
         $units_id = [
             "17471332"
-        ]; 
+        ];
         $resource = Resource::all()->first();
-        $call = $this->postJson("api/v1/wialon/notifications", 
+        $call = $this->postJson(
+            "api/v1/wialon/notifications",
             [
             "resource_id" => $resource->id,
             "name" => $this->faker->name,
@@ -194,7 +197,7 @@ class NotificationsTest extends TestCase
 
     public function test_activate_maximum_alert_notification()
     {
-
+        $this->withoutExceptionHandling();
         Notification::fake();
         $notification_trigger = factory(NotificationTrigger::class)->create([
             "active" => true
@@ -225,7 +228,7 @@ class NotificationsTest extends TestCase
             "LOND" => "-103.362772",
             "GOOGLE_LINK" => "http://maps.google.com/?q=20.578162,-103.362772",
             "CUSTOM_FIELD" => "ALTA EN WIALON: 11/03/2019, CELULAR: +526683963652, GPS: Ruptela FM Tco4, PLACAS: JV-57-700, UNIDAD: Tractocamión",
-            "UNIT_ID" => "18921279",
+            "UNIT_ID" => "18921279", // no mover
             "MSG_TIME_INT" => "1555547526",
             "NOTIFICATION" => "Exceso de Velocidad",
             "X-Tenant-Id" => $this->account->uuid,

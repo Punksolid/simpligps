@@ -11,10 +11,10 @@ use Tests\Tenants\TestCase;
 
 class LogsTest extends TestCase
 {
-   public function test_registrar_una_linea_para_trips_en_logs()
-   {
-       $trip = factory(Trip::class)->create();
-       $log =
+    public function test_registrar_una_linea_para_trips_en_logs()
+    {
+        $trip = factory(Trip::class)->create();
+        $log =
             [
             'unit' =>"PTS003",
             'timestamp' =>"2019-05-02 01:58:08",
@@ -48,18 +48,17 @@ class LogsTest extends TestCase
             ];
 
 
-       $trip->logs()->create(['data' => $log]);
+        // $trip->logs()->create(['data' => $log]); // @deprecated
+        $trip->info("Trip Updated", $log);
+        $log = $trip->logs()->first();
+        $this->assertEquals("PTS003", $log->context['unit']);
+    }
 
-       $log = $trip->logs()->first();
-       $this->assertEquals("PTS003", $log->data['unit']);
-   }
-
-   public function test_listar_logs_de_un_viaje()
-   {
-       $this->withoutExceptionHandling();
-       $trip = factory(Trip::class)->create();
-       $log =
-           [
+    public function test_listar_logs_de_un_viaje()
+    {
+        $this->withoutExceptionHandling();
+        $trip = factory(Trip::class)->create();
+        $log = [
                'unit' =>"PTS003",
                'timestamp' =>"2019-05-02 01:58:08",
                'location' =>"Calle Río Del Carmen 1058, Industrial Bravo, Culiacán, Sinaloa 80120, Mexico",
@@ -90,25 +89,26 @@ class LogsTest extends TestCase
                'trip_id' =>"49",
                'device' =>"6"
            ];
-       $trip->logs()->create(['data' => $log]);
-
-       $call = $this->getJson("api/v1/trips/$trip->id/logs");
-       $call->assertSuccessful();
-       $call->assertJsonFragment([
-           "level" => "generic"
+           $trip->info("Trip Status Updated", $log);
+        // $trip->logs()->create(['data' => $log]); // old way, deprecated
+        
+        
+        $call = $this->getJson("api/v1/trips/$trip->id/logs");
+        $call->assertSuccessful();
+        $call->assertJsonFragment([
+           "level_name" => "info"
        ]);
-       $call->assertJsonFragment([
+        $call->assertJsonFragment([
            "unit" => "PTS003"
        ]);
-   }
+    }
 
-   public function test_listar_logs_de_un_dispositivo()
-   {
-       $this->withoutExceptionHandling();
+    public function test_listar_logs_de_un_dispositivo()
+    {
+        $this->withoutExceptionHandling();
 
-       $device = factory(Device::class)->create();
-       $log =
-           [
+        $device = factory(Device::class)->create();
+        $context = [
                'unit' =>"PTS003",
                'timestamp' =>"2019-05-02 01:58:08",
                'location' =>"Calle Río Del Carmen 1058, Industrial Bravo, Culiacán, Sinaloa 80120, Mexico",
@@ -139,15 +139,36 @@ class LogsTest extends TestCase
                'trip_id' =>"49",
                'device' =>"6"
            ];
-       $device->logs()->create(['data' => $log]);
-
-       $call = $this->getJson("api/v1/devices/$device->id/logs");
-       $call->assertSuccessful();
-       $call->assertJsonFragment([
-           "level" => "generic"
+        // $device->logs()->create(['context' => $log]);
+        $device->info('info_test', $context);
+        $call = $this->getJson("api/v1/devices/$device->id/logs");
+        $call->assertSuccessful();
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    "message",
+                    "level_name"
+                ]
+            ]
+        ]);
+        $call->assertJsonFragment([
+           "message" => "info_test"
        ]);
-       $call->assertJsonFragment([
+        $call->assertJsonFragment([
            "unit" => "PTS003"
        ]);
-   }
+    }
+
+    public function test_crear_log_manual_para_device()
+    {
+        $device = factory(Device::class)->create();
+        $call = $this->postJson("api/v1/devices/$device->id/logs", [
+            "message" => $this->faker->sentence
+        ]);
+
+        $call->assertSuccessful();
+        $this->assertDatabaseHas('logs', [
+            'loggable_id' => $device->id
+        ], 'tenant');
+    }
 }
