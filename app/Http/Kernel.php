@@ -89,8 +89,4 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class
 
     ];
-
-
-
-
 }

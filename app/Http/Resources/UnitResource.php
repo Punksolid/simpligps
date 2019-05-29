@@ -14,7 +14,6 @@ class UnitResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
             "name" => $this->nm,
             "id" => $this->id,
@@ -24,6 +23,5 @@ class UnitResource extends JsonResource
                 "lon" => optional($this->pos)->x
             ]
         ];
-
     }
 }

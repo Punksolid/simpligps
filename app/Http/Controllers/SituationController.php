@@ -25,7 +25,7 @@ class SituationController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('all')){
+        if ($request->has('all')) {
             return SituationResource::collection(Situation::all());
         }
 
@@ -56,7 +56,7 @@ class SituationController extends Controller
      * @param  \App\Situation  $situation
      * @return \Illuminate\Http\Response
      */
-    public function update(SituationRequest $request,  $situation)
+    public function update(SituationRequest $request, $situation)
     {
         $situation = Situation::findOrFail($situation);
 
@@ -73,7 +73,6 @@ class SituationController extends Controller
      */
     public function destroy(Situation $situation)
     {
-
         $situation->delete();
 
         return SituationResource::make($situation);

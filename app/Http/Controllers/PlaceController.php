@@ -22,7 +22,7 @@ class PlaceController extends Controller implements Search
      */
     public function index(Request $request)
     {
-        if ($request->has('all')){
+        if ($request->has('all')) {
             return PlaceResource::collection(Place::all());
         }
 
@@ -69,7 +69,7 @@ class PlaceController extends Controller implements Search
     {
         $place = Place::findOrFail($place);
 
-        if ($place->update($request->all())){
+        if ($place->update($request->all())) {
             return PlaceResource::make($place);
         }
 
@@ -82,12 +82,12 @@ class PlaceController extends Controller implements Search
      * @param  \App\Place  $place
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $place)
+    public function destroy($place)
     {
         $place = Place::findOrFail($place);
 
 
-        if ($place->delete()){
+        if ($place->delete()) {
             return PlaceResource::make($place)->additional([
                 'message' => "Place Deleted."
             ]);

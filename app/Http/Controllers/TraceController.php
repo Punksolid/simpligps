@@ -21,7 +21,6 @@ class TraceController extends Controller
      */
     public function index(Trip $trip)
     {
-
         return TraceResource::collection($trip->traces);
     }
 
@@ -40,9 +39,5 @@ class TraceController extends Controller
             ]);
 
         return TraceResource::make($trace);
-
     }
-
-
-
 }

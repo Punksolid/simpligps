@@ -34,7 +34,6 @@ class ConvoyController extends Controller
      */
     public function store(Request $request)
     {
-
         $convoy = Convoy::create();
         $trips = Trip::findMany($request->trips_ids);
 

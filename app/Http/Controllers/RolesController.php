@@ -87,8 +87,7 @@ class RolesController extends Controller
      */
     public function destroy(Role $role)
     {
-
-        if ($role->delete()){
+        if ($role->delete()) {
             return response([
                 "message" => "rol eliminado"
             ]);
@@ -96,8 +95,6 @@ class RolesController extends Controller
         return response([
             "message" => "falló al eliminar el rol"
         ]); //todo cambiar por thwrow exception
-
-
     }
 
     /**
@@ -106,8 +103,8 @@ class RolesController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function assignToUser(Role $role, Request $request){
-
+    public function assignToUser(Role $role, Request $request)
+    {
         $user = User::find($request->user_id);
         $user->assignRole($role->name);
 

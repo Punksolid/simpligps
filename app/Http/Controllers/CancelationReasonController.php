@@ -15,7 +15,7 @@ class CancelationReasonController extends Controller
     public function index()
     {
         return response(
-            CancelationReason::paginate() 
+            CancelationReason::paginate()
         );
     }
 

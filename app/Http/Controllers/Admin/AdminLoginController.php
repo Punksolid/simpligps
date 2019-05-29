@@ -12,12 +12,10 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 
 class AdminLoginController extends Controller
 {
-
     use HasPermissions;
 
     public function login(Request $request)
     {
-
         $this->validate($request, [
             'email' => 'required|email',
             'password' => 'required|min:6',
@@ -39,5 +37,4 @@ class AdminLoginController extends Controller
             ]
         ], 200);
     }
-
 }

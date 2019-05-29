@@ -23,14 +23,14 @@ class SettingsController extends Controller
      */
     public function general(Request $request)
     {
-        $this->validate($request,[
+        $this->validate($request, [
             "wialon_key" => "required",
             "import" => "required|bool"
         ]);
         $setting_wialon_key = Setting::where('key', 'wialon_key')->first();
         $setting_wialon_key->value = $request->wialon_key;
-        if ($setting_wialon_key->save()){
-            if ($request->import){
+        if ($setting_wialon_key->save()) {
+            if ($request->import) {
                 $wialon = new Wialon($request->wialon_key);
                 $wialon->import();
 //                $wialon->importNotifications(); //como existe una capa intermedia de validacion, no es necesario importar notificaciones
@@ -44,17 +44,15 @@ class SettingsController extends Controller
         } else {
             return response('Aconteció un error');
         }
-
     }
 
     public function getSettings()
     {
-
         $settings = Setting::all();
 
         return response([
             'data' => [
-                'wialon_key' => $settings->where('key','wialon_key')->first()->value
+                'wialon_key' => $settings->where('key', 'wialon_key')->first()->value
             ]
         ]);
     }

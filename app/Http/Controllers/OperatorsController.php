@@ -64,19 +64,17 @@ class OperatorsController extends Controller implements Search
      * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function update(OperatorRequest $request,  $operator)
+    public function update(OperatorRequest $request, $operator)
     {
         $operator = Operator::findOrFail($operator);
 
-        if ($operator->update($request->all())){
+        if ($operator->update($request->all())) {
             return OperatorResource::make($operator);
         }
 
         return response([
             "message" => "Ocurrió un error al actualizar"
         ]);
-
-
     }
 
     /**
@@ -85,10 +83,10 @@ class OperatorsController extends Controller implements Search
      * @param  \App\Operator  $operator
      * @return \Illuminate\Http\Response
      */
-    public function destroy( $operator)
+    public function destroy($operator)
     {
         $operator = Operator::findOrFail($operator);
-        if ($operator->delete()){
+        if ($operator->delete()) {
             return response([
                 "message" => "The Operator was deleted succesfully."
             ]);
@@ -99,7 +97,6 @@ class OperatorsController extends Controller implements Search
 
     public function search(\Illuminate\Http\Request $request)
     {
-        
         $operators = Operator::query()
             ->where('name', 'LIKE', "%{$request->name}%")
             ->paginate(50); // Todo change for simple paginate

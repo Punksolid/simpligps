@@ -39,7 +39,6 @@ class ForgotPasswordController extends Controller
 //                "message" => "Can't request and email if logged, try changing password instead"
 //            ]);
 //        }
-
     }
     /**
      * Send a reset link to the given user.
@@ -58,7 +57,7 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        if ($response === Password::RESET_LINK_SENT){
+        if ($response === Password::RESET_LINK_SENT) {
             return response()->json('ok');
         } else {
             return response()->json([
@@ -68,7 +67,5 @@ class ForgotPasswordController extends Controller
 //        return
 //            ? $this->sendResetLinkResponse($request, $response)
 //            : $this->sendResetLinkFailedResponse($request, $response);
-
     }
-
 }

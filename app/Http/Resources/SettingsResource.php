@@ -17,6 +17,5 @@ class SettingsResource extends JsonResource
         return [
           'wialon_key' => $request->wialon_key
         ];
-
     }
 }

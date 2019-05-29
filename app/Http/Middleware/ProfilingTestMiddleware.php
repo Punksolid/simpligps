@@ -16,15 +16,14 @@ class ProfilingTestMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (config('app.debug') && config('debugbar.enabled') ){
-
+        if (config('app.debug') && config('debugbar.enabled')) {
             \Debugbar::enable();
         }
 
 
         $response = $next($request);
 
-        if (config('app.debug') && config('debugbar.enabled')){
+        if (config('app.debug') && config('debugbar.enabled')) {
             if (
                 $response instanceof JsonResponse &&
                 app()->bound('debugbar') &&

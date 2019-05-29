@@ -25,7 +25,7 @@ class IdentifyTenantConnection
     {
 
         //TODO add verification of user in account
-        // dd('aa'); // 
+        // dd('aa'); //
 
         // $user = auth()->check() ? auth()->user() : abort(401, "Not authenticated");
         $uuid = $request->header('X-Tenant-id');
@@ -34,9 +34,9 @@ class IdentifyTenantConnection
         $request->tenant_account = Account::whereUuid($uuid)->first();
 
         // if ($request->tenant_account) {
-            $environment = app(\Hyn\Tenancy\Environment::class);
-            $environment->tenant($request->tenant_account);
-            return $next($request);
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($request->tenant_account);
+        return $next($request);
         // }
 
         // abort_if(Account::whereUuid($uuid)->exists(), 403, "Not Authorized");
