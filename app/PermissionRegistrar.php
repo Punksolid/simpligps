@@ -11,9 +11,7 @@ use Illuminate\Contracts\Auth\Access\Authorizable;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 
 /**
- * Class PermissionRegistrar
- * @package App\Permission
- * not a model, personalized spatie class to adapt for tenants
+ * Class PermissionRegistrar.
  */
 class PermissionRegistrar
 {
@@ -48,7 +46,7 @@ class PermissionRegistrar
      * PermissionRegistrar constructor.
      *
      * @param \Illuminate\Contracts\Auth\Access\Gate $gate
-     * @param \Illuminate\Cache\CacheManager $cacheManager
+     * @param \Illuminate\Cache\CacheManager         $cacheManager
      */
     public function __construct(Gate $gate, CacheManager $cacheManager)
     {
@@ -93,7 +91,7 @@ class PermissionRegistrar
         }
 
         // if an undefined cache store is specified, fallback to 'array' which is Laravel's closest equiv to 'none'
-        if (! \array_key_exists($cacheDriver, config('cache.stores'))) {
+        if (!\array_key_exists($cacheDriver, config('cache.stores'))) {
             $cacheDriver = 'array';
         }
 
@@ -112,7 +110,8 @@ class PermissionRegistrar
                 if (method_exists($user, 'hasPermissionTo')) {
                     return $user->hasPermissionTo($ability) ?: null;
                 }
-            } catch (PermissionDoesNotExist $e) {
+            } catch (PermissionDoesNotExist $exception) {
+                \Log::error('Permission does not exists '. $exception->getMessage());
             }
         });
 
@@ -146,7 +145,7 @@ class PermissionRegistrar
                     ->get();
             });
 
-        if (! self::$cacheIsTaggable) {
+        if (!self::$cacheIsTaggable) {
             foreach ($params as $attr => $value) {
                 $permissions = $permissions->where($attr, $value);
             }

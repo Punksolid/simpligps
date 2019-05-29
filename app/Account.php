@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 //use Hyn\Tenancy\Repositories\WebsiteRepository;
 use Hyn\Tenancy\Traits\UsesSystemConnection;
-use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -19,18 +18,18 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
 {
     use UsesSystemConnection, SoftDeletes, Notifiable, LogsActivity;
 
-    protected $table = "accounts"; // parece que esto hace que no tenga migraciones automaticas
+    protected $table = 'accounts'; // parece que esto hace que no tenga migraciones automaticas
     // protected $table = "websites"; // Con este funciona la creación vía WebsiteRepositoryContract
     // y su migración automatica, también parece funcionar mejor con las validaciones
 
     protected $fillable = [
-        "easyname",
-        "uuid",
-        "bulk"
+        'easyname',
+        'uuid',
+        'bulk',
     ];
 
     protected $casts = [
-        "bulk" => "array"
+        'bulk' => 'array',
     ];
 
     public function hostnames(): HasMany
@@ -38,71 +37,81 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         // TODO: Implement hostnames() method.
         return null;
     }
-    #region Relationships
+
+    //region Relationships
     public function users()
     {
-        return $this->belongsToMany(User::class, "users_accounts");
+        return $this->belongsToMany(User::class, 'users_accounts');
     }
+
     /**
-     * An account has some licenses
+     * An account has some licenses.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function licenses()
     {
-        return $this->belongsToMany(License::class, "licenses_accounts")
+        return $this->belongsToMany(License::class, 'licenses_accounts')
             ->withPivot([
-                "expires_at",
-                "created_at"
+                'expires_at',
+                'created_at',
             ]);
     }
-    #endregion
+
+    //endregion
 
     /**
-     * Licencias por periodo activo basados en la fecha
+     * Licencias por periodo activo basados en la fecha.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function activeLicenses()
     {
         $now = Carbon::now();
-        return $this->belongsToMany(License::class, "licenses_accounts")
-            ->withPivot(["expires_at", "created_at"])
-            ->wherePivot('expires_at', ">=", $now);
+
+        return $this->belongsToMany(License::class, 'licenses_accounts')
+            ->withPivot(['expires_at', 'created_at'])
+            ->wherePivot('expires_at', '>=', $now);
     }
-    # region Scopes
+
+    // region Scopes
     public function scopeActive($query)
     {
-        return $query->whereHas("activeLicenses");
-
+        return $query->whereHas('activeLicenses');
     }
 
     public function scopeNearToExpire($query)
     {
-        return $query->whereHas("nearToExpireLicenses");
+        return $query->whereHas('nearToExpireLicenses');
     }
-    # endregion
+
+    // endregion
     public function nearToExpireLicenses($days = 7)
     {
         $now = Carbon::now();
-        return $this->belongsToMany(License::class, "licenses_accounts")->withPivot(["expires_at"])
-            ->withPivot(["expires_at", "created_at"])
-            ->wherePivot('expires_at', ">=", $now->toDateTimeString())
-            ->wherePivot("expires_at", "<=", $now->addDays($days)->toDateTimeString());
 
+        return $this->belongsToMany(License::class, 'licenses_accounts')->withPivot(['expires_at'])
+            ->withPivot(['expires_at', 'created_at'])
+            ->wherePivot('expires_at', '>=', $now->toDateTimeString())
+            ->wherePivot('expires_at', '<=', $now->addDays($days)->toDateTimeString());
     }
+
     /**
-     * Revisa si la cuenta tiene una licencia con periodo activo
+     * Revisa si la cuenta tiene una licencia con periodo activo.
+     *
      * @return bool
      */
     public function isActive(): bool
     {
-        return (bool)$this->activeLicenses()->first();
+        return (bool) $this->activeLicenses()->first();
     }
 
-    #region Actions
+    //region Actions
     public function createAccount()
     {
         app(WebsiteRepository::class)->create($this);
         config(['database.default' => 'system']);
+
         return $this;
     }
 
@@ -111,32 +120,36 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         try {
             $this->users()->syncWithoutDetaching([$user->id]);
             $user->notify(new UserLinkedToAccountNotification($this));
+
             return true;
         } catch (\Exception $e) {
-            info("Error in addUser");
+            info('Error in addUser');
             log($e);
+
             return false;
         }
-
     }
 
     /**
-     * Detachs user from account
+     * Detachs user from account.
+     *
      * @param User $user
+     *
      * @return bool
      */
     public function removeUser(User $user): bool
     {
-        return (bool)$this->users()->detach($user->id);
+        return (bool) $this->users()->detach($user->id);
     }
 
-
-
     /**
-     * Adds license to an account
+     * Adds license to an account.
+     *
      * @param License $license
      * @param $pivots array atributos del pivote para modificar los originales
+     *
      * @return bool
+     *
      * @throws \Exception
      */
     public function addLicense(License $license, array $pivots = []): bool
@@ -144,21 +157,21 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         try {
             if (count($pivots)) {
                 $v = \Validator::make($pivots, [
-                    "expires_at" => "required|date"
+                    'expires_at' => 'required|date',
                 ]);
 
                 throw_if($v->fails(),
                     ValidationException::withMessages([
-                            "error" => [
-                                "Argumentos invalidos en los pivots"
-                            ]]
+                            'error' => [
+                                'Argumentos invalidos en los pivots',
+                            ], ]
                     )
                 );
 
                 $this->licenses()->attach($license->id, $pivots);
             } else {
                 $this->licenses()->attach($license->id, [
-                    "expires_at" => Carbon::now()->addDays($license->lapse)->endOfDay()->toDateTimeString()
+                    'expires_at' => Carbon::now()->addDays($license->lapse)->endOfDay()->toDateTimeString(),
                 ]);
             }
 
@@ -168,39 +181,41 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
             throw $exception;
         }
     }
-    #endregion
 
-    #region Info
+    //endregion
+
+    //region Info
     public function getTenantData($model): Model
     {
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($this);
 
         return new $model();
-
     }
 
     /**
      * Devuelve si la cuenta puede conectarse a su propia base de datos
-     * util para revisar integridad de cuentas
+     * util para revisar integridad de cuentas.
+     *
      * @return bool
      */
     public function hasDatabaseAccesible(): bool
     {
-        config(["database.connections.tenant.database" => $this->uuid]);
+        config(['database.connections.tenant.database' => $this->uuid]);
         try {
-            $database_response = \DB::connection("tenant")->getPdo();
-
+            $database_response = \DB::connection('tenant')->getPdo();
         } catch (\Exception $exception) {
             return false;
         }
 
-        return (bool)$database_response;
+        return (bool) $database_response;
     }
 
     /**
-     * Checks if the given user exists or has access to the account
+     * Checks if the given user exists or has access to the account.
+     *
      * @param User $user
+     *
      * @return bool
      */
     public function userExists(User $user): bool
@@ -210,5 +225,5 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         })->exists();
     }
 
-    #endregion
+    //endregion
 }

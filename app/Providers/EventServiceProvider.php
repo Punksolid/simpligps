@@ -12,8 +12,6 @@ use App\Listeners\SendAccountSetPasswordEmail;
 use App\Listeners\SendUserActivationLink;
 use App\Listeners\UseMainConnectionListener;
 use Hyn\Tenancy\Events\Database\ConfigurationLoaded;
-use Hyn\Tenancy\Events\Database\ConfigurationLoading;
-use Hyn\Tenancy\Events\Websites\Created;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -29,31 +27,27 @@ class EventServiceProvider extends ServiceProvider
             'App\Listeners\EventListener',
         ],
         ConfigurationLoaded::class => [
-            UseMainConnectionListener::class
+            UseMainConnectionListener::class,
         ],
 //        AccountCreatedEvent::class => [
 //            SendAccountSetPasswordEmail::class
 //        ],
         UserCreated::class => [
-            SendUserActivationLink::class
+            SendUserActivationLink::class,
         ],
         NotificationTriggerCreated::class => [
-            CreateExternalNotification::class
+            CreateExternalNotification::class,
         ],
         NotificationTriggerDeleted::class => [
-            DeleteExternalNotification::class
-        ]
+            DeleteExternalNotification::class,
+        ],
     ];
 
     /**
      * Register any events for your application.
-     *
-     * @return void
      */
     public function boot()
     {
         parent::boot();
-
-        //
     }
 }

@@ -44,8 +44,8 @@ class DevicesController extends Controller implements Search
         try {
             $unit = Unit::make($request->name);
         } catch (\Exception $exception) {
-            \Log::warning("Couldnt create a unit in wialon", [
-                "device" => $device->toArray()
+            \Log::warning('Couldnt create a unit in wialon', [
+                'device' => $device->toArray(),
             ]);
         }
 
@@ -87,19 +87,6 @@ class DevicesController extends Controller implements Search
      */
     public function destroy(Device $device)
     {
-        if (isset($device->reference_data['id'])) {
-            //            try {
-            //
-            //                $unit = Unit::find($device->reference_data["id"]);
-            //                if ($unit){
-            //                    $unit->destroy();
-            //                }
-            //            } catch (\Exception $exception) {
-            //                \Log::warning("Failing destroying unit",[
-            //                    "wialon_unit" => $unit
-            //                ]);
-            //            }
-        }
         if ($device->delete()) {
             return response([
                 'message' => 'Se ha eliminado el registro del dispositivo',

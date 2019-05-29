@@ -14,13 +14,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 /**
- * Class AccountsController
- * @package App\Http\Controllers\Admin
+ * Class AccountsController.
+ *
  * @resource Accounts|Cuentas
  */
 class AccountsController extends Controller
 {
-
     /**
      * Display a listing of the account.
      *
@@ -34,10 +33,10 @@ class AccountsController extends Controller
     {
         $request = request();
         $account_query = Account::query()->orderByDesc('created_at');
-        if ($request->filled('easyname')){
+        if ($request->filled('easyname')) {
             $account_query->where('easyname', $request->easyname);
         }
-        if ($request->filled('uuid')){
+        if ($request->filled('uuid')) {
             $account_query->where('uuid', $request->get('uuid'));
         }
 
@@ -49,24 +48,25 @@ class AccountsController extends Controller
     /**
      * Store a newly created account in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return AccountResource
      */
     public function store(AccountRequest $request)
     {
         $account = new Account([
-            "easyname" => $request->easyname
+            'easyname' => $request->easyname,
         ]);
 
         $account->createAccount();
 
         $user = User::firstOrCreate([
-            "email" => $request->email
+            'email' => $request->email,
         ], [
             'email' => $request->email,
             'name' => '',
             'lastname' => '',
-            'password' => bcrypt(Str::random(10))
+            'password' => bcrypt(Str::random(10)),
         ]);
 
         $account->addUser($user);
@@ -74,50 +74,46 @@ class AccountsController extends Controller
         event(new AccountCreatedEvent($user, $account));
 
         return AccountResource::make($account);
-
     }
-
 
     /**
      * Display the specified account.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Account $account)
     {
-
         $account->load(['users', 'licenses']);
-        if ($account->hasDatabaseAccesible()){
-
+        if ($account->hasDatabaseAccesible()) {
             $account->wialon_key = $account->getTenantData(Setting::class)->getWialonToken();
         }
 
         return AccountResource::make($account);
-
     }
 
     /**
      * Update the specified account in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
     }
 
     /**
-     * Elimina cuenta
+     * Elimina cuenta.
      *
-     * @param  int $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Account $account)
     {
-
         $account->delete();
 
         return AccountResource::make($account);
@@ -126,44 +122,46 @@ class AccountsController extends Controller
     public function forceDestroy(Request $request, Account $account)
     {
         $validated = $this->validate($request, [
-            'uuid' => 'required'
+            'uuid' => 'required',
         ]);
 
-        if ($account->delete()){
-            \Artisan::call("trm:delete_account", [
-                'uuid' => $validated['uuid']
+        if ($account->delete()) {
+            \Artisan::call('trm:delete_account', [
+                'uuid' => $validated['uuid'],
             ]);
 
             return AccountResource::make($account);
         }
 
-        return new \Exception("An error ocurred");
+        return new \Exception('An error ocurred');
     }
 
     /**
-     * Agrega datos fiscales
+     * Agrega datos fiscales.
+     *
      * @param Account $account
      * @param Request $request
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function fiscal(Account $account, Request $request)
     {
-
         $account->update([
-            "bulk" => $request->only(
-                "business_name",
-                "contact",
-                "address",
-                "phone",
-                "business_type"
-            )
+            'bulk' => $request->only(
+                'business_name',
+                'contact',
+                'address',
+                'phone',
+                'business_type'
+            ),
         ]);
 
         return response($account->fresh()->bulk);
     }
 
     /**
-     * Devuelve un listado de cuentas activas por su lapse
+     * Devuelve un listado de cuentas activas por su lapse.
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function activeAccounts()
@@ -174,7 +172,8 @@ class AccountsController extends Controller
     }
 
     /**
-     * Próximos a expirar en 7 dias
+     * Próximos a expirar en 7 dias.
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      * @response {
      * "data": [
@@ -188,7 +187,7 @@ class AccountsController extends Controller
      */
     public function nearToExpire()
     {
-        $accounts = Account::with("activeLicenses")->nearToExpire()->get();
+        $accounts = Account::with('activeLicenses')->nearToExpire()->get();
 
         return AccountResource::collection($accounts);
     }
@@ -196,33 +195,32 @@ class AccountsController extends Controller
     public function addUser(Account $account, Request $request)
     {
         $this->validate($request, [
-            "email" => "required|email"
+            'email' => 'required|email',
         ]);
 
         $user = User::firstOrCreate([
-            "email" => $request->email
-        ],[
-            "name" => "",
-            "email" => $request->email,
-            "lastname" => $request->email,
-            "password" => bcrypt(Str::random(16))
+            'email' => $request->email,
+        ], [
+            'name' => '',
+            'email' => $request->email,
+            'lastname' => $request->email,
+            'password' => bcrypt(Str::random(16)),
         ]);
 
         $account->addUser($user);
 
         return response()->json([
-            "data" => [
-                "user" => $user
-            ]
+            'data' => [
+                'user' => $user,
+            ],
         ]);
     }
 
-
     public function general(Account $account, Request $request)
     {
-        $this->validate($request,[
-           "wialon_key" => "required",
-           "import" => "required|bool"
+        $this->validate($request, [
+           'wialon_key' => 'required',
+           'import' => 'required|bool',
         ]);
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($account);
@@ -230,21 +228,21 @@ class AccountsController extends Controller
         $setting_wialon_key = Setting::where('key', 'wialon_key')->first();
         $setting_wialon_key->value = $request->wialon_key;
 
-        if ($setting_wialon_key->save()){
-            if ($request->import){
+        if ($setting_wialon_key->save()) {
+            if ($request->import) {
                 $wialon_devices = new Wialon($request->wialon_key);
                 $wialon_devices->import();
             }
+
             return response([
                 'data' => [
                     'message' => 'Se actualizó correctamente',
-                    'wialon_key' => $request->wialon_key
-                ]
+                    'wialon_key' => $request->wialon_key,
+                ],
             ]);
         } else {
             return response('Aconteció un error');
         }
-
     }
 
     public function getSettings(Account $account)
@@ -256,12 +254,8 @@ class AccountsController extends Controller
 
         return response([
             'data' => [
-                'wialon_key' => $settings->where('key','wialon_key')->first()->value
-            ]
+                'wialon_key' => $settings->where('key', 'wialon_key')->first()->value,
+            ],
         ]);
     }
-
-
 }
-
-

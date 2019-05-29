@@ -35,7 +35,7 @@ Route::group(['middleware' => [
     Route::get('/me/permissions', 'MeController@permissions');
     Route::get('/me/accounts', 'MeController@accounts');
     Route::get('/me/accounts/{uuid}', 'MeController@getIdOfAccount');
-    Route::post('/me/set_account', 'MeController@setAccountSession');
+    Route::post('/me/set_account', 'MeController@enterAccountSession');
     Route::post('/me/change_password', 'MeController@changePassword');
 
     Route::group([

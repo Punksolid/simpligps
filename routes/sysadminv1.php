@@ -38,7 +38,8 @@ Route::group(['middleware' => ['auth:sysadmin-api']], function ($router) {
     //Licenses
     Route::post('licenses/{license}/assign_to_account', 'LicenseController@assignToAccount');
     Route::post('licenses/{license}/revoke', 'LicenseController@revoke');
-    Route::resource('licenses', 'LicenseController')->except('create', 'edit', 'update');
+    Route::resource('licenses', 'LicenseController')
+        ->except('create', 'edit', 'update');
 
     //Settings
     Route::post('accounts/{account}/settings', "Admin\AccountsController@general");
