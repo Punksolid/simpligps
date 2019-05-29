@@ -8,18 +8,14 @@ class TenantIdentificationProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
     public function register()
     {
-        //
     }
 
     /**
      * Bootstrap services.
      *
-     * @return void
      * @throws \Illuminate\Contracts\Container\BindingResolutionException
      */
     public function boot()
@@ -27,6 +23,5 @@ class TenantIdentificationProvider extends ServiceProvider
         $environment = $this->app->make(\Hyn\Tenancy\Environment::class);
         $website = app(\Hyn\Tenancy\Environment::class)->tenant();
         $environment->tenant($website);
-
     }
 }

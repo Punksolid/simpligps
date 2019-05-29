@@ -2,10 +2,7 @@
 
 namespace App\Providers;
 
-use App\Account;
 use App\Validators\AccountValidator;
-use Hyn\Tenancy\Environment;
-use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Validators\WebsiteValidator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
@@ -14,20 +11,16 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     * Once in application boot
-     * @return void
+     * Once in application boot.
      */
     public function boot()
     {
-        //
         Schema::defaultStringLength(191);
-
     }
 
     /**
      * Register any application services.
-     * Each provider
-     * @return void
+     * Each provider.
      */
     public function register()
     {
@@ -36,6 +29,5 @@ class AppServiceProvider extends ServiceProvider
         }
 
         app()->singleton(WebsiteValidator::class, AccountValidator::class);
-
     }
 }

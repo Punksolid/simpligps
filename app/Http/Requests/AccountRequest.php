@@ -24,8 +24,8 @@ class AccountRequest extends FormRequest
     public function rules()
     {
         return [
-            "easyname" => "required|unique:accounts,easyname",
-            "email" => "required|email"
+            'easyname' => 'required|unique:accounts,easyname',
+            'email' => 'required|email',
         ];
     }
 }

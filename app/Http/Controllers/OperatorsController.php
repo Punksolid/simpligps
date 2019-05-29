@@ -6,14 +6,14 @@ use App\Http\Requests\OperatorRequest;
 use App\Http\Resources\OperatorResource;
 use App\Operator;
 use Illuminate\Http\Request;
-use App\Interfaces\SearchInterface;
+use App\Interfaces\Search;
 
 /**
  * Class OperatorController
  * @package App\Http\Controllers
  * @resource Operadores
  */
-class OperatorsController extends Controller implements SearchInterface
+class OperatorsController extends Controller implements Search
 {
     /**
      * Muestra listado de operadores.

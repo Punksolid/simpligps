@@ -142,7 +142,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     public function addLicense(License $license, array $pivots = []): bool
     {
         try {
-            if (!empty($pivots)) {
+            if (count($pivots)) {
                 $v = \Validator::make($pivots, [
                     "expires_at" => "required|date"
                 ]);
@@ -176,7 +176,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
         $environment = app(\Hyn\Tenancy\Environment::class);
         $environment->tenant($this);
 
-        return new $model;
+        return new $model();
 
     }
 

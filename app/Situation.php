@@ -11,8 +11,6 @@ class Situation extends Model
     use UsesTenantConnection, SoftDeletes;
 
     protected $fillable = [
-      'name'
+      'name',
     ];
-
-
 }

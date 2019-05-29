@@ -11,12 +11,12 @@ class TrailerBox extends Model
     use UsesTenantConnection,SoftDeletes;
 
     protected $fillable = [
-      'internal_number',
-      'gps',
-      'plate',
-    ];
+            'internal_number',
+            'gps',
+            'plate',
+        ];
 
-    #region Relationships
+    //region Relationships
     public function trips()
     {
         return $this->belongsToMany(
@@ -25,7 +25,7 @@ class TrailerBox extends Model
             'trip_id',
             'trailer_box_id'
         )->withPivot([
-            'order'
+            'order',
         ]);
     }
 
@@ -33,5 +33,6 @@ class TrailerBox extends Model
     {
         return $this->belongsTo(Carrier::class);
     }
-    #endregion
+
+    //endregion
 }

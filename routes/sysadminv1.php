@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\ConvoyController;
-use Illuminate\Http\Request;
 use Laravel\Passport\Passport;
 
 /*
@@ -18,35 +16,32 @@ Passport::routes(function ($router) {
     $router->forAccessTokens();
 //    $router->forClients();
 });
-Route::group(["middleware" => ['api']], function ($router){
+Route::group(['middleware' => ['api']], function ($router) {
     Route::post('login', 'Admin\AdminLoginController@login');
 });
 
-Route::group(["middleware" => ["auth:sysadmin-api"]], function ($router) {
-    Route::get('user/info', function(){
+Route::group(['middleware' => ['auth:sysadmin-api']], function ($router) {
+    Route::get('user/info', function () {
         return response(['name' => auth()->user()->email, 'roles' => ['admin']]);
     });
 
-    Route::put("accounts/{account}/fiscal", "Admin\AccountsController@fiscal");
-    Route::get("accounts/active_accounts", "Admin\AccountsController@activeAccounts");
-    Route::get("accounts/near_to_expire", "Admin\AccountsController@nearToExpire");
-    Route::post("accounts/{account}/add_user", "Admin\AccountsController@addUser");
-    Route::resource("accounts", "Admin\AccountsController")
-        ->except("edit", "create");
+    Route::put('accounts/{account}/fiscal', "Admin\AccountsController@fiscal");
+    Route::get('accounts/active_accounts', "Admin\AccountsController@activeAccounts");
+    Route::get('accounts/near_to_expire', "Admin\AccountsController@nearToExpire");
+    Route::post('accounts/{account}/add_user', "Admin\AccountsController@addUser");
+    Route::resource('accounts', "Admin\AccountsController")
+        ->except('edit', 'create');
 
-//Dashboard
+    //Dashboard
     Route::get('dashboard/accounts', 'Admin\DashboardController@accounts');
 
-//Licenses
-    Route::post("licenses/{license}/assign_to_account", "LicenseController@assignToAccount");
-    Route::post("licenses/{license}/revoke", "LicenseController@revoke");
-    Route::resource("licenses", "LicenseController")->except("create","edit","update");
+    //Licenses
+    Route::post('licenses/{license}/assign_to_account', 'LicenseController@assignToAccount');
+    Route::post('licenses/{license}/revoke', 'LicenseController@revoke');
+    Route::resource('licenses', 'LicenseController')->except('create', 'edit', 'update');
 
     //Settings
-    Route::post("accounts/{account}/settings", "Admin\AccountsController@general");
+    Route::post('accounts/{account}/settings', "Admin\AccountsController@general");
 });
 
 //Accounts
-
-
-

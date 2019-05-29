@@ -7,9 +7,9 @@ use App\Http\Resources\TruckTractResource;
 use App\TruckTract;
 use Illuminate\Http\Request;
 use Tests\Feature\TruckTractTest;
-use App\Interfaces\SearchInterface;
+use App\Interfaces\Search;
 
-class TruckTractController extends Controller implements SearchInterface
+class TruckTractController extends Controller implements Search
 {
     /**
      * Display a listing of the TruckTract.

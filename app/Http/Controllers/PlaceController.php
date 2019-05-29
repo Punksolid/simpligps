@@ -6,14 +6,14 @@ use App\Http\Requests\PlaceRequest;
 use App\Http\Resources\PlaceResource;
 use App\Place;
 use Illuminate\Http\Request;
-use App\Interfaces\SearchInterface;
+use App\Interfaces\Search;
 
 /**
  * Class PlaceController
  * @package App\Http\Controllers
  * @resource Place
  */
-class PlaceController extends Controller implements SearchInterface
+class PlaceController extends Controller implements Search
 {
     /**
      * Display a listing of the PLACE.

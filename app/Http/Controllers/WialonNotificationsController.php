@@ -37,7 +37,7 @@ class WialonNotificationsController extends Controller
         //        $validatedData = $request->validate();
 
         $resource = Resource::find($request->resource_id);
-        if ($request->control_type == 'geofence') {
+        if ($request->control_type === 'geofence') {
             $control_type = new GeofenceControlType();
             $control_type->addGeozoneId($request->params['geofence_id']);
         } else {

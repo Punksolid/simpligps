@@ -3,16 +3,15 @@
  * Created by PhpStorm.
  * User: ze
  * Date: 3/10/19
- * Time: 11:11 PM
+ * Time: 11:11 PM.
  */
 
 namespace App;
 
-
 use Illuminate\Support\Collection;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Unit;
-use App\TruckTract as Truck; 
+use App\TruckTract as Truck;
 
 class Wialon
 {
@@ -21,25 +20,27 @@ class Wialon
     public function __construct($token)
     {
         $this->token = $token;
-        config(["services.wialon.token" => $token]);
+        config(['services.wialon.token' => $token]);
     }
 
     public function import(): Collection
     {
         $wialon_units = Unit::all();
         $devices = collect();
-        foreach ($wialon_units as $wialon_unit){
-            if($this->deviceExists($wialon_unit))continue; // pasa a siguiente ciclo
-            
+        foreach ($wialon_units as $wialon_unit) {
+            if ($this->deviceExists($wialon_unit)) {
+                continue;
+            } // pasa a siguiente ciclo
+
             $device = Device::create([
-                "name" => $wialon_unit->nm
+                'name' => $wialon_unit->nm,
             ]);
 
             $device->linkUnit($wialon_unit);
             $truck = Truck::create([
                 'name' => $device->name,
                 'device_id' => $device->id,
-                'internal_number' => $device->uacl
+                'internal_number' => $device->uacl,
             ]);
 
             $devices->push($device);
@@ -59,7 +60,7 @@ class Wialon
         $trucks = collect();
         foreach ($wialon_units as $wialon_unit) {
             $truck = Truck::create([
-                "name" => $wialon_unit->nm
+                'name' => $wialon_unit->nm,
             ]);
 
             $truck->linkUnit($wialon_unit);
@@ -74,10 +75,10 @@ class Wialon
     {
         $notifications = Notification::all();
         $notifications_triggers = collect();
-        foreach ($notifications as $notification){
+        foreach ($notifications as $notification) {
             $notifications_triggers->push(NotificationTrigger::create([
-                "name" => $notification->n,
-                "active" => false
+                'name' => $notification->n,
+                'active' => false,
             ]));
         }
 

@@ -35,6 +35,7 @@
     "barryvdh/laravel-debugbar": "^3.2",
     "barryvdh/laravel-ide-helper": "^2.4",
     "beyondcode/laravel-er-diagram-generator": "^1.1",
+    "codedungeon/phpunit-result-printer": "^0.9",
     "darkaonline/l5-swagger": "^5.7",
     "filp/whoops": "^2.0",
     "fzaninotto/faker": "^1.4",

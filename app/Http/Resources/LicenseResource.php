@@ -9,7 +9,8 @@ class LicenseResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      * @response   "data": array:15 [
      * 0 => {
@@ -25,15 +26,15 @@ class LicenseResource extends JsonResource
     public function toArray($request)
     {
         return [
-            "id" => $this->id,
-            "name" => $this->name,
-            "description" => $this->description,
-            "lapse" => $this->lapse,
-            "modules" => $this->modules,
-            "units" => $this->units,
-            "number_active_sessions" => $this->number_active_sessions,
-            "uuid" => $this->uuid,
-            "accounts" => AccountResource::collection($this->whenLoaded('accounts'))
+            'id' => $this->id,
+            'name' => $this->name,
+            'description' => $this->description,
+            'lapse' => $this->lapse,
+            'modules' => $this->modules,
+            'units' => $this->units,
+            'number_active_sessions' => $this->number_active_sessions,
+            'uuid' => $this->uuid,
+            'accounts' => AccountResource::collection($this->whenLoaded('accounts')),
         ];
     }
 }

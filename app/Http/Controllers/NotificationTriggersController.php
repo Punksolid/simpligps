@@ -58,20 +58,6 @@ class NotificationTriggersController extends Controller
         return NotificationTriggerResource::make($notification_type);
     }
 
-    //    /**
-    //     * Actualizar Tipo de Notificacion
-    //     *
-    //     * @param \Illuminate\Http\Request $request
-    //     * @param \App\NotificationTrigger $notificationType
-    //     * @return \Illuminate\Http\Response
-    //     */
-    //    public function update(Request $request, NotificationTrigger $notificationType)
-    //    {
-    //        $notificationType->update($request->all());
-    //
-    //        return response($notificationType);
-    //    }
-
     /**
      * Remove the specified NotificationTrigger from storage.
      *
@@ -93,58 +79,6 @@ class NotificationTriggersController extends Controller
         return response()->json([
             "message" => "Error deleting notification"
         ]);
-    }
-
-    public function getGeofences()
-    {
-    }
-
-    /**
-     * Aqui se cachan las notificaciones convencionales
-     */
-    public function webhookAlert(DeviceNotificationRequest $request)
-    {
-        $account = Account::whereUuid($request->get("X-Tenant-Id"))->firstOrFail();
-
-        $notification_trigger = $account->getTenantData(NotificationTrigger::class)->findOrFail($request->notification_id);
-
-        if ($notification_trigger->active) {
-            
-            // $devices = $notification_trigger->devices;
-            $device = Device::where("wialon_id", $request->unit_id)->first();
-            \Notification::send($account, new WialonWebhookNotification("$notification_trigger->name.Check {$request->get('unit')}", $request->all(), $device));
-            if ($device) {
-                $device->log($notification_trigger->level, $notification_trigger->name, $request->all());
-            }
-        }
-
-        return response()->json('ok');
-    }
-    /*
-    * Aqui se reciben los webhooks de los trips, está separado de los de las notificaciones sencillas
-    *
-    *
-    **/
-    public function tripAlert(Request $request, $tenant_uuid, $trip_id)
-    {
-        $account = Account::whereUuid($tenant_uuid)->firstOrFail();
-        
-        
-        $environment = app(\Hyn\Tenancy\Environment::class);
-        $environment->tenant($account);
-        $trip = Trip::findOrFail($trip_id);
-        
-        $device = $trip->truck->device;
-        $trip->info("Update on Trip", $request->all());
-        $device->info("Update on Device", $request->all());
-        \Notification::send($account, new WialonWebhookNotification(
-            "Check TRIP {$request->get('unit')}", 
-            $request->all(),
-            $device
-        ));
-        
-
-        return response()->json('ok');
     }
 
     public function destroyWialonNotification($notification_id)

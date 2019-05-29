@@ -27,7 +27,7 @@ class TrailerBoxRequest extends FormRequest
             'internal_number' => 'required',
             'carrier_id' => 'integer',
             'gps' => 'required',
-            'plate' => 'required'
+            'plate' => 'required',
         ];
     }
 }

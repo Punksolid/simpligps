@@ -7,9 +7,9 @@ use App\Http\Requests\ClientRequest;
 use App\Http\Resources\ClientResource;
 use App\Http\Resources\ContactResource;
 use Illuminate\Http\Request;
-use App\Interfaces\SearchInterface;
+use App\Interfaces\Search;
 
-class ClientController extends Controller implements SearchInterface
+class ClientController extends Controller implements Search
 {
     /**
      * Display a listing of the resource.

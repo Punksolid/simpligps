@@ -23,7 +23,7 @@ class CarrierRequest extends FormRequest
      */
     public function rules()
     {
-        return  [
+        return [
             "carrier_name" => "required",
             "contact_name" => "required",
             "phone" => "required",

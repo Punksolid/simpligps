@@ -25,33 +25,31 @@ class NotificationTriggerRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => [
-                "required"
-
+            'name' => [
+                'required',
             ],
-            "devices_ids" => 'required|array',
-            
-            "level" => Rule::in([
-                'emergency', 
+            'devices_ids' => 'required|array',
+
+            'level' => Rule::in([
+                'emergency',
                 'alert',
                 'critical',
                 'error',
                 'warning',
                 'notice',
                 'info',
-                'debug'
+                'debug',
                 ]),
-            "active" => 'required|bool',
-            "control_type" => "required",
-            "params.sensor_name" => "required_if:control_type,sensor",
+            'active' => 'required|bool',
+            'control_type' => 'required',
+            'params.sensor_name' => 'required_if:control_type,sensor',
             // "params.sensor_type" => "required_if:control_type,sensor",
-            "params.value_from" => "required_if:control_type,sensor|integer",
-            "params.value_to" => "required_if:control_type,sensor|integer",
-            "params.trigger_when" => "required_if:control_type,sensor",
-            "params.similar_sensor" => "required_if:control_type,sensor"
+            'params.value_from' => 'required_if:control_type,sensor|integer',
+            'params.value_to' => 'required_if:control_type,sensor|integer',
+            'params.trigger_when' => 'required_if:control_type,sensor',
+            'params.similar_sensor' => 'required_if:control_type,sensor',
         ];
     }
-    
 }
 
 //         \Illuminate\Validation\Rule::unique('tenant.notification_triggers','name') // todo implement

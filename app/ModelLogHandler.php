@@ -1,8 +1,7 @@
 <?php
+
 namespace App;
 
-use DB;
-use Illuminate\Support\Facades\Auth;
 use Monolog\Logger;
 use Monolog\Handler\AbstractProcessingHandler;
 use Illuminate\Database\Eloquent\Model;
@@ -22,13 +21,13 @@ class ModelLogHandler extends AbstractProcessingHandler
     protected function write(array $record)
     {
         $data = [
-            'message'     => $record['message'],
-            'channel'     => $record['channel'],
-            'level'       => $record['level'],
-            'level_name'  => $record['level_name'],
-            'context'     => json_encode($record['context']),
+            'message' => $record['message'],
+            'channel' => $record['channel'],
+            'level' => $record['level'],
+            'level_name' => $record['level_name'],
+            'context' => json_encode($record['context']),
             'loggable_type' => $record['loggable_type'] ?? 'App\Abstract',
-            'loggable_id' => $record['loggable_id'] ?? 0
+            'loggable_id' => $record['loggable_id'] ?? 0,
         ];
 
         $this->model->create($data);

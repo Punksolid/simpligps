@@ -17,18 +17,19 @@ class TruckTract extends Model
         'internal_number',
         'brand',
         'gps',
-        'color'
+        'color',
     ];
 
     protected $guarded = [
         'device_id', // dispositivo
-        'carrier_id'  // linea
+        'carrier_id',  // linea
     ];
 
-    #region Relationships
+    //region Relationships
 
     /**
-     * Un tracto tiene un dispositivo
+     * Un tracto tiene un dispositivo.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
@@ -37,7 +38,8 @@ class TruckTract extends Model
     }
 
     /**
-     * Un Tracto tiene un carrier
+     * Un Tracto tiene un carrier.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function carrier()
@@ -51,11 +53,11 @@ class TruckTract extends Model
     }
 
     /**
-     * Todos los operadores asignados a viajes donde Truck también ah sido asignado
+     * Todos los operadores asignados a viajes donde Truck también ah sido asignado.
      */
     public function operators()
     {
-        /**
+        /*
          *  'App\Post',
             'App\User',
             'country_id', // Foreign key on users table...
@@ -63,21 +65,19 @@ class TruckTract extends Model
             'id', // Local key on countries table...
             'id' // Local key on users table...
          */
-        
-        
+
         return $this->belongsToMany(Operator::class, 'trips', 'truck_tract_id', 'operator_id');
-        
     }
 
     public function currentOperator()
     {
-        
         return $this->operators()
                 ->wherePivot('scheduled_load', '<', Carbon::now())
                 ->wherePivot('scheduled_unload', '>', Carbon::now())
                 ->take(1);
     }
-    #endregion
+
+    //endregion
 
     public function assignDevice(Device $device)
     {
