@@ -28,7 +28,7 @@ class AdminLoginController extends Controller
             abort(401, "Usuario o contraseña son incorrectos.");
         }
 
-        $user = \Auth::guard("sysadmin")->user();
+        \Auth::guard("sysadmin")->user(); // @Todo tal vez no es más necesario
         $token = $auth->user()->createToken('sysadmin-api')->accessToken;
         return response([
             "data" => [
