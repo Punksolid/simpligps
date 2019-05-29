@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Device;
 use App\User;
-use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -14,7 +13,7 @@ class DashboardController extends Controller
         $devices = Device::count(); // TODO add Cache
 
         return response()->json([
-            'data' => compact('users','devices')
+            'data' => compact('users', 'devices'),
         ]);
     }
 }

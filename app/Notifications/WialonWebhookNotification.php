@@ -2,11 +2,9 @@
 
 namespace App\Notifications;
 
-use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Http\Resources\DeviceResource;
 
@@ -21,40 +19,40 @@ class WialonWebhookNotification extends Notification
 
     /**
      * Create a new notification instance.
-     *
-     * @return void
      */
     public function __construct($message = null, $contextual_data = [], $device = null)
     {
-        $this->message = $message ?? "Attend! Wialon Notification!";
+        $this->message = $message ?? 'Attend! Wialon Notification!';
         $this->contextual_data = $contextual_data;
-        
-        $this->device = new DeviceResource( $device);
+
+        $this->device = $device ? new DeviceResource($device) : null;
     }
 
     /**
      * Get the notification's delivery channels.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function via($notifiable)
     {
         return [
             'database',
-            'broadcast'
+            'broadcast',
         ];
     }
 
     /**
      * Get the mail representation of the notification.
      *
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
+     *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->line('The introduction to the notification.')
             ->action('Notification Action', url('/'))
             ->line('Thank you for using our application!');
@@ -62,7 +60,7 @@ class WialonWebhookNotification extends Notification
 
     /**
      * Get the array representation of the notification.
-     * {
+     * {.
             unit: "PTS003",
             timestamp: "2019-03-19 18:45:26",
             location: "Calle Río Del Carmen 1058, Industrial Bravo, Culiacán, Sinaloa 80120, Mexico",
@@ -91,31 +89,30 @@ class WialonWebhookNotification extends Notification
             NOTIFICATION: "Borrar boton SOS",
             X-Tenant-Id: "1d0b53ca894a48b2a4ef94c46e4cdcfb"
             }
-     * @param  mixed $notifiable
+     * @param mixed $notifiable
+     *
      * @return array
      */
     public function toArray($notifiable)
     {
-        $arr = array_merge(
+        return array_merge(
             ['message' => $this->message],
             $this->contextual_data,
-            ["device" => $this->device]
+            ['device' => $this->device]
         );
-        
+
         // $arr['device'] = optional($this->device)->toArray();
-        return $arr;
     }
 
     /**
      * Get the broadcastable representation of the notification.
      *
-     * @param  mixed  $notifiable
+     * @param mixed $notifiable
+     *
      * @return BroadcastMessage
      */
     public function toBroadcast($notifiable)
     {
-        $broadcast_message = new BroadcastMessage(array_merge(['message' => $this->message], $this->contextual_data));
-
-        return $broadcast_message;
+        return new BroadcastMessage(array_merge(['message' => $this->message], $this->contextual_data));
     }
 }

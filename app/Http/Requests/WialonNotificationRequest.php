@@ -48,22 +48,19 @@ class WialonNotificationRequest extends FormRequest
                     'excess_of_messages',
                     'fuel_theft',
                     'passenger_activity',
-                    'maintenance'
+                    'maintenance',
                 ]),
             ],
             'params' => [
-                Rule::requiredIf(function() {
+                Rule::requiredIf(function () {
                     return request()->control_type != 'panic_button';
-                })
+                }),
             ],
             // params logic, required_if es necesario para cada tipo de control type de notificacion
             'params.geofence_id' => 'required_if:control_type,geofence',
-            'resource_id' => 'required'
-
+            'resource_id' => 'required',
 
             /*Depending on control type this conditions apply*/
-
-
         ];
     }
 }

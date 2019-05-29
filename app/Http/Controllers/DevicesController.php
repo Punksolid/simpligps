@@ -9,16 +9,15 @@ use App\Http\Resources\DeviceResource;
 use App\Point;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Unit;
-use App\Interfaces\SearchInterface;
+use App\Interfaces\Search;
 
 /**
- * Class DevicesController
- * @package App\Http\Controllers
+ * Class DevicesController.
+ *
  * @resource Device
  */
-class DevicesController extends Controller implements SearchInterface
+class DevicesController extends Controller implements Search
 {
-
     /**
      * Display a listing of the Devices.
      *
@@ -30,36 +29,44 @@ class DevicesController extends Controller implements SearchInterface
 
         return DeviceResource::collection($devices);
     }
+
     /**
-     * Registra un dispositivo
+     * Registra un dispositivo.
+     *
      * @param DeviceRequest $request
+     *
      * @return DeviceResource
      */
     public function store(DeviceRequest $request)
     {
         $device = Device::create($request->all());
-        
+
         try {
             $unit = Unit::make($request->name);
-        }catch( \Exception $exception) {
+        } catch (\Exception $exception) {
+            \Log::warning("Couldnt create a unit in wialon", [
+                "device" => $device->toArray()
+            ]);
+        }
 
-        }
-        
         if (isset($unit)) {
-            $device->update(["reference_data" => $unit]);
+            $device->update(['reference_data' => $unit]);
         }
+
         return DeviceResource::make($device);
     }
 
     public function show(Device $device)
     {
-        return DeviceResource::make($device->load(["trips", "truck"]));
+        return DeviceResource::make($device->load(['trips', 'truck']));
     }
 
     /**
-     * Actualiza los datos del dispositivo
+     * Actualiza los datos del dispositivo.
+     *
      * @param DeviceRequest $request
-     * @param Device $device
+     * @param Device        $device
+     *
      * @return DeviceResource|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function update(DeviceRequest $request, Device $device)
@@ -68,18 +75,19 @@ class DevicesController extends Controller implements SearchInterface
             return DeviceResource::make($device);
         }
 
-        return response("Aconteció un error actualizando los datos del dispositivo.");
+        return response('Aconteció un error actualizando los datos del dispositivo.');
     }
 
     /**
      * Remove the specified DEVICE from storage.
      *
-     * @param  \App\Device  $device
+     * @param \App\Device $device
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Device $device)
     {
-        if (isset($device->reference_data["id"])) {
+        if (isset($device->reference_data['id'])) {
             //            try {
             //
             //                $unit = Unit::find($device->reference_data["id"]);
@@ -94,11 +102,11 @@ class DevicesController extends Controller implements SearchInterface
         }
         if ($device->delete()) {
             return response([
-                "message" => "Se ha eliminado el registro del dispositivo"
+                'message' => 'Se ha eliminado el registro del dispositivo',
             ]);
         }
 
-        return response("Aconteció un error");
+        return response('Aconteció un error');
     }
 
     public function updateLocalization(Device $device, UpdateLocalizationRequest $request)
@@ -106,17 +114,19 @@ class DevicesController extends Controller implements SearchInterface
         //        $point = new Point();
 
         $device->points()->create([
-            "lat" => $request->lat,
-            "lon"  => $request->lon
+            'lat' => $request->lat,
+            'lon' => $request->lon,
         ]);
 
         return response()->json($device->load('points'));
     }
 
     /**
-     * Liga unidad a dispositivos existentes
-     * @param Device $device
+     * Liga unidad a dispositivos existentes.
+     *
+     * @param Device  $device
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function linkUnit(Device $device, Request $request)
@@ -124,7 +134,7 @@ class DevicesController extends Controller implements SearchInterface
         $unit = Unit::find($request->unit_id);
         if ($device->linkUnit($unit)) {
             return response()->json([
-                "data" => $device
+                'data' => $device,
             ]);
         }
 

@@ -16,7 +16,7 @@ class TelescopeMiddleware
     public function handle($request, Closure $next)
     {
         
-        if(auth()->check() && auth()->user()->email == "punksolid@gmail.com"){
+        if(auth()->check() && auth()->user()->email === "punksolid@gmail.com"){
 
             return $next($request);
         }

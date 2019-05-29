@@ -158,8 +158,8 @@ class NotificationsTest extends TestCase
             "X-Tenant-Id" => $this->account->uuid,
             "notification_id" => $notification->id
         ];
-
         $call = $this->postJson("api/v1/webhook/alert", $callback);
+        
 
         Notification::assertSentTo(
             [$this->account],

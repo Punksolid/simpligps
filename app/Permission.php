@@ -3,16 +3,13 @@
 namespace App;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Guard;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use Spatie\Permission\Contracts\Permission as PermissionContract;
-use Spatie\Permission\PermissionRegistrar as OriginalPermissionRegistrar;
 use App\Permission\PermissionRegistrar;
 use Illuminate\Support\Collection;
-
 
 class Permission extends SpatiePermission
 {
@@ -32,7 +29,7 @@ class Permission extends SpatiePermission
     /**
      * Find a permission by its name (and optionally guardName).
      *
-     * @param string $name
+     * @param string      $name
      * @param string|null $guardName
      *
      * @throws \Spatie\Permission\Exceptions\PermissionDoesNotExist
@@ -43,7 +40,7 @@ class Permission extends SpatiePermission
     {
         $guardName = $guardName ?? Guard::getDefaultName(static::class);
         $permission = static::getPermissions(['name' => $name, 'guard_name' => $guardName])->first();
-        if (! $permission) {
+        if (!$permission) {
             throw PermissionDoesNotExist::create($name, $guardName);
         }
 
@@ -55,7 +52,6 @@ class Permission extends SpatiePermission
      */
     protected static function getPermissions(array $params = []): Collection
     {
-
         return app(PermissionRegistrar::class)
             ->getPermissions($params);
     }

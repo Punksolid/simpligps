@@ -24,9 +24,9 @@ class DeviceRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|min:4",
-            "gps" => "required",
-            "internal_number" => "required",
+            'name' => 'required|min:4',
+            'gps' => 'required',
+            'internal_number' => 'required',
          ];
     }
 }

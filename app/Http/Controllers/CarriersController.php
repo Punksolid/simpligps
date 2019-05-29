@@ -7,14 +7,14 @@ use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Requests\CarrierRequest;
 use App\Http\Resources\CarrierResource;
 use Illuminate\Http\Request;
-use App\Interfaces\SearchInterface;
+use App\Interfaces\Search;
 
 /**
  * Class CarriersController
  * @package App\Http\Controllers
  * @resource Carrier
  */
-class CarriersController extends Controller implements SearchInterface
+class CarriersController extends Controller implements Search
 {
 
     /**

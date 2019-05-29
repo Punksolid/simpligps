@@ -6,13 +6,11 @@ use App\Events\UserCreated;
 use App\Notifications\PasswordResetRequest;
 use Hyn\Tenancy\Traits\UsesSystemConnection;
 use Illuminate\Contracts\Auth\CanResetPassword;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Spatie\Permission\Traits\HasRoles;
-
 
 class User extends Authenticatable implements CanResetPassword
 {
@@ -25,7 +23,7 @@ class User extends Authenticatable implements CanResetPassword
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'lastname'
+        'name', 'email', 'password', 'lastname',
     ];
 
     /**
@@ -42,18 +40,20 @@ class User extends Authenticatable implements CanResetPassword
     ];
 
     /**
-     * A user can have many accounts
+     * A user can have many accounts.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function accounts()
     {
-        return $this->belongsToMany(Account::class, "users_accounts");
+        return $this->belongsToMany(Account::class, 'users_accounts');
     }
 
     public function attachAccount(Account $account): bool
     {
         try {
             $this->accounts()->attach($account->id);
+
             return true;
         } catch (\Exception $exception) {
             \Log::info($exception);
@@ -62,8 +62,10 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
-     * Obtiene todos los usuarios de una cuenta o de todas las cuentas del usuario
+     * Obtiene todos los usuarios de una cuenta o de todas las cuentas del usuario.
+     *
      * @param Account|null $account
+     *
      * @return Collection
      */
     public function getColleagues(Account $account = null, $me_too = false): Collection
@@ -93,8 +95,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Send the password reset notification.
      *
-     * @param  string  $token
-     * @return void
+     * @param string $token
      */
     public function sendPasswordResetNotification($token)
     {
@@ -102,19 +103,21 @@ class User extends Authenticatable implements CanResetPassword
     }
 
     /**
-     * Checks if user exists in account
+     * Checks if user exists in account.
+     *
      * @param int $account_id
+     *
      * @return bool
      */
-    public function isInAccount(int $account_id):bool
+    public function isInAccount(int $account_id): bool
     {
-        return (bool)$this->accounts()->whereHas('users', function ($users_query) use($account_id){
-            $users_query->where('account_id',$account_id);
+        return (bool) $this->accounts()->whereHas('users', function ($users_query) use ($account_id) {
+            $users_query->where('account_id', $account_id);
         })->exists();
     }
 
-    #region scopes
-    public function scopeTenant($query,  $tenant_uuid = null)
+    //region scopes
+    public function scopeTenant($query, $tenant_uuid = null)
     {
         $tenant_uuid = $tenant_uuid ?: request()->header('X-Tenant-id');
 
@@ -122,5 +125,6 @@ class User extends Authenticatable implements CanResetPassword
             $account_query->where('uuid', $tenant_uuid);
         });
     }
-    #endregion
+
+    //endregion
 }

@@ -24,8 +24,8 @@ class SettingsRequest extends FormRequest
     public function rules()
     {
         return [
-            "import" => "required|bool",
-            "wialon_key" => "required"
+            'import' => 'required|bool',
+            'wialon_key' => 'required',
         ];
     }
 }

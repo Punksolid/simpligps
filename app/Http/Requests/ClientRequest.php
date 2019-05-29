@@ -33,7 +33,7 @@ class ClientRequest extends FormRequest
             'email' => 'required',
             'person_name' => 'required',
             'status' => 'required|bool',
-            'email_frequency' => 'required|min:0|max:2'
+            'email_frequency' => 'required|min:0|max:2',
         ];
     }
 }

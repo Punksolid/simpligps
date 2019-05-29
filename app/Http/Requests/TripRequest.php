@@ -24,25 +24,25 @@ class TripRequest extends FormRequest
     public function rules()
     {
         return [
-            "rp" => "required",
-            "invoice" => "required",
-            "client_id" => "required|integer",
-            "intermediates" => ['required', 'array'],
-            "origin_id" => "required|integer",
-            "destination_id" => "required|integer",
-            "mon_type" => "required",
-            "carrier_id" => "required|integer",
-            "truck_tract_id" => "required|integer",
-            "operator_id" => "required|integer",
+            'rp' => 'required',
+            'invoice' => 'required',
+            'client_id' => 'required|integer',
+            'intermediates' => ['required', 'array'],
+            'origin_id' => 'required|integer',
+            'destination_id' => 'required|integer',
+            'mon_type' => 'required',
+            'carrier_id' => 'required|integer',
+            'truck_tract_id' => 'required|integer',
+            'operator_id' => 'required|integer',
 
-            "scheduled_load" => "required|date",
-            "scheduled_departure" => [
-                "required",
-                "date",
-                "after:scheduled_load"
+            'scheduled_load' => 'required|date',
+            'scheduled_departure' => [
+                'required',
+                'date',
+                'after:scheduled_load',
             ],
-            "scheduled_arrival" => "required|date|after:scheduled_departure",
-            "scheduled_unload" => "required|date|after:scheduled_arrival"
+            'scheduled_arrival' => 'required|date|after:scheduled_departure',
+            'scheduled_unload' => 'required|date|after:scheduled_arrival',
         ];
     }
 }

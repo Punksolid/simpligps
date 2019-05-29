@@ -9,18 +9,19 @@ class AccessLogResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
     {
         return [
-            "id" => $this->id,
-            "description" => $this->description,
-            "message" => "{$this->description} {$this->causer->email} {$this->created_at->diffForHumans()}",
-            "created_at" => $this->created_at->toDateTimeString()
+            'id' => $this->id,
+            'description' => $this->description,
+            'message' => "{$this->description} {$this->causer->email} {$this->created_at->diffForHumans()}",
+            'created_at' => $this->created_at->toDateTimeString(),
         ];
-        /**
+        /*
                 "id" => 1,
                 "log_name" => "default",
                 "description" => "Logging Test",

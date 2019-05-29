@@ -6,26 +6,25 @@ use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
-use Log;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 use Spatie\Tags\HasTags;
 use Carbon\Carbon;
-use App\Traits\ModelLoggerTrait;
+use App\Traits\ModelLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 
 class Trip extends Model implements LoggerInterface
 {
-    use HasTags, UsesTenantConnection,ModelLoggerTrait, LoggerTrait;
-    
+    use HasTags, UsesTenantConnection,ModelLogger, LoggerTrait;
+
     // Detailed debug information
     const DEBUG = 100;
 
     /**
-     * Interesting events
+     * Interesting events.
      *
      * Examples: User logs in, SQL logs.
      */
@@ -35,7 +34,7 @@ class Trip extends Model implements LoggerInterface
     const NOTICE = 250;
 
     /**
-     * Exceptional occurrences that are not errors
+     * Exceptional occurrences that are not errors.
      *
      * Examples: Use of deprecated APIs, poor use of an API,
      * undesirable things that are not necessarily wrong.
@@ -46,14 +45,14 @@ class Trip extends Model implements LoggerInterface
     const ERROR = 400;
 
     /**
-     * Critical conditions
+     * Critical conditions.
      *
      * Example: Application component unavailable, unexpected exception.
      */
     const CRITICAL = 500;
 
     /**
-     * Action must be taken immediately
+     * Action must be taken immediately.
      *
      * Example: Entire website down, database unavailable, etc.
      * This should trigger the SMS alerts and wake you up.
@@ -64,74 +63,77 @@ class Trip extends Model implements LoggerInterface
     const EMERGENCY = 600;
 
     protected $fillable = [
-            "rp",
-            "invoice",
-            "client_id",
-            "origin_id",
-            "destination_id",
-            "mon_type",
-            "scheduled_load",
-            "scheduled_departure",
-            "scheduled_arrival",
-            "scheduled_unload",
-            "bulk",
-            "georoute_ref",
-        //operationals
-            "device_id",
-            "carrier_id",
-            "truck_tract_id",
-        //tag
-            "tag"
-        ];
+        'rp',
+        'invoice',
+        'client_id',
+        'origin_id',
+        'destination_id',
+        'mon_type',
+        'scheduled_load',
+        'scheduled_departure',
+        'scheduled_arrival',
+        'scheduled_unload',
+        'bulk',
+        'georoute_ref',
+    //operationals
+        'device_id',
+        'carrier_id',
+        'truck_tract_id',
+    //tag
+        'tag',
+    ];
 
     protected $casts = [
-        "bulk" => "array"
+        'bulk' => 'array',
     ];
 
     protected $dates = [
-        "scheduled_load",
-        "scheduled_departure",
-        "scheduled_arrival",
-        "scheduled_unload"
+        'scheduled_load',
+        'scheduled_departure',
+        'scheduled_arrival',
+        'scheduled_unload',
     ];
 
+    //region Relationships
 
-
-    #region Relationships
     /**
-     * Relacion al lugar de origen
+     * Relacion al lugar de origen.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function origin()
     {
-        return $this->belongsTo(Place::class,"origin_id");
+        return $this->belongsTo(Place::class, 'origin_id');
     }
 
     /**
-     * Relacion al lugar destino
+     * Relacion al lugar destino.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function destination()
     {
-        return $this->belongsTo(Place::class, "destination_id");
+        return $this->belongsTo(Place::class, 'destination_id');
     }
 
     /**
-     * El viaje tiene un dispositivo asociado
+     * El viaje tiene un dispositivo asociado.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
     {
-        return $this->belongsTo(Device::class, "device_id");
+        return $this->belongsTo(Device::class, 'device_id');
     }
 
     /**
-     * Traces son todos los registros que va dejando el plan de viaje, antes Bitacora
+     * Traces son todos los registros que va dejando el plan de viaje, antes Bitacora.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function traces()
     {
-        return $this->hasMany(Trace::class,"trip_id");
+        return $this->hasMany(Trace::class, 'trip_id');
     }
 
     public function tags(): MorphToMany
@@ -142,7 +144,7 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * Relacion muchos a muchos, puntos intermedios
+     * Relacion muchos a muchos, puntos intermedios.
      */
     public function places()
     {
@@ -153,21 +155,23 @@ class Trip extends Model implements LoggerInterface
             'trip_id')
             ->withPivot([
                 'order',
-                'type'
+                'type',
             ]);
     }
 
     /**
-     * Alias de Places con pivot intermediate
+     * Alias de Places con pivot intermediate.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function intermediates()
     {
-        return $this->places()->wherePivot('type','=','intermediate');
+        return $this->places()->wherePivot('type', '=', 'intermediate');
     }
 
     /**
-     * Un viaje puede tener varias Cajas (TrailerBoxes), el campo order en pivot representa el orden de las cajas
+     * Un viaje puede tener varias Cajas (TrailerBoxes), el campo order en pivot representa el orden de las cajas.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function trailers()
@@ -178,12 +182,13 @@ class Trip extends Model implements LoggerInterface
             'trip_id',
             'trailer_box_id'
         )->withPivot([
-            'order'
+            'order',
         ]);
     }
 
     /**
-     * Un viaje puede tener un tracto
+     * Un viaje puede tener un tracto.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function truck()
@@ -192,7 +197,8 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * Un viaje tiene un operador asignado al viaje
+     * Un viaje tiene un operador asignado al viaje.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function operator()
@@ -201,48 +207,51 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * Trip tiene muchos logs
+     * Trip tiene muchos logs.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function logs()
     {
         return $this->morphMany(\App\Log::class, 'loggable');
-
     }
 
     /**
-     * Un Trip tiene un cliente asignado
+     * Un Trip tiene un cliente asignado.
      */
     public function client()
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
-    #endregion
 
-    #region actions
+    //endregion
+
+    //region actions
+
     /**
-     * Add Intermediate Places points
+     * Add Intermediate Places points.
+     *
      * @param Place $place
      */
-    public function addIntermediate( $place_id)
+    public function addIntermediate($place_id)
     {
         return $this->places()->attach($place_id, [
-            "type" => 'intermediate',
-            'order' => 0
+            'type' => 'intermediate',
+            'order' => 0,
         ]);
     }
 
     public function addTrailerBox(int $trailer_box_id)
     {
-         $this->trailers()->attach($trailer_box_id, [
-            'order' => 0
+        $this->trailers()->attach($trailer_box_id, [
+            'order' => 0,
         ]);
     }
 
     /**
-     * Devuelve array con los ids de las notificaciones wialon creadas
+     * Devuelve array con los ids de las notificaciones wialon creadas.
      */
-    public function createWialonNotification():array
+    public function createWialonNotification(): array
     {
         $tenant_uuid = config('database.connections.tenant.database');
 
@@ -252,8 +261,8 @@ class Trip extends Model implements LoggerInterface
         }
 
         $unit_id = $this->getExternalUnitsIds();
-        $unit_id = $unit_id->map(function($element){
-            return (int)$element;
+        $unit_id = $unit_id->map(function ($element) {
+            return (int) $element;
         });
 
         $wialon_units = Unit::findMany($unit_id->toArray());
@@ -261,18 +270,18 @@ class Trip extends Model implements LoggerInterface
         /**
          * Y en las notificaciones agregas las geocercas que quieres tomar en cuenta
          * para que te reporten entradas y salidas 2 notificaciones
-         * una con parametro de entrada y con todas las geocercas del viaje. y otra con parametro de salida con todas las geocercas del viaje
+         * una con parametro de entrada y con todas las geocercas del viaje. y otra con parametro de salida con todas las geocercas del viaje.
          */
         $control_type = new GeofenceControlType();
 
         $control_type->setType(0); // entrada
         $all_geofences = $this->getAllPlacesGeofences();
-        foreach ($all_geofences as $geofence){
+        foreach ($all_geofences as $geofence) {
             $control_type->addGeozoneId($geofence);
         }
 
         $action = new Notification\Action('push_messages', [
-            "url" => url(config("app.url") . "api/v1/$tenant_uuid/alert/trips/".$this->id)
+            'url' => url(config('app.url')."api/v1/$tenant_uuid/alert/trips/".$this->id),
         ]);
         $device = $this->truck->device->id;
         $text = '"unit=%UNIT%&
@@ -301,37 +310,38 @@ class Trip extends Model implements LoggerInterface
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id=' . $tenant_uuid . '&
-        trip_id=' . $this->id. '&
-        device_id=' . $device. '
+        X-Tenant-Id='.$tenant_uuid.'&
+        trip_id='.$this->id.'&
+        device_id='.$device.'
         "';
 
-        $text = str_replace(["\r", "\n", " "], "", $text);
+        $text = str_replace(["\r", "\n", ' '], '', $text);
         $wialon_notifications = collect();
         $wialon_notifications->push(Notification::make($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, [
-            "txt" => $text
+            'txt' => $text,
         ])); // Notificacion de entradas
 
         $control_type->setType(1); // salida
         $wialon_notifications->push(Notification::make($resource, $wialon_units, $control_type, "leaving.{$this->id}", $action, [
-            "txt" => $text
+            'txt' => $text,
         ])); // Notificacion de salidas
 
-        $wialon_notifications = $wialon_notifications->map(function($wnotify) use($resource) {
-
+        $wialon_notifications = $wialon_notifications->map(function ($wnotify) use ($resource) {
             return "{$resource->id}_$wnotify->id";
         });
 
         return $wialon_notifications->toArray();
     }
 
-    #endregion
-    #region Getters
+    //endregion
+    //region Getters
+
     /**
-     * Devuelve todos los Ids de Geofences de wialon en formato resourceId_localId
+     * Devuelve todos los Ids de Geofences de wialon en formato resourceId_localId.
+     *
      * @return array
      */
-    public function getAllPlacesGeofences():array
+    public function getAllPlacesGeofences(): array
     {
         $geofences_ids = [
             $this->origin()->pluck('geofence_ref')->first(),
@@ -340,11 +350,12 @@ class Trip extends Model implements LoggerInterface
 
         $intermediates = $this->intermediates()->pluck('geofence_ref');
 
-        return array_merge($geofences_ids,$intermediates->toArray());
+        return array_merge($geofences_ids, $intermediates->toArray());
     }
 
     /**
-     * Devuelve los ids de wialon_id
+     * Devuelve los ids de wialon_id.
+     *
      * @return Collection
      */
     public function getExternalUnitsIds(): Collection
@@ -358,20 +369,21 @@ class Trip extends Model implements LoggerInterface
         return $devices;
     }
 
-    #endregion
+    //endregion
     //    Override Tag class para aceptar mariadb
     public static function getTagClassName(): string
     {
         return MariadbTag::class;
     }
 
-    #region Scopes
+    //region Scopes
     public function scopeOnlyOngoing($query)
     {
-        
         $query->where('scheduled_load', '<', Carbon::now());
         $query->where('scheduled_unload', '>', Carbon::now());
+
         return $query;
     }
-    #endregion
-};
+
+    //endregion
+}

@@ -25,10 +25,10 @@ class DeviceNotificationRequest extends FormRequest
     {
         return [
             'X-Tenant-Id' => [
-                "required",
-                'exists:accounts,uuid'
+                'required',
+                'exists:accounts,uuid',
             ],
-            'notification_id' => "required"
+            'notification_id' => 'required',
         ];
     }
 }

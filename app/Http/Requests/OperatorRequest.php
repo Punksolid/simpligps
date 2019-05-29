@@ -24,9 +24,9 @@ class OperatorRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required",
-            "phone" => "required",
-            "active" => "required|bool"
+            'name' => 'required',
+            'phone' => 'required',
+            'active' => 'required|bool',
         ];
     }
 }

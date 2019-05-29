@@ -32,7 +32,7 @@ class TruckTractRequest extends FormRequest
             'gps' => 'required',
             'color' => 'required',
             'carrier_id' => 'required|integer',
-            'device_id' => 'required|integer'
+            'device_id' => 'required|integer',
         ];
     }
 }

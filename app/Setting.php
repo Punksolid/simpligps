@@ -12,20 +12,17 @@ class Setting extends Model
     protected $table = 'settings';
 
     protected $fillable = [
-        'bulk'
+        'bulk',
     ];
 
     protected $cast = [
-        'bulk' => 'array'
+        'bulk' => 'array',
     ];
 
     public function getWialonToken(): string
     {
-
         $wialon_row_data = $this->where('key', 'wialon_key')->first();
+
         return $wialon_row_data->value;
-
     }
-
-
 }

@@ -24,8 +24,8 @@ class UpdateLocalizationRequest extends FormRequest
     public function rules()
     {
         return [
-            "lat" => "required",
-            "lon" => "required"
+            'lat' => 'required',
+            'lon' => 'required',
         ];
     }
 }

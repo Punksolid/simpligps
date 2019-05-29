@@ -24,12 +24,12 @@ class LicenseRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required",
-            "description" => "required",
-            "lapse" => "required|integer",
-            "modules" => "required",
-            "units" => "required|integer",
-            "number_active_sessions" => "required|integer"
+            'name' => 'required',
+            'description' => 'required',
+            'lapse' => 'required|integer',
+            'modules' => 'required',
+            'units' => 'required|integer',
+            'number_active_sessions' => 'required|integer',
         ];
     }
 }

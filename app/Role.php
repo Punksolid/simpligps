@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Hyn\Tenancy\Models\Website;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Models\Role as SpatieRole;
 use Spatie\Permission\PermissionRegistrar;
@@ -13,8 +11,6 @@ class Role extends SpatieRole
 {
     use UsesTenantConnection;
 
-
-
     /**
      * A role may be given various permissions.
      */
@@ -22,12 +18,14 @@ class Role extends SpatieRole
     {
         $database = $this->getConnection()->getDatabaseName();
         $table_name = config('permission.table_names.role_has_permissions');
+
         return $this->belongsToMany(Permission::class, "$database.$table_name");
 //        return $this->belongsToMany(
 //            config('permission.models.permission'),
 //            config('permission.table_names.role_has_permissions')
 //        );
     }
+
     /**
      * Remove all current permissions and set the given ones.
      *
@@ -37,13 +35,10 @@ class Role extends SpatieRole
      */
     public function syncPermissions(...$permissions)
     {
-
         $this->permissions()->detach();
 
         return $this->givePermissionTo($permissions);
     }
-
-
 
     /**
      * Grant the given permission(s) to a role.
@@ -123,7 +118,7 @@ class Role extends SpatieRole
 
     public function getPermissionClass()
     {
-        if (! isset($this->permissionClass)) {
+        if (!isset($this->permissionClass)) {
 //            $this->permissionClass = app(PermissionRegistrar::class)->getPermissionClass(); // ORIGINAL
             $this->permissionClass = new Permission(); // personalized
         }

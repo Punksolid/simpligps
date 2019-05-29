@@ -7,34 +7,32 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Punksolid\Wialon\Unit;
-use Illuminate\Support\Carbon;
 use Psr\Log\LoggerTrait;
-use Psr\Log\AbstractLogger;
 use Psr\Log\LoggerInterface;
-use App\Traits\ModelLoggerTrait;
+use App\Traits\ModelLogger;
 
 class Device extends Model implements LoggerInterface
 {
-    use LoggerTrait, ModelLoggerTrait;
+    use LoggerTrait, ModelLogger;
     /**
-     * Detailed debug information
+     * Detailed debug information.
      */
     const DEBUG = 100;
 
     /**
-     * Interesting events
+     * Interesting events.
      *
      * Examples: User logs in, SQL logs.
      */
     const INFO = 200;
 
     /**
-     * Uncommon events
+     * Uncommon events.
      */
     const NOTICE = 250;
 
     /**
-     * Exceptional occurrences that are not errors
+     * Exceptional occurrences that are not errors.
      *
      * Examples: Use of deprecated APIs, poor use of an API,
      * undesirable things that are not necessarily wrong.
@@ -42,19 +40,19 @@ class Device extends Model implements LoggerInterface
     const WARNING = 300;
 
     /**
-     * Runtime errors
+     * Runtime errors.
      */
     const ERROR = 400;
 
     /**
-     * Critical conditions
+     * Critical conditions.
      *
      * Example: Application component unavailable, unexpected exception.
      */
     const CRITICAL = 500;
 
     /**
-     * Action must be taken immediately
+     * Action must be taken immediately.
      *
      * Example: Entire website down, database unavailable, etc.
      * This should trigger the SMS alerts and wake you up.
@@ -69,25 +67,26 @@ class Device extends Model implements LoggerInterface
     use UsesTenantConnection, Notifiable, SoftDeletes;
 
     protected $fillable = [
-        "name",
-        "internal_number",
-        "brand",
-        "model",
-        "gps",
-        "wialon_id",
-        "group_id",
-        "reference_data",
-        "bulk"
+        'name',
+        'internal_number',
+        'brand',
+        'model',
+        'gps',
+        'wialon_id',
+        'group_id',
+        'reference_data',
+        'bulk',
     ];
 
     protected $casts = [
-        "bulk" => "array",
-        "reference_data" => "array"
+        'bulk' => 'array',
+        'reference_data' => 'array',
     ];
 
-    #region Relationships
+    //region Relationships
+
     /**
-     * Un dispositivo puede estar registrado en muchos viajes
+     * Un dispositivo puede estar registrado en muchos viajes.
      */
     public function trips()
     {
@@ -95,12 +94,13 @@ class Device extends Model implements LoggerInterface
     }
 
     /**
-     * Relación, un dispositivo pertenece a un carrier, antes linea
+     * Relación, un dispositivo pertenece a un carrier, antes linea.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function carrier()
     {
-        return $this->belongsTo(Carrier::class, "carrier_id");
+        return $this->belongsTo(Carrier::class, 'carrier_id');
     }
 
     public function notificationtriggers()
@@ -114,36 +114,37 @@ class Device extends Model implements LoggerInterface
     }
 
     /**
-     * Un truck tiene asignado un dispositivo
+     * Un truck tiene asignado un dispositivo.
      */
     public function truck()
     {
         return $this->hasOne(TruckTract::class);
     }
-    #endregion
+
+    //endregion
+
     /**
-     * Liga a una unidad de wialon
+     * Liga a una unidad de wialon.
+     *
      * @param Unit $unit
+     *
      * @return bool
      */
-    public function linkUnit(Unit $unit):bool
+    public function linkUnit(Unit $unit): bool
     {
-        return (bool)$this->update([
-            "wialon_id" => $unit->id,
-            "reference_data" => $unit
+        return (bool) $this->update([
+            'wialon_id' => $unit->id,
+            'reference_data' => $unit,
         ]);
     }
 
     /**
-     * Comprueba si tiene una ligacion a un dispositivo externo
+     * Comprueba si tiene una ligacion a un dispositivo externo.
+     *
      * @return bool
      */
-    public function linked():bool
+    public function linked(): bool
     {
-        return (bool)$this->reference_data;
+        return (bool) $this->reference_data;
     }
-
-
-
-
 }
