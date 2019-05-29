@@ -56,6 +56,5 @@ class NewAccount extends Command
         ]);
 
         return response($website);
-
     }
 }

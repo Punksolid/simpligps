@@ -152,7 +152,8 @@ class Trip extends Model implements LoggerInterface
             Place::class,
             'places_trips',
             'place_id',
-            'trip_id')
+            'trip_id'
+        )
             ->withPivot([
                 'order',
                 'type',

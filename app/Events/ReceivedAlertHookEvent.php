@@ -36,7 +36,6 @@ class ReceivedAlertHookEvent implements ShouldBroadcast
 //        $account->notify(
 //            $notification
 //        );
-
     }
 
     /**
@@ -48,6 +47,4 @@ class ReceivedAlertHookEvent implements ShouldBroadcast
     {
         return new PrivateChannel('App.Account.'.$this->account->uuid);
     }
-
-
 }

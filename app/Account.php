@@ -160,8 +160,10 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
                     'expires_at' => 'required|date',
                 ]);
 
-                throw_if($v->fails(),
-                    ValidationException::withMessages([
+                throw_if(
+                    $v->fails(),
+                    ValidationException::withMessages(
+                        [
                             'error' => [
                                 'Argumentos invalidos en los pivots',
                             ], ]

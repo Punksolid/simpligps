@@ -135,7 +135,9 @@ class PermissionRegistrar
      */
     public function getPermissions(array $params = []): Collection
     {
-        $permissions = $this->cache->remember($this->getKey($params), self::$cacheExpirationTime,
+        $permissions = $this->cache->remember(
+            $this->getKey($params),
+            self::$cacheExpirationTime,
             function () use ($params) {
                 return $this->getPermissionClass()
                     ->when($params && self::$cacheIsTaggable, function ($query) use ($params) {
@@ -143,7 +145,8 @@ class PermissionRegistrar
                     })
                     ->with('roles')
                     ->get();
-            });
+            }
+        );
 
         if (!self::$cacheIsTaggable) {
             foreach ($params as $attr => $value) {
