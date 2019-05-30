@@ -63,8 +63,6 @@ class Wialon
                 'name' => $wialon_unit->nm,
             ]);
 
-            $truck->linkUnit($wialon_unit);
-
             $trucks->push($truck);
         }
 
