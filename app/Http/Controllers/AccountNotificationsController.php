@@ -30,7 +30,20 @@ class AccountNotificationsController extends Controller
 
         return \response()->json(['data' => 'ok']);
     }
+    /**
+     * Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getNotifications()
+    {
+        $account = $this->getAccount();
+        $notifications = $account
+            ->unreadNotifications()
+            ->get();
 
+        return InternalNotificationResource::collection($notifications);
+    }
+    
     public function getAccount(): ?Account
     {
         $account_uuid = \request()->header('X-Tenant-Id', null);
