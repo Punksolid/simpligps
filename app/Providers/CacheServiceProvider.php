@@ -11,22 +11,17 @@ class CacheServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
     public function register()
     {
-        //
     }
 
     /**
      * Bootstrap services.
-     *
-     * @return void
      */
     public function boot()
     {
-        //
+        
 //        Cache::extend('redis_tenancy', function ($app) {
 //            if (PHP_SAPI === 'cli') {
 //                $uuid = $app['config']['driver'];

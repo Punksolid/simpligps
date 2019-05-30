@@ -7,8 +7,8 @@ use App\Trip;
 use Illuminate\Http\Request;
 
 /**
- * Class ConvoyController
- * @package App\Http\Controllers
+ * Class ConvoyController.
+ *
  * @resource Convoy
  */
 class ConvoyController extends Controller
@@ -20,16 +20,16 @@ class ConvoyController extends Controller
      */
     public function index()
     {
-        $convoys = Convoy::with("trips")->get();
+        $convoys = Convoy::with('trips')->get();
+
         return response($convoys);
     }
-
-
 
     /**
      * Store a newly created convoy in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -39,31 +39,21 @@ class ConvoyController extends Controller
 
         $convoy->trips()->saveMany($trips);
 
-        return response($convoy->fresh("trips"));
+        return response($convoy->fresh('trips'));
     }
 
     /**
      * Display the specified convoy.
      *
-     * @param  \App\Convoy  $convoy
+     * @param \App\Convoy $convoy
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Convoy $convoy)
     {
-        $convoy = $convoy->load("trips");
+        $convoy = $convoy->load('trips');
+
         return response($convoy);
     }
 
-
-
-    /**
-     * Remove the specified convoy from storage.
-     *
-     * @param  \App\Convoy  $convoy
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Convoy $convoy)
-    {
-        //
-    }
 }

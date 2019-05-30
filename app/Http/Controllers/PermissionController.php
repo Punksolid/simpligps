@@ -27,18 +27,6 @@ class PermissionController extends Controller
     }
 
     /**
-     * Muestra
-     *
-     * @param  \App\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Permission $permission)
-    {
-        //
-    }
-
-
-    /**
      * Actualiza los permisos individuales de un usuario
      *
      * @param  \Illuminate\Http\Request  $request
@@ -51,14 +39,4 @@ class PermissionController extends Controller
         return response()->json(["data" => $user->getAllPermissions()->pluck("name")]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Permission $permission)
-    {
-        //
-    }
 }

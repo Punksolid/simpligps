@@ -14,6 +14,6 @@ class Trace extends Model
     ];
 
     protected $casts = [
-        'content' => 'array',
+      'content' => 'array',
     ];
 }

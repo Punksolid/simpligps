@@ -90,8 +90,7 @@ class Role extends SpatieRole
 
     /**
      * @param string|array|\Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection $permissions
-     *
-     * @return \Spatie\Permission\Contracts\Permission|\Spatie\Permission\Contracts\Permission[]|\Illuminate\Support\Collection
+     * @return \Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection
      */
     protected function getStoredPermission($permissions)
     {
