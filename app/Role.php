@@ -5,7 +5,6 @@ namespace App;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Spatie\Permission\Models\Role as SpatieRole;
-use Spatie\Permission\PermissionRegistrar;
 
 class Role extends SpatieRole
 {
@@ -91,8 +90,7 @@ class Role extends SpatieRole
 
     /**
      * @param string|array|\Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection $permissions
-     *
-     * @return \Spatie\Permission\Contracts\Permission|\Spatie\Permission\Contracts\Permission[]|\Illuminate\Support\Collection
+     * @return \Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection
      */
     protected function getStoredPermission($permissions)
     {

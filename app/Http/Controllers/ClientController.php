@@ -86,11 +86,11 @@ class ClientController extends Controller implements Search
     {
         $clients = Client::query();
         
-        if($request->filled('company_name')){
+        if ($request->filled('company_name')) {
             $clients->where('company_name', 'LIKE', "%{$request->company_name}%");
         }
         
-        if($request->filled('person_name')){
+        if ($request->filled('person_name')) {
             $clients->where('person_name', 'LIKE', "%{$request->person_name}%");
         }
         

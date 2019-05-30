@@ -80,7 +80,7 @@ class RegisterController extends Controller
      */
     public function continueRegistration()
     {
-        $this->validate(request(),[
+        $this->validate(request(), [
             'email' => 'required',
             'hash' => 'required',
             'password' => 'required',
@@ -100,7 +100,6 @@ class RegisterController extends Controller
             if ($user->save()) {
                 return response()->json(['message' => "You can now login."]);
             }
-
         } else {
             return \response(['message' => 'Invalid Token'], 422);
         }

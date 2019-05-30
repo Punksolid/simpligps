@@ -13,7 +13,6 @@ use Punksolid\Wialon\GeofenceControlType;
 
 class WialonNotificationsController extends Controller
 {
-
     public function index()
     {
         //        @todo Implementar cache para multitenant

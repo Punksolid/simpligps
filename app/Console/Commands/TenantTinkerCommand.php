@@ -5,13 +5,9 @@ namespace App\Console\Commands;
 use App\Account;
 use App\Traits\MutatesTinkerCommand;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-
 use Hyn\Tenancy\Database\Connection;
-
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Laravel\Tinker\TinkerCaster;
-use Laravel\Tinker\TinkerServiceProvider;
 use Symfony\Component\Console\Exception\RuntimeException;
 use Laravel\Tinker\Console\TinkerCommand as TinkerParentCommand;
 
@@ -26,8 +22,6 @@ class TenantTinkerCommand extends TinkerParentCommand
     protected $signature = 'tenancy:tinker 
                             { account : The ID of the Account }';
 
-
-
     /**
      * The console command description.
      *
@@ -37,8 +31,6 @@ class TenantTinkerCommand extends TinkerParentCommand
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -46,7 +38,7 @@ class TenantTinkerCommand extends TinkerParentCommand
         $this->websites = app(WebsiteRepository::class);
         $this->connection = app(Connection::class);
 
-        $this->addArgument('include',2, 'includes', []);
+        $this->addArgument('include', 2, 'includes', []);
     }
 
     /**
@@ -60,7 +52,7 @@ class TenantTinkerCommand extends TinkerParentCommand
         try {
             $account = Account::findOrFail($account_id);
             $this->connection->set($account);
-            $this->info('Running Tinker on account_id: ' . $account_id);
+            $this->info('Running Tinker on account_id: '.$account_id);
 
             parent::handle();
 
@@ -69,6 +61,4 @@ class TenantTinkerCommand extends TinkerParentCommand
             throw new RuntimeException(sprintf('The tenancy account_id=%d does not exist.', $account_id));
         }
     }
-
-
 }

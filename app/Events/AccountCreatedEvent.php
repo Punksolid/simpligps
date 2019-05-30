@@ -23,11 +23,8 @@ class AccountCreatedEvent
      */
     public function __construct($user, $account)
     {
-
         $this->user = $user;
         $this->account = $account;
-
-
     }
 
     /**

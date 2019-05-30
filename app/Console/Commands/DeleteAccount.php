@@ -40,12 +40,10 @@ class DeleteAccount extends Command
     public function handle()
     {
         $uuid = $this->argument("uuid");
-        $account = Account::where("uuid",$uuid)->first();
-            $account->delete();
+        $account = Account::where("uuid", $uuid)->first();
+        $account->delete();
 
         \DB::connection("mysql")->statement("DROP DATABASE $account->uuid;");
         return true;
-
-
     }
 }

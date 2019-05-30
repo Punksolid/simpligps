@@ -9,29 +9,29 @@ use App\Http\Resources\UsersResource;
 use App\User;
 use http\Client\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 
 /**
- * Class MeController
- * @package App\Http\Controllers
+ * Class MeController.
+ *
  * @resource Me
  */
 class MeController extends Controller
 {
     /**
-     * Logged user information
+     * Logged user information.
      *
      * @return UsersResource
      */
     public function meInfo()
     {
-        
         $user = auth()->user();
+
         return UsersResource::make($user);
     }
 
     /**
-     * Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel
+     * Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel.
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getNotifications()
@@ -51,25 +51,28 @@ class MeController extends Controller
     {
         try {
             auth()->user()->notifications()->where('id', $uuid)->first()->markAsRead();
+
             return \response()->json(['data' => 'ok']);
         } catch (\Exception $e) {
             \Log::error('Failed mark as read', $e->getMessage());
+
             return response()->json([
-                'message' => 'An error occurred'
+                'message' => 'An error occurred',
             ]);
         }
     }
 
     /**
-     * Cambia la contraseña del usuario loggeado, solo es necesario password y pasword_confirmation
+     * Cambia la contraseña del usuario loggeado, solo es necesario password y pasword_confirmation.
      */
     public function changePassword(Request $request)
     {
         $request->validate([
-            "password" => "required|confirmed"
+            'password' => 'required|confirmed',
         ]);
         $user = auth()->user();
         $user->password = bcrypt($request->password);
+
         return response()->json($user->save());
     }
 
@@ -80,13 +83,14 @@ class MeController extends Controller
     {
         return response()->json(
             [
-                "data" => auth()->user()->getAllPermissions()
+                'data' => auth()->user()->getAllPermissions(),
             ]
         );
     }
 
     /**
-     * Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant
+     * Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant.
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function accounts()
@@ -95,8 +99,10 @@ class MeController extends Controller
     }
 
     /**
-     * Returns the details of an account
+     * Returns the details of an account.
+     *
      * @param $uuid
+     *
      * @return AccountResource
      */
     public function getIdOfAccount($uuid)
@@ -106,7 +112,7 @@ class MeController extends Controller
         return AccountResource::make($account);
     }
 
-    public function setAccountSession(Request $request)
+    public function enterAccountSession(Request $request)
     {
         $account = Account::where('uuid', $request->uuid)->firstOrFail();
         activity('access_log')
@@ -114,7 +120,6 @@ class MeController extends Controller
             ->performedOn($account)
             ->log('User Access');
         // ->withProperties(['key' => 'value'])
-
 
         return AccountResource::make($account);
     }

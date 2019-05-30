@@ -65,7 +65,6 @@ class User extends Authenticatable implements CanResetPassword
      * Obtiene todos los usuarios de una cuenta o de todas las cuentas del usuario.
      *
      * @param Account|null $account
-     *
      * @return Collection
      */
     public function getColleagues(Account $account = null, $me_too = false): Collection

@@ -13,31 +13,24 @@ class CreateExternalNotification implements ShouldQueue
 
     /**
      * Create the event listener.
-     *
-     * @return void
      */
     public function __construct()
     {
-        //
     }
 
     /**
      * Handle the event.
      *
-     * @param  NotificationTriggerCreated  $event
-     * @return void
+     * @param NotificationTriggerCreated $event
      */
     public function handle(NotificationTriggerCreated $event)
     {
         Log::info('ListenerTouched');
         $event->notification_trigger->createExternalNotification($event->control_type, $event->params);
-
     }
 
     public function createExternalNotification($event)
     {
-
         $event->notification_trigger->createExternalNotification($event->control_type, $event->params);
     }
-
 }

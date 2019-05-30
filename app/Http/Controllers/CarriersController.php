@@ -47,7 +47,7 @@ class CarriersController extends Controller implements Search
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show( $carrier)
+    public function show($carrier)
     {
         $carrier = Carrier::findOrFail($carrier);
 
@@ -61,11 +61,11 @@ class CarriersController extends Controller implements Search
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CarrierRequest $request,  $carrier)
+    public function update(CarrierRequest $request, $carrier)
     {
         $carrier = Carrier::findOrFail($carrier);
 
-        if ($carrier->update($request->all())){
+        if ($carrier->update($request->all())) {
             return CarrierResource::make($carrier);
         }
 
@@ -82,7 +82,7 @@ class CarriersController extends Controller implements Search
     {
         $carrier = Carrier::findOrFail($carrier);
 
-        if ($carrier->delete()){
+        if ($carrier->delete()) {
             return response([
                 "message" => "Se eliminó la linea transportista."
             ]);
@@ -94,11 +94,10 @@ class CarriersController extends Controller implements Search
     public function search(\Illuminate\Http\Request $request)
     {
         $carriers = Carrier::query();
-        if($request->filled('carrier_name')) {
+        if ($request->filled('carrier_name')) {
             $carriers->where('carrier_name', 'LIKE', "%{$request->carrier_name}%");
         }
 
         return CarrierResource::collection($carriers->paginate(50));
-
     }
 }

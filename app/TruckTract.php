@@ -72,9 +72,9 @@ class TruckTract extends Model
     public function currentOperator()
     {
         return $this->operators()
-                ->wherePivot('scheduled_load', '<', Carbon::now())
-                ->wherePivot('scheduled_unload', '>', Carbon::now())
-                ->take(1);
+            ->wherePivot('scheduled_load', '<', Carbon::now())
+            ->wherePivot('scheduled_unload', '>', Carbon::now())
+            ->take(1);
     }
 
     //endregion

@@ -10,19 +10,19 @@ class Log extends Model
     /**
      * Detailed debug information.
      */
-    const DEBUG = 100;
+    private const DEBUG = 100;
 
     /**
      * Interesting events.
      *
      * Examples: User logs in, SQL logs.
      */
-    const INFO = 200;
+    private const INFO = 200;
 
     /**
      * Uncommon events.
      */
-    const NOTICE = 250;
+    private const NOTICE = 250;
 
     /**
      * Exceptional occurrences that are not errors.
@@ -30,19 +30,19 @@ class Log extends Model
      * Examples: Use of deprecated APIs, poor use of an API,
      * undesirable things that are not necessarily wrong.
      */
-    const WARNING = 300;
+    private const WARNING = 300;
 
     /**
      * Runtime errors.
      */
-    const ERROR = 400;
+    private const ERROR = 400;
 
     /**
      * Critical conditions.
      *
      * Example: Application component unavailable, unexpected exception.
      */
-    const CRITICAL = 500;
+    private const CRITICAL = 500;
 
     /**
      * Action must be taken immediately.
@@ -50,12 +50,12 @@ class Log extends Model
      * Example: Entire website down, database unavailable, etc.
      * This should trigger the SMS alerts and wake you up.
      */
-    const ALERT = 550;
+    private const ALERT = 550;
 
     /**
      * Urgent alert.
      */
-    const EMERGENCY = 600;
+    private const EMERGENCY = 600;
 
     use UsesTenantConnection;
 

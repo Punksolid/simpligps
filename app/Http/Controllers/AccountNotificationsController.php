@@ -36,7 +36,6 @@ class AccountNotificationsController extends Controller
         $account_uuid = \request()->header('X-Tenant-Id', null);
      
         return \request()->user()->accounts()->where('uuid', $account_uuid)->firstOrFail();
-
     }
 
     public function resolve(Request $request)

@@ -50,12 +50,11 @@ class NewAccount extends Command
         $this->info("Account Id: ".$website->id);
         $this->info("Uuid: ". $website->uuid);
         sleep(1);
-        $call = $this->call("tenancy:db:seed", [
+        $this->call("tenancy:db:seed", [
             "--website_id" => ["$website->id"],
             "--class" => "MainSeedTenants"
         ]);
 
         return response($website);
-
     }
 }

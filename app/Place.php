@@ -24,5 +24,4 @@ class Place extends Model
     protected $cast = [
         "high_risk" => 'bool'
     ];
-
 }

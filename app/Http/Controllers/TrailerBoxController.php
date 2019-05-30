@@ -42,7 +42,7 @@ class TrailerBoxController extends Controller
      * @param  \App\TrailerBox  $trailerBox
      * @return \Illuminate\Http\Response
      */
-    public function update(TrailerBoxRequest $request,  $trailerBox)
+    public function update(TrailerBoxRequest $request, $trailerBox)
     {
         $trailer = TrailerBox::findOrFail($trailerBox);
 
@@ -65,6 +65,5 @@ class TrailerBoxController extends Controller
         $trailer->delete();
 
         return TrailerBoxResource::make($trailer);
-
     }
 }

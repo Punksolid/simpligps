@@ -14,7 +14,6 @@ class WialonUnitResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
             "id" => $this->id,
             "nm" => $this->nm,

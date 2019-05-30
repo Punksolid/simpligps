@@ -15,7 +15,6 @@ use Spatie\Tags\Tag;
  */
 class MariadbTag extends Tag
 {
-
     use UsesTenantConnection;
 
     protected $table = "tags";

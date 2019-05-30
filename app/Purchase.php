@@ -8,10 +8,10 @@ class Purchase extends Model
 {
     protected $fillable = [
         'email',
-        "audit"
+        'audit',
     ];
 
     protected $casts = [
-        'audit' => 'array'
+        'audit' => 'array',
     ];
 }

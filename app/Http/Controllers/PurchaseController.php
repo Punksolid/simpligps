@@ -28,7 +28,7 @@ class PurchaseController extends Controller
 
         // $license = $request->line_items[0]["sku"]; is the buyed item
         $license = AppLicense::where('name', $request->line_items[0]['sku'])->firstOrFail();
-        $purchase = Purchase::create([
+        Purchase::create([
             'email' => $request->billing['email'],
             'audit' => $request->all(),
         ]);

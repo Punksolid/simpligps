@@ -24,20 +24,7 @@ class PermissionController extends Controller
         $permissions = Permission::all();
 
         return PermissionResource::collection($permissions);
-
     }
-
-    /**
-     * Muestra
-     *
-     * @param  \App\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Permission $permission)
-    {
-        //
-    }
-
 
     /**
      * Actualiza los permisos individuales de un usuario
@@ -48,19 +35,8 @@ class PermissionController extends Controller
      */
     public function userSync(Request $request, User $user)
     {
-
         $user->syncPermissions($request->permissions);
         return response()->json(["data" => $user->getAllPermissions()->pluck("name")]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Permission  $permission
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Permission $permission)
-    {
-        //
-    }
 }

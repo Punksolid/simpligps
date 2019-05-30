@@ -37,7 +37,7 @@ class Wialon
             ]);
 
             $device->linkUnit($wialon_unit);
-            $truck = Truck::create([
+            Truck::create([
                 'name' => $device->name,
                 'device_id' => $device->id,
                 'internal_number' => $device->uacl,
@@ -62,8 +62,6 @@ class Wialon
             $truck = Truck::create([
                 'name' => $wialon_unit->nm,
             ]);
-
-            $truck->linkUnit($wialon_unit);
 
             $trucks->push($truck);
         }

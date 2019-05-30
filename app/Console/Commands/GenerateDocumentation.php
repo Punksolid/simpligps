@@ -68,7 +68,8 @@ class GenerateDocumentation extends Command
                 '--middleware' => "auth:api",
                 '--output' => 'storage/app/public/docs/user/',
                 '--bindings' => "contact,$contact->id"
-            ]);
+            ]
+        );
 
         $this->warn('ADMIN DOCUMENTATION');
         $admin = factory(Sysadmin::class)->create();
@@ -85,6 +86,7 @@ class GenerateDocumentation extends Command
                 '--force' => true,
                 '--env' => 'production',
                 '--bindings' => "license,$licence->id|account,$account->id"
-            ]);
+            ]
+        );
     }
 }

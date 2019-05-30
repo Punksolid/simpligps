@@ -17,11 +17,9 @@ class AccountController extends Controller
 
     public function accessLogs(Request $request)
     {
-        $account_uuid = $request->header('X-Tenant-Id', null);
-
         $logs = $request->tenant_account->activities()
-        ->where('log_name', 'access_log')
-        ->paginate();
+            ->where('log_name', 'access_log')
+            ->paginate();
         // $logs = \Spatie\Activitylog\Models\Activity::
         //         where('log_name', 'access_log')
         //         // @TODO: select by account

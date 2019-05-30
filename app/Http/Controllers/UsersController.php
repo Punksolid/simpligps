@@ -26,8 +26,8 @@ class UsersController extends Controller
         try {
             $this->account = Account::whereUuid(\request()->header('X-Tenant-Id'))->firstOrFail();
             $this->repository = $this->account->users();
-        } catch (\Exception $e) {
-            \Log::alert('No se pudo especificar repositorio');
+        } catch (\Exception $exception) {
+            \Log::alert("No se pudo especificar repositorio: {$exception->getMessage()}");
         }
         parent::__construct();
     }

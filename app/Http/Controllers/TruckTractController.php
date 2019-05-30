@@ -49,8 +49,8 @@ class TruckTractController extends Controller implements Search
     public function show($truckTract)
     {
         $truckTract = TruckTract::with([
-            'device', 
-            'carrier', 
+            'device',
+            'carrier',
             'currentOperator',
             'operators'
             // 'operators' => function ($query_operators) {
@@ -70,7 +70,7 @@ class TruckTractController extends Controller implements Search
      * @param  \App\TruckTract  $truckTract
      * @return \Illuminate\Http\Response
      */
-    public function update(TruckTractRequest $request,  $truckTract)
+    public function update(TruckTractRequest $request, $truckTract)
     {
         $truckTract = TruckTract::findOrFail($truckTract);
         $truckTract->carrier_id = $request->carrier_id;

@@ -11,10 +11,10 @@ class TrailerBox extends Model
     use UsesTenantConnection,SoftDeletes;
 
     protected $fillable = [
-            'internal_number',
-            'gps',
-            'plate',
-        ];
+        'internal_number',
+        'gps',
+        'plate',
+    ];
 
     //region Relationships
     public function trips()

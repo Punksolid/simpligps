@@ -20,5 +20,4 @@ class Convoy extends Model
     {
         return $this->hasMany(Trip::class);
     }
-
 }

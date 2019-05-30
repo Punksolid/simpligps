@@ -25,7 +25,7 @@ class LicenseController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->has('all')){
+        if ($request->has('all')) {
             return LicenseResource::collection(License::all());
         }
 
@@ -42,7 +42,6 @@ class LicenseController extends Controller
      */
     public function store(LicenseRequest $request)
     {
-
         $license = License::make($request->all());
         $license->uuid = \Illuminate\Support\Str::uuid();
         $license->save();
@@ -73,13 +72,13 @@ class LicenseController extends Controller
      */
     public function destroy(License $license)
     {
-        if ($license->hasAnyRelationship()){
+        if ($license->hasAnyRelationship()) {
             return response()->json([
                 "data" => "La licencia ha sido usada y no puede ser eliminada"
             ]);
         }
 
-        if ($license->delete()){
+        if ($license->delete()) {
             return response()->json("La licencia ha sido eliminada.");
         }
 
@@ -98,7 +97,7 @@ class LicenseController extends Controller
     {
         $account = Account::find($request->account_id);
 
-        if ($license->assignToAccount($account)){
+        if ($license->assignToAccount($account)) {
             return response(["data" =>  "Se asignó con exito"]);
         }
 
@@ -116,7 +115,7 @@ class LicenseController extends Controller
         $account = Account::findOrFail($request->account_id);
 
 
-        if ($license->revoke($account)){
+        if ($license->revoke($account)) {
             return response(["data" =>  "La licencia ha sido revocada"]);
         }
 

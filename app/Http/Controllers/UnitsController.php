@@ -24,7 +24,6 @@ class UnitsController extends Controller
      */
     public function listUnits()
     {
-
         $units = Unit::all();
 
         return UnitResource::collection($units);
