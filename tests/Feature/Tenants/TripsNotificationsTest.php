@@ -65,6 +65,7 @@ class TripsNotificationsTest extends TestCase
             'notifiable_type' => get_class($this->account),
             'notifiable_id' => $this->account->id, // id of the notifiable model
             'data' => [
+                'message' => 'MENSAJE',
                 'any' => 'value',
                 'device_id' => $device->id,
             ],

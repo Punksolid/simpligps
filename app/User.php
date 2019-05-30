@@ -115,7 +115,7 @@ class User extends Authenticatable implements CanResetPassword
         })->exists();
     }
 
-    //region scopes
+    #region scopes
     public function scopeTenant($query, $tenant_uuid = null)
     {
         $tenant_uuid = $tenant_uuid ?: request()->header('X-Tenant-id');
@@ -125,5 +125,5 @@ class User extends Authenticatable implements CanResetPassword
         });
     }
 
-    //endregion
+    #endregion
 }

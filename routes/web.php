@@ -11,7 +11,10 @@
 |
 */
 Route::get('api/', function () {
-    if (\App\User::first()) {
+    $connection_works = Cache::remember('db_connection', 1000, function () {
+            return \App\User::first();    
+        });
+    if ($connection_works) {
         return response()->json('ok');
     }
 
