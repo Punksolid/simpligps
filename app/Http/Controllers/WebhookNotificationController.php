@@ -18,7 +18,7 @@ class WebhookNotificationController extends Controller
     {
         $account = Account::whereUuid($request->get('X-Tenant-Id'))->firstOrFail();
 
-        $notification_trigger = $account->getTenantData(NotificationTrigger::class)->findOrFail($request->notification_id);
+        $notification_trigger = $account->getTenantData(\App\NotificationTrigger::class)->findOrFail($request->notification_id);
 
         if ($notification_trigger->active) {
             // $devices = $notification_trigger->devices; // antes enviaba al log de todos los devices de la notificacion @deprecado
