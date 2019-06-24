@@ -66,12 +66,14 @@ class TripsController extends Controller
      */
     public function store(TripRequest $request)
     {
+
         $trip = Trip::make($request->except([
             'scheduled_load',
             'scheduled_departure',
             'scheduled_arrival',
             'scheduled_unload',
             ]));
+
         $trip->scheduled_load = new Carbon($request->scheduled_load); // format 2019-05-25T14:35:00.000Z
         $trip->scheduled_departure = new Carbon($request->scheduled_departure);
         $trip->scheduled_arrival = new Carbon($request->scheduled_arrival);
@@ -84,8 +86,10 @@ class TripsController extends Controller
         $trip->operator_id = $request->operator_id;
         $trip->client_id = $request->client_id;
         $trip->save();
-        foreach ($request->intermediates as $intermediate_id) {
-            $trip->addIntermediate($intermediate_id);
+
+        foreach ($request->intermediates as $intermediate) {
+            $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
+            $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time']);
         }
         foreach ($request->trailers_ids as $trailers_id) {
             $trip->addTrailerBox($trailers_id);
@@ -141,8 +145,10 @@ class TripsController extends Controller
         $trip->carrier_id = $request->carrier_id;
         $trip->truck_tract_id = $request->truck_tract_id;
 
-        foreach ($request->intermediates as $intermediate_id) {
-            $trip->addIntermediate($intermediate_id);
+        foreach ($request->intermediates as $intermediate) {
+            $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
+
+            $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time']);
         }
         foreach ($request->trailers_ids as $trailers_id) {
             $trip->addTrailerBox($trailers_id);

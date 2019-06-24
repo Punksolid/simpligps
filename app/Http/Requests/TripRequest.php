@@ -27,7 +27,20 @@ class TripRequest extends FormRequest
             'rp' => 'required',
             'invoice' => 'required',
             'client_id' => 'required|integer',
-            'intermediates' => ['required', 'array'],
+            'intermediates' => [
+                'required',
+                'array'
+            ],
+            'intermediates.*.place_id' => [
+                "integer",
+                "filled"
+            ],
+            'intermediates.*.at_time' => [
+                "date",
+                "filled",
+                'after:scheduled_load',
+                'before:scheduled_unload'
+            ],
             'origin_id' => 'required|integer',
             'destination_id' => 'required|integer',
             'mon_type' => 'required',
