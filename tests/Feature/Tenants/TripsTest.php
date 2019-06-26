@@ -31,6 +31,27 @@ class TripsTest extends TestCase
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
     }
 
+    public function test_ver_listado_de_viajes()
+    {
+        $call = $this->getJson("api/v1/trips");
+
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    "id",
+                    "rp",
+                    "invoice",
+                    "origin_name",
+                    "destination_name",
+                    "client_name",
+                    "truck_name",
+                    "scheduled_load",
+                    "scheduled_departure",
+                    "scheduled_arrival"
+                ]
+            ]
+        ]);
+    }
 
     public function test_crear_nuevo_viaje_manual()
     {
@@ -170,7 +191,13 @@ class TripsTest extends TestCase
             "invoice" => $this->faker->randomNumber(5),
             "client_id" => factory(Client::class)->create()->id,
             "intermediates" => [
-                factory(Place::class)->create()->id,
+                [
+                    "place_id" => factory(Place::class)->create()->id,
+                    "at_time" => Carbon::now()->addDay(1)->toDateTimeString()
+                ],[
+                    "place_id" => factory(Place::class)->create()->id,
+                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString()
+                ]
             ],
             "origin_id" => factory(Place::class)->create()->id,
             "destination_id" => factory(Place::class)->create()->id,
