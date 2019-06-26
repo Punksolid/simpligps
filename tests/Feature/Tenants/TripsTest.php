@@ -47,7 +47,9 @@ class TripsTest extends TestCase
                     "truck_name",
                     "scheduled_load",
                     "scheduled_departure",
-                    "scheduled_arrival"
+                    "scheduled_arrival",
+                    "real_departure",
+                    "real_arrival"
                 ]
             ]
         ]);

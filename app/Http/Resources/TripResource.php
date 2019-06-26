@@ -38,6 +38,8 @@ class TripResource extends JsonResource
             'scheduled_departure' => $this->scheduled_departure->format("Y/m/d H:i"),
             'scheduled_arrival' => $this->scheduled_arrival->format("Y/m/d H:i"),
             'scheduled_unload' => $this->scheduled_unload->format("Y/m/d H:i"),
+            'real_departure' => $this->real_departure,
+            'real_arrival' => $this->real_arrival,
             'bulk' => $this->bulk,
             'tag' => $this->tag,
             'device_id' => $this->device_id,
