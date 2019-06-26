@@ -31,6 +31,29 @@ class TripsTest extends TestCase
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
     }
 
+    public function test_ver_listado_de_viajes()
+    {
+        $call = $this->getJson("api/v1/trips");
+
+        $call->assertJsonStructure([
+            "data" => [
+                "*" => [
+                    "id",
+                    "rp",
+                    "invoice",
+                    "origin_name",
+                    "destination_name",
+                    "client_name",
+                    "truck_name",
+                    "scheduled_load",
+                    "scheduled_departure",
+                    "scheduled_arrival",
+                    "real_departure",
+                    "real_arrival"
+                ]
+            ]
+        ]);
+    }
 
     public function test_crear_nuevo_viaje_manual()
     {

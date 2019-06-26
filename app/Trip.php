@@ -79,6 +79,8 @@ class Trip extends Model implements LoggerInterface
         'device_id',
         'carrier_id',
         'truck_tract_id',
+        'real_departure',
+        'real_arrival',
     //tag
         'tag',
     ];
@@ -92,6 +94,8 @@ class Trip extends Model implements LoggerInterface
         'scheduled_departure',
         'scheduled_arrival',
         'scheduled_unload',
+        'real_departure',
+        'real_arrival'
     ];
 
     //region Relationships
