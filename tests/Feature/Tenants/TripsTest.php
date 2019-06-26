@@ -170,7 +170,13 @@ class TripsTest extends TestCase
             "invoice" => $this->faker->randomNumber(5),
             "client_id" => factory(Client::class)->create()->id,
             "intermediates" => [
-                factory(Place::class)->create()->id,
+                [
+                    "place_id" => factory(Place::class)->create()->id,
+                    "at_time" => Carbon::now()->addDay(1)->toDateTimeString()
+                ],[
+                    "place_id" => factory(Place::class)->create()->id,
+                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString()
+                ]
             ],
             "origin_id" => factory(Place::class)->create()->id,
             "destination_id" => factory(Place::class)->create()->id,
@@ -192,13 +198,21 @@ class TripsTest extends TestCase
 
         $call->assertJson([
             'data' => [
-                "rp" => $trip_modified['rp']
+                "rp" => $trip_modified['rp'],
+                "truck_tract_id" => $trip_modified['truck_tract_id'], // puede modificar tracto
+                "operator_id" => $trip_modified['operator_id'], // puede modificar operador
             ]
         ]);
+        $call->assertJsonFragment([
+             "id" => $trip_modified['trailers_ids'][0]
+        ]);
+
         $call->assertStatus(200);
 
         return $call->getOriginalContent();
     }
+
+
 
     public function test_usuario_elimina_viaje()
     {
