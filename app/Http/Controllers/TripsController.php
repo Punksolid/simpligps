@@ -144,6 +144,8 @@ class TripsController extends Controller
         $trip->destination_id = $request->destination_id;
         $trip->carrier_id = $request->carrier_id;
         $trip->truck_tract_id = $request->truck_tract_id;
+        $trip->operator_id = $request->operator_id;
+
 
         foreach ($request->intermediates as $intermediate) {
             $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
