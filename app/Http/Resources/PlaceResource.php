@@ -21,7 +21,13 @@ class PlaceResource extends JsonResource
             "address" => $this->address,
             "phone" => $this->phone,
             "high_risk" => $this->high_risk,
-            "geofence_ref" => $this->geofence_ref
+            "geofence_ref" => $this->geofence_ref,
+            "at_time" => $this->whenPivotLoaded('places_trips', function () {
+                return $this->pivot->at_time;
+            }),
+            "exiting" => $this->whenPivotLoaded('places_trips', function () {
+                return $this->pivot->exiting;
+            }),
         ];
     }
 }

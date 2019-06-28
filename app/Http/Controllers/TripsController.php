@@ -100,7 +100,7 @@ class TripsController extends Controller
         } catch (\Exception $exception) {
             \Log::error('Something happened when creating external notifications', $trip->toArray());
         }
-
+        $trip->load('intermediates');
         return TripResource::make($trip);
     }
 
