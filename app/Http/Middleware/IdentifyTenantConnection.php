@@ -21,7 +21,6 @@ class IdentifyTenantConnection
     public function handle($request, Closure $next)
     {
         //TODO add verification of user in account
-        // dd('aa'); //
 
         // $user = auth()->check() ? auth()->user() : abort(401, "Not authenticated");
         $uuid = $request->header('X-Tenant-id');
