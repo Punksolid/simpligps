@@ -58,6 +58,7 @@ class TripsTest extends TestCase
     public function test_crear_nuevo_viaje_manual()
     {
 
+        $mochis = factory(Place::class)->create();
         $trip = [
             "rp" => $this->faker->name,
             "invoice" => $this->faker->randomNumber(5),
@@ -65,11 +66,13 @@ class TripsTest extends TestCase
             "device_id" => factory(Device::class)->create()->id,
             "intermediates" => [
                 [
-                    "place_id" => factory(Place::class)->create()->id,
-                    "at_time" => Carbon::now()->addDay(1)->toDateTimeString()
+                    "place_id" => $mochis->id,
+                    "at_time" => Carbon::now()->addDay(1)->toDateTimeString(),
+                    "exiting" => Carbon::now()->addDay(2)->toDateTimeString()
                 ],[
                     "place_id" => factory(Place::class)->create()->id,
-                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString()
+                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString(),
+                    "exiting" => Carbon::now()->addDays(3)->toDateTimeString()
                 ]
             ],
             "trailers_ids" => [
@@ -123,9 +126,20 @@ class TripsTest extends TestCase
                 "scheduled_load",
                 "scheduled_departure",
                 "scheduled_arrival",
-                "scheduled_unload"
+                "scheduled_unload",
 
+                "intermediates" => [
+                    '*' => [
+                        'id',
+                        'name',
+                        'at_time',
+                        'exiting'
+                    ]
+                ]
             ]
+        ]);
+        $call->assertJsonFragment([
+            'name' => $mochis->name
         ]);
     }
 
@@ -171,7 +185,9 @@ class TripsTest extends TestCase
                 "intermediates" => [
                     '*' => [
                         'id',
-                        'name'
+                        'name',
+                        'at_time',
+                        'exiting'
                     ]
                 ],
                 "device" => [
@@ -195,10 +211,12 @@ class TripsTest extends TestCase
             "intermediates" => [
                 [
                     "place_id" => factory(Place::class)->create()->id,
-                    "at_time" => Carbon::now()->addDay(1)->toDateTimeString()
+                    "at_time" => Carbon::now()->addDay(1)->toDateTimeString(),
+                    "exiting" => Carbon::now()->addDay(1)->toDateTimeString()
                 ],[
                     "place_id" => factory(Place::class)->create()->id,
-                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString()
+                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString(),
+                    "exiting" => Carbon::now()->addDays(2)->toDateTimeString()
                 ]
             ],
             "origin_id" => factory(Place::class)->create()->id,
@@ -234,8 +252,6 @@ class TripsTest extends TestCase
 
         return $call->getOriginalContent();
     }
-
-
 
     public function test_usuario_elimina_viaje()
     {
