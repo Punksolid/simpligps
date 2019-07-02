@@ -347,4 +347,6 @@ class TripsTest extends TestCase
         $call->assertSee("riesgo");
         $call->assertStatus(200);
     }
+
+
 }
