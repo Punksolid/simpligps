@@ -161,6 +161,7 @@ class Trip extends Model implements LoggerInterface
             ->withPivot([
                 'order',
                 'at_time',
+                'exiting',
                 'type',
             ]);
     }
@@ -239,11 +240,12 @@ class Trip extends Model implements LoggerInterface
      *
      * @param Place $place
      */
-    public function addIntermediate($place_id, $at_time)
+    public function addIntermediate($place_id, $at_time, $exiting)
     {
         return $this->places()->attach($place_id, [
             'type' => 'intermediate',
             'at_time' => $at_time,
+            'exiting' => $exiting,
             'order' => 0,
         ]);
     }

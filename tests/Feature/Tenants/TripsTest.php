@@ -68,11 +68,11 @@ class TripsTest extends TestCase
                 [
                     "place_id" => $mochis->id,
                     "at_time" => Carbon::now()->addDay(1)->toDateTimeString(),
-                    "exiting" => Carbon::now()->addDay(1)->toDateTimeString()
+                    "exiting" => Carbon::now()->addDay(2)->toDateTimeString()
                 ],[
                     "place_id" => factory(Place::class)->create()->id,
                     "at_time" => Carbon::now()->addDays(2)->toDateTimeString(),
-                    "exiting" => Carbon::now()->addDays(2)->toDateTimeString()
+                    "exiting" => Carbon::now()->addDays(3)->toDateTimeString()
                 ]
             ],
             "trailers_ids" => [
@@ -138,7 +138,6 @@ class TripsTest extends TestCase
                 ]
             ]
         ]);
-        $call->dump();
         $call->assertJsonFragment([
             'name' => $mochis->name
         ]);
@@ -253,8 +252,6 @@ class TripsTest extends TestCase
 
         return $call->getOriginalContent();
     }
-
-
 
     public function test_usuario_elimina_viaje()
     {
