@@ -38,7 +38,8 @@ class CancelationReasonTest extends TestCase
                 "*" => [
                     "name"
                 ]
-            ]
+            ],
+            "meta"
         ]);
     }
 
