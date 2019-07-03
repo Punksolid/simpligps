@@ -14,6 +14,14 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 class ReceiveTripUpdate
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
+    /**
+     * @var Trip
+     */
+    public $trip;
+    /**
+     * @var array
+     */
+    public $context;
 
     /**
      * Create a new event instance.

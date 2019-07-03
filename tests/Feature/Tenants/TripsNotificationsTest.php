@@ -2,7 +2,9 @@
 
 namespace Tests\Feature;
 
+use App\Events\ReceiveTripUpdate;
 use App\Place;
+use Illuminate\Support\Facades\Event;
 use Tests\Tenants\TestCase;
 use App\Trip;
 use App\Device;
@@ -91,17 +93,18 @@ class TripsNotificationsTest extends TestCase
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
 
         $payload = $this->getPayload($trip);
-
+        dd($payload);
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
                 $payload
         );
 
+//        Event::assertDispatched(ReceiveTripUpdate::class, 1);
         $call->assertSuccessful();
-        $this->assertDatabaseHas('places_trips',
-            [
-                'real_at_time' => $payload
-            ]);
+//        $this->assertDatabaseHas('places_trips', [
+//                'real_at_time' => $payload['timestamp']
+//            ],'tenant');
+        dd($trip->fresh()->intermediates()->first()->toArray());
     }
 
     public function getPayload($trip, $device = null): array

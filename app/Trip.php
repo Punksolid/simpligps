@@ -163,6 +163,8 @@ class Trip extends Model implements LoggerInterface
                 'at_time',
                 'exiting',
                 'type',
+                'real_at_time',
+                'real_exiting'
             ]);
     }
 
@@ -258,6 +260,8 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
+     * Crea las notificaciones necesarias en wialon para un trip determinado en formato
+     * con nombre entering.tripID y leaving.tripID
      * Devuelve array con los ids de las notificaciones wialon creadas.
      */
     public function createWialonNotification(): array
@@ -346,9 +350,14 @@ class Trip extends Model implements LoggerInterface
     {
         $timestamp = $timestamp ?: now()->toDateTimeString();
 
-        $place_with_pivot = $this->intermediates()->find($place_id);
+        $action = $action == 'entering' ? 'real_at_time':'real_exiting';
+        $attributes = [
+          $action => $timestamp
+        ];
 
+        $this->intermediates()->updateExistingPivot($place_id, $attributes);
 
+        return $attributes;
     }
     #endregion
     //region Getters
