@@ -27,12 +27,11 @@ class TripModelTest extends TestCase
     {
         $trip = $this->prepareTripObject();
 
-        $trip->addIntermediate(factory(Place::class)->create(['geofence_ref' => '17471233_4'])->id);
-        $trip->addIntermediate(factory(Place::class)->create(['geofence_ref' => '17471233_4'])->id);
+        $trip->addIntermediate(factory(Place::class)->create(['geofence_ref' => '17471233_4'])->id, now()->toDateTimeString(), now()->toDateTimeString());
+        $trip->addIntermediate(factory(Place::class)->create(['geofence_ref' => '17471233_4'])->id, now()->toDateTimeString(), now()->toDateTimeString());
 
         //geofence_ref
         $geofences_arr = $trip->getAllPlacesGeofences();
-
         $this->assertEquals(4, count($geofences_arr));
         $this->assertEquals('17471233_4', $geofences_arr[0]);
     }

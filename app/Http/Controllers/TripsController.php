@@ -89,6 +89,7 @@ class TripsController extends Controller
 
         foreach ($request->intermediates as $intermediate) {
             $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
+            $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format to carbon
             $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
         }
         foreach ($request->trailers_ids as $trailers_id) {

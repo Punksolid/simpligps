@@ -27,6 +27,7 @@ class NotificationTriggerTest extends TestCase
         $this->assertEquals($device->name, $notification_trigger->devices()->first()->name);
 
     }
+
     public function testAddDevice()
     {
         $notification_trigger = factory(NotificationTrigger::class)->create();
@@ -70,4 +71,6 @@ class NotificationTriggerTest extends TestCase
         $this->assertEquals($wialon_not->n, $notification_trigger->name);
 
     }
+
+
 }

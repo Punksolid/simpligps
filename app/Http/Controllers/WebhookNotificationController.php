@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ReceiveTripUpdate;
 use Illuminate\Http\Request;
 use App\Device;
 use App\Notifications\WialonWebhookNotification;
@@ -46,7 +47,10 @@ class WebhookNotificationController extends Controller
 
         $device = $trip->truck->device;
         $trip->info('Update on Trip', $request->all());
+        event(new ReceiveTripUpdate($trip,  $request->all()));
         $device->info('Update on Device', $request->all());
+
+
         \Notification::send($account, new WialonWebhookNotification(
             "Check TRIP {$request->get('unit')}",
             $request->all(),

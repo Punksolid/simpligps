@@ -19,6 +19,7 @@ class AccountController extends Controller
     {
         $logs = $request->tenant_account->activities()
             ->where('log_name', 'access_log')
+            ->orderBy('id','DESC')
             ->paginate();
         // $logs = \Spatie\Activitylog\Models\Activity::
         //         where('log_name', 'access_log')
