@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\CancelationReason;
+use App\Http\Resources\CancelationReasonResource;
 use Illuminate\Http\Request;
 
 class CancelationReasonController extends Controller
@@ -14,7 +15,7 @@ class CancelationReasonController extends Controller
      */
     public function index()
     {
-        return response(
+        return CancelationReasonResource::collection(
             CancelationReason::paginate()
         );
     }
