@@ -233,7 +233,7 @@ class Trip extends Model implements LoggerInterface
 
     //endregion
 
-    //region actions
+    #region actions
 
     /**
      * Add Intermediate Places points.
@@ -342,7 +342,15 @@ class Trip extends Model implements LoggerInterface
         return $wialon_notifications->toArray();
     }
 
-    //endregion
+    public function updateTimeline($action, $place_id, $timestamp = null)
+    {
+        $timestamp = $timestamp ?: now()->toDateTimeString();
+
+        $place_with_pivot = $this->intermediates()->find($place_id);
+
+
+    }
+    #endregion
     //region Getters
 
     /**

@@ -98,7 +98,10 @@ class TripsNotificationsTest extends TestCase
         );
 
         $call->assertSuccessful();
-        $this->assertDatabaseHas();
+        $this->assertDatabaseHas('places_trips',
+            [
+                'real_at_time' => $payload
+            ]);
     }
 
     public function getPayload($trip, $device = null): array

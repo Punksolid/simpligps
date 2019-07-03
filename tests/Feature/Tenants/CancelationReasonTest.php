@@ -40,6 +40,7 @@ class CancelationReasonTest extends TestCase
                 ]
             ]
         ]);
+
     }
 
     public function test_usuario_debe_poder_editar_razones_de_cancelacion()
