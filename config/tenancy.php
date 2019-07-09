@@ -306,7 +306,9 @@ return [
             App\Permission::class,
             Spatie\Permission\Models\Role::class,
             Spatie\Permission\Models\Permission::class,
-            Operator::class
+            Operator::class,
+            \Spatie\Tags\Tag::class,
+            \App\Tag::class
         ],
         'force-system-connection-of-models' => [
             App\User::class,

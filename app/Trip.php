@@ -264,14 +264,11 @@ class Trip extends Model implements LoggerInterface
      * con nombre entering.tripID y leaving.tripID
      * Devuelve array con los ids de las notificaciones wialon creadas.
      */
-    public function createWialonNotification(): array
+    public function createWialonNotificationsForTrips(): array
     {
         $tenant_uuid = config('database.connections.tenant.database');
 
-        $resource = Resource::findByName("trm.trips.{$this->id}.{$tenant_uuid}");
-        if (!$resource) {
-            $resource = Resource::make("trm.trips.{$this->id}.{$tenant_uuid}");
-        }
+        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$tenant_uuid}");
 
         $unit_id = $this->getExternalUnitsIds();
         $unit_id = $unit_id->map(function ($element) {
@@ -297,7 +294,7 @@ class Trip extends Model implements LoggerInterface
             'url' => url(config('app.url')."api/v1/$tenant_uuid/alert/trips/".$this->id),
         ]);
         $device = $this->truck->device->id;
-        $text = $this->getWialonActionText($tenant_uuid, $device);
+        $text = $this->getWialonParamsText($tenant_uuid, $device);
 
         $wialon_notifications = collect();
         $wialon_notifications->push(Notification::make($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, [
@@ -305,9 +302,7 @@ class Trip extends Model implements LoggerInterface
         ])); // Notificacion de entradas
 
         $control_type->setType(1); // salida
-        $wialon_notifications->push(Notification::make($resource, $wialon_units, $control_type, "leaving.{$this->id}", $action, [
-            'txt' => $text,
-        ])); // Notificacion de salidas
+        $wialon_notifications->push($this->createWialonNotification($resource, $wialon_units, $control_type, $action, $text)); // Notificacion de salidas
 
         $wialon_notifications = $wialon_notifications->map(function ($wnotify) use ($resource) {
             return "{$resource->id}_$wnotify->id";
@@ -384,11 +379,12 @@ class Trip extends Model implements LoggerInterface
     //endregion
 
     /**
+     * El texto del formulario que devolverá wialon
      * @param \Illuminate\Config\Repository $tenant_uuid
      * @param $device
      * @return string
      */
-    public function getWialonActionText(\Illuminate\Config\Repository $tenant_uuid, $device): string
+    public function getWialonParamsText(\Illuminate\Config\Repository $tenant_uuid, $device): string
     {
         $text = '"unit=%UNIT%&
         timestamp=%CURR_TIME%&
@@ -420,9 +416,37 @@ class Trip extends Model implements LoggerInterface
         trip_id=' . $this->id . '&
         device_id=' . $device . '
         "';
-
         $text = str_replace(["\r", "\n", ' '], '', $text);
 
         return $text;
+    }
+
+    /**
+     * @param \Illuminate\Config\Repository $tenant_uuid
+     * @return Resource|null
+     */
+    public function findOrCreateWialonResource(String $name)
+    {
+        $resource = Resource::findByName($name);
+        if (!$resource) {
+            $resource = Resource::make($name);
+        }
+        return $resource;
+    }
+
+    /**
+     * @param Resource|null $resource
+     * @param Collection $wialon_units
+     * @param GeofenceControlType $control_type
+     * @param Notification\Action $action
+     * @param string $text
+     * @return Notification|null
+     * @throws \Exception
+     */
+    public function createWialonNotification(?Resource $resource, Collection $wialon_units, GeofenceControlType $control_type, Notification\Action $action, string $text)
+    {
+        return Notification::make($resource, $wialon_units, $control_type, "leaving.{$this->id}", $action, [
+            'txt' => $text,
+        ]);
     }
 }
