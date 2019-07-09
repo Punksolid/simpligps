@@ -50,7 +50,7 @@ class TripModelTest extends TestCase
     {
         $trip = $this->prepareTripObject();
 
-        $notifications_wialon_ids = $trip->createWialonNotification();
+        $notifications_wialon_ids = $trip->createWialonNotificationsForTrips();
 
         $this->assertIsArray($notifications_wialon_ids);
         $this->assertIsObject(Notification::findByUniqueId($notifications_wialon_ids[0]));
