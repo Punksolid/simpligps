@@ -336,16 +336,33 @@ class TripsTest extends TestCase
 
     public function test_ver_asignar_etiqueta_a_viaje()
     {
-        $user = factory(User::class)->create();
         $trip = factory(Trip::class)->create();
 
         $etiqueta = $this->faker->word;
-        $call = $this->actingAs($user)->json("POST", "/api/v1/trips/{$trip->id}/tags", [
-            "tag" => $etiqueta
+        $call = $this->postJson( "/api/v1/trips/{$trip->id}/tags", [
+            "tags" => [
+                $etiqueta
+            ]
         ]);
         
         $call->assertSee($etiqueta);
         $call->assertStatus(200);
+    }
+
+    public function test_puede_sincronizar_etiquetas()
+    {
+        $trip = factory(Trip::class)->create([
+            'tags' => [
+                'hello'
+            ]
+        ]);
+
+        $call = $this->postJson( "/api/v1/trips/{$trip->id}/tags", [
+            "tags" => []
+        ]);
+        $call->assertSuccessful();
+        $this->assertEquals(0,$trip->fresh()->tags->count());
+
     }
 
 
