@@ -56,7 +56,7 @@ class TripsNotificationsTest extends TestCase
         ], 'tenant');
         $log = $device->logs()->first();
         $this->assertEquals($message, $log->message);
-        $this->assertFalse((bool) $notification->fresh()->read_at);
+        $this->assertFalse((bool)$notification->fresh()->read_at);
     }
 
     public function test_usuario_puede_resolver_multiples_notificaciones_con_el_mismo_mensaje_de_resolucion()
@@ -82,7 +82,7 @@ class TripsNotificationsTest extends TestCase
             'solved' => true,
         ]);
         $call->assertSuccessful();
-        $this->assertTrue((bool) $notifications->first()->fresh()->read_at);
+        $this->assertTrue((bool)$notifications->first()->fresh()->read_at);
     }
 
     public function test_marcar_entrada_a_un_punto_intermedio()
@@ -93,17 +93,17 @@ class TripsNotificationsTest extends TestCase
         $catedral = factory(Place::class)->create();
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
 
-        $payload = $this->getPayload($trip,null,$catedral);
+        $payload = $this->getPayload($trip, null, $catedral);
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
-                $payload
+            $payload
         );
 
 //        Event::assertDispatched(ReceiveTripUpdate::class, 1);
         $call->assertSuccessful();
         $this->assertDatabaseHas('places_trips', [
-                'real_at_time' => $payload['timestamp']
-            ],'tenant');
+            'real_at_time' => $payload['timestamp']
+        ], 'tenant');
     }
 
     public function test_marcar_salida_a_un_punto_intermedio()
@@ -114,17 +114,47 @@ class TripsNotificationsTest extends TestCase
         $catedral = factory(Place::class)->create();
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
 
-        $payload = $this->getPayload($trip,null,$catedral,'exiting');
+        $payload = $this->getPayload($trip, null, $catedral, 'exiting');
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
-                $payload
+            $payload
         );
 
 //        Event::assertDispatched(ReceiveTripUpdate::class, 1);
         $call->assertSuccessful();
         $this->assertDatabaseHas('places_trips', [
-                'real_exiting' => $payload['timestamp']
-            ],'tenant');
+            'real_exiting' => $payload['timestamp']
+        ], 'tenant');
+    }
+
+    public function test_mostrar_salida_de_un_punto_en_detalles()
+    {
+        $trip = factory(Trip::class)->create();
+        $catedral = factory(Place::class)->create();
+        $fecha_hora_programada_llegada = now()->addDay(1);
+        $fecha_real_de_llegada = "2019-12-25 20:00:00";
+
+        $fecha_programada_de_salida = now()->addDays(2);
+        $fecha_real_de_salida = now()->addDays(2)->addMinutes(30);
+        $trip->places()->attach($catedral->id, [
+            'type' => 'intermediate',
+            'at_time' => $fecha_hora_programada_llegada,
+            'real_at_time' => $fecha_real_de_llegada,
+            'exiting' => $fecha_programada_de_salida,
+            'real_exiting' => $fecha_real_de_salida,
+            'order' => 0
+        ]);
+
+        $call = $this->getJson('api/v1/trips/' . $trip->id);
+
+        $call->assertJsonFragment([
+            'at_time' => $fecha_hora_programada_llegada->toDateTimeString(),
+            'exiting' => $fecha_programada_de_salida->toDateTimeString(),
+            'real_at_time' => $fecha_real_de_llegada,
+            'real_exiting' => $fecha_real_de_salida->toDateTimeString(),
+            'status' => 2 // 0 no ha llegado, 1 est[a ahi, 2 ya salio
+        ]);
+
     }
 
     public function getPayload($trip, $device = null, $place = null, $action = 'entering'): array
@@ -157,12 +187,12 @@ class TripsNotificationsTest extends TestCase
             'CUSTOM_FIELD' => '%CUSTOM_FIELD(*)%',
             'UNIT_ID' => '17471332',
             'MSG_TIME_INT' => '1558711494',
-            'NOTIFICATION' => $trip->id.'.'.$action.'.'.$place->id,
+            'NOTIFICATION' => $trip->id . '.' . $action . '.' . $place->id,
             'X-Tenant-Id' => 'b51db8d2-a890-4629-9350-502fe18739c9',
             'notification_id' => '5',
             'trip_id' => $trip->id,
             'device_id' => optional($device)->id,
-            'place_id'=> $place->id
+            'place_id' => $place->id
         ];
     }
 
