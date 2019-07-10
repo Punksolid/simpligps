@@ -31,7 +31,9 @@ class UpdateTripTravel
         $exploded = explode('.',$event->context['NOTIFICATION']);
         $action = $exploded[0];
         $trip_id = $exploded[1];
-        $trip_id;
+
         $event->trip->updateTimeline($action,$trip_id, $event->context['timestamp']);
      }
+
+
 }

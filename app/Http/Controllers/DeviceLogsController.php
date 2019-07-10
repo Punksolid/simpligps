@@ -10,7 +10,8 @@ class DeviceLogsController extends Controller
 {
     public function index(Device $device)
     {
-        return LogResource::collection($device->logs);
+        $logs = $device->logs()->orderByDesc('created_at')->paginate(500);
+        return LogResource::collection($logs);
     }
 
     public function store(Device $device, Request $request)

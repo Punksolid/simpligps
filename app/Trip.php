@@ -6,6 +6,7 @@ use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
+use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
@@ -266,43 +267,32 @@ class Trip extends Model implements LoggerInterface
      */
     public function createWialonNotificationsForTrips(): array
     {
-        $tenant_uuid = config('database.connections.tenant.database');
 
-        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$tenant_uuid}");
+        $tenant_uuid = $this->getTenantUuid();
 
-        $unit_id = $this->getExternalUnitsIds();
-        $unit_id = $unit_id->map(function ($element) {
-            return (int) $element;
-        });
+        $unit_id = $this->getExternalWialonUnitsIds();
 
         $wialon_units = Unit::findMany($unit_id->toArray());
-//        $wialon_units = collect(Unit::find($unit_id->first()->toArray()));
         /**
-         * Y en las notificaciones agregas las geocercas que quieres tomar en cuenta
-         * para que te reporten entradas y salidas 2 notificaciones
+         * para que te reporten entradas y salidas en total 2 notificaciones
          * una con parametro de entrada y con todas las geocercas del viaje. y otra con parametro de salida con todas las geocercas del viaje.
          */
-        $control_type = new GeofenceControlType();
+        $control_type = $this->getControlType();
 
-        $control_type->setType(0); // entrada
-        $all_geofences = $this->getAllPlacesGeofences();
-        foreach ($all_geofences as $geofence) {
-            $control_type->addGeozoneId($geofence);
-        }
+        $action = $this->getAction($tenant_uuid);
 
-        $action = new Notification\Action('push_messages', [
-            'url' => url(config('app.url')."api/v1/$tenant_uuid/alert/trips/".$this->id),
-        ]);
-        $device = $this->truck->device->id;
-        $text = $this->getWialonParamsText($tenant_uuid, $device);
+        $device_id = $this->getDevices();
+        $text = $this->getWialonParamsText($tenant_uuid, $device_id);
 
-        $wialon_notifications = collect();
-        $wialon_notifications->push(Notification::make($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, [
-            'txt' => $text,
-        ])); // Notificacion de entradas
+        $wialon_notifications = $this->createWialonNotifications($control_type, $wialon_units, $action, $text);
 
-        $control_type->setType(1); // salida
-        $wialon_notifications->push($this->createWialonNotification($resource, $wialon_units, $control_type, $action, $text)); // Notificacion de salidas
+        /**
+         * @todo se necesita el resource id para buscar las notificaciones en el futuro.
+         * resource_id debe estar dentro de los datos
+         * de la notificacion
+         * es un defecto de la api de wialon, se necesita reformar la librería para que lo haga automaticamente
+         */
+        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
 
         $wialon_notifications = $wialon_notifications->map(function ($wnotify) use ($resource) {
             return "{$resource->id}_$wnotify->id";
@@ -334,14 +324,18 @@ class Trip extends Model implements LoggerInterface
      */
     public function getAllPlacesGeofences(): array
     {
-        $geofences_ids = [
-            $this->origin()->pluck('geofence_ref')->first(),
-            $this->destination()->pluck('geofence_ref')->first(),
-        ];
+        return $this->getAllPlaces()->pluck('geofence_ref')->toArray();
 
-        $intermediates = $this->intermediates()->pluck('geofence_ref');
+    }
 
-        return array_merge($geofences_ids, $intermediates->toArray());
+    public function getAllPlaces():Collection
+    {
+        $places = collect([
+            $this->origin()->first(),
+            $this->destination()->first(),
+        ]);
+
+        return $places->concat($this->intermediates()->get());
     }
 
     /**
@@ -349,7 +343,7 @@ class Trip extends Model implements LoggerInterface
      *
      * @return Collection
      */
-    public function getExternalUnitsIds(): Collection
+    public function getExternalWialonUnitsIds(): Collection
     {
         $devices = collect();
         $devices->push(
@@ -384,9 +378,9 @@ class Trip extends Model implements LoggerInterface
      * @param $device
      * @return string
      */
-    public function getWialonParamsText(\Illuminate\Config\Repository $tenant_uuid, $device): string
+    public function getWialonParamsText( $tenant_uuid, $device, $place_id = null): string
     {
-        $text = '"unit=%UNIT%&
+        $text = 'unit=%UNIT%&
         timestamp=%CURR_TIME%&
         location=%LOCATION%&
         last_location=%LAST_LOCATION%&
@@ -414,8 +408,14 @@ class Trip extends Model implements LoggerInterface
         NOTIFICATION=%NOTIFICATION%&
         X-Tenant-Id=' . $tenant_uuid . '&
         trip_id=' . $this->id . '&
-        device_id=' . $device . '
-        "';
+        device_id=' . $device;
+        if ($place_id){
+            $text = $text."&place_id=$place_id";
+        }
+
+        $text = '"'.$text.'"';
+
+
         $text = str_replace(["\r", "\n", ' '], '', $text);
 
         return $text;
@@ -443,10 +443,99 @@ class Trip extends Model implements LoggerInterface
      * @return Notification|null
      * @throws \Exception
      */
-    public function createWialonNotification(?Resource $resource, Collection $wialon_units, GeofenceControlType $control_type, Notification\Action $action, string $text)
+    public function createWialonNotification( Collection $wialon_units, GeofenceControlType $control_type,$name, Notification\Action $action, string $text)
     {
-        return Notification::make($resource, $wialon_units, $control_type, "leaving.{$this->id}", $action, [
+        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
+
+        return Notification::make($resource, $wialon_units, $control_type, $name, $action, [
             'txt' => $text,
         ]);
+    }
+
+    /**
+     * @param \Illuminate\Config\Repository $tenant_uuid
+     * @return Notification\Action
+     */
+    private function getAction($tenant_uuid): Notification\Action
+    {
+        $action = new Notification\Action('push_messages', [
+            'url' => url(config('app.url') . "api/v1/$tenant_uuid/alert/trips/" . $this->id),
+        ]);
+        return $action;
+    }
+
+    /**
+     * @return GeofenceControlType
+     */
+    private function getControlType(): GeofenceControlType
+    {
+        $control_type = new GeofenceControlType(); // Inicializar control types
+
+        $all_geofences = $this->getAllPlacesGeofences();
+        foreach ($all_geofences as $geofence) {
+            $control_type->addGeozoneId($geofence);
+        }
+        return $control_type;
+    }
+
+    private function nameToDefine()
+    {
+
+        $all_geofences = $this->getAllPlacesGeofences();
+        foreach ($all_geofences as $geofence) {
+            $control_type = new GeofenceControlType($geofence); // Inicializar control types
+            $control_type->setType(0); // enter
+//            $this->createWialonNotification($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, $text)); // Notificacion de entradas
+
+            $this->createWialonNotification();
+//            $control_type->addGeozoneId($geofence);
+        }
+    }
+
+    /**
+     * @param GeofenceControlType $control_type
+     * @param Resource|null $resource
+     * @param Collection $wialon_units
+     * @param Notification\Action $action
+     * @param string $text
+     * @return Collection
+     * @throws \Exception
+     */
+    private function createWialonNotifications(GeofenceControlType $control_type, Collection $wialon_units, Notification\Action $action, string $text)
+    {
+        $wialon_notifications = collect();
+        $places = $this->getAllPlaces();
+        foreach ($places as $place){
+            $control_type = new GeofenceControlType();
+            $control_type->addGeozoneId($place->geofence_ref);
+
+            $control_type->setType(0); // modificar control_type entrada
+            $text = $this->getWialonParamsText($this->getTenantUuid(),$this->getDevices(),$place->id);
+            $wialon_notifications->push(
+                $this->createWialonNotification( $wialon_units, $control_type, "{$this->id}.entering.{$place->id}", $action, $text) // Notificacion de entradas
+            );
+
+            $control_type->setType(1); // salida
+            $wialon_notifications->push(
+                $this->createWialonNotification( $wialon_units, $control_type, "{$this->id}.leaving.{$place->id}", $action, $text) // Notificacion de salidas
+            );
+        }
+        return $wialon_notifications;
+    }
+
+    /**
+     * @return mixed
+     *
+     */
+    public function getDevices()
+    {
+        $device_id = $this->truck->device->id;
+        // @TODO Agregar los ids de los devices de las cajas (trailerboxes) del viaje
+        return $device_id;
+    }
+
+    public function getTenantUuid()
+    {
+        return config('database.connections.tenant.database');
     }
 }

@@ -98,6 +98,7 @@ Route::group(['middleware' => [
 
         //TRIPS
         Route::get('trips/{trip}/logs', 'TripsEventsController@index');
+        Route::post('trips/{trip}/logs', 'TripsEventsController@store');
         Route::post('trips/upload', 'TripsController@upload');
         Route::post('trips/{trip}/tags', 'TripsController@assignTag');
         Route::post('trips/filtered_with_tags', 'TripsController@filteredWithTags');
