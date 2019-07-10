@@ -87,13 +87,13 @@ class TripsNotificationsTest extends TestCase
 
     public function test_marcar_entrada_a_un_punto_intermedio()
     {
+
         $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create();
         $catedral = factory(Place::class)->create();
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
 
-        $payload = $this->getPayload($trip);
-        dd($payload);
+        $payload = $this->getPayload($trip,null,$catedral);
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
                 $payload
@@ -101,14 +101,36 @@ class TripsNotificationsTest extends TestCase
 
 //        Event::assertDispatched(ReceiveTripUpdate::class, 1);
         $call->assertSuccessful();
-//        $this->assertDatabaseHas('places_trips', [
-//                'real_at_time' => $payload['timestamp']
-//            ],'tenant');
-        dd($trip->fresh()->intermediates()->first()->toArray());
+        $this->assertDatabaseHas('places_trips', [
+                'real_at_time' => $payload['timestamp']
+            ],'tenant');
     }
 
-    public function getPayload($trip, $device = null): array
+    public function test_marcar_salida_a_un_punto_intermedio()
     {
+
+        $this->withoutExceptionHandling();
+        $trip = factory(Trip::class)->create();
+        $catedral = factory(Place::class)->create();
+        $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
+
+        $payload = $this->getPayload($trip,null,$catedral,'exiting');
+        $call = $this->postJson(
+            "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
+                $payload
+        );
+
+//        Event::assertDispatched(ReceiveTripUpdate::class, 1);
+        $call->assertSuccessful();
+        $this->assertDatabaseHas('places_trips', [
+                'real_exiting' => $payload['timestamp']
+            ],'tenant');
+    }
+
+    public function getPayload($trip, $device = null, $place = null, $action = 'entering'): array
+    {
+        $place = $place ?: factory(Place::class)->create();
+        $action = $action ?: 'exiting';
         return [
             'unit' => 'PTS003',
             'timestamp' => '2019-05-24 18:27:00',
@@ -135,11 +157,12 @@ class TripsNotificationsTest extends TestCase
             'CUSTOM_FIELD' => '%CUSTOM_FIELD(*)%',
             'UNIT_ID' => '17471332',
             'MSG_TIME_INT' => '1558711494',
-            'NOTIFICATION' => 'entering.'.$trip->id,
+            'NOTIFICATION' => $trip->id.'.'.$action.'.'.$place->id,
             'X-Tenant-Id' => 'b51db8d2-a890-4629-9350-502fe18739c9',
             'notification_id' => '5',
             'trip_id' => $trip->id,
             'device_id' => optional($device)->id,
+            'place_id'=> $place->id
         ];
     }
 

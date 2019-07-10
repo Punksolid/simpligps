@@ -97,7 +97,7 @@ class TripsController extends Controller
         }
 
         try {
-            $trip->createWialonNotification();
+            $trip->createWialonNotificationsForTrips();
         } catch (\Exception $exception) {
             \Log::error('Something happened when creating external notifications', $trip->toArray());
         }
