@@ -62,6 +62,9 @@ Route::group(['middleware' => [
         Route::post('devices/{device}/link_unit', 'DevicesController@linkUnit');
         Route::resource('devices', 'DevicesController')->except(['create', 'edit']);
 
+        //Tags
+        Route::get('tags', 'TagsController@index');
+
         //Clients
         Route::get('clients/search', 'ClientController@search');
         Route::resource('clients', 'ClientController')->except(['create', 'edit']);
