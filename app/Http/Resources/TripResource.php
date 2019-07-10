@@ -46,7 +46,7 @@ class TripResource extends JsonResource
             'convoy_id' => $this->convoy_id,
             'georoute_ref' => $this->georoute_ref,
             // Relationship Objects
-            'tags' => $this->whenLoaded('tags'),
+            'tags' => TagResource::collection($this->whenLoaded('tags')),
             'truck' => TruckTractResource::make($this->whenLoaded('truck')),
             'operator' => OperatorResource::make($this->whenLoaded('operator')),
             'origin' => PlaceResource::make($this->whenLoaded('origin')),

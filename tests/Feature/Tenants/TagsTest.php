@@ -24,7 +24,20 @@ class TagsTest extends TestCase
                 ]
             ]
         ]);
+        $call->dump();
         $call->assertSee('one');
         $call->assertSee('two');
+    }
+
+    public function test_trips_list_with_tags()
+    {
+        $tag = $this->faker->word;
+        $trip = factory(Trip::class)->create([
+            'tags' => [$tag, 'two']
+        ]);
+        $call = $this->getJson('api/v1/trips');
+        $call->dump();
+        $call->assertSee($tag);
+
     }
 }
