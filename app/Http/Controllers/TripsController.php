@@ -50,11 +50,10 @@ class TripsController extends Controller
 
     public function assignTag(Trip $trip, Request $request)
     {
-//        $trip->attachTag($request->tag); //TODO update mariadb to 10.2 actualmente tiene 10.1
-        $trip->tag = $request->tag;
-        $trip->save();
+        $trip->attachTag($request->tag); //TODO update mariadb to 10.2 actualmente tiene 10.1
+        $trip->load('tags');
 
-        return response($trip);
+        return TripResource::make($trip);
     }
 
     /**
