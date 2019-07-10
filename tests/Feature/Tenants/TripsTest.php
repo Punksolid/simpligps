@@ -339,12 +339,12 @@ class TripsTest extends TestCase
         $user = factory(User::class)->create();
         $trip = factory(Trip::class)->create();
 
-        $etiqueta = "riesgo";
+        $etiqueta = $this->faker->word;
         $call = $this->actingAs($user)->json("POST", "/api/v1/trips/{$trip->id}/tags", [
             "tag" => $etiqueta
         ]);
         
-        $call->assertSee("riesgo");
+        $call->assertSee($etiqueta);
         $call->assertStatus(200);
     }
 

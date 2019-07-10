@@ -28,6 +28,22 @@ class PlaceResource extends JsonResource
             "exiting" => $this->whenPivotLoaded('places_trips', function () {
                 return $this->pivot->exiting;
             }),
+            "real_at_time" => $this->whenPivotLoaded('places_trips', function () {
+                return $this->pivot->real_at_time;
+            }),
+            "real_exiting" => $this->whenPivotLoaded('places_trips', function () {
+                return $this->pivot->real_exiting;
+            }),
+            "status" => $this->whenPivotLoaded('places_trips', function () {
+                if (is_null($this->pivot->real_exiting) && is_null($this->pivot->real_exiting)){
+                    return 0;
+                } elseif ($this->pivot->real_exiting && is_null($this->pivot->real_exiting)){
+                    return 1;
+                } elseif ($this->pivot->real_exiting && $this->pivot->real_exiting) {
+                    return 2;
+                }
+                abort(500);
+            }),
         ];
     }
 }
