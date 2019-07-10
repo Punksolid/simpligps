@@ -29,10 +29,10 @@ class UpdateTripTravel
     public function handle(ReceiveTripUpdate $event)
     {
         $exploded = explode('.',$event->context['NOTIFICATION']);
-        $action = $exploded[0];
-        $trip_id = $exploded[1];
-
-        $event->trip->updateTimeline($action,$trip_id, $event->context['timestamp']);
+        $trip_id = $exploded[0];
+        $action = $exploded[1];
+        $place_id = $event->context['place_id'];
+        $event->trip->updateTimeline($action, $place_id, $event->context['timestamp']);
      }
 
 

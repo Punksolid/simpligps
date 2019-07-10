@@ -25,5 +25,5 @@ class Place extends Model
         "high_risk" => 'bool'
     ];
 
-
+    
 }
