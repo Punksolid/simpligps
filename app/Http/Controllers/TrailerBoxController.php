@@ -31,6 +31,7 @@ class TrailerBoxController extends Controller
     {
         $trailer = new TrailerBox($request->all());
         $trailer->carrier_id = $request->carrier_id;
+        $trailer->device_id = $request->device_id;
         $trailer->save();
         return TrailerBoxResource::make($trailer->fresh('carrier'));
     }
@@ -48,6 +49,8 @@ class TrailerBoxController extends Controller
 
         $trailer = $trailer->fill($request->all());
         $trailer->carrier_id = $request->carrier_id;
+        $trailer->device_id = $request->device_id;
+        $trailer->save();
 
         return TrailerBoxResource::make($trailer);
     }

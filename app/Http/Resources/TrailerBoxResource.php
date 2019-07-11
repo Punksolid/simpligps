@@ -20,7 +20,8 @@ class TrailerBoxResource extends JsonResource
             'internal_number' => $this->internal_number,
             'plate' => $this->plate,
             'gps' => $this->gps,
-            'carrier_id' => $this->carrier_id
+            'carrier_id' => $this->carrier_id,
+            'device_id' => $this->device_id
         ];
     }
 }

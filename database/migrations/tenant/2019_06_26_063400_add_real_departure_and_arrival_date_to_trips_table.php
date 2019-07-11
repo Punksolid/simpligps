@@ -13,10 +13,12 @@ class AddRealDepartureAndArrivalDateToTripsTable extends Migration
      */
     public function up()
     {
-        Schema::table('trips', function (Blueprint $table) {
-            $table->dateTime('real_departure')->nullable();
-            $table->dateTime('real_arrival')->nullable();
-        });
+        if (!Schema::hasColumn('trips','real_departure')){
+            Schema::table('trips', function (Blueprint $table) {
+                $table->dateTime('real_departure')->nullable();
+                $table->dateTime('real_arrival')->nullable();
+            });
+        }
     }
 
     /**

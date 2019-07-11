@@ -13,10 +13,12 @@ class AddRealTimeFieldsToPlacesTripsTable extends Migration
      */
     public function up()
     {
-        Schema::table('places_trips', function (Blueprint $table) {
-            $table->dateTime('real_at_time')->nullable();
-            $table->dateTime('real_exiting')->nullable();
-        });
+        if (!Schema::hasColumn('places_trips','real_at_time')){
+            Schema::table('places_trips', function (Blueprint $table) {
+                $table->dateTime('real_at_time')->nullable();
+                $table->dateTime('real_exiting')->nullable();
+            });
+        }
     }
 
     /**

@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Traits\Deviceable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Carbon;
 
 class TruckTract extends Model
 {
-    use UsesTenantConnection;
+    use UsesTenantConnection, Deviceable;
 
     protected $fillable = [
         'name',
@@ -25,18 +26,7 @@ class TruckTract extends Model
         'carrier_id',  // linea
     ];
 
-    //region Relationships
-
-    /**
-     * Un tracto tiene un dispositivo.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function device()
-    {
-        return $this->belongsTo(Device::class);
-    }
-
+    #region Relationships
     /**
      * Un Tracto tiene un carrier.
      *
@@ -77,23 +67,7 @@ class TruckTract extends Model
             ->take(1);
     }
 
-    //endregion
+    #endregion
 
-    public function assignDevice(Device $device)
-    {
-        return $this->update(['device_id', $device->id]);
-    }
 
-    public function getLocation():array
-    {
-
-        if ($this->device){
-            return $this->device->getLocation();
-        }
-
-        return [
-            'lat' => null,
-            'lon' => null
-        ];
-    }
 }

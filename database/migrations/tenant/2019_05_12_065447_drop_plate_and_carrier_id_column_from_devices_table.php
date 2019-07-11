@@ -13,10 +13,13 @@ class DropPlateAndCarrierIdColumnFromDevicesTable extends Migration
      */
     public function up()
     {
-        Schema::table('devices', function (Blueprint $table) {
-            $table->dropColumn('carrier_id');
-            $table->dropColumn('plate');
-        });
+        if (Schema::hasColumn('devices','carrier_id')){
+            Schema::table('devices', function (Blueprint $table) {
+                $table->dropColumn('carrier_id');
+                $table->dropColumn('plate');
+            });
+        }
+
     }
 
     /**
