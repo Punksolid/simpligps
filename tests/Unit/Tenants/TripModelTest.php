@@ -108,4 +108,20 @@ class TripModelTest extends TestCase
         $this->assertStringContainsString("&place_id=$place_id",$text);
 
     }
+
+    public function test_trip_deactivateNotifications_assert_false_when_doesnt_have_notifications_outside_the_system()
+    {
+        $trip = factory(Trip::class)->create();
+
+        $this->assertFalse($trip->deleteWialonNotificationsForTrips());
+    }
+
+    public function test_trip_deactivateNotifications_should_delete_wialon_notifications()
+    {
+        $trip = $this->prepareTripObject();
+        $notifications_wialon_ids =  $trip->createWialonNotificationsForTrips();
+
+        $this->assertTrue($trip->deleteWialonNotificationsForTrips());
+        $this->assertNull(Notification::findByUniqueId($notifications_wialon_ids[0]));
+    }
 }

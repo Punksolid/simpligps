@@ -538,4 +538,14 @@ class Trip extends Model implements LoggerInterface
     {
         return config('database.connections.tenant.database');
     }
+
+    public function deleteWialonNotificationsForTrips()
+    {
+        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
+
+        if ($resource->destroy()){
+            return true;
+        }
+        return false;
+    }
 }

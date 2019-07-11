@@ -174,6 +174,8 @@ class TripsController extends Controller
      */
     public function destroy(Trip $trip)
     {
+        event();
+
         if ($trip->delete()) {
             return response([
                 'message' => 'eliminado',
