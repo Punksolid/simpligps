@@ -83,4 +83,17 @@ class TruckTract extends Model
     {
         return $this->update(['device_id', $device->id]);
     }
+
+    public function getLocation():array
+    {
+
+        if ($this->device){
+            return $this->device->getLocation();
+        }
+
+        return [
+            'lat' => null,
+            'lon' => null
+        ];
+    }
 }

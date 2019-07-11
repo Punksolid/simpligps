@@ -80,7 +80,7 @@ Route::group(['middleware' => [
         Route::resource('roles', 'RolesController', ['except' => ['edit', 'create']]);
 
         //region Trucks
-        Route::get('trucks/search', 'TruckTractController@search');
+        Route::get('trucks/search', 'TruckTractController@search')->name('trucks.search');
         Route::resource('trucks', 'TruckTractController')->except(['create', 'edit']);
         Route::resource('trailers', 'TrailerBoxController')->except(['create', 'edit', 'show']);
         //endregion

@@ -53,13 +53,9 @@ class TruckTractController extends Controller implements Search
             'carrier',
             'currentOperator',
             'operators'
-            // 'operators' => function ($query_operators) {
-            //     return $query_operators->whereHas('trips', function ($query_trips) {
-            //         return $query_trips->onlyOngoing();
-            //     });
-            // }
         ])->findOrFail($truckTract);
-        // dd($truckTract->toArray());
+
+        $truckTract->position = $truckTract->getLocation();
         return TruckTractResource::make($truckTract);
     }
 

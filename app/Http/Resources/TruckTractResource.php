@@ -15,6 +15,7 @@ class TruckTractResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -33,8 +34,12 @@ class TruckTractResource extends JsonResource
             "operators" => OperatorResource::collection($this->whenLoaded('operators')),
             "current_operator" => OperatorResource::make(optional($this->currentOperator)->first()),
 
-            'created_at' => $this->when($request->route()->name('trucktracts.show'), $this->created_at->toDateTimeString()),
-            'updated_at' => $this->when($request->route()->name('trucktracts.show'), $this->updated_at->toDateTimeString())
+            'created_at' => $this->when($request->routeIs('trucks.show'), $this->created_at->toDateTimeString()),
+            'updated_at' => $this->when($request->routeIs('trucks.show'), $this->updated_at->toDateTimeString()),
+
+            'position' => $this->when($request->route()->named('trucks.show'), $this->position),
+
+
         ];
     }
 }

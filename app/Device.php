@@ -147,4 +147,22 @@ class Device extends Model implements LoggerInterface
     {
         return (bool) $this->reference_data;
     }
+
+    public function getLocation(): array
+    {
+        if ($this->linked()){
+            // TODO REFACTOR Unit Find para que use las flags con los detalles, this is a performance issue
+            $unit = Unit::all()->where('id',$this->wialon_id)->first();
+            return [
+                'lat' => optional($unit)->lat,
+                'lon' => optional($unit)->lon
+            ];
+        }
+
+        // ugly code
+        return [
+            'lat' => null,
+            'lon' => null
+        ];
+    }
 }
