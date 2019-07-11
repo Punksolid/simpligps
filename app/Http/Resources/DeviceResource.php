@@ -24,6 +24,10 @@ class DeviceResource extends JsonResource
             'internal_number' => $this->internal_number,
             'trips' => $this->whenLoaded('trips'),
             'truck' => $this->whenLoaded('truck'),
+            'position' => [
+                'lat' => $this->getLocation()['lat'],
+                'lon' => $this->getLocation()['lon']
+            ],
             'reference_data' => $this->reference_data,
         ];
     }

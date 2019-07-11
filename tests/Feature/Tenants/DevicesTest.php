@@ -76,7 +76,11 @@ class DevicesTest extends TestCase
                 "internal_number",
                 "gps",
                 "name",
-                "reference_data"
+                "reference_data",
+                'position' => [
+                    'lat',
+                    'lon'
+                ]
             ]
         ]);
 
@@ -176,6 +180,20 @@ class DevicesTest extends TestCase
 
         $call->assertJsonFragment([
             "nm" => $unit->nm
+        ]);
+    }
+
+    public function test_ver_posicion_de_device_ligado()
+    {
+        $unit = Unit::all()->first();
+        $device = factory(Device::class)->create();
+        $device->linkUnit($unit);
+
+        $call = $this->getJson('api/v1/devices/'.$device->id);
+
+        $call->assertJsonFragment([
+            'lat' => $unit->lat,
+            'lon' => $unit->lon
         ]);
 
     }
