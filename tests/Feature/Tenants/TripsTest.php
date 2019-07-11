@@ -260,9 +260,9 @@ class TripsTest extends TestCase
 
         $call = $this->deleteJson("/api/v1/trips/" . $trip_arr["id"]);
         $call->assertSuccessful();
-//        $this->assertDatabaseMissing("trips", [
-//            "client_id" => $trip_arr["client_id"]
-//        ], "tenant");
+        $this->assertDatabaseMissing("trips", [
+            "client_id" => $trip_arr["client_id"]
+        ], "tenant");
     }
 
     public function test_crear_importacion_de_plan_de_viaje()
