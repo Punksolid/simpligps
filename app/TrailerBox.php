@@ -2,13 +2,14 @@
 
 namespace App;
 
+use App\Traits\Deviceable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TrailerBox extends Model
 {
-    use UsesTenantConnection,SoftDeletes;
+    use UsesTenantConnection,SoftDeletes, Deviceable;
 
     protected $fillable = [
         'internal_number',
@@ -16,7 +17,7 @@ class TrailerBox extends Model
         'plate',
     ];
 
-    //region Relationships
+    #region Relationships
     public function trips()
     {
         return $this->belongsToMany(
@@ -34,5 +35,5 @@ class TrailerBox extends Model
         return $this->belongsTo(Carrier::class);
     }
 
-    //endregion
+    #endregion
 }

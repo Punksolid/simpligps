@@ -13,9 +13,11 @@ class AddDatesToPlacesTripsPivotTable extends Migration
      */
     public function up()
     {
-        Schema::table('places_trips', function (Blueprint $table) {
-            $table->dateTime('at_time')->nullable();
-        });
+        if(!Schema::hasColumn('places_trips','at_time')){
+            Schema::table('places_trips', function (Blueprint $table) {
+                $table->dateTime('at_time')->nullable();
+            });
+        }
     }
 
     /**

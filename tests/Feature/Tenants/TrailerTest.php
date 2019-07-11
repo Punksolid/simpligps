@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Device;
 use App\TrailerBox;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,10 +30,14 @@ class TrailerTest extends TestCase
         ]);
 
     }
+
     public function test_registrar_caja()
     {
         $this->withoutExceptionHandling();
-        $trailer = factory(TrailerBox::class)->make();
+        $device_id = factory(Device::class)->create();
+        $trailer = factory(TrailerBox::class)->make([
+            'device_id' => $device_id
+        ]);
 
         $call = $this->postJson('api/v1/trailers', $trailer->toArray());
 
@@ -41,13 +46,16 @@ class TrailerTest extends TestCase
                 'id'
             ]
         ]);
+
         $call->assertJsonFragment($trailer->toArray());
     }
 
     public function test_editar_caja()
     {
         $trailer = factory(TrailerBox::class)->create();
-        $new_trailer = factory(TrailerBox::class)->make();
+        $new_trailer = factory(TrailerBox::class)->make([
+            'device_id' => factory(Device::class)->create()->id
+        ]);
 
         $call = $this->putJson('api/v1/trailers/'.$trailer->id, $new_trailer->toArray());
 

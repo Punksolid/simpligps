@@ -13,9 +13,11 @@ class AddExitingFieldToTripsPlacesPivotTable extends Migration
      */
     public function up()
     {
-        Schema::table('places_trips', function (Blueprint $table) {
-            $table->dateTime('exiting')->nullable();
-        });
+        if (!Schema::hasColumn('places_trips','exiting')){
+            Schema::table('places_trips', function (Blueprint $table) {
+                $table->dateTime('exiting')->nullable();
+            });
+        }
     }
 
     /**

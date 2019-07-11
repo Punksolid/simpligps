@@ -18,13 +18,11 @@ class AddPsrLogColumnsToLogTable extends Migration
         Schema::table('logs', function (Blueprint $table) {
             $table->string("message")->nullable();
             $table->renameColumn('level','level_name');
-            // $table->json('data');
             $table->renameColumn('data','context');
             $table->string('channel')->default('general');
             $table->dateTime('datetime')->nullable();
             $table->json('extra')->nullable();
-            // $table->morphs('logsgable');
-            
+
         });
 
         Schema::table('logs', function (Blueprint $table) {
