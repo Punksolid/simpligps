@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\NoTimeOverlap;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TripRequest extends FormRequest
@@ -29,7 +30,8 @@ class TripRequest extends FormRequest
             'client_id' => 'required|integer',
             'intermediates' => [
                 'required',
-                'array'
+                'array',
+                new NoTimeOverlap()
             ],
             'intermediates.*.place_id' => [
                 "integer",
@@ -39,7 +41,13 @@ class TripRequest extends FormRequest
                 "date",
                 "filled",
                 'after:scheduled_load',
-                'before:scheduled_unload'
+                'before:scheduled_arrival',
+            ],
+            'intermediates.*.exiting' => [
+                "date",
+                "filled",
+                'after:scheduled_load',
+                'before:scheduled_arrival'
             ],
             'origin_id' => 'required|integer',
             'destination_id' => 'required|integer',

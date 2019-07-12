@@ -143,6 +143,36 @@ class TripsTest extends TestCase
         ]);
     }
 
+    public function test_no_se_pueden_interpolar_tiempos_al_crear_trip()
+    {
+
+        $trip = factory(Trip::class)->raw([
+            "scheduled_load" => now()->addDays(1)->toDateTimeString(),
+            "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
+            "scheduled_arrival" => now()->addDays(11)->toDateTimeString(),
+            "scheduled_unload" => now()->addDays(12)->toDateTimeString()
+        ]);
+
+        $trip['intermediates'] = [
+            [
+                "place_id" => factory(Place::class)->create()->id,
+                "at_time" => Carbon::now()->addDay(2)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDay(4)->toDateTimeString()
+            ],[
+                "place_id" => factory(Place::class)->create()->id,
+                "at_time" => Carbon::now()->addDays(5)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDays(9)->toDateTimeString()
+            ],[
+                "place_id" => factory(Place::class)->create()->id,
+                "at_time" => Carbon::now()->addDays(8)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDays(10)->toDateTimeString()
+            ]
+        ];
+        $call = $this->postJson("/api/v1/trips", $trip);
+        $call->assertJsonValidationErrors('intermediates');
+
+    }
+
     public function test_ver_detalles_de_un_viaje()
     {
         $this->withoutExceptionHandling();
