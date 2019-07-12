@@ -71,8 +71,8 @@ class TripsTest extends TestCase
                     "exiting" => Carbon::now()->addDay(2)->toDateTimeString()
                 ],[
                     "place_id" => factory(Place::class)->create()->id,
-                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString(),
-                    "exiting" => Carbon::now()->addDays(3)->toDateTimeString()
+                    "at_time" => Carbon::now()->addDays(3)->toDateTimeString(),
+                    "exiting" => Carbon::now()->addDays(4)->toDateTimeString()
                 ]
             ],
             "trailers_ids" => [
@@ -90,14 +90,13 @@ class TripsTest extends TestCase
 
             "scheduled_load" => Carbon::now()->toDateString(),
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateString(),
-            "scheduled_arrival" => Carbon::now()->addDays(2)->toDateString(),
-            "scheduled_unload" => Carbon::now()->addDays(3)->toDateString()
+            "scheduled_arrival" => Carbon::now()->addDays(7)->toDateString(),
+            "scheduled_unload" => Carbon::now()->addDays(8)->toDateString()
 
         ];
 
 
 
-        $this->withoutExceptionHandling();
         $call = $this->postJson("/api/v1/trips", $trip);
         $call->assertSuccessful();
 
@@ -241,12 +240,12 @@ class TripsTest extends TestCase
             "intermediates" => [
                 [
                     "place_id" => factory(Place::class)->create()->id,
-                    "at_time" => Carbon::now()->addDay(1)->toDateTimeString(),
-                    "exiting" => Carbon::now()->addDay(1)->toDateTimeString()
+                    "at_time" => Carbon::now()->addDay(3)->toDateTimeString(),
+                    "exiting" => Carbon::now()->addDay(4)->toDateTimeString()
                 ],[
                     "place_id" => factory(Place::class)->create()->id,
-                    "at_time" => Carbon::now()->addDays(2)->toDateTimeString(),
-                    "exiting" => Carbon::now()->addDays(2)->toDateTimeString()
+                    "at_time" => Carbon::now()->addDays(5)->toDateTimeString(),
+                    "exiting" => Carbon::now()->addDays(6)->toDateTimeString()
                 ]
             ],
             "origin_id" => factory(Place::class)->create()->id,
@@ -260,8 +259,8 @@ class TripsTest extends TestCase
             ],
             "scheduled_load" => Carbon::now()->toDateTimeString(),
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
-            "scheduled_arrival" => Carbon::now()->addDays(2)->toDateTimeString(),
-            "scheduled_unload" => Carbon::now()->addDays(3)->toDateTimeString()
+            "scheduled_arrival" => Carbon::now()->addDays(7)->toDateTimeString(),
+            "scheduled_unload" => Carbon::now()->addDays(8)->toDateTimeString()
 
         ];
 
