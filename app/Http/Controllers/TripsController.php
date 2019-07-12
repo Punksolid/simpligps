@@ -95,8 +95,10 @@ class TripsController extends Controller
             $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format to carbon
             $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
         }
-        foreach ($request->trailers_ids as $trailers_id) {
-            $trip->addTrailerBox($trailers_id);
+        if ($request->filled('trailers_ids')){
+            foreach ($request->trailers_ids as $trailers_id) {
+                $trip->addTrailerBox($trailers_id);
+            }
         }
 
         try {
