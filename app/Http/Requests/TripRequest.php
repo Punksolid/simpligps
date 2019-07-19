@@ -29,18 +29,19 @@ class TripRequest extends FormRequest
             'invoice' => 'required',
             'client_id' => 'required|integer',
             'intermediates' => [
-                'required',
                 'array',
                 new NoTimeOverlap()
             ],
             'intermediates.*.place_id' => [
                 "integer",
-                "filled"
+                "filled",
+                'distinct'
             ],
             'intermediates.*.at_time' => [
                 "date",
                 "filled",
                 'after:scheduled_load',
+                'after:scheduled_departure',
                 'before:scheduled_arrival',
             ],
             'intermediates.*.exiting' => [
