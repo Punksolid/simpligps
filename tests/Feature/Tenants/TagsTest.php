@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Trip;
+use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
@@ -38,6 +39,49 @@ class TagsTest extends TestCase
         $call = $this->getJson('api/v1/trips');
         $call->dump();
         $call->assertSee($tag);
+
+    }
+
+    public function test_ver_planes_de_viaje_por_etiqueta()
+    {
+        $user = factory(User::class)->create();
+        $trip = factory(Trip::class)->create(["tag" => "riesgo"]);
+
+        $call = $this->actingAs($user)->json("POST", "/api/v1/trips/filtered_with_tags", [
+            "tag" => "riesgo"
+        ]);
+
+        $call->assertSee($trip->rp);
+    }
+
+    public function test_ver_asignar_etiqueta_a_viaje()
+    {
+        $trip = factory(Trip::class)->create();
+
+        $etiqueta = $this->faker->word;
+        $call = $this->postJson( "/api/v1/trips/{$trip->id}/tags", [
+            "tags" => [
+                $etiqueta
+            ]
+        ]);
+
+        $call->assertSee($etiqueta);
+        $call->assertStatus(200);
+    }
+
+    public function test_puede_sincronizar_etiquetas()
+    {
+        $trip = factory(Trip::class)->create([
+            'tags' => [
+                'hello'
+            ]
+        ]);
+
+        $call = $this->postJson( "/api/v1/trips/{$trip->id}/tags", [
+            "tags" => []
+        ]);
+        $call->assertSuccessful();
+        $this->assertEquals(0,$trip->fresh()->tags->count());
 
     }
 }

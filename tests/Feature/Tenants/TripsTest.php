@@ -172,6 +172,60 @@ class TripsTest extends TestCase
 
     }
 
+    public function test_se_pueden_crear_viajes_sin_intermediates()
+    {
+        $trip = factory(Trip::class)->raw();
+        $trip['intermediates'] = [];
+
+        $call = $this->postJson("/api/v1/trips", $trip);
+        $call->assertSuccessful();
+
+    }
+
+    public function test_origen_y_destino_pueden_ser_repetidos()
+    {
+        $bodega_culiacan = factory(Place::class)->create();
+
+        $trip = factory(Trip::class)->raw([
+            'origin_id' => $bodega_culiacan->id,
+            'destination_id' => $bodega_culiacan->id
+        ]);
+
+        $trip['intermediates'] = [];
+
+        $call = $this->postJson("/api/v1/trips", $trip);
+        $call->assertSuccessful();
+    }
+
+    public function test_intermediates_no_pueden_repetirse()
+    {
+        $trip = factory(Trip::class)->raw([
+            'scheduled_arrival' => Carbon::now()->addDay(11)->toDateTimeString(),
+            'scheduled_unload' => Carbon::now()->addDay(12)->toDateTimeString()
+        ]);
+        $culiacan = factory(Place::class)->create();
+        $mochis = factory(Place::class)->create();
+        $trip['intermediates'] = [
+            [
+                "place_id" => $culiacan->id,
+                "at_time" => Carbon::now()->addDay(3)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDay(4)->toDateTimeString()
+            ],[
+                "place_id" => $mochis->id,
+                "at_time" => Carbon::now()->addDays(5)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDays(6)->toDateTimeString()
+            ],[
+                "place_id" => $culiacan->id,
+                "at_time" => Carbon::now()->addDays(9)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDays(10)->toDateTimeString()
+            ]
+        ];
+
+        $call = $this->postJson("/api/v1/trips", $trip);
+
+        $call->assertSee(        "The intermediates.0.place_id field has a duplicate value.");
+    }
+
     public function test_ver_detalles_de_un_viaje()
     {
         $this->withoutExceptionHandling();
@@ -348,48 +402,7 @@ class TripsTest extends TestCase
         $call->assertStatus(200);
     }
 
-    public function test_ver_planes_de_viaje_por_etiqueta()
-    {
-        $user = factory(User::class)->create();
-        $trip = factory(Trip::class)->create(["tag" => "riesgo"]);
 
-        $call = $this->actingAs($user)->json("POST", "/api/v1/trips/filtered_with_tags", [
-            "tag" => "riesgo"
-        ]);
-
-        $call->assertSee($trip->rp);
-    }
-
-    public function test_ver_asignar_etiqueta_a_viaje()
-    {
-        $trip = factory(Trip::class)->create();
-
-        $etiqueta = $this->faker->word;
-        $call = $this->postJson( "/api/v1/trips/{$trip->id}/tags", [
-            "tags" => [
-                $etiqueta
-            ]
-        ]);
-        
-        $call->assertSee($etiqueta);
-        $call->assertStatus(200);
-    }
-
-    public function test_puede_sincronizar_etiquetas()
-    {
-        $trip = factory(Trip::class)->create([
-            'tags' => [
-                'hello'
-            ]
-        ]);
-
-        $call = $this->postJson( "/api/v1/trips/{$trip->id}/tags", [
-            "tags" => []
-        ]);
-        $call->assertSuccessful();
-        $this->assertEquals(0,$trip->fresh()->tags->count());
-
-    }
 
 
 }
