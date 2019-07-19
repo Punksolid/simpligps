@@ -41,6 +41,7 @@ class LimitSimoultaneousAccess
                 abort(401, "Demasiadas sesiones activas, superó su limite de $limit_active_sessions sesiones activas");
             }
         } catch (\Exception $exception) {
+            //@Todo REvisar por que andres.apodaca@dogoit.com no deja entrar
             abort(401, "Se encontró un error con su licencia, favor de contactar al administrador. {$exception->getMessage()}");
         }
 
