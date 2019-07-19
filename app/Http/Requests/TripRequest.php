@@ -41,6 +41,7 @@ class TripRequest extends FormRequest
                 "date",
                 "filled",
                 'after:scheduled_load',
+                'after:scheduled_departure',
                 'before:scheduled_arrival',
             ],
             'intermediates.*.exiting' => [

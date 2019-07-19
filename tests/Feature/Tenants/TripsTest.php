@@ -223,7 +223,33 @@ class TripsTest extends TestCase
 
         $call = $this->postJson("/api/v1/trips", $trip);
 
-        $call->assertSee(        "The intermediates.0.place_id field has a duplicate value.");
+        $call->assertSee("The intermediates.0.place_id field has a duplicate value.");
+    }
+
+    public function test_scheduled_departure_no_puede_ser_mayor_a_las_fechas_de_intermedios()
+    {
+        $trip = factory(Trip::class)->raw([
+            'scheduled_arrival' => Carbon::now()->addDay(11)->toDateTimeString(),
+            'scheduled_unload' => Carbon::now()->addDay(12)->toDateTimeString(),
+            'scheduled_departure' => Carbon::now()->addDay(4)->toDateTimeString()
+        ]);
+        $culiacan = factory(Place::class)->create();
+        $mochis = factory(Place::class)->create();
+        $trip['intermediates'] = [
+            [
+                "place_id" => $culiacan->id,
+                "at_time" => Carbon::now()->addDay(3)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDay(4)->toDateTimeString()
+            ],[
+                "place_id" => $mochis->id,
+                "at_time" => Carbon::now()->addDays(5)->toDateTimeString(),
+                "exiting" => Carbon::now()->addDays(6)->toDateTimeString()
+            ]
+        ];
+
+        $call = $this->postJson("/api/v1/trips", $trip);
+
+        $call->assertSee("The intermediates.0.at_time must be a date after scheduled departure.");
     }
 
     public function test_ver_detalles_de_un_viaje()
