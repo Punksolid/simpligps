@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TripRequest;
 use App\Http\Resources\TripResource;
+use App\Place;
 use App\Trip;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,7 +23,9 @@ class TripsController extends Controller
      */
     public function index(Request $request)
     {
-        $query = Trip::query()->with('tags')->orderByDesc('created_at');
+        $query = Trip::query()
+            ->with(['places','origin','destination','intermediates','tags'])
+            ->orderByDesc('created_at');
         if ($request->has('filter')) {
             $query = $query->withAnyTags($request->filter);
         }
@@ -77,24 +80,29 @@ class TripsController extends Controller
             'scheduled_unload',
             ]));
 
-        $trip->scheduled_load = new Carbon($request->scheduled_load); // format 2019-05-25T14:35:00.000Z
-        $trip->scheduled_departure = new Carbon($request->scheduled_departure);
-        $trip->scheduled_arrival = new Carbon($request->scheduled_arrival);
-        $trip->scheduled_unload = new Carbon($request->scheduled_unload);
+//        $trip->scheduled_load = new Carbon($request->scheduled_load); // format 2019-05-25T14:35:00.000Z
+//        $trip->scheduled_departure = new Carbon($request->scheduled_departure);
+//        $trip->scheduled_arrival = new Carbon($request->scheduled_arrival);
+//        $trip->scheduled_unload = new Carbon($request->scheduled_unload);
 
-        $trip->origin_id = $request->origin_id;
-        $trip->destination_id = $request->destination_id;
+//        $trip->origin_id = $request->origin_id;
+//        $trip->destination_id = $request->destination_id;
+
         $trip->carrier_id = $request->carrier_id;
         $trip->truck_tract_id = $request->truck_tract_id;
         $trip->operator_id = $request->operator_id;
         $trip->client_id = $request->client_id;
         $trip->save();
+        $trip->setOrigin(Place::findOrFail($request->origin_id), new Carbon($request->scheduled_load), new Carbon($request->scheduled_departure));
 
         foreach ($request->intermediates as $intermediate) {
             $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
             $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format to carbon
             $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
         }
+
+        $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
+
         if ($request->filled('trailers_ids')){
             foreach ($request->trailers_ids as $trailers_id) {
                 $trip->addTrailerBox($trailers_id);
@@ -106,7 +114,8 @@ class TripsController extends Controller
         } catch (\Exception $exception) {
             \Log::error('Something happened when creating external notifications', $trip->toArray());
         }
-        $trip->load('intermediates');
+        $trip->load('intermediates','origin','destination');
+
         return TripResource::make($trip);
     }
 

@@ -124,4 +124,6 @@ class TripModelTest extends TestCase
         $this->assertTrue($trip->deleteWialonNotificationsForTrips());
         $this->assertNull(Notification::findByUniqueId($notifications_wialon_ids[0]));
     }
+
+
 }
