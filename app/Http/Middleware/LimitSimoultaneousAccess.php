@@ -17,13 +17,12 @@ class LimitSimoultaneousAccess
      */
     public function handle($request, Closure $next)
     {
-        try {
-            $account = auth()->user()->accounts()->firstOrFail(); //TODO make dinamic
+            $account = $request->tenant_account;
             $user_logged = \Auth::user();
 
             if (\Cache::has("active_sessions_$account->id")) {
-                $existent = \Cache::get("active_sessions_$account->id");
-                $colleagues_without_auth = $existent->reject(function ($user) use ($user_logged) {
+                $existent = \Cache::get("active_sessions_$account->id" );
+                $colleagues_without_auth = $existent->reject( function ($user) use ($user_logged) {
                     return $user->email === $user_logged->email;
                 });
                 $colleagues = $colleagues_without_auth->push(auth()->user());
@@ -38,12 +37,9 @@ class LimitSimoultaneousAccess
             $limit_active_sessions = $account->activeLicenses()->firstOrFail()->number_active_sessions;
 
             if ($active_sessions > $limit_active_sessions) {
-                abort(401, "Demasiadas sesiones activas, superó su limite de $limit_active_sessions sesiones activas");
+                abort(401, "Too many active connections, limit surpassed $limit_active_sessions ");
             }
-        } catch (\Exception $exception) {
-            //@Todo REvisar por que andres.apodaca@dogoit.com no deja entrar
-            abort(401, "Se encontró un error con su licencia, favor de contactar al administrador. {$exception->getMessage()}");
-        }
+
 
         //@Todo logica de no más de una sesion activa
         return $next($request);

@@ -23,7 +23,6 @@ Route::post('{tennant_id}/alert/trips/{trip}', 'WebhookNotificationController@tr
 Route::group(['middleware' => [
 //    "verified",
     'auth:api',
-   'limit_simoultaneous_access',
     RefreshPersonalAccessTokenMiddleware::class,
     \App\Http\Middleware\ProfilingTestMiddleware::class,
 ]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
@@ -44,6 +43,7 @@ Route::group(['middleware' => [
             'limit_expired_license_access',
             IsUserPermittedInAccountMiddleware::class,
             SetWialonTokenMiddleware::class,
+            'limit_simoultaneous_access',
         ],
     ], function ($router) {
         //region Account Notifications
