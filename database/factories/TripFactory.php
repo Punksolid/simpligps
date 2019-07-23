@@ -17,10 +17,6 @@ $factory->define(App\Trip::class, function (Faker $faker) {
         "truck_tract_id" => factory(\App\TruckTract::class)->create()->id,
         "operator_id" => factory(\App\Operator::class)->create()->id,
 
-        "scheduled_load" => now()->addDays(1)->toDateTimeString(),
-        "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
-        "scheduled_arrival" => now()->addDays(3)->toDateTimeString(),
-        "scheduled_unload" => now()->addDays(4)->toDateTimeString()
 
     ];
 });

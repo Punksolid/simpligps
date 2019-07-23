@@ -34,7 +34,6 @@ class TripsTest extends TestCase
     public function test_ver_listado_de_viajes()
     {
         $call = $this->getJson("api/v1/trips");
-
         $call->assertJsonStructure([
             "data" => [
                 "*" => [
@@ -57,7 +56,7 @@ class TripsTest extends TestCase
 
     public function test_crear_nuevo_viaje_manual()
     {
-
+        $this->withoutExceptionHandling();
         $mochis = factory(Place::class)->create();
         $trip = [
             "rp" => $this->faker->name,
@@ -114,8 +113,8 @@ class TripsTest extends TestCase
                 'rp',
                 'invoice',
                 'client_id',
-                'origin_id',
-                'destination_id',
+//                'origin_id',
+//                'destination_id',
                 'georoute_ref',
                 'mon_type',
                 'carrier_id',
@@ -126,6 +125,8 @@ class TripsTest extends TestCase
                 "scheduled_departure",
                 "scheduled_arrival",
                 "scheduled_unload",
+                "origin",
+                "destination",
 
                 "intermediates" => [
                     '*' => [
@@ -174,7 +175,13 @@ class TripsTest extends TestCase
 
     public function test_se_pueden_crear_viajes_sin_intermediates()
     {
-        $trip = factory(Trip::class)->raw();
+        $trip = factory(Trip::class)->raw([
+            "scheduled_load" => now()->addDays(1)->toDateTimeString(),
+            "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
+            "scheduled_arrival" => now()->addDays(3)->toDateTimeString(),
+            "scheduled_unload" => now()->addDays(4)->toDateTimeString()
+        ]);
+
         $trip['intermediates'] = [];
 
         $call = $this->postJson("/api/v1/trips", $trip);
@@ -188,7 +195,11 @@ class TripsTest extends TestCase
 
         $trip = factory(Trip::class)->raw([
             'origin_id' => $bodega_culiacan->id,
-            'destination_id' => $bodega_culiacan->id
+            'destination_id' => $bodega_culiacan->id,
+            "scheduled_load" => now()->addDays(1)->toDateTimeString(),
+            "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
+            "scheduled_arrival" => now()->addDays(3)->toDateTimeString(),
+            "scheduled_unload" => now()->addDays(4)->toDateTimeString()
         ]);
 
         $trip['intermediates'] = [];
@@ -256,25 +267,41 @@ class TripsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create([
-            'origin_id' => factory(Place::class)->create()->id,
-            'destination_id' => factory(Place::class)->create()->id,
             'device_id' => factory(Device::class)->create()->id,
             'truck_tract_id' => factory(TruckTract::class)->create()->id,
             'operator_id' => factory(Operator::class)->create()->id,
             'client_id' => factory(Client::class)->create()->id
         ]);
+        dump($trip->id);
+        $llegada_al_origen = now()->addDays(1);
+        $salida_del_origen = now()->addDays(2);
+        $trip->setOrigin(factory(Place::class)->create(), $llegada_al_origen, $salida_del_origen);
+        $llegada_al_destino = now()->addDays(1);
+        $salida_del_destino = now()->addDays(2);
+        $trip->setDestination(factory(Place::class)->create(), $llegada_al_destino, $salida_del_destino);
+
+        $trip->addIntermediate(
+                factory(Place::class)->create()->id,
+                now()->addDay(3)->toDateTimeString(),
+                now()->addDay(4)->toDateTimeString()
+        );
         
         $call = $this->getJson("api/v1/trips/{$trip->id}");
         
         $call->assertSuccessful();
+        $call->assertJsonFragment([
+            "scheduled_load" => $llegada_al_origen->toDateTimeString(),
+            "scheduled_departure" => $salida_del_origen->toDateTimeString(),
+            "scheduled_arrival" => $llegada_al_destino->toDateTimeString(),
+            "scheduled_unload" => $salida_del_destino->toDateTimeString(),
+        ]);
+
         $call->assertJsonStructure([
             "data" => [
                 'id',
                 'rp',
                 'invoice',
                 'client_id',
-                'origin_id',
-                'destination_id',
 
                 'mon_type',
                 'carrier_id',

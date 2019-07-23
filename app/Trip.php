@@ -5,21 +5,20 @@ namespace App;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 use Spatie\Tags\HasTags;
-use Carbon\Carbon;
 use App\Traits\ModelLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
 
 class Trip extends Model implements LoggerInterface
 {
-    use HasTags, UsesTenantConnection,ModelLogger, LoggerTrait;
+    use HasTags, UsesTenantConnection, ModelLogger, LoggerTrait;
 
     // Detailed debug information
     private const DEBUG = 100;
@@ -67,23 +66,14 @@ class Trip extends Model implements LoggerInterface
         'rp',
         'invoice',
         'client_id',
-        'origin_id',
-        'destination_id',
         'mon_type',
-        'scheduled_load',
-        'scheduled_departure',
-        'scheduled_arrival',
-        'scheduled_unload',
-        'bulk',
         'georoute_ref',
-    //operationals
+        //operationals
         'device_id',
         'carrier_id',
         'truck_tract_id',
-        'real_departure',
-        'real_arrival',
-    //tag
-        'tag',
+        //tag
+        // 'tag', //@deprecated
     ];
 
     protected $casts = [
@@ -102,23 +92,60 @@ class Trip extends Model implements LoggerInterface
     //region Relationships
 
     /**
-     * Relacion al lugar de origen.
+     * Devuelve modelo del Origin
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function origin()
+    public function getOrigin()
     {
-        return $this->belongsTo(Place::class, 'origin_id');
+        return $this->places()->wherePivot('type', '=', 'origin')->first();
     }
 
-    /**
-     * Relacion al lugar destino.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
+    public function origin()
+    {
+        return $this->places()->wherePivot('type', '=', 'origin');
+    }
+
+    public function getOriginAttribute()
+    {
+        return $this->places()->wherePivot('type', '=', 'origin')->first();
+    }
+
+    public function getDestinationAttribute()
+    {
+        return $this->places()->wherePivot('type', '=', 'destination')->first();
+    }
+
+    public function setOrigin(Place $place, $at_time, $exiting)
+    {
+        return $this->places()->attach($place->id, [
+            'type' => 'origin',
+            'at_time' => $at_time,
+            'exiting' => $exiting,
+            'order' => 0,
+        ]);
+    }
+
+    public function getDestination()
+    {
+        return $this->places()->wherePivot('type', '=', 'destination')->first();
+    }
+
     public function destination()
     {
-        return $this->belongsTo(Place::class, 'destination_id');
+        return $this->places()->wherePivot('type', '=', 'destination');
+    }
+
+    public function setDestination(Place $place, $at_time, $exiting)
+    {
+        $last = $this->places()->count() + 1;
+
+        return $this->places()->attach($place->id, [
+            'type' => 'destination',
+            'at_time' => $at_time,
+            'exiting' => $exiting,
+            'order' => $last,
+        ]);
     }
 
     /**
@@ -156,8 +183,8 @@ class Trip extends Model implements LoggerInterface
         return $this->belongsToMany(
             Place::class,
             'places_trips',
-            'place_id',
-            'trip_id'
+            'trip_id',
+            'place_id'
         )
             ->withPivot([
                 'order',
@@ -305,9 +332,9 @@ class Trip extends Model implements LoggerInterface
     {
         $timestamp = $timestamp ?: now()->toDateTimeString();
 
-        $action = $action == 'entering' ? 'real_at_time':'real_exiting';
+        $action = $action == 'entering' ? 'real_at_time' : 'real_exiting';
         $attributes = [
-          $action => $timestamp
+            $action => $timestamp
         ];
 
         $this->intermediates()->updateExistingPivot($place_id, $attributes);
@@ -328,14 +355,9 @@ class Trip extends Model implements LoggerInterface
 
     }
 
-    public function getAllPlaces():Collection
+    public function getAllPlaces(): Collection
     {
-        $places = collect([
-            $this->origin()->first(),
-            $this->destination()->first(),
-        ]);
-
-        return $places->concat($this->intermediates()->get());
+        return $this->places()->get();
     }
 
     /**
@@ -364,10 +386,32 @@ class Trip extends Model implements LoggerInterface
     //region Scopes
     public function scopeOnlyOngoing($query)
     {
-        $query->where('scheduled_load', '<', Carbon::now());
-        $query->where('scheduled_unload', '>', Carbon::now());
 
-        return $query;
+        return $query->select([
+            'trips.*',
+            'origin.id as origin_id',
+            'origin.type as type',
+            'origin.order as order',
+            'origin.at_time as origin_at_time',
+            'origin.exiting as origin_exiting',
+
+            'destination.id as destination_id',
+            'destination.type as destination type',
+            'destination.order as destination order',
+            'destination.at_time as destination_at_time',
+            'destination.exiting as destination_exiting'
+        ])
+            ->join('places_trips as origin', function ($join) {
+                $join->on('trips.id', '=', 'origin.trip_id')
+                    ->where('origin.type', '=', 'origin')
+                    ->where('origin.at_time', '<', now()->toDateTimeString());
+
+            })
+            ->join('places_trips as destination', function ($join) {
+                $join->on('trips.id', '=', 'destination.trip_id')
+                    ->where('destination.type', '=', 'destination')
+                    ->where('destination.exiting', '>', now()->toDateTimeString());
+            });
     }
 
     //endregion
@@ -378,7 +422,7 @@ class Trip extends Model implements LoggerInterface
      * @param $device
      * @return string
      */
-    public function getWialonParamsText( $tenant_uuid, $device, $place_id = null): string
+    public function getWialonParamsText($tenant_uuid, $device, $place_id = null): string
     {
         $text = 'unit=%UNIT%&
         timestamp=%CURR_TIME%&
@@ -409,11 +453,11 @@ class Trip extends Model implements LoggerInterface
         X-Tenant-Id=' . $tenant_uuid . '&
         trip_id=' . $this->id . '&
         device_id=' . $device;
-        if ($place_id){
-            $text = $text."&place_id=$place_id";
+        if ($place_id) {
+            $text = $text . "&place_id=$place_id";
         }
 
-        $text = '"'.$text.'"';
+        $text = '"' . $text . '"';
 
 
         $text = str_replace(["\r", "\n", ' '], '', $text);
@@ -443,7 +487,7 @@ class Trip extends Model implements LoggerInterface
      * @return Notification|null
      * @throws \Exception
      */
-    public function createWialonNotification( Collection $wialon_units, GeofenceControlType $control_type,$name, Notification\Action $action, string $text)
+    public function createWialonNotification(Collection $wialon_units, GeofenceControlType $control_type, $name, Notification\Action $action, string $text)
     {
         $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
 
@@ -505,19 +549,19 @@ class Trip extends Model implements LoggerInterface
     {
         $wialon_notifications = collect();
         $places = $this->getAllPlaces();
-        foreach ($places as $place){
+        foreach ($places as $place) {
             $control_type = new GeofenceControlType();
             $control_type->addGeozoneId($place->geofence_ref);
 
             $control_type->setType(0); // modificar control_type entrada
-            $text = $this->getWialonParamsText($this->getTenantUuid(),$this->getDevices(),$place->id);
+            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices(), $place->id);
             $wialon_notifications->push(
-                $this->createWialonNotification( $wialon_units, $control_type, "{$this->id}.entering.{$place->id}", $action, $text) // Notificacion de entradas
+                $this->createWialonNotification($wialon_units, $control_type, "{$this->id}.entering.{$place->id}", $action, $text) // Notificacion de entradas
             );
 
             $control_type->setType(1); // salida
             $wialon_notifications->push(
-                $this->createWialonNotification( $wialon_units, $control_type, "{$this->id}.leaving.{$place->id}", $action, $text) // Notificacion de salidas
+                $this->createWialonNotification($wialon_units, $control_type, "{$this->id}.leaving.{$place->id}", $action, $text) // Notificacion de salidas
             );
         }
         return $wialon_notifications;
@@ -541,11 +585,15 @@ class Trip extends Model implements LoggerInterface
 
     public function deleteWialonNotificationsForTrips()
     {
-        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
 
-        if ($resource->destroy()){
-            return true;
+//        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
+        $name = "trm.trips.{$this->id}.{$this->getTenantUuid()}";
+        $resource = Resource::findByName($name);
+        if ($resource) {
+            return $resource->destroy();
         }
+
         return false;
+
     }
 }

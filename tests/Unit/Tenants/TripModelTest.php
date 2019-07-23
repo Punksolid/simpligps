@@ -63,8 +63,6 @@ class TripModelTest extends TestCase
     public function prepareTripObject(): Trip
     {
         $trip = factory(Trip::class)->create([
-            "origin_id" => factory(Place::class)->create(['geofence_ref' => '17471233_4'])->id,
-            "destination_id" => factory(Place::class)->create(['geofence_ref' => '17471233_4'])->id,
             'truck_tract_id' => factory(TruckTract::class)->create([
                 'device_id' => factory(Device::class)->create([
                     'wialon_id' => '17471332',
@@ -72,6 +70,8 @@ class TripModelTest extends TestCase
                 ])
             ])
         ]);
+        $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
+        $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(4),now()->addDays(5));
 
 
         return $trip;
@@ -79,19 +79,26 @@ class TripModelTest extends TestCase
 
     public function test_active_trip_by_interval_schedules_load_and_unload()
     {
-        $ongoing_trip = factory(Trip::class)->create([
-            'scheduled_load' => Carbon::yesterday(),
-            'scheduled_unload' => Carbon::tomorrow()
-        ]);
-        $not_ongoing_trip = factory(Trip::class)->create([
-            'scheduled_load' => Carbon::now()->subWeek(1),
-            'scheduled_unload' => Carbon::yesterday()
-        ]);
+        $ongoing_trip = factory(Trip::class)->create();
+        $ongoing_trip->setOrigin(
+            factory(Place::class)->create(),
+            Carbon::yesterday(),
+            Carbon::tomorrow()
+        );
+
+        $ongoing_trip->setDestination(factory(Place::class)->create(),
+            now()->addDays(9),
+            now()->addDays(10)
+        );
+
+        $PAST_TRIP = factory(Trip::class)->create();
+        $PAST_TRIP->setOrigin(factory(Place::class)->create(),now()->subWeeks(10),now()->subWeeks(9));
+        $PAST_TRIP->setDestination(factory(Place::class)->create(),now()->subWeeks(8),now()->subWeeks(7));
 
         $trips_search = Trip::onlyOngoing()->get();
 
         $this->assertTrue($trips_search->contains($ongoing_trip));
-        $this->assertFalse($trips_search->contains($not_ongoing_trip));
+        $this->assertFalse($trips_search->contains($PAST_TRIP));
 
     }
 
@@ -124,4 +131,6 @@ class TripModelTest extends TestCase
         $this->assertTrue($trip->deleteWialonNotificationsForTrips());
         $this->assertNull(Notification::findByUniqueId($notifications_wialon_ids[0]));
     }
+
+
 }
