@@ -5,14 +5,13 @@ namespace App;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
-use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 use Spatie\Tags\HasTags;
-use Carbon\Carbon;
 use App\Traits\ModelLogger;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
@@ -67,21 +66,12 @@ class Trip extends Model implements LoggerInterface
         'rp',
         'invoice',
         'client_id',
-//        'origin_id', @deprecated
-//        'destination_id', @deprecated
         'mon_type',
-        'scheduled_load',
-        'scheduled_departure',
-        'scheduled_arrival',
-        'scheduled_unload',
-        'bulk',
         'georoute_ref',
         //operationals
         'device_id',
         'carrier_id',
         'truck_tract_id',
-        'real_departure',
-        'real_arrival',
         //tag
         // 'tag', //@deprecated
     ];
@@ -118,12 +108,12 @@ class Trip extends Model implements LoggerInterface
 
     public function getOriginAttribute()
     {
-        return $this->places()->wherePivot('type','=','origin')->first();
+        return $this->places()->wherePivot('type', '=', 'origin')->first();
     }
 
     public function getDestinationAttribute()
     {
-        return $this->places()->wherePivot('type','=','destination')->first();
+        return $this->places()->wherePivot('type', '=', 'destination')->first();
     }
 
     public function setOrigin(Place $place, $at_time, $exiting)
@@ -157,24 +147,6 @@ class Trip extends Model implements LoggerInterface
             'order' => $last,
         ]);
     }
-
-
-//    public function origin()
-//    {
-//        return $this->places()->wherePivot('type', '=', 'origin');
-//
-////        return $this->belongsTo(Place::class, 'origin_id');
-//    }
-//
-//    /**
-//     * Relacion al lugar destino.
-//     *
-//     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-//     */
-//    public function destination()
-//    {
-////        return $this->belongsTo(Place::class, 'destination_id');
-//    }
 
     /**
      * El viaje tiene un dispositivo asociado.
@@ -211,8 +183,8 @@ class Trip extends Model implements LoggerInterface
         return $this->belongsToMany(
             Place::class,
             'places_trips',
-            'place_id',
-            'trip_id'
+            'trip_id',
+            'place_id'
         )
             ->withPivot([
                 'order',
@@ -385,12 +357,7 @@ class Trip extends Model implements LoggerInterface
 
     public function getAllPlaces(): Collection
     {
-        $places = collect([
-            $this->origin()->first(),
-            $this->destination()->first(),
-        ]);
-
-        return $places->concat($this->intermediates()->get());
+        return $this->places()->get();
     }
 
     /**
@@ -419,10 +386,32 @@ class Trip extends Model implements LoggerInterface
     //region Scopes
     public function scopeOnlyOngoing($query)
     {
-        $query->where('scheduled_load', '<', Carbon::now());
-        $query->where('scheduled_unload', '>', Carbon::now());
 
-        return $query;
+        return $query->select([
+            'trips.*',
+            'origin.id as origin_id',
+            'origin.type as type',
+            'origin.order as order',
+            'origin.at_time as origin_at_time',
+            'origin.exiting as origin_exiting',
+
+            'destination.id as destination_id',
+            'destination.type as destination type',
+            'destination.order as destination order',
+            'destination.at_time as destination_at_time',
+            'destination.exiting as destination_exiting'
+        ])
+            ->join('places_trips as origin', function ($join) {
+                $join->on('trips.id', '=', 'origin.trip_id')
+                    ->where('origin.type', '=', 'origin')
+                    ->where('origin.at_time', '<', now()->toDateTimeString());
+
+            })
+            ->join('places_trips as destination', function ($join) {
+                $join->on('trips.id', '=', 'destination.trip_id')
+                    ->where('destination.type', '=', 'destination')
+                    ->where('destination.exiting', '>', now()->toDateTimeString());
+            });
     }
 
     //endregion
@@ -596,11 +585,15 @@ class Trip extends Model implements LoggerInterface
 
     public function deleteWialonNotificationsForTrips()
     {
-        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
 
-        if ($resource->destroy()) {
-            return true;
+//        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
+        $name = "trm.trips.{$this->id}.{$this->getTenantUuid()}";
+        $resource = Resource::findByName($name);
+        if ($resource) {
+            return $resource->destroy();
         }
+
         return false;
+
     }
 }

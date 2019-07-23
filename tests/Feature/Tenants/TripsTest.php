@@ -34,7 +34,6 @@ class TripsTest extends TestCase
     public function test_ver_listado_de_viajes()
     {
         $call = $this->getJson("api/v1/trips");
-        $call->dump();
         $call->assertJsonStructure([
             "data" => [
                 "*" => [
@@ -170,14 +169,19 @@ class TripsTest extends TestCase
             ]
         ];
         $call = $this->postJson("/api/v1/trips", $trip);
-        $call->dump();
         $call->assertJsonValidationErrors('intermediates');
 
     }
 
     public function test_se_pueden_crear_viajes_sin_intermediates()
     {
-        $trip = factory(Trip::class)->raw();
+        $trip = factory(Trip::class)->raw([
+            "scheduled_load" => now()->addDays(1)->toDateTimeString(),
+            "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
+            "scheduled_arrival" => now()->addDays(3)->toDateTimeString(),
+            "scheduled_unload" => now()->addDays(4)->toDateTimeString()
+        ]);
+
         $trip['intermediates'] = [];
 
         $call = $this->postJson("/api/v1/trips", $trip);
@@ -191,7 +195,11 @@ class TripsTest extends TestCase
 
         $trip = factory(Trip::class)->raw([
             'origin_id' => $bodega_culiacan->id,
-            'destination_id' => $bodega_culiacan->id
+            'destination_id' => $bodega_culiacan->id,
+            "scheduled_load" => now()->addDays(1)->toDateTimeString(),
+            "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
+            "scheduled_arrival" => now()->addDays(3)->toDateTimeString(),
+            "scheduled_unload" => now()->addDays(4)->toDateTimeString()
         ]);
 
         $trip['intermediates'] = [];
@@ -264,8 +272,13 @@ class TripsTest extends TestCase
             'operator_id' => factory(Operator::class)->create()->id,
             'client_id' => factory(Client::class)->create()->id
         ]);
-        $trip->setOrigin(factory(Place::class)->create(),now()->addDays(1), now()->addDays(2));
-        $trip->setDestination(factory(Place::class)->create(),now()->addDays(1), now()->addDays(2));
+        dump($trip->id);
+        $llegada_al_origen = now()->addDays(1);
+        $salida_del_origen = now()->addDays(2);
+        $trip->setOrigin(factory(Place::class)->create(), $llegada_al_origen, $salida_del_origen);
+        $llegada_al_destino = now()->addDays(1);
+        $salida_del_destino = now()->addDays(2);
+        $trip->setDestination(factory(Place::class)->create(), $llegada_al_destino, $salida_del_destino);
 
         $trip->addIntermediate(
                 factory(Place::class)->create()->id,
@@ -276,7 +289,13 @@ class TripsTest extends TestCase
         $call = $this->getJson("api/v1/trips/{$trip->id}");
         
         $call->assertSuccessful();
-        $call->dump();
+        $call->assertJsonFragment([
+            "scheduled_load" => $llegada_al_origen->toDateTimeString(),
+            "scheduled_departure" => $salida_del_origen->toDateTimeString(),
+            "scheduled_arrival" => $llegada_al_destino->toDateTimeString(),
+            "scheduled_unload" => $salida_del_destino->toDateTimeString(),
+        ]);
+
         $call->assertJsonStructure([
             "data" => [
                 'id',

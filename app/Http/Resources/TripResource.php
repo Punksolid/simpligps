@@ -15,6 +15,7 @@ class TripResource extends JsonResource
      */
     public function toArray($request)
     {
+
         return [
             'id' => $this->id,
             'rp' => $this->rp,
@@ -23,11 +24,9 @@ class TripResource extends JsonResource
             'client_id' => $this->client_id,
             'client_name' => optional($this->client)->company_name,
 
-
             'origin_name' => optional($this->getOrigin())->name,
 
             'destination_name' => optional($this->getDestination())->name,
-//            'destination_id' => $this->destination_id,
             'stops' => $this->intermediates()->count(),
             'mon_type' => $this->mon_type,
             'carrier_id' => $this->carrier_id,
@@ -36,9 +35,9 @@ class TripResource extends JsonResource
 
             'operator_id' => $this->operator_id,
             'scheduled_load' => $this->origin ? $this->origin->pivot->at_time : null,
-            'scheduled_departure' => $this->origin ? $this->origin->exiting : null,
-            'scheduled_arrival' => $this->destination ? $this->destination->at_time : null,
-            'scheduled_unload' => $this->destination ? $this->destination->exiting : null,
+            'scheduled_departure' => $this->origin ? $this->origin->pivot->exiting : null,
+            'scheduled_arrival' => $this->destination ? $this->destination->pivot->at_time : null,
+            'scheduled_unload' => $this->destination ? $this->destination->pivot->exiting : null,
 
             'real_departure' => $this->real_departure,
             'real_arrival' => $this->real_arrival,
