@@ -57,6 +57,16 @@ class TripModelTest extends TestCase
 
     }
 
+    public function test_create_wialon_notification_without_trailer_boxes()
+    {
+        $trip = $this->prepareTripObject();
+        dd($trip->trailers->toArray());
+        $notifications_wialon_ids = $trip->createWialonNotificationsForTrips();
+
+        $this->assertIsArray($notifications_wialon_ids);
+        $this->assertIsObject(Notification::findByUniqueId($notifications_wialon_ids[0]));
+    }
+
     /**
      * @return mixed
      */
@@ -70,6 +80,7 @@ class TripModelTest extends TestCase
                 ])
             ])
         ]);
+
         $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
         $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(4),now()->addDays(5));
 
