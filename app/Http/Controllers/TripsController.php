@@ -114,7 +114,7 @@ class TripsController extends Controller
         } catch (\Exception $exception) {
 
             \Log::error('Something happened when creating external notifications', [
-                $trip->load('truck','trailers','places')->toArray(),
+                $trip->load('truck.device','trailers','places')->toArray(),
                 'exception' => $exception->getMessage()
             ]);
         }

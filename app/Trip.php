@@ -150,7 +150,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * El viaje tiene un dispositivo asociado.
-     *
+     * @deprecated Los dispositivos solo son asociados a través de trucks y trailers
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function device()
