@@ -50,6 +50,8 @@ class TripModelTest extends TestCase
     public function test_create_wialon_external_notifications()
     {
         $trip = $this->prepareTripObject();
+
+//        dd($trip->validateWialonReferrals());
         $notifications_wialon_ids = $trip->createWialonNotificationsForTrips();
 
         $this->assertIsArray($notifications_wialon_ids);
@@ -143,5 +145,25 @@ class TripModelTest extends TestCase
         $this->assertNull(Notification::findByUniqueId($notifications_wialon_ids[0]));
     }
 
+    public function test_getDevices_returns_devices_for_trucks_and_trailers()
+    {
+        $trip = $this->prepareTripObject();
+        $trailer = factory(TrailerBox::class)->create();
+        $device = factory(Device::class)->create(['wialon_id' => '17471332']);
+        $trailer->assignDevice($device);
 
+        $trip->addTrailerBox($trailer->id);
+
+        $devices = $trip->getDevices();
+
+        $this->assertIsArray($devices->toArray());
+
+    }
+
+    public function test_validateWialonReferrals()
+    {
+        $trip = $this->prepareTripObject();
+
+        $this->assertTrue($trip->validateWialonReferrals());
+    }
 }

@@ -272,7 +272,6 @@ class TripsTest extends TestCase
             'operator_id' => factory(Operator::class)->create()->id,
             'client_id' => factory(Client::class)->create()->id
         ]);
-        dump($trip->id);
         $llegada_al_origen = now()->addDays(1);
         $salida_del_origen = now()->addDays(2);
         $trip->setOrigin(factory(Place::class)->create(), $llegada_al_origen, $salida_del_origen);
@@ -455,7 +454,16 @@ class TripsTest extends TestCase
         $call->assertStatus(200);
     }
 
+    public function test_dar_salida_a_un_viaje()
+    {
+        $trip = factory(Trip::class)->create();
 
+        $call = $this->postJson("api/v1/trips/$trip->id/give_exit", [
+            "enable_automatic_update" => true
+        ]);
+
+        $call->assertSuccessful();
+    }
 
 
 }

@@ -27,4 +27,11 @@ class DeviceModelTest extends TestCase
         $this->assertEquals($unit->lat,$device->getLocation()['lat']);
         $this->assertEquals($unit->lon,$device->getLocation()['lon']);
     }
+
+    public function test_linked_method_verifies_on_wialon()
+    {
+        $device = new Device(['wialon_id' => '17471332']);
+
+        $this->assertTrue($device->linked(true));
+    }
 }

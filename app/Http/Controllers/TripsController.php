@@ -109,15 +109,6 @@ class TripsController extends Controller
             }
         }
 
-        try {
-            $trip->createWialonNotificationsForTrips();
-        } catch (\Exception $exception) {
-
-            \Log::error('Something happened when creating external notifications', [
-                $trip->load('truck.device','trailers','places')->toArray(),
-                'exception' => $exception->getMessage()
-            ]);
-        }
         $trip->load('intermediates','origin','destination');
 
         return TripResource::make($trip);

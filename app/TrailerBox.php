@@ -15,6 +15,7 @@ class TrailerBox extends Model
         'internal_number',
         'gps',
         'plate',
+        'device_id'
     ];
 
     #region Relationships

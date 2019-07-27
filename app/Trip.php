@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
@@ -367,11 +368,12 @@ class Trip extends Model implements LoggerInterface
      */
     public function getExternalWialonUnitsIds(): Collection
     {
-        $devices = collect();
-        $devices->push(
-            $this->truck()->first()->device()->pluck('wialon_id')->first()
-        );
+//        $devices = collect();
+//        $devices->push(
+//            $this->truck()->first()->device()->pluck('wialon_id')->first()
+//        );
         // logica si se quieren añadir más dispositivos va aquí
+        $devices  = $this->getDevices()->pluck('wialon_id');
 
         return $devices;
     }
@@ -571,11 +573,15 @@ class Trip extends Model implements LoggerInterface
      * @return mixed
      *
      */
-    public function getDevices()
+    public function getDevices(): Collection
     {
-        $device_id = $this->truck->device->id;
-        // @TODO Agregar los ids de los devices de las cajas (trailerboxes) del viaje
-        return $device_id;
+
+        $trailers = $this->trailers()->with('device')->get();
+
+        $devices = $trailers->pluck('device');
+
+        return $devices->push($this->truck->device);
+
     }
 
     public function getTenantUuid()
@@ -595,5 +601,35 @@ class Trip extends Model implements LoggerInterface
 
         return false;
 
+    }
+
+    /**
+     * Valida que todos los elementos del viaje están correctos y se puede crear el recurso con sus notificaciones
+     * en la plataforma de wialon
+     */
+    public function validateWialonReferrals():bool
+    {
+        $devices = $this->getDevices();
+        foreach ($devices as $device){
+
+
+            if (!$device->verifyConnection()){
+                return false;
+            }
+        }
+
+        //Validar que todos los lugares tienen geocercas conectados
+        //17471233_4 Abastos
+        //17471233_4
+        $places = $this->places()->get();
+
+        foreach ($places as $place){
+
+            if (!$place->verifyConnection()){
+                return false;
+            }
+        }
+
+        return true;
     }
 }
