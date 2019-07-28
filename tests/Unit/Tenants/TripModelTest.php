@@ -62,7 +62,6 @@ class TripModelTest extends TestCase
     public function test_create_wialon_notification_without_trailer_boxes()
     {
         $trip = $this->prepareTripObject();
-        dd($trip->trailers->toArray());
         $notifications_wialon_ids = $trip->createWialonNotificationsForTrips();
 
         $this->assertIsArray($notifications_wialon_ids);
