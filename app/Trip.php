@@ -308,8 +308,9 @@ class Trip extends Model implements LoggerInterface
         $control_type = $this->getControlType();
 
         $action = $this->getAction($tenant_uuid);
-
-        $device_id = $this->getDevices();
+        // 2684 FAILS
+        $device_id = $this->getDevices()->first()->id;
+//        $device_id = $this->truck->device->id;
         $text = $this->getWialonParamsText($tenant_uuid, $device_id);
 
         $wialon_notifications = $this->createWialonNotifications($control_type, $wialon_units, $action, $text);
@@ -368,12 +369,12 @@ class Trip extends Model implements LoggerInterface
      */
     public function getExternalWialonUnitsIds(): Collection
     {
-//        $devices = collect();
-//        $devices->push(
-//            $this->truck()->first()->device()->pluck('wialon_id')->first()
-//        );
+        $devices = collect();
+        $devices->push(
+            $this->truck()->first()->device()->pluck('wialon_id')->first()
+        );
         // logica si se quieren añadir más dispositivos va aquí
-        $devices  = $this->getDevices()->pluck('wialon_id');
+//        $devices  = $this->getDevices()->pluck('wialon_id');
 
         return $devices;
     }
@@ -524,6 +525,10 @@ class Trip extends Model implements LoggerInterface
         return $control_type;
     }
 
+    /**
+     * WTF! @deprecated
+     *
+     */
     private function nameToDefine()
     {
 
@@ -556,7 +561,7 @@ class Trip extends Model implements LoggerInterface
             $control_type->addGeozoneId($place->geofence_ref);
 
             $control_type->setType(0); // modificar control_type entrada
-            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices(), $place->id);
+            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices()->first()->id, $place->id);
             $wialon_notifications->push(
                 $this->createWialonNotification($wialon_units, $control_type, "{$this->id}.entering.{$place->id}", $action, $text) // Notificacion de entradas
             );
@@ -582,6 +587,11 @@ class Trip extends Model implements LoggerInterface
 
         return $devices->push($this->truck->device);
 
+//        $device_id = $this->truck->device->id;
+//        dump($device_id);
+////        // @TODO Agregar los ids de los devices de las cajas (trailerboxes) del viaje
+//        return $device_id;
+
     }
 
     public function getTenantUuid()
@@ -593,10 +603,12 @@ class Trip extends Model implements LoggerInterface
     {
 
 //        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
-        $name = "trm.trips.{$this->id}.{$this->getTenantUuid()}";
+        $name = $this->wialon_resource_name;
         $resource = Resource::findByName($name);
         if ($resource) {
-            return $resource->destroy();
+            $destroy = $resource->destroy();
+            info($destroy);
+            return $destroy;
         }
 
         return false;
@@ -606,30 +618,60 @@ class Trip extends Model implements LoggerInterface
     /**
      * Valida que todos los elementos del viaje están correctos y se puede crear el recurso con sus notificaciones
      * en la plataforma de wialon
+     * @throws \Exception
      */
     public function validateWialonReferrals():bool
     {
+        try {
+            $this->validateDevicesConnection();
+            $this->validatePlacesConnection();
+
+            return true;
+        } catch (\Exception $e) {
+            info($e->getMessage());
+            return false;
+        }
+
+
+    }
+
+    private function validateDevicesConnection()
+    {
         $devices = $this->getDevices();
+
         foreach ($devices as $device){
-
-
-            if (!$device->verifyConnection()){
-                return false;
+            try {
+                info('Verify device'.$device->id);
+                $device->verifyConnection();
+            }catch (\Exception $exception){
+                throw new \Exception("Device $device->id with wialon_id $device->wialon_id, couldn't connect");
             }
         }
+    }
 
+    private function validatePlacesConnection()
+    {
         //Validar que todos los lugares tienen geocercas conectados
-        //17471233_4 Abastos
-        //17471233_4
         $places = $this->places()->get();
-
-        foreach ($places as $place){
-
-            if (!$place->verifyConnection()){
-                return false;
-            }
+        if ($places->count() <= 1){
+            throw new \Exception("Trip does not have enough places");
         }
+        foreach ($places as $place){
+            try{
+                info('Verify place '.$place->id);
 
+                $place->verifyConnection();
+            }catch (\Exception $exception){
+                throw new \Exception("Place $place->id with geofence_ref $place->geofence_ref, couldn't connect");
+
+            }
+
+        }
         return true;
+    }
+
+    public function getWialonResourceNameAttribute():string
+    {
+        return "trm.trips.{$this->id}.{$this->getTenantUuid()}";
     }
 }

@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Punksolid\Wialon\Resource;
 use Tests\Tenants\TestCase;
 
 class TripsTest extends TestCase
@@ -29,6 +30,8 @@ class TripsTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, "api");
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
+//        config(["services.wialon.token" => "11b6e71f234078f1ca9e6944705a235bB6C1D1F551E3E263783A2354A63236306018E83E"]);
+
     }
 
     public function test_ver_listado_de_viajes()
@@ -179,7 +182,9 @@ class TripsTest extends TestCase
             "scheduled_load" => now()->addDays(1)->toDateTimeString(),
             "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
             "scheduled_arrival" => now()->addDays(3)->toDateTimeString(),
-            "scheduled_unload" => now()->addDays(4)->toDateTimeString()
+            "scheduled_unload" => now()->addDays(4)->toDateTimeString(),
+            "origin_id" => factory(Place::class)->create()->id,
+            "destination_id" => factory(Place::class)->create()->id
         ]);
 
         $trip['intermediates'] = [];
@@ -456,14 +461,50 @@ class TripsTest extends TestCase
 
     public function test_dar_salida_a_un_viaje()
     {
+        $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create();
 
+        $truck = factory(TruckTract::class)->create([
+            'device_id' => factory(Device::class)->create(['wialon_id' => '17471332'])
+        ]);
+        $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
+        $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
+
+
+        $trip->update(['truck_tract_id' => $truck->id]);
+
+
         $call = $this->postJson("api/v1/trips/$trip->id/give_exit", [
-            "enable_automatic_update" => true
+            "enable_automatic_updates" => true
         ]);
 
         $call->assertSuccessful();
     }
+
+    public function test_stop_actualizaciones_automaticas_de_un_viaje()
+    {
+        $trip = factory(Trip::class)->create();
+        $truck = factory(TruckTract::class)->create([
+            'device_id' => factory(Device::class)->create(['wialon_id' => '17471332'])
+        ]);
+        $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
+        $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
+        $trip->update(['truck_tract_id' => $truck->id]);
+
+        $trip->createWialonNotificationsForTrips();
+        $resource = Resource::findByName($trip->wialon_resource_name);
+
+        $this->assertEquals($trip->wialon_resource_name,$resource->nm);
+
+        $call = $this->deleteJson("/api/v1/trips/$trip->id/automatic_updates");
+
+        $call->assertSuccessful();
+
+        $resource = Resource::findByName($trip->wialon_resource_name);
+
+        $this->assertNull($resource);
+    }
+
 
 
 }

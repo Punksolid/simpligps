@@ -32,6 +32,6 @@ class DeviceModelTest extends TestCase
     {
         $device = new Device(['wialon_id' => '17471332']);
 
-        $this->assertTrue($device->linked(true));
+        $this->assertTrue($device->verifyConnection());
     }
 }
