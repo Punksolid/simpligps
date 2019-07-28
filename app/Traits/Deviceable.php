@@ -15,12 +15,12 @@ trait Deviceable
      */
     public function device()
     {
-        return $this->belongsTo(Device::class);
+        return $this->belongsTo(Device::class, 'device_id');
     }
 
     public function assignDevice(Device $device)
     {
-        return $this->update(['device_id', $device->id]);
+        return $this->update(['device_id' => $device->id]);
     }
 
     public function getLocation():array
@@ -34,5 +34,10 @@ trait Deviceable
             'lat' => null,
             'lon' => null
         ];
+    }
+
+    public function verifyConnection()
+    {
+        return $this->device->linked(true);
     }
 }

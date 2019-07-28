@@ -143,8 +143,12 @@ class Device extends Model implements LoggerInterface
      *
      * @return bool
      */
-    public function linked(): bool
+    public function linked($verify = false): bool
     {
+        if ($verify){
+            return (bool) Unit::find($this->wialon_id);
+        }
+
         return (bool) $this->reference_data;
     }
 
@@ -164,5 +168,14 @@ class Device extends Model implements LoggerInterface
             'lat' => null,
             'lon' => null
         ];
+    }
+
+    /**
+     * Verifica si el dispositivo tiene conexión externa
+     * @return bool
+     */
+    public function verifyConnection():bool
+    {
+        return $this->linked(true);
     }
 }

@@ -103,6 +103,8 @@ Route::group(['middleware' => [
         Route::post('trips/{trip}/tags', 'TripsController@assignTag');
         Route::post('trips/filtered_with_tags', 'TripsController@filteredWithTags');
         Route::resource('trips/{trip}/traces', 'TraceController')->only(['index', 'store', 'show']);
+        Route::post('trips/{trip}/give_exit', "TripActionsController@giveExit");
+        Route::delete('trips/{trip}/automatic_updates', "TripActionsController@destroy");
         Route::resource('trips', 'TripsController', [
             'except' => ['create', 'edit'],
         ]);
