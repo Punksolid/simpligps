@@ -137,8 +137,11 @@ class DevicesController extends Controller implements Search
     public function search(Request $request)
     {
         $devices = Device::query()
-            ->where('name', 'LIKE', "%{$request->name}%")
-            ->get();
+            ->where('name', 'LIKE', "$request->name%")
+            ->get([
+                'id',
+                'name'
+            ]);
 
         return DeviceResource::collection($devices);
     }
