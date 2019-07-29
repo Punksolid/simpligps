@@ -13,7 +13,6 @@ class TrailerBox extends Model
 
     protected $fillable = [
         'internal_number',
-        'gps',
         'plate',
         'device_id'
     ];
