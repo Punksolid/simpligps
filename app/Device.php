@@ -84,15 +84,6 @@ class Device extends Model implements LoggerInterface
     ];
 
     //region Relationships
-
-    /**
-     * Un dispositivo puede estar registrado en muchos viajes.
-     */
-    public function trips()
-    {
-        return $this->hasMany(Trip::class);
-    }
-
     /**
      * Relación, un dispositivo pertenece a un carrier, antes linea.
      *
@@ -115,6 +106,7 @@ class Device extends Model implements LoggerInterface
 
     /**
      * Un truck tiene asignado un dispositivo.
+     * @todo Change device to some polymorphic relationship
      */
     public function truck()
     {
