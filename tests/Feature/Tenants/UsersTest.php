@@ -26,13 +26,12 @@ class UsersTest extends TestCase
 
     public function test_usuario_puede_registrar_otro_usuario()
     {
-        $user = factory(User::class)->make();
-
-        $call = $this->postJson('api/v1/users', [
-            'email' => $user->email,
-            'name' => $user->name,
-            'lastname' => $user->lastname
-        ]);
+        $form = [
+            'email' => $this->faker->email,
+            'name' => $this->faker->name,
+            'lastname' => $this->faker->lastname
+        ];
+        $call = $this->postJson('api/v1/users', $form  );
         $call->assertSuccessful();
     }
 
@@ -43,11 +42,10 @@ class UsersTest extends TestCase
             "name" => $this->faker->name,
             "lastname" => $this->faker->lastName,
             "email" => $this->faker->email,
-            "password" => "123qwe"
         ];
 
         $call = $this->putJson("api/v1/users/{$user->id}", $new_data);
-        unset($new_data["password"]);
+
         $call->assertJsonFragment($new_data);
 
     }

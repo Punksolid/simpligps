@@ -120,7 +120,6 @@ class TripsController extends Controller
             'origin',
             'destination',
             'intermediates',
-            'device',
             'trailers',
             'tags',
             'truck',

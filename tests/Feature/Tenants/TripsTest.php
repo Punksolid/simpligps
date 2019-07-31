@@ -57,6 +57,47 @@ class TripsTest extends TestCase
         ]);
     }
 
+    public function test_crear_plan_de_viaje_con_datos_minimos_sin_opcionales()
+    {
+        $trip = [
+            "client_id" => factory(Client::class)->create()->id,
+            "origin_id" => factory(Place::class)->create()->id,
+            "destination_id" => factory(Place::class)->create()->id,
+            "georoute_ref" => $this->faker->shuffleString('alskdjzxcvnmflaskj'),
+            "mon_type" => $this->faker->randomNumber(1), // tipo de monitoreo es una relacion
+            "scheduled_load" => Carbon::now()->toDateString(),
+            "scheduled_departure" => Carbon::now()->addDays(1)->toDateString(),
+            "scheduled_arrival" => Carbon::now()->addDays(7)->toDateString(),
+            "scheduled_unload" => Carbon::now()->addDays(8)->toDateString(),
+
+            // optionals
+            "rp" => "",
+            "invoice" => "",
+            "intermediates" => [],
+            "trailers_ids" => [],
+            "carrier_id" => null,
+            "truck_tract_id" => null,
+            "operator_id" => null
+        ];
+
+
+        $call = $this->postJson("/api/v1/trips", $trip);
+        $call->assertJson([
+            'data' => [
+                'client_id' => $trip['client_id'],
+                'origin' => [
+                    'id' => $trip['origin_id']
+                ],
+                'destination' => [
+                    'id' => $trip['destination_id']
+                ],
+                'georoute_ref' => $trip['georoute_ref'],
+                'mon_type' => $trip['mon_type']
+            ]
+        ]);
+        $call->assertSuccessful();
+
+    }
     public function test_crear_nuevo_viaje_manual()
     {
         $this->withoutExceptionHandling();
@@ -65,7 +106,6 @@ class TripsTest extends TestCase
             "rp" => $this->faker->name,
             "invoice" => $this->faker->randomNumber(5),
             "client_id" => factory(Client::class)->create()->id,
-            "device_id" => factory(Device::class)->create()->id,
             "intermediates" => [
                 [
                     "place_id" => $mochis->id,
@@ -112,12 +152,9 @@ class TripsTest extends TestCase
 
         $call->assertJsonStructure([
             'data' => [
-                'device_id',
                 'rp',
                 'invoice',
                 'client_id',
-//                'origin_id',
-//                'destination_id',
                 'georoute_ref',
                 'mon_type',
                 'carrier_id',
@@ -272,7 +309,6 @@ class TripsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create([
-            'device_id' => factory(Device::class)->create()->id,
             'truck_tract_id' => factory(TruckTract::class)->create()->id,
             'operator_id' => factory(Operator::class)->create()->id,
             'client_id' => factory(Client::class)->create()->id
@@ -329,9 +365,6 @@ class TripsTest extends TestCase
                         'at_time',
                         'exiting'
                     ]
-                ],
-                "device" => [
-                    'id'
                 ],
                 'truck',
                 'operator'
