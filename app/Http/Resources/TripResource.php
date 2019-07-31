@@ -43,7 +43,6 @@ class TripResource extends JsonResource
             'real_arrival' => $this->real_arrival,
             'bulk' => $this->bulk,
             'tag' => $this->tag,
-            'device_id' => $this->device_id,
             'convoy_id' => $this->convoy_id,
             'georoute_ref' => $this->georoute_ref,
             // Relationship Objects

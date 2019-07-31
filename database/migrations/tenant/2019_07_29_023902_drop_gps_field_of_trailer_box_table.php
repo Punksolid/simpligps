@@ -13,9 +13,11 @@ class DropGpsFieldOfTrailerBoxTable extends Migration
      */
     public function up()
     {
-        Schema::table('trailer_boxes', function (Blueprint $table){
-            $table->dropColumn('gps');
-        });
+        if (Schema::hasColumn('trailer_boxes','gps')){
+            Schema::table('trailer_boxes', function (Blueprint $table){
+                $table->dropColumn('gps');
+            });
+        }
     }
 
     /**

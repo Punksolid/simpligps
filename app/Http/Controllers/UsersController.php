@@ -88,23 +88,22 @@ class UsersController extends Controller
         return UsersResource::make($user->fresh());
     }
 
-    /**
-     * Update the specified users in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int                      $id
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UserRequest $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $user->update($request->all());
-        $user->password = bcrypt($request->password);
-        $user->save();
-
-        return UsersResource::make($user->fresh());
-    }
+//    /**
+//     * Update the specified users in storage.
+//     *
+//     * @param \Illuminate\Http\Request $request
+//     * @param int                      $id
+//     *
+//     * @return \Illuminate\Http\Response
+//     */
+//    public function update(UserRequest $request, $id)
+//    {
+//        $user = User::findOrFail($id);
+//        $user->update($request->all());
+//        $user->save();
+//
+//        return UsersResource::make($user->fresh());
+//    }
 
     /**
      * Remove the specified users from storage.

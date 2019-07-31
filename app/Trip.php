@@ -70,7 +70,6 @@ class Trip extends Model implements LoggerInterface
         'mon_type',
         'georoute_ref',
         //operationals
-        'device_id',
         'carrier_id',
         'truck_tract_id',
         //tag
@@ -147,16 +146,6 @@ class Trip extends Model implements LoggerInterface
             'exiting' => $exiting,
             'order' => $last,
         ]);
-    }
-
-    /**
-     * El viaje tiene un dispositivo asociado.
-     * @deprecated Los dispositivos solo son asociados a través de trucks y trailers
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function device()
-    {
-        return $this->belongsTo(Device::class, 'device_id');
     }
 
     /**
@@ -588,7 +577,6 @@ class Trip extends Model implements LoggerInterface
         return $devices->push($this->truck->device);
 
 //        $device_id = $this->truck->device->id;
-//        dump($device_id);
 ////        // @TODO Agregar los ids de los devices de las cajas (trailerboxes) del viaje
 //        return $device_id;
 

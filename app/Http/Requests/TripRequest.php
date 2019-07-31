@@ -24,9 +24,10 @@ class TripRequest extends FormRequest
      */
     public function rules()
     {
+
         return [
-            'rp' => 'required',
-            'invoice' => 'required',
+//            'rp' => 'required', // No requerido en plan de viaje, si para inicializar el viaje
+//            'invoice' => 'required', // No requerido para el plan de viaje, si para inicializar el viaje
             'client_id' => 'required|integer',
             'intermediates' => [
                 'array',
@@ -53,10 +54,22 @@ class TripRequest extends FormRequest
             'origin_id' => 'required|integer',
             'destination_id' => 'required|integer',
             'mon_type' => 'required',
-            'carrier_id' => 'required|integer',
-            'truck_tract_id' => 'required|integer',
-            'operator_id' => 'required|integer',
-
+            'carrier_id' => [
+//                'required', // No requerido en plan de viaje, si al inicializar el viaje
+                "nullable",
+                'present',
+                'integer'
+            ],
+            'truck_tract_id' => [
+//                'required', // No requerido en plan de viaje, si al inicializar el viaje
+                "nullable",
+                'integer'
+            ],
+            'operator_id' => [
+//                'required', // No requerido en plan de viaje, si al inicializar el viaje
+                "nullable",
+                'integer'
+            ],
             'scheduled_load' => 'required|date',
             'scheduled_departure' => [
                 'required',
