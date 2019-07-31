@@ -37,7 +37,7 @@ class TagsTest extends TestCase
             'tags' => [$tag, 'two']
         ]);
         $call = $this->getJson('api/v1/trips');
-        $call->dump();
+
         $call->assertSee($tag);
 
     }
