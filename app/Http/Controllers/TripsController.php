@@ -54,9 +54,8 @@ class TripsController extends Controller
     public function assignTag(Trip $trip, Request $request)
     {
         $request->validate([
-            'tags' => 'array'
+            'tags' => 'present|array'
         ]);
-
         $trip->syncTags($request->tags); //TODO update mariadb to 10.2 actualmente tiene 10.1
         $trip->load('tags');
 
