@@ -426,6 +426,7 @@ class TripsTest extends TestCase
         return $call->getOriginalContent();
     }
 
+
     public function test_usuario_elimina_viaje()
     {
 
@@ -538,6 +539,35 @@ class TripsTest extends TestCase
         $this->assertNull($resource);
     }
 
+    public function test_cerrar_viaje()
+    {
+        $trip = factory(Trip::class)->create();
+        $trip->setDestination(
+            factory(Place::class)->create(),
+            now(),
+            now(),
+            now(),
+            now()
+        );
 
+        $call = $this->deleteJson("/api/v1/trips/$trip->id/close_trip");
+        $call->assertSuccessful();
+    }
+
+    public function test_no_puede_cerrar_viaje_si_no_esta_especificada_la_fecha_real_de_descarga()
+    {
+        $trip = factory(Trip::class)->create();
+        $trip->setDestination(
+            factory(Place::class)->create(),
+            now(),
+            now()
+        );
+
+        $call = $this->deleteJson("/api/v1/trips/$trip->id/close_trip");
+        $call->assertJsonValidationErrors(
+            'real_exiting'
+        );
+
+    }
 
 }

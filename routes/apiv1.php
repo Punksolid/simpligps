@@ -105,6 +105,7 @@ Route::group(['middleware' => [
         Route::resource('trips/{trip}/traces', 'TraceController')->only(['index', 'store', 'show']);
         Route::post('trips/{trip}/give_exit', "TripActionsController@giveExit");
         Route::delete('trips/{trip}/automatic_updates', "TripActionsController@destroy");
+        Route::delete('trips/{trip}/close_trip', "TripActionsController@closeTrip");
         Route::resource('trips', 'TripsController', [
             'except' => ['create', 'edit'],
         ]);

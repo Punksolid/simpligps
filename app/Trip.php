@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Exceptions\MalformedTripException;
+use Carbon\Carbon;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
@@ -136,7 +138,7 @@ class Trip extends Model implements LoggerInterface
         return $this->places()->wherePivot('type', '=', 'destination');
     }
 
-    public function setDestination(Place $place, $at_time, $exiting)
+    public function setDestination(Place $place, $at_time, $exiting, Carbon $real_at_time = null, Carbon $real_exiting = null)
     {
         $last = $this->places()->count() + 1;
 
@@ -144,6 +146,8 @@ class Trip extends Model implements LoggerInterface
             'type' => 'destination',
             'at_time' => $at_time,
             'exiting' => $exiting,
+            'real_at_time' => $real_at_time,
+            'real_exiting' => $real_exiting,
             'order' => $last,
         ]);
     }
@@ -661,5 +665,19 @@ class Trip extends Model implements LoggerInterface
     public function getWialonResourceNameAttribute():string
     {
         return "trm.trips.{$this->id}.{$this->getTenantUuid()}";
+    }
+
+
+    /**
+     * @param Trip $trip
+     * @return mixed
+     */
+    public function canCloseTrip():bool
+    {
+        try {
+            return (bool) $this->getDestination()->pivot->real_exiting;
+        } catch (\Exception $exception) {
+            throw new MalformedTripException("Trip can't retrieve the real exiting field.");
+        }
     }
 }

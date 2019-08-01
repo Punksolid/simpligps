@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Trip;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Punksolid\Wialon\Resource;
 
 class TripActionsController extends Controller
@@ -56,4 +57,26 @@ class TripActionsController extends Controller
             'message' => 'An Error Ocurred or Did Not Have Automatic Updates Activated.'
         ]);
     }
+
+    public function closeTrip(Trip $trip)
+    {
+        if (!$trip->canCloseTrip()){
+            throw  ValidationException::withMessages([
+                'real_exiting' => "The Real Schedule Unload is not yet defined, in order to close the trip you need to specify it."
+            ]);
+        }
+
+        if ($trip->canCloseTrip()) {
+            try {
+                $trip->deleteWialonNotificationsForTrips();
+            } catch (\Exception $exception) {
+                info("Closing Trips That Wialon Notifications Thrown an exception: $exception->getMessage()");
+            }
+            return \response()->json([
+                "message" => "Trip $trip->id Closed"
+            ]);
+        }
+
+    }
+
 }
