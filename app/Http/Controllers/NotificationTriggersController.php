@@ -12,14 +12,6 @@ use App\Log;
 use App\Notifications\DynamicNotification;
 use App\Notifications\WialonWebhookNotification;
 use App\NotificationTrigger;
-use App\Trip;
-use App\User;
-use Faker\Factory;
-use Illuminate\Http\Request;
-use Punksolid\Wialon\Geofence;
-use Punksolid\Wialon\Notification;
-use Punksolid\Wialon\Resource;
-use Punksolid\Wialon\Wialon;
 use Illuminate\Support\Str;
 use App\Http\Requests\DeviceNotificationRequest;
 

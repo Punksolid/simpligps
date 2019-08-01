@@ -47,20 +47,22 @@ class TruckTract extends Model
      */
     public function operators()
     {
-        /*
-         *  'App\Post',
-            'App\User',
-            'country_id', // Foreign key on users table...
-            'user_id', // Foreign key on posts table...
-            'id', // Local key on countries table...
-            'id' // Local key on users table...
-         */
 
         return $this->belongsToMany(Operator::class, 'trips', 'truck_tract_id', 'operator_id');
     }
 
+
     public function currentOperator()
     {
+//        $ongoing_trip = $this
+//            ->trips()
+//            ->onlyOngoing()
+//            ->whereHas('operator')
+//            ->with('operator')
+//            ->take(1);
+
+//        return optional($ongoing_trip)->operator;
+
         return $this->operators()
             ->take(1);
     }

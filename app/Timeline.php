@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
@@ -13,7 +14,10 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
  */
 class Timeline extends Pivot
 {
+    use UsesTenantConnection;
+
     protected $table = 'places_trips';
 
+    public $incrementing = true;
 
 }
