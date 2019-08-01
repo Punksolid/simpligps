@@ -52,7 +52,6 @@ class TripModelTest extends TestCase
     {
         $trip = $this->prepareTripObject();
 
-//        dd($trip->validateWialonReferrals());
         $notifications_wialon_ids = $trip->createWialonNotificationsForTrips();
 
         $this->assertIsArray($notifications_wialon_ids);
@@ -159,8 +158,6 @@ class TripModelTest extends TestCase
         $this->assertInstanceOf(Device::class,$devices->first());
 
     }
-
-
 
     public function test_validateWialonReferrals()
     {

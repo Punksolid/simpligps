@@ -142,5 +142,4 @@ class TripActionTest extends TestCase
 
     }
 
-
 }

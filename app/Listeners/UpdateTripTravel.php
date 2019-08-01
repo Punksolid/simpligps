@@ -23,17 +23,18 @@ class UpdateTripTravel
     /**
      * Handle the event.
      *
-     * @param  ReceiveTripUpdate  $event
+     * @param ReceiveTripUpdate $event
      * @return void
      */
     public function handle(ReceiveTripUpdate $event)
     {
-        $exploded = explode('.',$event->context['NOTIFICATION']);
-        $trip_id = $exploded[0];
-        $action = $exploded[1];
-        $place_id = $event->context['place_id'];
-        $event->trip->updateTimeline($action, $place_id, $event->context['timestamp']);
-     }
+        [$trip_id, $action, $place_id] = explode('.', $event->context['NOTIFICATION']);
+
+        $timeline_id = $event->context['timeline_id'];
+//        dd(isset($event->context['timestamp']) ? $event->context['timestamp'] : now()->toDateTimeString());
+        $timestamp = isset($event->context['timestamp']) ? $event->context['timestamp'] : now()->toDateTimeString();
+        $event->trip->updateTimeline($action, $timeline_id, $timestamp);
+    }
 
 
 }

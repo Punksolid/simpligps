@@ -183,7 +183,9 @@ class Trip extends Model implements LoggerInterface
             'trip_id',
             'place_id'
         )
+            ->using(Timeline::class)
             ->withPivot([
+                'id',
                 'order',
                 'at_time',
                 'exiting',
@@ -326,7 +328,7 @@ class Trip extends Model implements LoggerInterface
         return $wialon_notifications->toArray();
     }
 
-    public function updateTimeline($action, $place_id, $timestamp = null)
+    public function updateTimeline($action, $timeline_id, $timestamp = null)
     {
         $timestamp = $timestamp ?: now()->toDateTimeString();
 
@@ -335,7 +337,9 @@ class Trip extends Model implements LoggerInterface
             $action => $timestamp
         ];
 
-        $this->intermediates()->updateExistingPivot($place_id, $attributes);
+        $timeline = Timeline::find($timeline_id);
+        $timeline->update($attributes);
+//        $this->places()->updateExistingPivot($place_id, $attributes);
 
         return $attributes;
     }
@@ -421,7 +425,7 @@ class Trip extends Model implements LoggerInterface
      * @param $device
      * @return string
      */
-    public function getWialonParamsText($tenant_uuid, $device, $place_id = null): string
+    public function getWialonParamsText($tenant_uuid, $device, $place_id = null, $timeline_id = null): string
     {
         $text = 'unit=%UNIT%&
         timestamp=%CURR_TIME%&
@@ -454,6 +458,9 @@ class Trip extends Model implements LoggerInterface
         device_id=' . $device;
         if ($place_id) {
             $text = $text . "&place_id=$place_id";
+        }
+        if ($timeline_id) {
+            $text = $text . "&timeline_id=$timeline_id";
         }
 
         $text = '"' . $text . '"';
@@ -559,7 +566,7 @@ class Trip extends Model implements LoggerInterface
             $control_type->addGeozoneId($place->geofence_ref);
 
             $control_type->setType(0); // modificar control_type entrada
-            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices()->first()->id, $place->id);
+            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices()->first()->id, $place->id,$place->pivot->id);
             $wialon_notifications->push(
                 $this->createWialonNotification($wialon_units, $control_type, "{$this->id}.entering.{$place->id}", $action, $text) // Notificacion de entradas
             );

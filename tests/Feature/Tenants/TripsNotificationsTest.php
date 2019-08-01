@@ -15,6 +15,7 @@ class TripsNotificationsTest extends TestCase
     public function test_usuario_puede_activar_alerta_de_detalle_en_viaje()
     {
         $this->withoutExceptionHandling();
+        Event::fake();
         $trip = factory(Trip::class)->create();
         $device = factory(Device::class)->create();
         $payload = $this->getPayload($trip, $device);
@@ -23,7 +24,7 @@ class TripsNotificationsTest extends TestCase
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
             $payload
         );
-
+        Event::assertDispatched(ReceiveTripUpdate::class);
         $call->assertSuccessful();
     }
 
@@ -85,6 +86,35 @@ class TripsNotificationsTest extends TestCase
         $this->assertTrue((bool)$notifications->first()->fresh()->read_at);
     }
 
+    public function test_marcar_llegada_a_punto_de_origen()
+    {
+        $this->withoutExceptionHandling();
+        $trip = factory(Trip::class)->create();
+        $catedral = factory(Place::class)->create();
+        $trip->setOrigin($catedral, now()->addDay(1), now()->addDays(2));
+        $trip->setDestination($catedral, now()->addDay(1), now()->addDays(2));
+        $payload = [
+          "NOTIFICATION" => "$trip->id.entering.$catedral->id",
+          "X-Tenant-Id" => "b51db8d2-a890-4629-9350-502fe18739c9",
+          "trip_id" => $trip->id,
+          "timeline_id" => $trip->origin->pivot->id,
+          "timestamp" => now()->toDateTimeString()
+        ];
+//        $this->getPayload($trip, null, $catedral);
+        $call = $this->postJson(
+            "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
+            $payload
+        );
+
+//        Event::assertDispatched(ReceiveTripUpdate::class, 1);
+        $call->assertSuccessful();
+        $this->assertDatabaseHas('places_trips', [
+            'trip_id' => $trip->id,
+            'place_id' => $catedral->id,
+            'real_at_time' => $payload['timestamp']
+        ], 'tenant');
+    }
+
     public function test_marcar_entrada_a_un_punto_intermedio()
     {
 
@@ -92,8 +122,8 @@ class TripsNotificationsTest extends TestCase
         $trip = factory(Trip::class)->create();
         $catedral = factory(Place::class)->create();
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
-
-        $payload = $this->getPayload($trip, null, $catedral);
+        $place_with_pivot = $trip->places->where('id',$catedral->id)->first();
+        $payload = $this->getPayload($trip, null, $place_with_pivot->pivot->id,'entering');
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
             $payload
@@ -113,8 +143,9 @@ class TripsNotificationsTest extends TestCase
         $trip = factory(Trip::class)->create();
         $catedral = factory(Place::class)->create();
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
+        $place_with_pivot = $trip->places->where('id',$catedral->id)->first();
 
-        $payload = $this->getPayload($trip, null, $catedral, 'exiting');
+        $payload = $this->getPayload($trip, null, $place_with_pivot->pivot->id, 'exiting');
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
             $payload
@@ -129,6 +160,7 @@ class TripsNotificationsTest extends TestCase
 
     public function test_mostrar_salida_de_un_punto_en_detalles()
     {
+        $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create();
         $catedral = factory(Place::class)->create();
         $fecha_hora_programada_llegada = now()->addDay(1);
@@ -157,10 +189,11 @@ class TripsNotificationsTest extends TestCase
 
     }
 
-    public function getPayload($trip, $device = null, $place = null, $action = 'entering'): array
+    public function getPayload($trip, $device = null, $timeline_id = null, $action = 'entering'): array
     {
-        $place = $place ?: factory(Place::class)->create();
+
         $action = $action ?: 'exiting';
+        $place = factory(Place::class)->create();
         return [
             'unit' => 'PTS003',
             'timestamp' => '2019-05-24 18:27:00',
@@ -192,7 +225,7 @@ class TripsNotificationsTest extends TestCase
             'notification_id' => '5',
             'trip_id' => $trip->id,
             'device_id' => optional($device)->id,
-            'place_id' => $place->id
+            'timeline_id' => $timeline_id
         ];
     }
 
