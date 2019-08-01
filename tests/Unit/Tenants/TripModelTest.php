@@ -11,6 +11,7 @@ use App\TrailerBox;
 use App\Trip;
 use App\TruckTract;
 use Carbon\Carbon;
+use Illuminate\Validation\ValidationException;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Tests\Tenants\TestCase;
@@ -155,15 +156,29 @@ class TripModelTest extends TestCase
 
         $devices = $trip->getDevices();
 
-        $this->assertIsArray($devices->toArray());
+        $this->assertInstanceOf(Device::class,$devices->first());
 
     }
+
+
 
     public function test_validateWialonReferrals()
     {
         $trip = $this->prepareTripObject();
 
         $this->assertNull($trip->validateWialonReferrals());
+
+    }
+
+
+    public function test_validateWialonReferrals_throws_if_a_truck_orTrailer_doesnt_have_a_device()
+    {
+        $this->expectException(ValidationException::class);
+        $trip = $this->prepareTripObject();
+        $trailer = factory(TrailerBox::class)->create();
+        $trip->addTrailerBox($trailer->id);
+
+        $trip->validateWialonReferrals();
 
     }
 }

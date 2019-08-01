@@ -579,7 +579,9 @@ class Trip extends Model implements LoggerInterface
     public function getDevices(): Collection
     {
 
-        $trailers = $this->trailers()->with('device')->get();
+        $trailers = $this->trailers()
+            ->whereHas('device')
+            ->with('device')->get();
 
         $devices = $trailers->pluck('device');
 
@@ -619,19 +621,38 @@ class Trip extends Model implements LoggerInterface
      */
     public function validateWialonReferrals():void
     {
+        $this->validateTruckAndTrailersHaveDevices();
         $this->validatePlacesConnection();
         $this->validateDevicesConnection();
-
-//        return true;
-
     }
 
-    private function validateDevicesConnection():void
+    public function validateTruckAndTrailersHaveDevices():void
+    {
+        $bag = new MessageBag();
+        $truck = $this->truck()->whereDoesntHave('device')->first();
+
+        if ($truck){
+            $bag->add('truck', "Truck Tract with name $truck->name doesn't have a device");
+        }
+
+        $trailers = $this->trailers()->whereDoesntHave('device')->get();
+        if ($trailers){
+            foreach ($trailers as $trailer){
+                $bag->add('trailer', "Trailer Box with internal number $trailer->internal_number doesn't have a device");
+            }
+        }
+
+        if ($bag->isNotEmpty()){
+            throw ValidationException::withMessages($bag->getMessages());
+        }
+    }
+
+    public function validateDevicesConnection():void
     {
         $devices = $this->getDevices();
+        $bag = new MessageBag();
 
         foreach ($devices as $device){
-            $bag = new MessageBag();
             if (!$device->verifyConnection()){
                 $bag->add('device', "The device $device->name can't connect to wialon.");
             }
