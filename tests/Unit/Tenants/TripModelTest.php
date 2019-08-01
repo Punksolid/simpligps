@@ -163,6 +163,7 @@ class TripModelTest extends TestCase
     {
         $trip = $this->prepareTripObject();
 
-        $this->assertTrue($trip->validateWialonReferrals());
+        $this->assertNull($trip->validateWialonReferrals());
+
     }
 }

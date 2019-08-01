@@ -24,21 +24,15 @@ class TripActionsController extends Controller
         $this->validate($request, [
             'enable_automatic_updates' => 'required|bool'
         ]);
-        if ($request->enable_automatic_updates){
-            if ($trip->validateWialonReferrals()){
-                $array_wialon_notifications_ids = $trip->createWialonNotificationsForTrips();
-                if (count($array_wialon_notifications_ids)>=1) {
-                    return response()->json([
-                        'data' => 'Exit with automatic updates were created succesfully.'
-                    ]);
-                } else {
-                    return response()->json([
-                        'message' => 'No tracking were created'
-                    ]);
-                }
 
-            } else {
-                return \response()->json(['message' => 'Validation did not pass']);
+        $trip->validateWialonReferrals();
+
+        if ($request->enable_automatic_updates) {
+            $array_wialon_notifications_ids = $trip->createWialonNotificationsForTrips();
+            if (count($array_wialon_notifications_ids) >= 1) {
+                return response()->json([
+                    'data' => 'Exit with automatic updates were created succesfully.'
+                ]);
             }
         }
 
@@ -47,7 +41,7 @@ class TripActionsController extends Controller
 
     public function destroy(Trip $trip)
     {
-        if ($trip->deleteWialonNotificationsForTrips()){
+        if ($trip->deleteWialonNotificationsForTrips()) {
             return \response()->json([
                 'message' => 'Automatic Updates Deactivated.'
             ]);
@@ -60,7 +54,7 @@ class TripActionsController extends Controller
 
     public function closeTrip(Trip $trip)
     {
-        if (!$trip->canCloseTrip()){
+        if (!$trip->canCloseTrip()) {
             throw  ValidationException::withMessages([
                 'real_exiting' => "The Real Schedule Unload is not yet defined, in order to close the trip you need to specify it."
             ]);

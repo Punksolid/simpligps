@@ -29,13 +29,13 @@ class Place extends Model
     #region Actions
     public function verifyConnection():bool
     {
-        if ($this->geofence_ref){
-            [$resource, $id] = explode("_",$this->geofence_ref);
-            return (bool)Geofence::findById($id,$resource);
-
+        if (empty($this->geofence_ref)){
+            return false;
         }
 
-        return false;
+        [$resource, $id] = explode("_",$this->geofence_ref);
+        return (bool) Geofence::findById($id,$resource);
+
 
     }
     #endregion

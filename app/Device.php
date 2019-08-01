@@ -141,7 +141,7 @@ class Device extends Model implements LoggerInterface
             return (bool) Unit::find($this->wialon_id);
         }
 
-        return (bool) $this->reference_data;
+        return (bool) $this->wialon_id;
     }
 
     public function getLocation(): array
@@ -168,6 +168,10 @@ class Device extends Model implements LoggerInterface
      */
     public function verifyConnection():bool
     {
+        if (empty($this->wialon_id)){
+            return false;
+        }
+
         return $this->linked(true);
     }
 }

@@ -3,12 +3,15 @@
 namespace App;
 
 use App\Exceptions\MalformedTripException;
+use App\Exceptions\WialonConnectionErrorException;
 use Carbon\Carbon;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
+use Illuminate\Support\MessageBag;
+use Illuminate\Validation\ValidationException;
 use Punksolid\Wialon\Geofence;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
@@ -548,9 +551,11 @@ class Trip extends Model implements LoggerInterface
     private function createWialonNotifications(GeofenceControlType $control_type, Collection $wialon_units, Notification\Action $action, string $text)
     {
         $wialon_notifications = collect();
-        $places = $this->getAllPlaces();
+        $places = $this->places;
+
         foreach ($places as $place) {
             $control_type = new GeofenceControlType();
+
             $control_type->addGeozoneId($place->geofence_ref);
 
             $control_type->setType(0); // modificar control_type entrada
@@ -612,54 +617,50 @@ class Trip extends Model implements LoggerInterface
      * en la plataforma de wialon
      * @throws \Exception
      */
-    public function validateWialonReferrals():bool
+    public function validateWialonReferrals():void
     {
-        try {
-            $this->validateDevicesConnection();
-            $this->validatePlacesConnection();
+        $this->validatePlacesConnection();
+        $this->validateDevicesConnection();
 
-            return true;
-        } catch (\Exception $e) {
-            info($e->getMessage());
-            return false;
-        }
-
+//        return true;
 
     }
 
-    private function validateDevicesConnection()
+    private function validateDevicesConnection():void
     {
         $devices = $this->getDevices();
 
         foreach ($devices as $device){
-            try {
-                info('Verify device'.$device->id);
-                $device->verifyConnection();
-            }catch (\Exception $exception){
-                throw new \Exception("Device $device->id with wialon_id $device->wialon_id, couldn't connect");
+            $bag = new MessageBag();
+            if (!$device->verifyConnection()){
+                $bag->add('device', "The device $device->name can't connect to wialon.");
             }
+        }
+
+        if ($bag->isNotEmpty()){
+            throw ValidationException::withMessages($bag->getMessages());
         }
     }
 
-    private function validatePlacesConnection()
+    private function validatePlacesConnection():void
     {
         //Validar que todos los lugares tienen geocercas conectados
-        $places = $this->places()->get();
+        $places = $this->places;
         if ($places->count() <= 1){
-            throw new \Exception("Trip does not have enough places");
+            throw new \Exception("Trip needs at least origin and destination.");
         }
+        $bag = new MessageBag();
         foreach ($places as $place){
-            try{
-                info('Verify place '.$place->id);
-
-                $place->verifyConnection();
-            }catch (\Exception $exception){
-                throw new \Exception("Place $place->id with geofence_ref $place->geofence_ref, couldn't connect");
-
+            if (!$place->verifyConnection()){
+                $bag->add('place',"The place $place->name can't connect to wialon.");
+//                throw new WialonConnectionErrorException("place","The place $place->name can't connect to wialon.");
             }
 
         }
-        return true;
+        if ($bag->isNotEmpty()){
+            throw ValidationException::withMessages($bag->getMessages());
+
+        }
     }
 
     public function getWialonResourceNameAttribute():string
