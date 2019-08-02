@@ -162,7 +162,7 @@ class TripModelTest extends TestCase
     public function test_validateWialonReferrals()
     {
         $trip = $this->prepareTripObject();
-
+        $trip = $trip->fresh('places');
         $this->assertNull($trip->validateWialonReferrals());
 
     }

@@ -78,8 +78,6 @@ class TripsController extends Controller
             'scheduled_arrival',
             'scheduled_unload',
             ]));
-
-
         $trip->carrier_id = $request->carrier_id;
         $trip->truck_tract_id = $request->truck_tract_id;
         $trip->operator_id = $request->operator_id;
@@ -101,7 +99,7 @@ class TripsController extends Controller
             }
         }
 
-        $trip->load('intermediates','origin','destination');
+        $trip->load('client','intermediates','origin','destination');
 
         return TripResource::make($trip);
     }
@@ -141,26 +139,55 @@ class TripsController extends Controller
     {
         $trip = Trip::findOrFail($trip);
 
-        $trip->origin_id = $request->origin_id;
-        $trip->destination_id = $request->destination_id;
-        $trip->carrier_id = $request->carrier_id;
-        $trip->truck_tract_id = $request->truck_tract_id;
-        $trip->operator_id = $request->operator_id;
-
+        $trip->setOrigin(Place::findOrFail($request->origin_id), new Carbon($request->scheduled_load), new Carbon($request->scheduled_departure));
 
         foreach ($request->intermediates as $intermediate) {
             $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
             $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format 2019-05-25T14:35:00.000Z
 
-            $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
+            $trip->syncIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
         }
+
+        $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
+
         foreach ($request->trailers_ids as $trailers_id) {
-            $trip->addTrailerBox($trailers_id);
+            $trip->syncTrailerBox($trailers_id);
         }
 
         $trip->update($request->all());
 
-        return TripResource::make($trip->load('trailers'));
+        return TripResource::make($trip->load('trailers','intermediates'));
+    }
+
+    public function patch(Trip $trip, TripRequest $request )
+    {
+
+        if ($request->has('origin_id')){
+            $trip->setOrigin(Place::findOrFail($request->origin_id), new Carbon($request->scheduled_load), new Carbon($request->scheduled_departure));
+        }
+
+        if ($request->has('intermediates')){
+            foreach ($request->intermediates as $intermediate) {
+                $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
+                $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format 2019-05-25T14:35:00.000Z
+
+                $trip->syncIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
+            }
+        }
+
+        if ($request->has('destination_id')){
+            $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
+        }
+
+        if ($request->has('trailers_ids')){
+            foreach ($request->trailers_ids as $trailers_id) {
+                $trip->syncTrailerBox($trailers_id);
+            }
+        }
+
+        $trip->update($request->all());
+
+        return TripResource::make($trip->load('trailers','intermediates'));
     }
 
     /**

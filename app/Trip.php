@@ -71,14 +71,13 @@ class Trip extends Model implements LoggerInterface
     protected $fillable = [
         'rp',
         'invoice',
-        'client_id',
         'mon_type',
-        'georoute_ref',
         //operationals
+        'client_id',
         'carrier_id',
         'truck_tract_id',
-        //tag
-        // 'tag', //@deprecated
+        'georoute_ref',
+        'operator_id'
     ];
 
     protected $casts = [
@@ -123,12 +122,12 @@ class Trip extends Model implements LoggerInterface
 
     public function setOrigin(Place $place, $at_time, $exiting)
     {
-        return $this->places()->attach($place->id, [
+        return $this->places()->sync([$place->id =>  [
             'type' => 'origin',
             'at_time' => $at_time,
             'exiting' => $exiting,
             'order' => 0,
-        ]);
+        ]]);
     }
 
     public function getDestination()
@@ -143,16 +142,18 @@ class Trip extends Model implements LoggerInterface
 
     public function setDestination(Place $place, $at_time, $exiting, Carbon $real_at_time = null, Carbon $real_exiting = null)
     {
-        $last = $this->places()->count() + 1;
+        $last = count($this->places) + 1;
 
-        return $this->places()->attach($place->id, [
+        return $this->places()->wherePivot(
+            'type' , '=','destination'
+        )->sync([$place->id =>  [
             'type' => 'destination',
             'at_time' => $at_time,
             'exiting' => $exiting,
             'real_at_time' => $real_at_time,
             'real_exiting' => $real_exiting,
             'order' => $last,
-        ]);
+        ]]);
     }
 
     /**
@@ -269,21 +270,44 @@ class Trip extends Model implements LoggerInterface
      *
      * @param Place $place
      */
-    public function addIntermediate($place_id, $at_time, $exiting)
+    public function addIntermediate($place_id, $at_time, $exiting, $sync = false)
     {
-        return $this->places()->attach($place_id, [
+        $attributes = [
             'type' => 'intermediate',
             'at_time' => $at_time,
             'exiting' => $exiting,
             'order' => 0,
-        ]);
+        ];
+
+        if ($sync) {
+            return $this->places()->sync([$place_id => $attributes]);
+        }
+
+        return $this->places()->attach($place_id, $attributes);
     }
 
-    public function addTrailerBox(int $trailer_box_id)
+    public function syncIntermediate($place, $at_time, $exiting)
     {
+        return $this->addIntermediate($place, $at_time, $exiting, true);
+    }
+
+    public function addTrailerBox(int $trailer_box_id, $sync = false)
+    {
+
+        if ($sync){
+            return $this->trailers()->sync($trailer_box_id, [
+                'order' => 0,
+            ]);
+        }
+
         $this->trailers()->attach($trailer_box_id, [
             'order' => 0,
         ]);
+    }
+
+    public function syncTrailerBox(int $trailer_box_id)
+    {
+        $this->addTrailerBox($trailer_box_id, true);
     }
 
     /**

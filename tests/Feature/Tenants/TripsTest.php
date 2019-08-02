@@ -373,9 +373,11 @@ class TripsTest extends TestCase
         ]);
     }
 
-    public function test_editar_viaje()
+    public function test_editar_viaje_enviando_todos_los_elementos()
     {
-        $trip_arr = factory(Trip::class)->create()->toArray();
+        $this->withoutExceptionHandling();
+        $original_trip = factory(Trip::class)->create();
+        $original_trip->addIntermediate($mazatlan = factory(Place::class)->create(), now(), now());
 
         $trip_modified = [
             "rp" => $this->faker->name,
@@ -405,10 +407,9 @@ class TripsTest extends TestCase
             "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
             "scheduled_arrival" => Carbon::now()->addDays(7)->toDateTimeString(),
             "scheduled_unload" => Carbon::now()->addDays(8)->toDateTimeString()
-
         ];
 
-        $call = $this->putJson("/api/v1/trips/" . $trip_arr["id"], $trip_modified);
+        $call = $this->putJson("/api/v1/trips/" . $original_trip->id, $trip_modified);
 
         $call->assertJson([
             'data' => [
@@ -417,6 +418,11 @@ class TripsTest extends TestCase
                 "operator_id" => $trip_modified['operator_id'], // puede modificar operador
             ]
         ]);
+
+        $call->assertJsonMissing([
+           'id' => $mazatlan->id
+        ]);
+        $call->dump();
         $call->assertJsonFragment([
              "id" => $trip_modified['trailers_ids'][0]
         ]);
@@ -425,6 +431,55 @@ class TripsTest extends TestCase
 
         return $call->getOriginalContent();
     }
+
+    public function test_editar_viaje_con_patch_method()
+    {
+        $original_trip = factory(Trip::class)->create();
+        $original_trip->addIntermediate($mazatlan = factory(Place::class)->create(), now(), now());
+
+        $trip_modified = [
+            "rp" => $this->faker->name,
+            "invoice" => $this->faker->randomNumber(5),
+            "client_id" => factory(Client::class)->create()->id,
+
+            "origin_id" => factory(Place::class)->create()->id,
+            "destination_id" => factory(Place::class)->create()->id,
+            "mon_type" => $this->faker->randomNumber(1),
+            "carrier_id" => factory(Carrier::class)->create()->id,
+            "truck_tract_id" => factory(TruckTract::class)->create()->id,
+            "operator_id" => factory(Operator::class)->create()->id,
+            "trailers_ids" => [
+                factory(TrailerBox::class)->create()->id
+            ],
+            "scheduled_load" => Carbon::now()->toDateTimeString(),
+            "scheduled_departure" => Carbon::now()->addDays(1)->toDateTimeString(),
+            "scheduled_arrival" => Carbon::now()->addDays(7)->toDateTimeString(),
+            "scheduled_unload" => Carbon::now()->addDays(8)->toDateTimeString()
+        ];
+
+        $call = $this->patchJson("/api/v1/trips/" . $original_trip->id, $trip_modified);
+
+        $call->assertJson([
+            'data' => [
+                "rp" => $trip_modified['rp'],
+                "truck_tract_id" => $trip_modified['truck_tract_id'], // puede modificar tracto
+                "operator_id" => $trip_modified['operator_id'], // puede modificar operador
+            ]
+        ]);
+
+        $call->assertJsonMissing([
+            'id' => $mazatlan->id
+        ]);
+        $call->dump();
+        $call->assertJsonFragment([
+            "id" => $trip_modified['trailers_ids'][0]
+        ]);
+
+        $call->assertStatus(200);
+
+        return $call->getOriginalContent();
+    }
+
 
     public function test_usuario_elimina_viaje()
     {

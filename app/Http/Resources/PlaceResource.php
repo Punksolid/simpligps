@@ -4,6 +4,12 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+const NOT_YET_THERE = 0;
+
+const HERE_IT_IS = 1;
+
+const ALREADY_PASSED_HERE = 2;
+
 class PlaceResource extends JsonResource
 {
     /**
@@ -37,11 +43,11 @@ class PlaceResource extends JsonResource
             }),
             "status" => $this->whenPivotLoaded('places_trips', function () {
                 if (is_null($this->pivot->real_exiting) && is_null($this->pivot->real_exiting)){
-                    return 0;
+                    return NOT_YET_THERE;
                 } elseif ($this->pivot->real_exiting && is_null($this->pivot->real_exiting)){
-                    return 1;
+                    return HERE_IT_IS;
                 } elseif ($this->pivot->real_exiting && $this->pivot->real_exiting) {
-                    return 2;
+                    return ALREADY_PASSED_HERE;
                 }
                 abort(500);
             }),

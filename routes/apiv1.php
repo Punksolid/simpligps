@@ -97,6 +97,8 @@ Route::group(['middleware' => [
         Route::get('trips/convoys/{convoy}', 'ConvoyController@show');
 
         //TRIPS
+        Route::patch('trips/{trip}',"TripsController@patch");
+        Route::put('trips/{trip}',"TripsController@update");
         Route::get('trips/{trip}/logs', 'TripsEventsController@index');
         Route::post('trips/{trip}/logs', 'TripsEventsController@store');
         Route::post('trips/upload', 'TripsController@upload');
@@ -107,7 +109,7 @@ Route::group(['middleware' => [
         Route::delete('trips/{trip}/automatic_updates', "TripActionsController@destroy");
         Route::delete('trips/{trip}/close_trip', "TripActionsController@closeTrip");
         Route::resource('trips', 'TripsController', [
-            'except' => ['create', 'edit'],
+            'except' => ['create', 'edit', 'update'],
         ]);
         //endregion
         //OPERATORS
