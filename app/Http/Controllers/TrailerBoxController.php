@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Device;
 use App\Http\Requests\TrailerBoxRequest;
 use App\Http\Resources\TrailerBoxResource;
 use App\TrailerBox;
@@ -31,7 +32,7 @@ class TrailerBoxController extends Controller
     {
         $trailer = new TrailerBox($request->all());
         $trailer->carrier_id = $request->carrier_id;
-        $trailer->device_id = $request->device_id;
+        $trailer->assignDevice(Device::find($request->device_id));
         $trailer->save();
         return TrailerBoxResource::make($trailer->fresh('carrier'));
     }
@@ -49,7 +50,7 @@ class TrailerBoxController extends Controller
 
         $trailer = $trailer->fill($request->all());
         $trailer->carrier_id = $request->carrier_id;
-        $trailer->device_id = $request->device_id;
+        $trailer->assignDevice(Device::find($request->device_id));
         $trailer->save();
 
         return TrailerBoxResource::make($trailer);
