@@ -35,31 +35,33 @@ class TrailerTest extends TestCase
     {
         $this->withoutExceptionHandling();
         $device_id = factory(Device::class)->create();
-        $trailer = factory(TrailerBox::class)->make([
+        $trailer = factory(TrailerBox::class)->raw([
             'device_id' => $device_id
         ]);
 
-        $call = $this->postJson('api/v1/trailers', $trailer->toArray());
+        $call = $this->postJson('api/v1/trailers', $trailer);
 
         $call->assertJsonStructure([
             'data' => [
                 'id'
             ]
         ]);
-
-        $call->assertJsonFragment($trailer->toArray());
+        unset($trailer['device_id']);
+        $call->assertJsonFragment($trailer);
     }
 
     public function test_editar_caja()
     {
+        $this->withoutExceptionHandling();
         $trailer = factory(TrailerBox::class)->create();
-        $new_trailer = factory(TrailerBox::class)->make([
+        $new_trailer = factory(TrailerBox::class)->raw([
             'device_id' => factory(Device::class)->create()->id
         ]);
 
-        $call = $this->putJson('api/v1/trailers/'.$trailer->id, $new_trailer->toArray());
+        $call = $this->putJson('api/v1/trailers/'.$trailer->id, $new_trailer);
+        unset($new_trailer['device_id']);
 
-        $call->assertJsonFragment($new_trailer->toArray());
+        $call->assertJsonFragment($new_trailer);
     }
 
     public function test_eliminar_caja()

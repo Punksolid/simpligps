@@ -13,8 +13,7 @@ class TrailerBox extends Model
 
     protected $fillable = [
         'internal_number',
-        'plate',
-        'device_id'
+        'plate'
     ];
 
     #region Relationships

@@ -52,7 +52,6 @@ class TrailerBoxController extends Controller
         $trailer->carrier_id = $request->carrier_id;
         $trailer->assignDevice(Device::find($request->device_id));
         $trailer->save();
-
         return TrailerBoxResource::make($trailer);
     }
 
