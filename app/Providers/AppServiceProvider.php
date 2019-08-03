@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Validators\AccountValidator;
 use Hyn\Tenancy\Validators\WebsiteValidator;
+use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 
@@ -16,6 +17,10 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength(191);
+        Relation::morphMap([
+            'trucks' => 'App\TruckTract',
+            'trailers' => 'App\TrailerBox',
+        ]);
     }
 
     /**

@@ -27,9 +27,8 @@ class TripActionTest extends TestCase
     public function test_stop_actualizaciones_automaticas_de_un_viaje()
     {
         $trip = factory(Trip::class)->create();
-        $truck = factory(TruckTract::class)->create([
-            'device_id' => factory(Device::class)->create(['wialon_id' => '17471332'])
-        ]);
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice(factory(Device::class)->create(['wialon_id' => '17471332']));
         $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
         $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
         $trip->update(['truck_tract_id' => $truck->id]);
@@ -53,9 +52,9 @@ class TripActionTest extends TestCase
         $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create();
 
-        $truck = factory(TruckTract::class)->create([
-            'device_id' => factory(Device::class)->create(['wialon_id' => '17471332'])
-        ]);
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice(factory(Device::class)->create(['wialon_id' => '17471332']));
+
         $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
         $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
 
@@ -72,10 +71,10 @@ class TripActionTest extends TestCase
 
     public function test_no_puede_dar_salida_a_un_viaje_si_le_falta_ligar_dispositivos()
     {
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice($device = factory(Device::class)->create());
         $trip = factory(Trip::class)->create([
-            'truck_tract_id' => factory(TruckTract::class)->create([
-                'device_id' => $device = factory(Device::class)->create()
-            ])->id
+            'truck_tract_id' => $truck->id
         ]);
 
         $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
@@ -94,9 +93,8 @@ class TripActionTest extends TestCase
     {
         $trip = factory(Trip::class)->create();
 
-        $truck = factory(TruckTract::class)->create([
-            'device_id' => factory(Device::class)->create()
-        ]);
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice(factory(Device::class)->create());
         $trip->setOrigin(factory(Place::class)->create(), now()->addDays(1),now()->addDays(2));
         $catedral = factory(Place::class)->create();
         $trip->setDestination($catedral, now()->addDays(4),now()->addDays(5));

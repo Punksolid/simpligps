@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Events\ReceiveTripUpdate;
 use App\Place;
+use App\TruckTract;
 use Illuminate\Support\Facades\Event;
 use Tests\Tenants\TestCase;
 use App\Trip;
@@ -16,8 +17,12 @@ class TripsNotificationsTest extends TestCase
     {
         $this->withoutExceptionHandling();
         Event::fake();
-        $trip = factory(Trip::class)->create();
+        $truck = factory(TruckTract::class)->create();
         $device = factory(Device::class)->create();
+        $truck->assignDevice($device);
+        $trip = factory(Trip::class)->create([
+            'truck_tract_id' => $truck
+        ]);
         $payload = $this->getPayload($trip, $device);
 
         $call = $this->postJson(
@@ -89,7 +94,9 @@ class TripsNotificationsTest extends TestCase
     public function test_marcar_llegada_a_punto_de_origen()
     {
         $this->withoutExceptionHandling();
-        $trip = factory(Trip::class)->create();
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice(factory(Device::class)->create());
+        $trip = factory(Trip::class)->create(['truck_tract_id' => $truck->id]);
         $catedral = factory(Place::class)->create();
         $trip->setOrigin($catedral, now()->addDay(1), now()->addDays(2));
         $trip->setDestination($catedral, now()->addDay(1), now()->addDays(2));
@@ -119,7 +126,9 @@ class TripsNotificationsTest extends TestCase
     {
 
         $this->withoutExceptionHandling();
-        $trip = factory(Trip::class)->create();
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice(factory(Device::class)->create());
+        $trip = factory(Trip::class)->create(['truck_tract_id' => $truck->id]);
         $catedral = factory(Place::class)->create();
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
         $place_with_pivot = $trip->places->where('id',$catedral->id)->first();
@@ -140,7 +149,9 @@ class TripsNotificationsTest extends TestCase
     {
 
         $this->withoutExceptionHandling();
-        $trip = factory(Trip::class)->create();
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice(factory(Device::class)->create());
+        $trip = factory(Trip::class)->create(['truck_tract_id' => $truck->id]);
         $catedral = factory(Place::class)->create();
         $trip->addIntermediate($catedral->id, now()->addDay(1), now()->addDays(2));
         $place_with_pivot = $trip->places->where('id',$catedral->id)->first();

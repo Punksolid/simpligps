@@ -26,6 +26,7 @@ class LoginInTenantTest extends TestCase
      */
     public function test_cuenta_no_puede_tener_mas_de_2_sesiones_activas()
     {
+        $this->markTestIncomplete('TODO! BAJA PRIORIDAD');
         $this->withoutExceptionHandling();
         $this->withMiddleware(LimitSimoultaneousAccess::class);
         $user1 = factory(User::class)->create(["name" => "pedro"]);

@@ -22,7 +22,7 @@ class DeviceResource extends JsonResource
             'brand' => $this->brand,
             'model' => $this->model,
             'internal_number' => $this->internal_number,
-            'truck' => $this->whenLoaded('truck'),
+            'truck' => $this->whenLoaded('deviceable'),
             'position' => $this->position,
             'reference_data' => $this->reference_data,
         ];

@@ -76,6 +76,8 @@ class Device extends Model implements LoggerInterface
         'group_id',
         'reference_data',
         'bulk',
+        'deviceable_id',
+        'deviceable_type'
     ];
 
     protected $casts = [
@@ -106,15 +108,17 @@ class Device extends Model implements LoggerInterface
 
     /**
      * Un truck tiene asignado un dispositivo.
-     * @todo Change device to some polymorphic relationship
      */
     public function truck()
     {
         return $this->hasOne(TruckTract::class);
     }
 
+    public function deviceable()
+    {
+        return $this->morphTo('deviceable');
+    }
     //endregion
-
     /**
      * Liga a una unidad de wialon.
      *

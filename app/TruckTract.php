@@ -22,7 +22,7 @@ class TruckTract extends Model
     ];
 
     protected $guarded = [
-        'device_id', // dispositivo
+//        'device_id', // dispositivo
         'carrier_id',  // linea
     ];
 

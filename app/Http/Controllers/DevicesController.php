@@ -58,7 +58,7 @@ class DevicesController extends Controller implements Search
 
     public function show(Device $device)
     {
-        $device = $device->load(['truck']);
+        $device = $device->load(['deviceable']);
         $device->position = [
                 'lat' => $device->getLocation()['lat'],
                 'lon' => $device->getLocation()['lon']

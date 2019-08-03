@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Device;
 use App\Http\Requests\TruckTractRequest;
 use App\Http\Resources\TruckTractResource;
 use App\TruckTract;
@@ -33,10 +34,10 @@ class TruckTractController extends Controller implements Search
     {
         $truck = TruckTract::make($request->all());
         $truck->carrier_id = $request->carrier_id;
-        $truck->device_id = $request->device_id;
+//        $truck->device_id = $request->device_id;
 
         $truck->save();
-
+        $truck->assignDevice(Device::findOrFail($request->device_id));
         return TruckTractResource::make($truck);
     }
 
@@ -70,7 +71,8 @@ class TruckTractController extends Controller implements Search
     {
         $truckTract = TruckTract::findOrFail($truckTract);
         $truckTract->carrier_id = $request->carrier_id;
-        $truckTract->device_id = $request->device_id;
+        $truckTract->assignDevice(Device::findOrFail($request->device_id));
+
         $truckTract->update($request->all());
 
         $truckTract->save();

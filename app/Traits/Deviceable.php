@@ -15,12 +15,15 @@ trait Deviceable
      */
     public function device()
     {
-        return $this->belongsTo(Device::class, 'device_id');
+        return $this->morphOne(Device::class, 'deviceable');
     }
 
     public function assignDevice(Device $device)
     {
-        return $this->update(['device_id' => $device->id]);
+//        if ($device->)
+//        return $device->deviceable()->associate($this);
+        return $this->device()->save($device);
+//        return $this->update(['device_id' => $device->id]);
     }
 
     public function getLocation():array

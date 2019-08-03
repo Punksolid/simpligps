@@ -73,13 +73,14 @@ class TripModelTest extends TestCase
      */
     public function prepareTripObject(): Trip
     {
+        $device = factory(Device::class)->create([
+            'wialon_id' => '17471332',
+            'reference_data' => '{"id":17471332,"nm":"PTS003","mu":0,"cls":2,"uacl":880333094911,"response":null,"pos":{"t":1556704664,"f":1073741825,"lc":1019141776,"y":24.791895,"x":-107.404318,"c":0,"z":32,"s":0,"sc":255},"lmsg":{"t":1556742583,"f":1073741824,"tp":"ud","pos":null,"lc":0,"rt":1556742586,"p":{"is_pwr_ext":0,"pwr_int":4.03,"charging":0,"led_on":1,"report_type":"BAT"}},"sens":{"1":{"id":1,"n":"Bateria","t":"custom","d":"","m":"%","p":"battery","f":0,"c":"{\"act\":1,\"appear_in_popup\":true,\"ci\":{},\"cm\":0,\"mu\":0,\"pos\":1,\"show_time\":false,\"text_params\":0,\"timeout\":0,\"uct\":0,\"unbound_code\":\"\",\"validate_driver_unbound\":0}","vt":0,"vs":0,"tbl":[]},"2":{"id":2,"n":"ICCID","t":"custom","d":"","m":"","p":"iccid","f":0,"c":"{\"act\":1,\"appear_in_popup\":true,\"ci\":{},\"cm\":0,\"mu\":0,\"pos\":2,\"show_time\":false,\"text_params\":0,\"timeout\":0,\"uct\":0,\"unbound_code\":\"\",\"validate_driver_unbound\":0}","vt":0,"vs":0,"tbl":[]}},"sens_max":-1,"flds":{},"fldsmax":0,"lat":24.791895,"lon":-107.404318}'
+        ]);
+        $truck_tract = factory(TruckTract::class)->create();
+        $truck_tract->assignDevice($device);
         $trip = factory(Trip::class)->create([
-            'truck_tract_id' => factory(TruckTract::class)->create([
-                'device_id' => factory(Device::class)->create([
-                    'wialon_id' => '17471332',
-                    'reference_data' => '{"id":17471332,"nm":"PTS003","mu":0,"cls":2,"uacl":880333094911,"response":null,"pos":{"t":1556704664,"f":1073741825,"lc":1019141776,"y":24.791895,"x":-107.404318,"c":0,"z":32,"s":0,"sc":255},"lmsg":{"t":1556742583,"f":1073741824,"tp":"ud","pos":null,"lc":0,"rt":1556742586,"p":{"is_pwr_ext":0,"pwr_int":4.03,"charging":0,"led_on":1,"report_type":"BAT"}},"sens":{"1":{"id":1,"n":"Bateria","t":"custom","d":"","m":"%","p":"battery","f":0,"c":"{\"act\":1,\"appear_in_popup\":true,\"ci\":{},\"cm\":0,\"mu\":0,\"pos\":1,\"show_time\":false,\"text_params\":0,\"timeout\":0,\"uct\":0,\"unbound_code\":\"\",\"validate_driver_unbound\":0}","vt":0,"vs":0,"tbl":[]},"2":{"id":2,"n":"ICCID","t":"custom","d":"","m":"","p":"iccid","f":0,"c":"{\"act\":1,\"appear_in_popup\":true,\"ci\":{},\"cm\":0,\"mu\":0,\"pos\":2,\"show_time\":false,\"text_params\":0,\"timeout\":0,\"uct\":0,\"unbound_code\":\"\",\"validate_driver_unbound\":0}","vt":0,"vs":0,"tbl":[]}},"sens_max":-1,"flds":{},"fldsmax":0,"lat":24.791895,"lon":-107.404318}'
-                ])
-            ])
+            'truck_tract_id' => $truck_tract->id
         ]);
 
         $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));

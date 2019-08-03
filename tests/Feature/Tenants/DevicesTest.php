@@ -60,6 +60,7 @@ class DevicesTest extends TestCase
 
     public function test_usuario_puede_ver_detalles_de_un_solo_dispositivo()
     {
+        $this->withoutExceptionHandling();
         $device = factory(Device::class)->create();
         $call = $this->getJson("api/v1/devices/$device->id");
 
@@ -90,9 +91,8 @@ class DevicesTest extends TestCase
     {
         
         $device = factory(Device::class)->create();
-        $truck = factory(TruckTract::class)->create([
-            'device_id' => $device->id
-        ]);
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice($device);
         $call = $this->getJson("api/v1/devices/$device->id");
         
         $call->assertJsonStructure([
@@ -118,6 +118,33 @@ class DevicesTest extends TestCase
             'gps' => $truck->gps,
             'color' => $truck->color,
         ]);
+    }
+
+    public function test_no_asginar_un_dispositivo_ya_asignado()
+    {
+        $device = factory(Device::class)->create();
+        $camion_viejo = factory(TruckTract::class)->create();
+        $camion_viejo->assignDevice($device);
+        $device = $device->fresh();
+        $camion_nuevo = factory(TruckTract::class)->create();
+
+        $call = $this->putJson('api/v1/trucks/'.$camion_nuevo->id, [
+            'name' => $this->faker->name,
+            'plate' => $this->faker->numberBetween(10000,99999),
+            'model' => $this->faker->shuffleString('calkahsdlkfha'),
+            'internal_number' => $this->faker->word,
+            'brand' => $this->faker->word,
+            'gps' => $this->faker->word,
+            'color' => $this->faker->colorName,
+            'carrier_id' => factory(Carrier::class)->create()->id,
+            'device_id' => $device->id
+        ]);
+
+        $device = $device->fresh();
+        $camion_viejo = $camion_viejo->fresh('device');
+        $this->assertNull($camion_viejo->device);
+        $this->assertEquals($camion_nuevo->device,$device);
+
     }
 
     public function test_listar_dispositivos_paginados()

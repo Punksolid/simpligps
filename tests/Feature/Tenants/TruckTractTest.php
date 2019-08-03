@@ -49,11 +49,14 @@ class TruckTractTest extends TestCase
     public function test_crear_tracto()
     {
         $this->withoutExceptionHandling();
-        $truck = factory(TruckTract::class)->make();
+        $truck_form = factory(TruckTract::class)->raw([
+            'device_id' => factory(Device::class)->create()->id
+        ]);
 
-        $call = $this->postJson('api/v1/trucks', $truck->toArray());
+        $call = $this->postJson('api/v1/trucks', $truck_form);
+        unset($truck_form['device_id']);
 
-        $call->assertJsonFragment($truck->toArray());
+        $call->assertJsonFragment($truck_form);
     }
 
     public function test_ver_detalles_de_tracto()
@@ -81,9 +84,8 @@ class TruckTractTest extends TestCase
         $unit = Unit::all()->first();
         $device->linkUnit($unit);
 
-        $truck = factory(TruckTract::class)->create([
-            "device_id" => $device->id
-        ]);
+        $truck = factory(TruckTract::class)->create();
+        $truck->assignDevice($device);
 
         $call = $this->getJson("api/v1/trucks/$truck->id");
 
@@ -120,14 +122,10 @@ class TruckTractTest extends TestCase
         $trip = factory(Trip::class)->create([
             "operator_id" => $operator->id,
             "truck_tract_id" => $truck->id,
-            "scheduled_load" => Carbon::yesterday(),
-            "scheduled_unload" => Carbon::tomorrow()
         ]);
         $past_trip = factory(Trip::class)->create([
             "operator_id" => $some_other_operator->id,
             "truck_tract_id" => $truck->id,
-            "scheduled_load" => Carbon::now()->subYear(1),
-            "scheduled_unload" => Carbon::now()->subWeek(1)
         ]);
 
         $call = $this->getJson("api/v1/trucks/$truck->id");
@@ -145,10 +143,12 @@ class TruckTractTest extends TestCase
     {
 
         $truck = factory(TruckTract::class)->create();
-        $new = factory(TruckTract::class)->make();
-        $call = $this->putJson("api/v1/trucks/$truck->id", $new->toArray());
-
-        $call->assertJsonFragment($new->toArray());
+        $new = factory(TruckTract::class)->raw([
+            'device_id' => factory(Device::class)->create()->id
+        ]);
+        $call = $this->putJson("api/v1/trucks/$truck->id", $new);
+        unset($new['device_id']);
+        $call->assertJsonFragment($new);
     }
 
     public function test_eliminar_tracto()
