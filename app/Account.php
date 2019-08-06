@@ -205,7 +205,8 @@ class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contra
     {
         config(['database.connections.tenant.database' => $this->uuid]);
         try {
-            $database_response = \DB::connection('tenant')->getPdo();
+            return \DB::connection('tenant')->getDatabaseName() == $this->uuid;
+
         } catch (\Exception $exception) {
             return false;
         }

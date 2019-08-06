@@ -10,6 +10,7 @@ use Punksolid\Wialon\Unit;
 use Psr\Log\LoggerTrait;
 use Psr\Log\LoggerInterface;
 use App\Traits\ModelLogger;
+use Spatie\Activitylog\Traits\LogsActivity;
 
 class Device extends Model implements LoggerInterface
 {
@@ -64,7 +65,7 @@ class Device extends Model implements LoggerInterface
      */
     private const EMERGENCY = 600;
 
-    use UsesTenantConnection, Notifiable, SoftDeletes;
+    use UsesTenantConnection, Notifiable, SoftDeletes, LogsActivity;
 
     protected $fillable = [
         'name',
@@ -79,7 +80,10 @@ class Device extends Model implements LoggerInterface
         'deviceable_id',
         'deviceable_type'
     ];
+    protected static $logFillable = true;
+    protected static $submitEmptyLogs = false;
 
+    protected static $logOnlyDirty = true;
     protected $casts = [
         'bulk' => 'array',
         'reference_data' => 'array',

@@ -26,7 +26,7 @@
     "punksolid/laravel-wialon": "dev-master",
     "pusher/pusher-php-server": "~3.0",
     "spatie/geocoder": "^3.4",
-    "spatie/laravel-activitylog": "^3.5",
+    "spatie/laravel-activitylog": "^3.7",
     "spatie/laravel-permission": "^2.12",
     "spatie/laravel-tags": "^2.0",
     "tymon/jwt-auth": "^1.0"

@@ -40,7 +40,7 @@ class AccountsController extends Controller
             $account_query->where('uuid', $request->get('uuid'));
         }
 
-        $accounts = $account_query->paginate($request->get('limit', 10));
+        $accounts = $account_query->orderByDesc('created_at')->paginate($request->get('limit', 10));
 
         return AccountResource::collection($accounts);
     }

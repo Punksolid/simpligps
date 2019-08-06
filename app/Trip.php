@@ -17,6 +17,7 @@ use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
+use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Tags\HasTags;
 use App\Traits\ModelLogger;
 use Psr\Log\LoggerInterface;
@@ -24,7 +25,30 @@ use Psr\Log\LoggerTrait;
 
 class Trip extends Model implements LoggerInterface
 {
-    use HasTags, UsesTenantConnection, ModelLogger, LoggerTrait;
+    use HasTags, UsesTenantConnection, ModelLogger, LoggerTrait, LogsActivity;
+
+    protected static $logAttributes = [
+        'rp',
+        'invoice',
+        'mon_type',
+        //operationals
+        'client_id',
+        'carrier_id',
+        'truck_tract_id',
+        'georoute_ref',
+        'operator_id'
+    ];
+
+    public function getDescriptionForEvent(string $eventName): string
+    {
+//        return "The trip was $eventName";
+        return "The trip :subject.rp was $eventName";
+//        return 'The subject name is :subject.rp, the causer name is :causer.name and Laravel is :properties.attributes';
+    }
+
+    protected static $submitEmptyLogs = false;
+
+    protected static $logOnlyDirty = true;
 
     // Detailed debug information
     private const DEBUG = 100;

@@ -19,7 +19,7 @@ class AccountNotificationsController extends Controller
         $account = $this->getAccount();
         $notifications = $account
             ->unreadNotifications()
-            ->get();
+            ->paginate(100);
 
         return InternalNotificationResource::collection($notifications);
     }

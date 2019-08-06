@@ -6,6 +6,7 @@ use App\Account;
 use App\License;
 use App\Sysadmin;
 use App\User;
+use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -81,6 +82,7 @@ class AccountTest extends TestCase
     public function test_ver_detalles_de_una_cuenta()
     {
         $account = factory(Account::class)->create();
+
         $account->addUser(factory(User::class)->create());
         $account->addLicense(factory(License::class)->create());
         $call = $this->getJson("api/sysadmin/v1/accounts/{$account->id}");

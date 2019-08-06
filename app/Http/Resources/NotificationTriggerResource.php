@@ -19,6 +19,7 @@ class NotificationTriggerResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'active' => $this->active,
+            'devices' => $this->devices->pluck('name')->implode(', '),
             'txt' => $this->txt,
             'control_type' => $this->control_type,
             'level' => $this->level,
