@@ -89,7 +89,14 @@ class LogsTest extends TestCase
                'trip_id' =>"49",
                'device' =>"6"
            ];
-           $trip->info("Trip Status Updated", $log);
+//           $trip->info("Trip Status Updated", $log);
+        activity()
+            ->performedOn($trip)
+
+            ->withProperties(['attributes' => $log])
+            ->withProperty('level', 'info')
+            ->log("Trip Status Updated");
+//           $trip->info("Trip Status Updated", $log);
         // $trip->logs()->create(['data' => $log]); // old way, deprecated
         
         
@@ -140,7 +147,11 @@ class LogsTest extends TestCase
                'device' =>"6"
            ];
         // $device->logs()->create(['context' => $log]);
-        $device->info('info_test', $context);
+//        $device->info('info_test', $context);
+        activity()
+            ->performedOn($device)
+            ->withProperties(['attributes' => $context])
+            ->log('info_test');
         $call = $this->getJson("api/v1/devices/$device->id/logs");
         $call->assertSuccessful();
         $call->assertJsonStructure([
@@ -167,9 +178,12 @@ class LogsTest extends TestCase
         ]);
 
         $call->assertSuccessful();
-        $this->assertDatabaseHas('logs', [
-            'loggable_id' => $device->id
+        $this->assertDatabaseHas('activity_log', [
+            'subject_id' => $device->id
         ], 'tenant');
+////        $this->assertDatabaseHas('logs', [
+//            'loggable_id' => $device->id
+//        ], 'tenant');
     }
 }
 

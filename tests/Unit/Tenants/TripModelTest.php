@@ -168,7 +168,6 @@ class TripModelTest extends TestCase
 
     }
 
-
     public function test_validateWialonReferrals_throws_if_a_truck_orTrailer_doesnt_have_a_device()
     {
         $this->expectException(ValidationException::class);
@@ -179,4 +178,12 @@ class TripModelTest extends TestCase
         $trip->validateWialonReferrals();
 
     }
+
+    public function test_trip_model_changes_creates_logs()
+    {
+        $trip = factory(Trip::class)->create();
+
+        $this->assertNotNull($trip->activities);
+    }
+
 }

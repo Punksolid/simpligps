@@ -15,7 +15,7 @@ class TripsEventsController extends Controller
 {
     public function index(Trip $trip)
     {
-        $logs = $trip->logs()->orderByDesc('created_at')->paginate(500);
+        $logs = $trip->activities()->orderByDesc('created_at')->paginate(100);
 
         return LogResource::collection($logs);
     }
@@ -25,7 +25,12 @@ class TripsEventsController extends Controller
         $data = $request->validate([
             'message' => 'required|min:5'
         ]);
-        $log = $trip->info($data['message']);
-        return LogResource::make($log);
+        activity()
+            ->performedOn($trip)
+            ->withProperty('level', 'info')
+            ->log($data['message']);
+
+        return response()->json('ok');
+
     }
 }

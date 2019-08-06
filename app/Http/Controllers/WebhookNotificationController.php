@@ -26,6 +26,11 @@ class WebhookNotificationController extends Controller
             $device = Device::where('wialon_id', $request->unit_id)->first();
             \Notification::send($account, new WialonWebhookNotification("$notification_trigger->name.Check {$request->get('unit')}", $request->all(), $device));
             if ($device) {
+                activity()
+                    ->performedOn($device)
+                    ->withProperties($request->all())
+                    ->withProperty('level', $notification_trigger->level)
+                    ->log($notification_trigger->name);
                 $device->log($notification_trigger->level, $notification_trigger->name, $request->all());
             }
         }
@@ -46,9 +51,19 @@ class WebhookNotificationController extends Controller
         $trip = Trip::findOrFail($trip_id);
 
         $device = $trip->truck->device;
-        $trip->info('Update on Trip', $request->all());
+//        $trip->info('Update on Trip', $request->all());
+        activity()
+            ->performedOn($trip)
+            ->withProperties($request->all())
+            ->withProperty('level', 'info')
+            ->log('Update On Trip');
         event(new ReceiveTripUpdate($trip,  $request->all()));
-        $device->info('Update on Device', $request->all());
+        activity()
+            ->performedOn($device)
+            ->withProperties($request->all())
+            ->withProperty('level', 'info')
+            ->log('Update On Trip');
+//        $device->info('Update on Device', $request->all());
 
 
         \Notification::send($account, new WialonWebhookNotification(
