@@ -42,7 +42,7 @@ class MeController extends Controller
             ->user()
             ->unreadNotifications()
             ->where('data->X-Tenant-Id', $account)
-            ->get();
+            ->paginate(100);
 
         return InternalNotificationResource::collection($notifications);
     }
