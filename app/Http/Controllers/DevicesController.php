@@ -23,11 +23,20 @@ class DevicesController extends Controller implements Search
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $devices = Device::paginate();
+        $devices = Device::query();
+        if ($request->has('name')){
+            $devices->where('name', 'LIKE', "$request->name%");
+        }
+        if ($request->has('gps')){
+            $devices->where('gps', 'LIKE', "$request->gps%");
+        }
+        if ($request->has('brand')){
+            $devices->where('brand', 'LIKE', "$request->brand%");
+        }
 
-        return DeviceResource::collection($devices);
+        return DeviceResource::collection($devices->paginate());
     }
 
     /**
