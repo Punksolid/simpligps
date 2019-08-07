@@ -107,7 +107,6 @@ class TripsNotificationsTest extends TestCase
           "timeline_id" => $trip->origin->pivot->id,
           "timestamp" => now()->toDateTimeString()
         ];
-//        $this->getPayload($trip, null, $catedral);
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
             $payload

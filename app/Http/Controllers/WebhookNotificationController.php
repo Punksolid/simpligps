@@ -50,7 +50,7 @@ class WebhookNotificationController extends Controller
         $environment->tenant($account);
         $trip = Trip::findOrFail($trip_id);
 
-        $device = $trip->truck->device;
+        $device = $trip->truck->device()->firstOrFail();
 //        $trip->info('Update on Trip', $request->all());
         activity()
             ->performedOn($trip)
