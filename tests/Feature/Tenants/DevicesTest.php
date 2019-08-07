@@ -78,13 +78,13 @@ class DevicesTest extends TestCase
                 "gps",
                 "name",
                 "reference_data",
+                "is_connected",
                 'position' => [
                     'lat',
                     'lon'
                 ]
             ]
         ]);
-
     }
 
     public function test_usuario_puede_ver_truck_del_dispositivo_cuando_esta_asignado()

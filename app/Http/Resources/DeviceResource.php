@@ -25,6 +25,7 @@ class DeviceResource extends JsonResource
             'truck' => $this->whenLoaded('deviceable'),
             'position' => $this->position,
             'reference_data' => $this->reference_data,
+            'is_connected' => $this->when($request->routeIs('*.show'),$this->is_connected)
         ];
     }
 }
