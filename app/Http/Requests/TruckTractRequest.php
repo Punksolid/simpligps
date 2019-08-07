@@ -26,11 +26,7 @@ class TruckTractRequest extends FormRequest
         return [
             'name' => 'required',
             'plate' => 'required',
-            'model' => 'required',
             'internal_number' => 'required',
-            'brand' => 'required',
-            'gps' => 'required',
-            'color' => 'required',
             'carrier_id' => 'required|integer',
             'device_id' => 'required|integer',
         ];

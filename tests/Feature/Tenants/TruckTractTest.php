@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Carrier;
 use App\TruckTract;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -59,21 +60,37 @@ class TruckTractTest extends TestCase
         $call->assertJsonFragment($truck_form);
     }
 
+    public function test_crear_tract_solo_con_campos_minimos_obligatorios()
+    {
+//        Placa, nombre, device y Carrier, internal number
+        $form = [
+            'plate' => $this->faker->numberBetween(00000, 999999),
+            'name' => $this->faker->word,
+            'internal_number' => $this->faker->bankAccountNumber,
+            'device_id' => factory(Device::class)->create()->id,
+            'carrier_id' => factory(Carrier::class)->create()->id,
+        ];
+
+        $call = $this->postJson('api/v1/trucks', $form);
+        $call->dump();
+        $call->assertSuccessful();
+    }
+
     public function test_ver_detalles_de_tracto()
     {
         $truck = factory(TruckTract::class)->create();
         $call = $this->getJson("api/v1/trucks/$truck->id");
         $call->assertJsonStructure([
             'data' =>
-            [
-                'name',
-                'plate',
-                'model',
-                'internal_number',
-                'brand',
-                'gps',
-                'color'
-            ]
+                [
+                    'name',
+                    'plate',
+                    'model',
+                    'internal_number',
+                    'brand',
+                    'gps',
+                    'color'
+                ]
         ]);
         $call->assertJsonFragment($truck->toArray());
     }

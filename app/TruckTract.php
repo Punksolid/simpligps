@@ -17,8 +17,7 @@ class TruckTract extends Model
         'model',
         'internal_number',
         'brand',
-        'gps',
-        'color',
+        'color'
     ];
 
     protected $guarded = [

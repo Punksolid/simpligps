@@ -9,7 +9,6 @@ $factory->define(App\TruckTract::class, function (Faker $faker) {
         'model' => $faker->company,
         'internal_number' => (string) $faker->randomNumber(6),
         'brand' => $faker->company,
-        'gps' => $faker->shuffleString('tsetarapprobra'),
         'color' => $faker->colorName,
         'carrier_id' => factory(\App\Carrier::class)->create()->id,
     ];
