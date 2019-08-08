@@ -61,7 +61,7 @@ class Place extends Model
     #region Actions
     public function verifyConnection():bool
     {
-        if (empty($this->geofence_ref)) {
+        if (is_null($this->geofence_ref)) {
             return false;
         }
 

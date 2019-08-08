@@ -5,7 +5,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-class MalformedTripException extends Exception
+class MalformedTrip extends Exception
 {
     /**
      * Report the exception.

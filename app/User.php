@@ -67,7 +67,7 @@ class User extends Authenticatable implements CanResetPassword
      * @param Account|null $account
      * @return Collection
      */
-    public function getColleagues(Account $account = null, $me_too = false): Collection
+    public function getColleagues(Account $account = null, $me_too = true): Collection
     {
         $user = $this;
         if (is_null($account)) {
@@ -82,13 +82,12 @@ class User extends Authenticatable implements CanResetPassword
 
         if ($me_too) {
             return $colleagues;
+        } else {
+            return $colleagues->filter(function ($colleague) use ($user) {
+                return $colleague->email != $user->email;
+            });
         }
 
-        $colleagues = $colleagues->filter(function ($colleague) use ($user) {
-            return $colleague->email != $user->email;
-        });
-
-        return $colleagues;
     }
 
     /**

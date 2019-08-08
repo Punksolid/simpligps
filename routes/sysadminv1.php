@@ -16,11 +16,11 @@ Passport::routes(function ($router) {
     $router->forAccessTokens();
 //    $router->forClients();
 });
-Route::group(['middleware' => ['api']], function ($router) {
+Route::group(['middleware' => ['api']], function () {
     Route::post('login', 'Admin\AdminLoginController@login');
 });
 
-Route::group(['middleware' => ['auth:sysadmin-api']], function ($router) {
+Route::group(['middleware' => ['auth:sysadmin-api']], function () {
     Route::get('user/info', function () {
         return response(['name' => auth()->user()->email, 'roles' => ['admin']]);
     });

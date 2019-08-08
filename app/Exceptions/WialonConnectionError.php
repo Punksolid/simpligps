@@ -7,7 +7,7 @@ use Exception;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
-class WialonConnectionErrorException extends Exception
+class WialonConnectionError extends Exception
 {
 
     /**

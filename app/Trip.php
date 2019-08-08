@@ -2,8 +2,8 @@
 
 namespace App;
 
-use App\Exceptions\MalformedTripException;
-use App\Exceptions\WialonConnectionErrorException;
+use App\Exceptions\MalformedTrip;
+use App\Exceptions\WialonConnectionError;
 use Carbon\Carbon;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
@@ -633,7 +633,6 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * @return mixed
-     *
      */
     public function getDevices(): Collection
     {
@@ -753,7 +752,7 @@ class Trip extends Model implements LoggerInterface
         try {
             return (bool) $this->getDestination()->pivot->real_exiting;
         } catch (\Exception $exception) {
-            throw new MalformedTripException("Trip can't retrieve the real exiting field.");
+            throw new MalformedTrip("Trip can't retrieve the real exiting field.");
         }
     }
 }
