@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-    use UsesTenantConnection, SoftDeletes;
+    use UsesTenantConnection;
+    use SoftDeletes;
 
     protected $fillable = [
         'description',
@@ -20,6 +21,6 @@ class Client extends Model
         'email',
         'person_name',
         'status',
-        'email_frequency'
+        'email_frequency',
     ];
 }

@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use App\Interfaces\Search;
 
 /**
- * Class OperatorController
- * @package App\Http\Controllers
+ * Class OperatorController.
+ *
  * @resource Operadores
  */
 class OperatorsController extends Controller implements Search
@@ -27,11 +27,11 @@ class OperatorsController extends Controller implements Search
         return OperatorResource::collection($operators);
     }
 
-
     /**
-     * Crea nuevo operador
+     * Crea nuevo operador.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(OperatorRequest $request)
@@ -43,25 +43,25 @@ class OperatorsController extends Controller implements Search
     }
 
     /**
-     * Muestra detalles de un solo operador
+     * Muestra detalles de un solo operador.
      *
-     * @param  \App\Operator  $operator
+     * @param \App\Operator $operator
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($operator)
     {
         $operator = Operator::findOrFail($operator);
 
-        return OperatorResource::make($operator->load("carrier"));
+        return OperatorResource::make($operator->load('carrier'));
     }
 
-
-
     /**
-     * Actualiza operador
+     * Actualiza operador.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Operator  $operator
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Operator            $operator
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(OperatorRequest $request, $operator)
@@ -73,14 +73,15 @@ class OperatorsController extends Controller implements Search
         }
 
         return response([
-            "message" => "Ocurrió un error al actualizar"
+            'message' => 'Ocurrió un error al actualizar',
         ]);
     }
 
     /**
-     * Remueve el operador de la base de datos
+     * Remueve el operador de la base de datos.
      *
-     * @param  \App\Operator  $operator
+     * @param \App\Operator $operator
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($operator)
@@ -88,11 +89,11 @@ class OperatorsController extends Controller implements Search
         $operator = Operator::findOrFail($operator);
         if ($operator->delete()) {
             return response([
-                "message" => "The Operator was deleted succesfully."
+                'message' => 'The Operator was deleted succesfully.',
             ]);
         }
 
-        return response(["message" => "Ocurrió un error al eliminar el operador."])->setStatusCode(422);
+        return response(['message' => 'Ocurrió un error al eliminar el operador.'])->setStatusCode(422);
     }
 
     public function search(\Illuminate\Http\Request $request)
@@ -100,7 +101,6 @@ class OperatorsController extends Controller implements Search
         $operators = Operator::query()
             ->where('name', 'LIKE', "%{$request->name}%")
             ->paginate(50); // Todo change for simple paginate
-            
 
         return OperatorResource::collection($operators);
     }

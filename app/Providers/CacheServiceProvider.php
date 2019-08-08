@@ -21,7 +21,6 @@ class CacheServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        
 //        Cache::extend('redis_tenancy', function ($app) {
 //            if (PHP_SAPI === 'cli') {
 //                $uuid = $app['config']['driver'];

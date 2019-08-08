@@ -8,14 +8,14 @@ use App\User;
 use Illuminate\Http\Request;
 
 /**
- * Class PermissionController
- * @package App\Http\Controllers
+ * Class PermissionController.
+ *
  * @resource Permission
  */
 class PermissionController extends Controller
 {
     /**
-     * Lista todos los permisos
+     * Lista todos los permisos.
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,15 +27,16 @@ class PermissionController extends Controller
     }
 
     /**
-     * Actualiza los permisos individuales de un usuario
+     * Actualiza los permisos individuales de un usuario.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Permission  $permission
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Permission          $permission
+     *
      * @return \Illuminate\Http\Response
      */
     public function userSync(Request $request, User $user)
     {
         $user->syncPermissions($request->permissions);
-        return response()->json(["data" => $user->getAllPermissions()->pluck("name")]);
+        return response()->json(['data' => $user->getAllPermissions()->pluck('name')]);
     }
 }

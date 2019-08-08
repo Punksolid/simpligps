@@ -30,44 +30,44 @@ class TripRequest extends FormRequest
             'client_id' => 'required|integer',
             'intermediates' => [
                 'array',
-                new NoTimeOverlap()
+                new NoTimeOverlap(),
             ],
             'intermediates.*.place_id' => [
-                "integer",
-                "filled",
-                'distinct'
+                'integer',
+                'filled',
+                'distinct',
             ],
             'intermediates.*.at_time' => [
-                "date",
-                "filled",
+                'date',
+                'filled',
                 'after:scheduled_load',
                 'after:scheduled_departure',
                 'before:scheduled_arrival',
             ],
             'intermediates.*.exiting' => [
-                "date",
-                "filled",
+                'date',
+                'filled',
                 'after:scheduled_load',
-                'before:scheduled_arrival'
+                'before:scheduled_arrival',
             ],
             'origin_id' => 'required|integer',
             'destination_id' => 'required|integer',
             'mon_type' => 'required',
             'carrier_id' => [
 //                'required', // No requerido en plan de viaje, si al inicializar el viaje
-                "nullable",
+                'nullable',
                 'present',
-                'integer'
+                'integer',
             ],
             'truck_tract_id' => [
 //                'required', // No requerido en plan de viaje, si al inicializar el viaje
-                "nullable",
-                'integer'
+                'nullable',
+                'integer',
             ],
             'operator_id' => [
 //                'required', // No requerido en plan de viaje, si al inicializar el viaje
-                "nullable",
-                'integer'
+                'nullable',
+                'integer',
             ],
             'scheduled_load' => 'required|date',
             'scheduled_departure' => [

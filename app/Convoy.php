@@ -10,7 +10,7 @@ class Convoy extends Model
     use UsesTenantConnection;
 
     protected $fillable = [
-       "internal_id"
+       'internal_id',
     ];
 
     /**

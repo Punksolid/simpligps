@@ -10,7 +10,8 @@ use Illuminate\Queue\InteractsWithQueue;
 
 class SendUserActivationLink
 {
-    use InteractsWithQueue, SendsPasswordResetEmails;
+    use InteractsWithQueue;
+    use SendsPasswordResetEmails;
     public $user;
 
     /**

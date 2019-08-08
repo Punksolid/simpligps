@@ -70,7 +70,7 @@ class DevicesController extends Controller implements Search
         $device = $device->load(['deviceable']);
         $device->position = [
                 'lat' => $device->getLocation()['lat'],
-                'lon' => $device->getLocation()['lon']
+                'lon' => $device->getLocation()['lon'],
             ];
         try {
             $device->is_connected = $device->linked(true);
@@ -153,7 +153,7 @@ class DevicesController extends Controller implements Search
             ->where('name', 'LIKE', "$request->name%")
             ->get([
                 'id',
-                'name'
+                'name',
             ]);
 
         return DeviceResource::collection($devices);

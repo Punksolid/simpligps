@@ -14,7 +14,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasRoles, Notifiable, HasApiTokens, UsesSystemConnection;
+    use HasRoles;
+    use Notifiable;
+    use HasApiTokens;
+    use UsesSystemConnection;
 
     protected $guard_name = 'api'; // changed from web to api bcz permissions sync using default
     /**
@@ -65,6 +68,7 @@ class User extends Authenticatable implements CanResetPassword
      * Obtiene todos los usuarios de una cuenta o de todas las cuentas del usuario.
      *
      * @param Account|null $account
+     *
      * @return Collection
      */
     public function getColleagues(Account $account = null, $me_too = true): Collection
@@ -87,7 +91,6 @@ class User extends Authenticatable implements CanResetPassword
                 return $colleague->email != $user->email;
             });
         }
-
     }
 
     /**
@@ -114,7 +117,7 @@ class User extends Authenticatable implements CanResetPassword
         })->exists();
     }
 
-    #region scopes
+    //region scopes
     public function scopeTenant($query, $tenant_uuid = null)
     {
         $tenant_uuid = $tenant_uuid ?: request()->header('X-Tenant-id');
@@ -124,5 +127,5 @@ class User extends Authenticatable implements CanResetPassword
         });
     }
 
-    #endregion
+    //endregion
 }

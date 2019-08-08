@@ -3,12 +3,10 @@
 namespace App;
 
 use App\Exceptions\MalformedTrip;
-use App\Exceptions\WialonConnectionError;
 use Carbon\Carbon;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\ValidationException;
@@ -25,7 +23,11 @@ use Psr\Log\LoggerTrait;
 
 class Trip extends Model implements LoggerInterface
 {
-    use HasTags, UsesTenantConnection, ModelLogger, LoggerTrait, LogsActivity;
+    use HasTags;
+    use UsesTenantConnection;
+    use ModelLogger;
+    use LoggerTrait;
+    use LogsActivity;
 
     protected static $logAttributes = [
         'rp',
@@ -36,7 +38,7 @@ class Trip extends Model implements LoggerInterface
         'carrier_id',
         'truck_tract_id',
         'georoute_ref',
-        'operator_id'
+        'operator_id',
     ];
 
     public function getDescriptionForEvent(string $eventName): string
@@ -101,7 +103,7 @@ class Trip extends Model implements LoggerInterface
         'carrier_id',
         'truck_tract_id',
         'georoute_ref',
-        'operator_id'
+        'operator_id',
     ];
 
     protected $casts = [
@@ -114,13 +116,13 @@ class Trip extends Model implements LoggerInterface
         'scheduled_arrival',
         'scheduled_unload',
         'real_departure',
-        'real_arrival'
+        'real_arrival',
     ];
 
     //region Relationships
 
     /**
-     * Devuelve modelo del Origin
+     * Devuelve modelo del Origin.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
@@ -146,7 +148,7 @@ class Trip extends Model implements LoggerInterface
 
     public function setOrigin(Place $place, $at_time, $exiting)
     {
-        return $this->places()->sync([$place->id =>  [
+        return $this->places()->sync([$place->id => [
             'type' => 'origin',
             'at_time' => $at_time,
             'exiting' => $exiting,
@@ -170,6 +172,7 @@ class Trip extends Model implements LoggerInterface
      * @param $exiting
      * @param Carbon|null $real_at_time
      * @param Carbon|null $real_exiting
+     *
      * @return array
      */
     public function setDestination(Place $place, $at_time, $exiting, Carbon $real_at_time = null, Carbon $real_exiting = null)
@@ -226,7 +229,7 @@ class Trip extends Model implements LoggerInterface
                 'exiting',
                 'type',
                 'real_at_time',
-                'real_exiting'
+                'real_exiting',
             ]);
     }
 
@@ -297,7 +300,7 @@ class Trip extends Model implements LoggerInterface
 
     //endregion
 
-    #region actions
+    //region actions
 
     /**
      * Add Intermediate Places points.
@@ -388,9 +391,9 @@ class Trip extends Model implements LoggerInterface
     {
         $timestamp = $timestamp ?: now()->toDateTimeString();
 
-        $action = $action == 'entering' ? 'real_at_time' : 'real_exiting';
+        $action = 'entering' == $action ? 'real_at_time' : 'real_exiting';
         $attributes = [
-            $action => $timestamp
+            $action => $timestamp,
         ];
 
         $timeline = Timeline::find($timeline_id);
@@ -399,7 +402,8 @@ class Trip extends Model implements LoggerInterface
 
         return $attributes;
     }
-    #endregion
+
+    //endregion
     //region Getters
 
     /**
@@ -456,7 +460,7 @@ class Trip extends Model implements LoggerInterface
             'destination.type as destination type',
             'destination.order as destination order',
             'destination.at_time as destination_at_time',
-            'destination.exiting as destination_exiting'
+            'destination.exiting as destination_exiting',
         ])
             ->join('places_trips as origin', function ($join) {
                 $join->on('trips.id', '=', 'origin.trip_id')
@@ -473,9 +477,11 @@ class Trip extends Model implements LoggerInterface
     //endregion
 
     /**
-     * El texto del formulario que devolverá wialon
+     * El texto del formulario que devolverá wialon.
+     *
      * @param \Illuminate\Config\Repository $tenant_uuid
      * @param $device
+     *
      * @return string
      */
     public function getWialonParamsText($tenant_uuid, $device, $place_id = null, $timeline_id = null): string
@@ -506,9 +512,9 @@ class Trip extends Model implements LoggerInterface
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id=' . $tenant_uuid . '&
-        trip_id=' . $this->id . '&
-        device_id=' . $device;
+        X-Tenant-Id='.$tenant_uuid.'&
+        trip_id='.$this->id.'&
+        device_id='.$device;
         if ($place_id) {
             $text .= "&place_id=$place_id";
         }
@@ -516,8 +522,7 @@ class Trip extends Model implements LoggerInterface
             $text .= "&timeline_id=$timeline_id";
         }
 
-        $text = '"' . $text . '"';
-
+        $text = '"'.$text.'"';
 
         $text = str_replace(["\r", "\n", ' '], '', $text);
 
@@ -526,9 +531,10 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * @param \Illuminate\Config\Repository $tenant_uuid
-     * @return Resource|null
+     *
+     * @return resource|null
      */
-    public function findOrCreateWialonResource(String $name)
+    public function findOrCreateWialonResource(string $name)
     {
         $resource = Resource::findByName($name);
         if (!$resource) {
@@ -538,12 +544,14 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * @param Resource|null $resource
-     * @param Collection $wialon_units
+     * @param resource|null       $resource
+     * @param Collection          $wialon_units
      * @param GeofenceControlType $control_type
      * @param Notification\Action $action
-     * @param string $text
+     * @param string              $text
+     *
      * @return Notification|null
+     *
      * @throws \Exception
      */
     public function createWialonNotification(Collection $wialon_units, GeofenceControlType $control_type, $name, Notification\Action $action, string $text)
@@ -557,12 +565,13 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * @param \Illuminate\Config\Repository $tenant_uuid
+     *
      * @return Notification\Action
      */
     private function getAction($tenant_uuid): Notification\Action
     {
         $action = new Notification\Action('push_messages', [
-            'url' => url(config('app.url') . "api/v1/$tenant_uuid/alert/trips/" . $this->id),
+            'url' => url(config('app.url')."api/v1/$tenant_uuid/alert/trips/".$this->id),
         ]);
         return $action;
     }
@@ -582,8 +591,7 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * WTF! @deprecated
-     *
+     * WTF! @deprecated.
      */
     private function nameToDefine()
     {
@@ -600,11 +608,13 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * @param GeofenceControlType $control_type
-     * @param Resource|null $resource
-     * @param Collection $wialon_units
+     * @param resource|null       $resource
+     * @param Collection          $wialon_units
      * @param Notification\Action $action
-     * @param string $text
+     * @param string              $text
+     *
      * @return Collection
+     *
      * @throws \Exception
      */
     private function createWialonNotifications(GeofenceControlType $control_type, Collection $wialon_units, Notification\Action $action, string $text)
@@ -656,7 +666,6 @@ class Trip extends Model implements LoggerInterface
 
     public function deleteWialonNotificationsForTrips()
     {
-
 //        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
         $name = $this->wialon_resource_name;
         $resource = Resource::findByName($name);
@@ -671,17 +680,18 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Valida que todos los elementos del viaje están correctos y se puede crear el recurso con sus notificaciones
-     * en la plataforma de wialon
+     * en la plataforma de wialon.
+     *
      * @throws \Exception
      */
-    public function validateWialonReferrals():void
+    public function validateWialonReferrals(): void
     {
         $this->validateTruckAndTrailersHaveDevices();
         $this->validatePlacesConnection();
         $this->validateDevicesConnection();
     }
 
-    public function validateTruckAndTrailersHaveDevices():void
+    public function validateTruckAndTrailersHaveDevices(): void
     {
         $bag = new MessageBag();
         $truck = $this->truck()->whereDoesntHave('device')->first();
@@ -702,7 +712,7 @@ class Trip extends Model implements LoggerInterface
         }
     }
 
-    public function validateDevicesConnection():void
+    public function validateDevicesConnection(): void
     {
         $devices = $this->getDevices();
         $bag = new MessageBag();
@@ -718,12 +728,12 @@ class Trip extends Model implements LoggerInterface
         }
     }
 
-    private function validatePlacesConnection():void
+    private function validatePlacesConnection(): void
     {
         //Validar que todos los lugares tienen geocercas conectados
         $places = $this->places;
         if ($places->count() <= 1) {
-            throw new \Exception("Trip needs at least origin and destination.");
+            throw new \Exception('Trip needs at least origin and destination.');
         }
         $bag = new MessageBag();
         foreach ($places as $place) {
@@ -737,17 +747,17 @@ class Trip extends Model implements LoggerInterface
         }
     }
 
-    public function getWialonResourceNameAttribute():string
+    public function getWialonResourceNameAttribute(): string
     {
         return "trm.trips.{$this->id}.{$this->getTenantUuid()}";
     }
 
-
     /**
      * @param Trip $trip
+     *
      * @return mixed
      */
-    public function canCloseTrip():bool
+    public function canCloseTrip(): bool
     {
         try {
             return (bool) $this->getDestination()->pivot->real_exiting;

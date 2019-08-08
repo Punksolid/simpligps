@@ -73,7 +73,7 @@ class Role extends SpatieRole
             $class::saved(
                 function ($object) use ($permissions, $model) {
                     static $modelLastFiredOn;
-                    if ($modelLastFiredOn !== null && $modelLastFiredOn === $model) {
+                    if (null !== $modelLastFiredOn && $modelLastFiredOn === $model) {
                         return;
                     }
                     $object->permissions()->sync($permissions, false);
@@ -90,6 +90,7 @@ class Role extends SpatieRole
 
     /**
      * @param string|array|\Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection $permissions
+     *
      * @return \Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection
      */
     protected function getStoredPermission($permissions)

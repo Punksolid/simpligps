@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use App\Interfaces\Search;
 
 /**
- * Class PlaceController
- * @package App\Http\Controllers
+ * Class PlaceController.
+ *
  * @resource Place
  */
 class PlaceController extends Controller implements Search
@@ -31,11 +31,11 @@ class PlaceController extends Controller implements Search
         return PlaceResource::collection($places);
     }
 
-
     /**
      * Store a newly created PLACE in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(PlaceRequest $request)
@@ -48,7 +48,8 @@ class PlaceController extends Controller implements Search
     /**
      * Display the specified PLACE.
      *
-     * @param  \App\Place  $place
+     * @param \App\Place $place
+     *
      * @return \Illuminate\Http\Response
      */
     public function show(Place $place)
@@ -56,13 +57,12 @@ class PlaceController extends Controller implements Search
         return PlaceResource::make($place);
     }
 
-
-
     /**
      * Update the specified PLACE in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Place  $place
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Place               $place
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(PlaceRequest $request, $place)
@@ -73,27 +73,27 @@ class PlaceController extends Controller implements Search
             return PlaceResource::make($place);
         }
 
-        return response("Aconteció un error actualizando el lugar.");
+        return response('Aconteció un error actualizando el lugar.');
     }
 
     /**
      * Remove the specified PLACE from storage.
      *
-     * @param  \App\Place  $place
+     * @param \App\Place $place
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($place)
     {
         $place = Place::findOrFail($place);
 
-
         if ($place->delete()) {
             return PlaceResource::make($place)->additional([
-                'message' => "Place Deleted."
+                'message' => 'Place Deleted.',
             ]);
         }
 
-        return response("Aconteció un error");
+        return response('Aconteció un error');
     }
 
     public function search(\Illuminate\Http\Request $request)

@@ -24,7 +24,7 @@ class TripsController extends Controller
     public function index(Request $request)
     {
         $query = Trip::query()
-            ->with(['places','origin','destination','intermediates','tags'])
+            ->with(['places', 'origin', 'destination', 'intermediates', 'tags'])
             ->orderByDesc('created_at');
         if ($request->has('filter')) {
             $query = $query->withAnyTags($request->filter);
@@ -54,7 +54,7 @@ class TripsController extends Controller
     public function assignTag(Trip $trip, Request $request)
     {
         $request->validate([
-            'tags' => 'present|array'
+            'tags' => 'present|array',
         ]);
         $trip->syncTags($request->tags); //TODO update mariadb to 10.2 actualmente tiene 10.1
         $trip->load('tags');

@@ -8,7 +8,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class Sysadmin extends Authenticatable
 {
-    use HasApiTokens, UsesSystemConnection;
+    use HasApiTokens;
+    use UsesSystemConnection;
 
     protected $guard_name = 'sysadmin';
 

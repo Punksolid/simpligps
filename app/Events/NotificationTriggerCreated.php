@@ -3,18 +3,16 @@
 namespace App\Events;
 
 use App\NotificationTrigger;
-use Doctrine\DBAL\Driver\AbstractDB2Driver;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class NotificationTriggerCreated
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
     /**
      * @var NotificationTrigger
      */
@@ -31,7 +29,7 @@ class NotificationTriggerCreated
      */
     public function __construct(NotificationTrigger $notification_trigger, $control_type, $params)
     {
-        \Log::info("NotificationTriggerNameInEvent", [$notification_trigger->toArray()]);
+        \Log::info('NotificationTriggerNameInEvent', [$notification_trigger->toArray()]);
         $this->notification_trigger = $notification_trigger;
         $this->control_type = $control_type;
         $this->params = $params;

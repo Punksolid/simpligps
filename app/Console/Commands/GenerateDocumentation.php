@@ -28,8 +28,6 @@ class GenerateDocumentation extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -45,19 +43,18 @@ class GenerateDocumentation extends Command
     {
         config(['telescope.enabled' => false]);
         $this->warn('USER DOCUMENTATION');
-        $this->account = Account::where("uuid", '01b421a3055f4e9bab1d5a3e186a6149')->first();
+        $this->account = Account::where('uuid', '01b421a3055f4e9bab1d5a3e186a6149')->first();
 
         $environment = app(\Hyn\Tenancy\Environment::class);
 
         $environment->tenant($this->account);
-
 
         $user = factory(User::class)->create();
         $contact = factory(Contact::class)->create();
         Auth::setUser($user);
 
         $this->call(
-            "api:generate",
+            'api:generate',
             [
                 '--routePrefix' => 'api/v1/*',
 //                '--output' => 'storage/app/public/docs/user',
@@ -65,27 +62,27 @@ class GenerateDocumentation extends Command
                 '--force' => false,
                 '--env' => 'documentation',
                 '--actAsUserId' => $user->id,
-                '--middleware' => "auth:api",
+                '--middleware' => 'auth:api',
                 '--output' => 'storage/app/public/docs/user/',
-                '--bindings' => "contact,$contact->id"
+                '--bindings' => "contact,$contact->id",
             ]
         );
 
         $this->warn('ADMIN DOCUMENTATION');
         $admin = factory(Sysadmin::class)->create();
         /**
-         * Bindings
+         * Bindings.
          */
         $licence = factory(License::class)->create();
         $account = factory(Account::class)->create();
         $this->call(
-            "api:generate",
+            'api:generate',
             [
                 '--routePrefix' => 'api/sysadmin/v1/*',
                 '--output' => 'storage/app/public/docs/admin/',
                 '--force' => true,
                 '--env' => 'production',
-                '--bindings' => "license,$licence->id|account,$account->id"
+                '--bindings' => "license,$licence->id|account,$account->id",
             ]
         );
     }

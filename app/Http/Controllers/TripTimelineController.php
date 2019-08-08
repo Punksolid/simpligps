@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CheckpointResource;
-use App\Http\Resources\PlaceResource;
-use App\Place;
 use App\Timeline;
 use App\Trip;
 use Illuminate\Http\Request;
@@ -25,7 +23,7 @@ class TripTimelineController extends Controller
             'exiting' => 'date',
             'real_at_time' => 'date',
             'real_exiting' => 'date',
-            'order' => 'integer'
+            'order' => 'integer',
         ]);
         $checkpoint = Timeline::with('place')->findOrFail($checkpoint);
 

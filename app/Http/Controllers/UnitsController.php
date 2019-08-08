@@ -3,23 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\UnitResource;
-use App\Setting;
-use Illuminate\Http\Request;
 use Punksolid\Wialon\Unit;
-use Punksolid\Wialon\Wialon;
 
 /**
- * Class UnitsController
- * @package App\Http\Controllers
+ * Class UnitsController.
+ *
  * @resource Unit
  */
 class UnitsController extends Controller
 {
-
-
-
     /**
-     * Listar unidades con datos básicos
+     * Listar unidades con datos básicos.
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function listUnits()
@@ -30,7 +25,8 @@ class UnitsController extends Controller
     }
 
     /**
-     * Listar unidades mostrando ubicación
+     * Listar unidades mostrando ubicación.
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function listUnitsLocalization()

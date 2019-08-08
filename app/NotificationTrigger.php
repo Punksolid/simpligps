@@ -15,7 +15,8 @@ use Punksolid\Wialon\SensorControlType;
 
 class NotificationTrigger extends Model
 {
-    use UsesTenantConnection, SoftDeletes;
+    use UsesTenantConnection;
+    use SoftDeletes;
 
     /**
      * lista de level
@@ -127,10 +128,10 @@ class NotificationTrigger extends Model
                 ]);
         }
 
-        if ($control_type === 'geofence') {
+        if ('geofence' === $control_type) {
             $control_type = new GeofenceControlType();
             $control_type->addGeozoneId($params['geofence_id']);
-        } elseif ($control_type === 'sensor') {
+        } elseif ('sensor' === $control_type) {
             // dd($params);
                 $control_type = new SensorControlType($params); // no necesita enviarse pero en un refactor quedaria listo
                 /*
@@ -142,7 +143,7 @@ class NotificationTrigger extends Model
                     public $merge = 1; //@Todo what does it means
                     public $type = 0; // "trigger when" for 0 = "in range" 1 = "out of range"
                  */
-            if ($params['sensor_type'] === null) {
+            if (null === $params['sensor_type']) {
                 $params['sensor_type'] = '';
             }
 

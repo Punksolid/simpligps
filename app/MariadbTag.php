@@ -3,21 +3,16 @@
 namespace App;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
-use Illuminate\Support\Facades\DB;
 use Spatie\Tags\Tag;
 
 /**
- * Class MariadbTag
- * @package App
- * Clase exclusivamente para sobreescribir el comportamiento de laravel-tags y ser compatible con mariadb y mysql
+ * Class MariadbTag.
  */
 class MariadbTag extends Tag
 {
     use UsesTenantConnection;
 
-    protected $table = "tags";
+    protected $table = 'tags';
 
     protected static function convertToTags($values, $type = null, $locale = null)
     {

@@ -16,7 +16,10 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Account extends \Hyn\Tenancy\Models\Website implements \Hyn\Tenancy\Contracts\Website
 {
-    use UsesSystemConnection, SoftDeletes, Notifiable, LogsActivity;
+    use UsesSystemConnection;
+    use SoftDeletes;
+    use Notifiable;
+    use LogsActivity;
 
     protected $table = 'accounts'; // parece que esto hace que no tenga migraciones automaticas
     // protected $table = "websites"; // Con este funciona la creación vía WebsiteRepositoryContract

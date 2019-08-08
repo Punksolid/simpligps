@@ -25,7 +25,8 @@ class TrailerBoxController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(TrailerBoxRequest $request)
@@ -40,8 +41,9 @@ class TrailerBoxController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TrailerBox  $trailerBox
+     * @param \Illuminate\Http\Request $request
+     * @param \App\TrailerBox          $trailerBox
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(TrailerBoxRequest $request, $trailerBox)
@@ -58,7 +60,8 @@ class TrailerBoxController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\TrailerBox  $trailerBox
+     * @param \App\TrailerBox $trailerBox
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($trailerBox)

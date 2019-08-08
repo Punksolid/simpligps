@@ -40,7 +40,6 @@ class LimitSimoultaneousAccess
             abort(401, "Too many active connections, limit surpassed $limit_active_sessions ");
         }
 
-
         //@Todo logica de no más de una sesion activa
         return $next($request);
     }

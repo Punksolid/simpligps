@@ -18,7 +18,7 @@ class DeviceLogsController extends Controller
     public function store(Device $device, Request $request)
     {
         $data = $request->validate([
-            'message' => 'required|min:5'
+            'message' => 'required|min:5',
         ]);
 //        $log = $device->info($data['message']);
         activity()

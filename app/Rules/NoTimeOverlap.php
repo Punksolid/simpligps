@@ -3,20 +3,18 @@
 namespace App\Rules;
 
 use Carbon\Carbon;
-use Carbon\CarbonInterval;
-use Carbon\CarbonPeriod;
 use Illuminate\Contracts\Validation\Rule;
 
 class NoTimeOverlap implements Rule
 {
     private $checkpoints;
 
-
     /**
      * Determine if the validation rule passes.
      *
      * @param string $attribute
-     * @param mixed $value
+     * @param mixed  $value
+     *
      * @return bool
      */
     public function passes($attribute, $value)

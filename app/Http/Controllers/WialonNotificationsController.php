@@ -25,9 +25,12 @@ class WialonNotificationsController extends Controller
     }
 
     /**
-     * Create Wialon Notification
+     * Create Wialon Notification.
+     *
      * @param Request $request
+     *
      * @return WialonNotificationResource|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     *
      * @throws \Punksolid\Wialon\WialonErrorException
      * @throws \Exception
      */
@@ -36,7 +39,7 @@ class WialonNotificationsController extends Controller
         //        $validatedData = $request->validate();
 
         $resource = Resource::find($request->resource_id);
-        if ($request->control_type === 'geofence') {
+        if ('geofence' === $request->control_type) {
             $control_type = new GeofenceControlType();
             $control_type->addGeozoneId($request->params['geofence_id']);
         } else {
@@ -44,7 +47,7 @@ class WialonNotificationsController extends Controller
         }
         $units = Unit::findMany($request->units);
         $action = new Notification\Action('push_messages', [
-            "url" => url(config("app.url") . 'api/v1/webhook/alert')
+            'url' => url(config('app.url').'api/v1/webhook/alert'),
         ]);
 
         $text = '"unit=%UNIT%&
@@ -73,13 +76,13 @@ class WialonNotificationsController extends Controller
         UNIT_ID=%UNIT_ID%&
         MSG_TIME_INT=%MSG_TIME_INT%&
         NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id=' . $request->header('X-Tenant-Id') . '
+        X-Tenant-Id='.$request->header('X-Tenant-Id').'
         "';
 
-        $text = str_replace(["\r", "\n", " "], "", $text);
+        $text = str_replace(["\r", "\n", ' '], '', $text);
 
         $notification = Notification::make($resource, $units, $control_type, $request->name, $action, [
-            "txt" => $text
+            'txt' => $text,
         ]);
 
         return WialonNotificationResource::make($notification);
@@ -87,16 +90,16 @@ class WialonNotificationsController extends Controller
 
     public function destroy($id)
     {
-        $notification = Notification::all()->where("id", $id)->first();
+        $notification = Notification::all()->where('id', $id)->first();
         //        Cache::forget('notifications');
         if ($notification->destroy()) {
             return response()->json([
-                "message" => "Success"
+                'message' => 'Success',
             ]);
         }
 
         return response()->json([
-            "message" => "Error deleting notification"
+            'message' => 'Error deleting notification',
         ]);
     }
 }

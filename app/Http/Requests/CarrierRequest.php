@@ -24,10 +24,10 @@ class CarrierRequest extends FormRequest
     public function rules()
     {
         return [
-            "carrier_name" => "required",
-            "contact_name" => "required",
-            "phone" => "required",
-            "email" => "required|email"
+            'carrier_name' => 'required',
+            'contact_name' => 'required',
+            'phone' => 'required',
+            'email' => 'required|email',
         ];
     }
 }

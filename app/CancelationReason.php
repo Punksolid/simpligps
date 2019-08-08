@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CancelationReason extends Model
 {
-    use UsesTenantConnection, SoftDeletes;
-    
+    use UsesTenantConnection;
+    use SoftDeletes;
+
     protected $guarded = [];
 }

@@ -9,7 +9,8 @@ class TrailerBoxResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -21,7 +22,7 @@ class TrailerBoxResource extends JsonResource
             'plate' => $this->plate,
             'gps' => $this->gps,
             'carrier_id' => $this->carrier_id,
-            'device_id' => $this->device_id
+            'device_id' => $this->device_id,
         ];
     }
 }
