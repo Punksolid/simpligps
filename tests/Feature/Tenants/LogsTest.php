@@ -3,10 +3,7 @@
 namespace Tests\Feature;
 
 use App\Device;
-use App\Log;
 use App\Trip;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
 
 class LogsTest extends TestCase

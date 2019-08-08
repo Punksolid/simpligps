@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use Tests\Tenants\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class WialonFeaturesTest extends TestCase
 {

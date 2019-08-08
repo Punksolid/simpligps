@@ -9,9 +9,9 @@ use App\Notifications\WialonWebhookNotification;
 use App\NotificationTrigger;
 use App\User;
 use Illuminate\Support\Facades\Notification;
+use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
-use Punksolid\Wialon\Resource;
 
 class NotificationsTest extends TestCase
 {

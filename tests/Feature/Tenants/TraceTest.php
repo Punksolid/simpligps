@@ -5,8 +5,6 @@ namespace Tests\Feature;
 use App\Trip;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
 
 class TraceTest extends TestCase

@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Client;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
 
 class ClientsTest extends TestCase

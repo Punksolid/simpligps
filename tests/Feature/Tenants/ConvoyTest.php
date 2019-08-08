@@ -4,9 +4,6 @@ namespace Tests\Feature;
 
 use App\Trip;
 use App\User;
-use Tests\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ConvoyTest extends \Tests\Tenants\TestCase
 {

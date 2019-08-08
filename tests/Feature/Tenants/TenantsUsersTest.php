@@ -2,11 +2,7 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
-use Symfony\Component\HttpKernel\Exception\HttpException;
-use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 
 class TenantsUsersTest extends TestCase
 {

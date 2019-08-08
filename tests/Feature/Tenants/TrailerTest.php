@@ -4,8 +4,6 @@ namespace Tests\Feature;
 
 use App\Device;
 use App\TrailerBox;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
 
 class TrailerTest extends TestCase

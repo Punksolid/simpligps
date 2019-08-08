@@ -8,8 +8,6 @@ use App\Place;
 use App\Trip;
 use App\TruckTract;
 use Punksolid\Wialon\Resource;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
 
 class TripActionTest extends TestCase

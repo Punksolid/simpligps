@@ -8,10 +8,7 @@ use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\License;
 use App\User;
 use Carbon\Carbon;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
-use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 
 class LoginInTenantTest extends TestCase
 {

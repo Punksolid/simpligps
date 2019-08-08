@@ -3,8 +3,6 @@
 namespace Tests\Feature;
 
 use App\Situation;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Tenants\TestCase;
 
 class SituationTest extends TestCase
