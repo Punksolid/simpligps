@@ -35,6 +35,4 @@ class UpdateTripTravel
         $timestamp = isset($event->context['timestamp']) ? $event->context['timestamp'] : now()->toDateTimeString();
         $event->trip->updateTimeline($action, $timeline_id, $timestamp);
     }
-
-
 }

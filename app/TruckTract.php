@@ -46,7 +46,6 @@ class TruckTract extends Model
      */
     public function operators()
     {
-
         return $this->belongsToMany(Operator::class, 'trips', 'truck_tract_id', 'operator_id');
     }
 
@@ -67,6 +66,4 @@ class TruckTract extends Model
     }
 
     #endregion
-
-
 }

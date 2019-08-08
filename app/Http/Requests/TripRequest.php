@@ -24,7 +24,6 @@ class TripRequest extends FormRequest
      */
     public function rules()
     {
-
         return [
 //            'rp' => 'required', // No requerido en plan de viaje, si para inicializar el viaje
 //            'invoice' => 'required', // No requerido para el plan de viaje, si para inicializar el viaje

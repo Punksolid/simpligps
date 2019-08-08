@@ -37,7 +37,6 @@ class AccountNotificationsController extends Controller
      */
     public function getNotifications(Request $request)
     {
-
         $notifications = $request
             ->tenant_account
             ->unreadNotifications()

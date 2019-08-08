@@ -20,7 +20,7 @@ class AdminLoginController extends Controller
         $credentials = $request->only('email', 'password');
         $auth = \Auth::guard('sysadmin');
         $token = $auth->attempt($credentials);
-        if (!$token ) {
+        if (!$token) {
             abort(401, 'Usuario o contraseña son incorrectos.');
         }
 

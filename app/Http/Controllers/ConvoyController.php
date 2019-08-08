@@ -55,5 +55,4 @@ class ConvoyController extends Controller
 
         return response($convoy);
     }
-
 }

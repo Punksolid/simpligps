@@ -25,7 +25,6 @@ class NotificationTriggersController extends Controller
 {
     public function index()
     {
-
         $notification_triggers = NotificationTrigger::with('devices')->paginate();
 
         return NotificationTriggerResource::collection($notification_triggers);

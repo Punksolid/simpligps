@@ -24,7 +24,6 @@ class CarriersController extends Controller implements Search
      */
     public function index(Request $request)
     {
-
         $carriers = Carrier::paginate();
         return CarrierResource::collection($carriers);
     }

@@ -18,7 +18,7 @@ class TripTimelineController extends Controller
         return response()->json($places);
     }
 
-    public function patch( $checkpoint, Request $request)
+    public function patch($checkpoint, Request $request)
     {
         $this->validate($request, [
             'at_time' => 'date',
@@ -29,25 +29,23 @@ class TripTimelineController extends Controller
         ]);
         $checkpoint = Timeline::with('place')->findOrFail($checkpoint);
 
-        if ($request->filled('at_time')){
+        if ($request->filled('at_time')) {
             $checkpoint->at_time = $request->at_time;
         }
-        if ($request->filled('exiting')){
+        if ($request->filled('exiting')) {
             $checkpoint->exiting = $request->exiting;
         }
-        if ($request->filled('real_at_time')){
+        if ($request->filled('real_at_time')) {
             $checkpoint->real_at_time = $request->real_at_time;
         }
-        if ($request->filled('real_exiting')){
+        if ($request->filled('real_exiting')) {
             $checkpoint->real_exiting = $request->real_exiting;
         }
-        if ($request->filled('order')){
+        if ($request->filled('order')) {
             $checkpoint->order = $request->order;
         }
         $checkpoint->save();
 
         return CheckpointResource::make($checkpoint);
-
-
     }
 }

@@ -7,7 +7,6 @@ use Exception;
 use Illuminate\Validation\ValidationException;
 use Throwable;
 
-
 class WialonConnectionErrorException extends Exception
 {
 
@@ -29,7 +28,6 @@ class WialonConnectionErrorException extends Exception
      */
     public function render($request)
     {
-        return response('Wialon Connection Error',500);
+        return response('Wialon Connection Error', 500);
     }
-
 }

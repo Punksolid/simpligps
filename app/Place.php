@@ -61,15 +61,12 @@ class Place extends Model
     #region Actions
     public function verifyConnection():bool
     {
-        if (empty($this->geofence_ref)){
+        if (empty($this->geofence_ref)) {
             return false;
         }
 
-        [$resource, $id] = explode("_",$this->geofence_ref);
-        return (bool) Geofence::findById($id,$resource);
-
-
+        [$resource, $id] = explode("_", $this->geofence_ref);
+        return (bool) Geofence::findById($id, $resource);
     }
     #endregion
-
 }

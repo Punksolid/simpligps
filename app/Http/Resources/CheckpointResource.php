@@ -33,10 +33,10 @@ class CheckpointResource extends JsonResource
 
     public function getStatus()
     {
-        if (is_null($this->real_exiting) && is_null($this->real_exiting)){
+        if (is_null($this->real_exiting) && is_null($this->real_exiting)) {
             return Timeline::NOT_YET_THERE;
         }
-        if ($this->real_exiting && is_null($this->real_exiting)){
+        if ($this->real_exiting && is_null($this->real_exiting)) {
             return Timeline::HERE_IT_IS;
         }
         if ($this->real_exiting && $this->real_exiting) {

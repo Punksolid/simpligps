@@ -145,7 +145,7 @@ class Device extends Model implements LoggerInterface
      */
     public function linked($verify = false): bool
     {
-        if ($verify){
+        if ($verify) {
             return (bool) Unit::find($this->wialon_id);
         }
 
@@ -154,9 +154,9 @@ class Device extends Model implements LoggerInterface
 
     public function getLocation(): array
     {
-        if ($this->linked()){
+        if ($this->linked()) {
             // TODO REFACTOR Unit Find para que use las flags con los detalles, this is a performance issue
-            $unit = Unit::all()->where('id',$this->wialon_id)->first();
+            $unit = Unit::all()->where('id', $this->wialon_id)->first();
             return [
                 'lat' => optional($unit)->lat,
                 'lon' => optional($unit)->lon
@@ -176,7 +176,7 @@ class Device extends Model implements LoggerInterface
      */
     public function verifyConnection():bool
     {
-        if (is_null($this->wialon_id)){
+        if (is_null($this->wialon_id)) {
             return false;
         }
 

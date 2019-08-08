@@ -3,7 +3,6 @@
 
 namespace App\Traits;
 
-
 use App\Device;
 
 trait Deviceable
@@ -28,8 +27,7 @@ trait Deviceable
 
     public function getLocation():array
     {
-
-        if ($this->device){
+        if ($this->device) {
             return $this->device->getLocation();
         }
 

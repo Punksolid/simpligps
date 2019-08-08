@@ -17,28 +17,28 @@ class LimitSimoultaneousAccess
      */
     public function handle($request, Closure $next)
     {
-            $account = $request->tenant_account;
-            $user_logged = \Auth::user();
+        $account = $request->tenant_account;
+        $user_logged = \Auth::user();
 
-            if (\Cache::has("active_sessions_$account->id")) {
-                $existent = \Cache::get("active_sessions_$account->id" );
-                $colleagues_without_auth = $existent->reject( function ($user) use ($user_logged) {
-                    return $user->email === $user_logged->email;
-                });
-                $colleagues = $colleagues_without_auth->push(auth()->user());
-            } else {
-                $colleagues = new Collection([auth()->user()]);
-            }
+        if (\Cache::has("active_sessions_$account->id")) {
+            $existent = \Cache::get("active_sessions_$account->id");
+            $colleagues_without_auth = $existent->reject(function ($user) use ($user_logged) {
+                return $user->email === $user_logged->email;
+            });
+            $colleagues = $colleagues_without_auth->push(auth()->user());
+        } else {
+            $colleagues = new Collection([auth()->user()]);
+        }
 
-            \Cache::set("active_sessions_$account->id", $colleagues, 60);
+        \Cache::set("active_sessions_$account->id", $colleagues, 60);
 
-            $active_sessions = cache("active_sessions_$account->id")->count();
+        $active_sessions = cache("active_sessions_$account->id")->count();
 
-            $limit_active_sessions = $account->activeLicenses()->firstOrFail()->number_active_sessions;
+        $limit_active_sessions = $account->activeLicenses()->firstOrFail()->number_active_sessions;
 
-            if ($active_sessions > $limit_active_sessions) {
-                abort(401, "Too many active connections, limit surpassed $limit_active_sessions ");
-            }
+        if ($active_sessions > $limit_active_sessions) {
+            abort(401, "Too many active connections, limit surpassed $limit_active_sessions ");
+        }
 
 
         //@Todo logica de no más de una sesion activa

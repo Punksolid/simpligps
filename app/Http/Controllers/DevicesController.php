@@ -26,13 +26,13 @@ class DevicesController extends Controller implements Search
     public function index(Request $request)
     {
         $devices = Device::query();
-        if ($request->has('name')){
+        if ($request->has('name')) {
             $devices->where('name', 'LIKE', "$request->name%");
         }
-        if ($request->has('gps')){
+        if ($request->has('gps')) {
             $devices->where('gps', 'LIKE', "$request->gps%");
         }
-        if ($request->has('brand')){
+        if ($request->has('brand')) {
             $devices->where('brand', 'LIKE', "$request->brand%");
         }
 
@@ -72,9 +72,9 @@ class DevicesController extends Controller implements Search
                 'lat' => $device->getLocation()['lat'],
                 'lon' => $device->getLocation()['lon']
             ];
-        try{
+        try {
             $device->is_connected = $device->linked(true);
-        } catch (\Exception $e){
+        } catch (\Exception $e) {
             $device->is_connected = false;
         }
         return DeviceResource::make($device);

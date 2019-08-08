@@ -57,7 +57,7 @@ class WebhookNotificationController extends Controller
             ->withProperties($request->all())
             ->withProperty('level', 'info')
             ->log('Update On Trip');
-        event(new ReceiveTripUpdate($trip,  $request->all()));
+        event(new ReceiveTripUpdate($trip, $request->all()));
         activity()
             ->performedOn($device)
             ->withProperties($request->all())

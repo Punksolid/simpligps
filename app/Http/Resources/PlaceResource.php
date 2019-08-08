@@ -15,7 +15,6 @@ class PlaceResource extends JsonResource
      */
     public function toArray($request)
     {
-
         return [
             'id' => $this->id,
             "name" => $this->name,
@@ -37,9 +36,9 @@ class PlaceResource extends JsonResource
                 return $this->pivot->real_exiting;
             }),
             "status" => $this->whenPivotLoaded('places_trips', function () {
-                if (is_null($this->pivot->real_exiting) && is_null($this->pivot->real_exiting)){
+                if (is_null($this->pivot->real_exiting) && is_null($this->pivot->real_exiting)) {
                     return Timeline::NOT_YET_THERE;
-                } elseif ($this->pivot->real_exiting && is_null($this->pivot->real_exiting)){
+                } elseif ($this->pivot->real_exiting && is_null($this->pivot->real_exiting)) {
                     return Timeline::HERE_IT_IS;
                 } elseif ($this->pivot->real_exiting && $this->pivot->real_exiting) {
                     return Timeline::ALREADY_PASSED_HERE;

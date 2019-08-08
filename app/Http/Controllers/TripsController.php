@@ -71,7 +71,6 @@ class TripsController extends Controller
      */
     public function store(TripRequest $request)
     {
-
         $trip = Trip::make($request->except([
             'scheduled_load',
             'scheduled_departure',
@@ -93,13 +92,13 @@ class TripsController extends Controller
 
         $trip->setDestination($destination = Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
 
-        if ($request->filled('trailers_ids')){
+        if ($request->filled('trailers_ids')) {
             foreach ($request->trailers_ids as $trailers_id) {
                 $trip->addTrailerBox($trailers_id);
             }
         }
 
-        $trip->load('client','intermediates','origin','destination');
+        $trip->load('client', 'intermediates', 'origin', 'destination');
 //        dd($trip->fresh('destination'));
         return TripResource::make($trip);
     }
@@ -156,17 +155,16 @@ class TripsController extends Controller
 
         $trip->update($request->all());
 
-        return TripResource::make($trip->load('trailers','intermediates'));
+        return TripResource::make($trip->load('trailers', 'intermediates'));
     }
 
-    public function patch(Trip $trip, TripRequest $request )
+    public function patch(Trip $trip, TripRequest $request)
     {
-
-        if ($request->has('origin_id')){
+        if ($request->has('origin_id')) {
             $trip->setOrigin(Place::findOrFail($request->origin_id), new Carbon($request->scheduled_load), new Carbon($request->scheduled_departure));
         }
 
-        if ($request->has('intermediates')){
+        if ($request->has('intermediates')) {
             foreach ($request->intermediates as $intermediate) {
                 $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
                 $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format 2019-05-25T14:35:00.000Z
@@ -175,11 +173,11 @@ class TripsController extends Controller
             }
         }
 
-        if ($request->has('destination_id')){
+        if ($request->has('destination_id')) {
             $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
         }
 
-        if ($request->has('trailers_ids')){
+        if ($request->has('trailers_ids')) {
             foreach ($request->trailers_ids as $trailers_id) {
                 $trip->syncTrailerBox($trailers_id);
             }
@@ -187,7 +185,7 @@ class TripsController extends Controller
 
         $trip->update($request->all());
 
-        return TripResource::make($trip->load('trailers','intermediates'));
+        return TripResource::make($trip->load('trailers', 'intermediates'));
     }
 
     /**

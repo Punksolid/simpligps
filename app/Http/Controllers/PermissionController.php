@@ -38,5 +38,4 @@ class PermissionController extends Controller
         $user->syncPermissions($request->permissions);
         return response()->json(["data" => $user->getAllPermissions()->pluck("name")]);
     }
-
 }

@@ -31,6 +31,5 @@ class TripsEventsController extends Controller
             ->log($data['message']);
 
         return response()->json('ok');
-
     }
 }

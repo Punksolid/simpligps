@@ -146,7 +146,6 @@ class Trip extends Model implements LoggerInterface
 
     public function setOrigin(Place $place, $at_time, $exiting)
     {
-
         return $this->places()->sync([$place->id =>  [
             'type' => 'origin',
             'at_time' => $at_time,
@@ -178,8 +177,10 @@ class Trip extends Model implements LoggerInterface
         $last = count($this->places) + 1;
 
         return $this->places()->wherePivot(
-            'type' , '=','destination'
-        )->attach($place->id ,  [
+            'type',
+            '=',
+            'destination'
+        )->attach($place->id, [
             'type' => 'destination',
             'at_time' => $at_time,
             'exiting' => $exiting,
@@ -326,8 +327,7 @@ class Trip extends Model implements LoggerInterface
 
     public function addTrailerBox(int $trailer_box_id, $sync = false)
     {
-
-        if ($sync){
+        if ($sync) {
             return $this->trailers()->sync($trailer_box_id, [
                 'order' => 0,
             ]);
@@ -350,7 +350,6 @@ class Trip extends Model implements LoggerInterface
      */
     public function createWialonNotificationsForTrips(): array
     {
-
         $tenant_uuid = $this->getTenantUuid();
 
         $unit_id = $this->getExternalWialonUnitsIds();
@@ -411,7 +410,6 @@ class Trip extends Model implements LoggerInterface
     public function getAllPlacesGeofences(): array
     {
         return $this->getAllPlaces()->pluck('geofence_ref')->toArray();
-
     }
 
     public function getAllPlaces(): Collection
@@ -446,7 +444,6 @@ class Trip extends Model implements LoggerInterface
     //region Scopes
     public function scopeOnlyOngoing($query)
     {
-
         return $query->select([
             'trips.*',
             'origin.id as origin_id',
@@ -465,7 +462,6 @@ class Trip extends Model implements LoggerInterface
                 $join->on('trips.id', '=', 'origin.trip_id')
                     ->where('origin.type', '=', 'origin')
                     ->where('origin.at_time', '<', now()->toDateTimeString());
-
             })
             ->join('places_trips as destination', function ($join) {
                 $join->on('trips.id', '=', 'destination.trip_id')
@@ -591,7 +587,6 @@ class Trip extends Model implements LoggerInterface
      */
     private function nameToDefine()
     {
-
         $all_geofences = $this->getAllPlacesGeofences();
         foreach ($all_geofences as $geofence) {
             $control_type = new GeofenceControlType($geofence); // Inicializar control types
@@ -623,7 +618,7 @@ class Trip extends Model implements LoggerInterface
             $control_type->addGeozoneId($place->geofence_ref);
 
             $control_type->setType(0); // modificar control_type entrada
-            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices()->first()->id, $place->id,$place->pivot->id);
+            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices()->first()->id, $place->id, $place->pivot->id);
             $wialon_notifications->push(
                 $this->createWialonNotification($wialon_units, $control_type, "{$this->id}.entering.{$place->id}", $action, $text) // Notificacion de entradas
             );
@@ -642,7 +637,6 @@ class Trip extends Model implements LoggerInterface
      */
     public function getDevices(): Collection
     {
-
         $trailers = $this->trailers()
             ->whereHas('device')
             ->with('device')->get();
@@ -654,7 +648,6 @@ class Trip extends Model implements LoggerInterface
 //        $device_id = $this->truck->device->id;
 ////        // @TODO Agregar los ids de los devices de las cajas (trailerboxes) del viaje
 //        return $device_id;
-
     }
 
     public function getTenantUuid()
@@ -675,7 +668,6 @@ class Trip extends Model implements LoggerInterface
         }
 
         return false;
-
     }
 
     /**
@@ -695,18 +687,18 @@ class Trip extends Model implements LoggerInterface
         $bag = new MessageBag();
         $truck = $this->truck()->whereDoesntHave('device')->first();
 
-        if ($truck){
+        if ($truck) {
             $bag->add('truck', "Truck Tract with name $truck->name doesn't have a device");
         }
 
         $trailers = $this->trailers()->whereDoesntHave('device')->get();
-        if ($trailers){
-            foreach ($trailers as $trailer){
+        if ($trailers) {
+            foreach ($trailers as $trailer) {
                 $bag->add('trailer', "Trailer Box with internal number $trailer->internal_number doesn't have a device");
             }
         }
 
-        if ($bag->isNotEmpty()){
+        if ($bag->isNotEmpty()) {
             throw ValidationException::withMessages($bag->getMessages());
         }
     }
@@ -716,13 +708,13 @@ class Trip extends Model implements LoggerInterface
         $devices = $this->getDevices();
         $bag = new MessageBag();
 
-        foreach ($devices as $device){
-            if (!$device->verifyConnection()){
+        foreach ($devices as $device) {
+            if (!$device->verifyConnection()) {
                 $bag->add('device', "The device $device->name can't connect to wialon.");
             }
         }
 
-        if ($bag->isNotEmpty()){
+        if ($bag->isNotEmpty()) {
             throw ValidationException::withMessages($bag->getMessages());
         }
     }
@@ -731,20 +723,18 @@ class Trip extends Model implements LoggerInterface
     {
         //Validar que todos los lugares tienen geocercas conectados
         $places = $this->places;
-        if ($places->count() <= 1){
+        if ($places->count() <= 1) {
             throw new \Exception("Trip needs at least origin and destination.");
         }
         $bag = new MessageBag();
-        foreach ($places as $place){
-            if (!$place->verifyConnection()){
-                $bag->add('place',"The place $place->name can't connect to wialon.");
+        foreach ($places as $place) {
+            if (!$place->verifyConnection()) {
+                $bag->add('place', "The place $place->name can't connect to wialon.");
 //                throw new WialonConnectionErrorException("place","The place $place->name can't connect to wialon.");
             }
-
         }
-        if ($bag->isNotEmpty()){
+        if ($bag->isNotEmpty()) {
             throw ValidationException::withMessages($bag->getMessages());
-
         }
     }
 

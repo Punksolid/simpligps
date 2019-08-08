@@ -20,7 +20,6 @@ class TripActionsController extends Controller
      */
     public function giveExit(Trip $trip, Request $request)
     {
-
         $this->validate($request, [
             'enable_automatic_updates' => 'required|bool'
         ]);
@@ -70,7 +69,5 @@ class TripActionsController extends Controller
                 "message" => "Trip $trip->id Closed"
             ]);
         }
-
     }
-
 }

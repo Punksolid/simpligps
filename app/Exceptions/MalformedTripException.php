@@ -5,7 +5,6 @@ namespace App\Exceptions;
 
 use Exception;
 
-
 class MalformedTripException extends Exception
 {
     /**
@@ -26,8 +25,6 @@ class MalformedTripException extends Exception
      */
     public function render($request)
     {
-
-        return response('Malformed Trip Exception',500);
+        return response('Malformed Trip Exception', 500);
     }
-
 }
