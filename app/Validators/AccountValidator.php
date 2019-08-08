@@ -1,4 +1,8 @@
 <?php
+
+namespace App\Validators;
+
+use Hyn\Tenancy\Validators\WebsiteValidator;
 /*
  * This file is part of the hyn/multi-tenant package.
  *
@@ -10,11 +14,6 @@
  * @see https://laravel-tenancy.com
  * @see https://github.com/hyn/multi-tenant
  */
-
-namespace App\Validators;
-
-use Hyn\Tenancy\Validators\WebsiteValidator;
-
 class AccountValidator extends WebsiteValidator
 {
     protected $create = [

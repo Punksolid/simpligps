@@ -134,7 +134,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
      */
     public function removeUser(User $user): bool
     {
-        return (bool)$this->users()->detach($user->id);
+        return (bool) $this->users()->detach($user->id);
     }
 
     /**
