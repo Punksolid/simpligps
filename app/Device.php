@@ -176,7 +176,7 @@ class Device extends Model implements LoggerInterface
      */
     public function verifyConnection():bool
     {
-        if (empty($this->wialon_id)){
+        if (is_null($this->wialon_id)){
             return false;
         }
 

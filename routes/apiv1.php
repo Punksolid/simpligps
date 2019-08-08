@@ -25,7 +25,7 @@ Route::group(['middleware' => [
     'auth:api',
     RefreshPersonalAccessTokenMiddleware::class,
     \App\Http\Middleware\ProfilingTestMiddleware::class,
-]], function ($router) { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
+]], function () { //@todo Documentar/aclarar/encontrar por que funciona con auth:web y no con auth:api
     //Laravel Normal Notifications Access
     Route::get('me/notifications', 'MeController@getNotifications');
     Route::post('me/notifications/{id}/mark_as_read', 'MeController@markAsRead');
@@ -45,7 +45,7 @@ Route::group(['middleware' => [
             SetWialonTokenMiddleware::class,
             'limit_simoultaneous_access',
         ],
-    ], function ($router) {
+    ], function () {
         //region Account Notifications
         Route::get('account/access_logs', 'AccountController@accessLogs');
         Route::get('account/notifications', 'AccountNotificationsController@getNotifications');
@@ -128,7 +128,7 @@ Route::group(['middleware' => [
         Route::get('places/search', 'PlaceController@search');
         Route::resource('places', 'PlaceController')->except(['edit', 'create']);
 
-        Route::group(['middleware' => SetWialonTokenMiddleware::class], function ($router) {
+        Route::group(['middleware' => SetWialonTokenMiddleware::class], function () {
             //Units
             Route::get('units', 'UnitsController@listUnits');
             Route::get('units/with_localization', 'UnitsController@listUnitsLocalization');
@@ -161,7 +161,7 @@ Route::group(['middleware' => [
 
         Route::group([
             'prefix' => 'external/',
-        ], function ($router) {
+        ], function () {
             //Units
             Route::post('devices', 'DevicesController@storeExternal');
             Route::get('devices', 'DevicesController@listDevices');

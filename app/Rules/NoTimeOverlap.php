@@ -11,16 +11,6 @@ class NoTimeOverlap implements Rule
 {
     private $checkpoints;
 
-    /**
-     * Create a new rule instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        //
-//        $this->checkpoints = $checkpoints;
-    }
 
     /**
      * Determine if the validation rule passes.
@@ -37,7 +27,7 @@ class NoTimeOverlap implements Rule
             $time_to_check_exiting = new Carbon($checkpoint['exiting']);
 
             foreach ($value as $should_not_collide) {
-                if ($should_not_collide['place_id'] != $checkpoint['place_id']){
+                if ($should_not_collide['place_id'] !== $checkpoint['place_id']){
                     $start = new Carbon($should_not_collide['at_time']);
                     $end = new Carbon($should_not_collide['exiting']);
 

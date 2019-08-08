@@ -514,10 +514,10 @@ class Trip extends Model implements LoggerInterface
         trip_id=' . $this->id . '&
         device_id=' . $device;
         if ($place_id) {
-            $text = $text . "&place_id=$place_id";
+            $text .= "&place_id=$place_id";
         }
         if ($timeline_id) {
-            $text = $text . "&timeline_id=$timeline_id";
+            $text .= "&timeline_id=$timeline_id";
         }
 
         $text = '"' . $text . '"';

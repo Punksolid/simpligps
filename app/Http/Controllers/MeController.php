@@ -53,8 +53,8 @@ class MeController extends Controller
             auth()->user()->notifications()->where('id', $uuid)->first()->markAsRead();
 
             return \response()->json(['data' => 'ok']);
-        } catch (\Exception $e) {
-            \Log::error('Failed mark as read', $e->getMessage());
+        } catch (\Exception $exception) {
+            \Log::error('Failed mark as read', $exception->getMessage());
 
             return response()->json([
                 'message' => 'An error occurred',
