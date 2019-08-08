@@ -5,11 +5,9 @@ namespace Tests\Feature;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Permission;
-use App\User;
 use App\Role;
+use App\User;
 use Tests\Tenants\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 
 class PermissionsTest extends TestCase

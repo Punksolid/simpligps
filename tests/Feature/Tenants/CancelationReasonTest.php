@@ -2,11 +2,9 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\Tenants\TestCase;
-use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
 use App\CancelationReason;
+use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
+use Tests\Tenants\TestCase;
 
 class CancelationReasonTest extends TestCase
 {

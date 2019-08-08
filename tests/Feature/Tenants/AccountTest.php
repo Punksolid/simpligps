@@ -1,10 +1,8 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Tenants;
 
 use Tests\Tenants\TestCase;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AccountTest extends TestCase
 {

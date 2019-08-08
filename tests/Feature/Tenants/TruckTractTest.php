@@ -3,15 +3,12 @@
 namespace Tests\Feature;
 
 use App\Carrier;
-use App\TruckTract;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Punksolid\Wialon\Unit;
-use Tests\Tenants\TestCase;
 use App\Device;
 use App\Operator;
 use App\Trip;
-use Carbon\Carbon;
+use App\TruckTract;
+use Punksolid\Wialon\Unit;
+use Tests\Tenants\TestCase;
 
 class TruckTractTest extends TestCase
 {

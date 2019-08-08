@@ -26,6 +26,38 @@ class Place extends Model
         "high_risk" => 'bool'
     ];
 
+    #Relationships
+
+    /**
+     * Devuelve todos los viajes con sus checkpoints en los pivots, un lugar puede estar en muchos viajes, a su vez
+     * puede estar presente varias veces en un solo viaje, como por ejemplo cuando es origen y destino.
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function trips()
+    {
+        return $this->belongsToMany(
+            Trip::class,
+            'places_trips',
+            'place_id',
+            'trip_id'
+        )
+            ->using(Timeline::class)
+            ->withPivot([
+                'id',
+                'order',
+                'at_time',
+                'exiting',
+                'type',
+                'real_at_time',
+                'real_exiting'
+            ]);
+    }
+
+    public function checkpoints()
+    {
+        return $this->hasMany(Timeline::class);
+    }
+    #endregion
     #region Actions
     public function verifyConnection():bool
     {

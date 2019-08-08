@@ -95,9 +95,11 @@ Route::group(['middleware' => [
         Route::post('trips/convoys', 'ConvoyController@store');
         Route::get('trips/convoys', 'ConvoyController@index');
         Route::get('trips/convoys/{convoy}', 'ConvoyController@show');
-
+        //Checkpoints
+        Route::patch('checkpoints/{timeline}',"TripTimelineController@patch");
         //TRIPS
         Route::patch('trips/{trip}',"TripsController@patch");
+
         Route::put('trips/{trip}',"TripsController@update");
         Route::get('trips/{trip}/logs', 'TripsEventsController@index');
         Route::post('trips/{trip}/logs', 'TripsEventsController@store');

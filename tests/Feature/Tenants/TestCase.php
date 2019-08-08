@@ -2,12 +2,14 @@
 
 namespace Tests\Tenants;
 
-use App\Account;
+use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
+use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
 use App\User;
 use Faker\Factory;
-use Hyn\Tenancy\Models\Website;
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+use Tests\CreatesApplication;
 
 /**
  * Usando el repository al parecer no hace las migraciones automaticas
@@ -18,13 +20,7 @@ use Hyn\Tenancy\Models\Website;
  * usando el contract marca
  * Hyn\Tenancy\Exceptions\ModelValidationException : The given data was invalid.
  * */
-
-use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository; // contract
-
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-use Tests\CreatesApplication;
-use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
-use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
+// contract
 
 abstract class TestCase extends BaseTestCase
 {

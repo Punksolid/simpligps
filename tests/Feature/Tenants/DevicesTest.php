@@ -103,7 +103,6 @@ class DevicesTest extends TestCase
                     'model',
                     'internal_number',
                     'brand',
-                    'gps',
                     'color'
                 ]
             ]

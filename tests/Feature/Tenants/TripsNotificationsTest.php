@@ -2,14 +2,14 @@
 
 namespace Tests\Feature;
 
+use App\Device;
 use App\Events\ReceiveTripUpdate;
 use App\Place;
+use App\Trip;
 use App\TruckTract;
+use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Event;
 use Tests\Tenants\TestCase;
-use App\Trip;
-use App\Device;
-use Illuminate\Notifications\DatabaseNotification;
 
 class TripsNotificationsTest extends TestCase
 {

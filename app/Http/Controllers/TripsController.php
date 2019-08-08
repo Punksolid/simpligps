@@ -91,7 +91,7 @@ class TripsController extends Controller
             $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
         }
 
-        $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
+        $trip->setDestination($destination = Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
 
         if ($request->filled('trailers_ids')){
             foreach ($request->trailers_ids as $trailers_id) {
@@ -100,7 +100,7 @@ class TripsController extends Controller
         }
 
         $trip->load('client','intermediates','origin','destination');
-
+//        dd($trip->fresh('destination'));
         return TripResource::make($trip);
     }
 

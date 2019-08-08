@@ -16,8 +16,25 @@ class Timeline extends Pivot
 {
     use UsesTenantConnection;
 
+    public const NOT_YET_THERE = 0;
+    public const HERE_IT_IS = 1;
+    public const ALREADY_PASSED_HERE = 2;
+
     protected $table = 'places_trips';
 
     public $incrementing = true;
 
+    protected $fillable = [
+        'at_time',
+        'exiting',
+        'real_at_time',
+        'real_exiting',
+        'type',
+        'order'
+    ];
+
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
+    }
 }

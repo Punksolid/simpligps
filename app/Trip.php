@@ -146,6 +146,7 @@ class Trip extends Model implements LoggerInterface
 
     public function setOrigin(Place $place, $at_time, $exiting)
     {
+
         return $this->places()->sync([$place->id =>  [
             'type' => 'origin',
             'at_time' => $at_time,
@@ -164,20 +165,28 @@ class Trip extends Model implements LoggerInterface
         return $this->places()->wherePivot('type', '=', 'destination');
     }
 
+    /**
+     * @param Place $place
+     * @param $at_time
+     * @param $exiting
+     * @param Carbon|null $real_at_time
+     * @param Carbon|null $real_exiting
+     * @return array
+     */
     public function setDestination(Place $place, $at_time, $exiting, Carbon $real_at_time = null, Carbon $real_exiting = null)
     {
         $last = count($this->places) + 1;
 
         return $this->places()->wherePivot(
             'type' , '=','destination'
-        )->sync([$place->id =>  [
+        )->attach($place->id ,  [
             'type' => 'destination',
             'at_time' => $at_time,
             'exiting' => $exiting,
             'real_at_time' => $real_at_time,
             'real_exiting' => $real_exiting,
             'order' => $last,
-        ]]);
+        ]);
     }
 
     /**

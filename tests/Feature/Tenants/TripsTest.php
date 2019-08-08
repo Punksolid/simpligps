@@ -4,7 +4,6 @@ namespace Tests\Feature;
 
 use App\Carrier;
 use App\Client;
-use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Operator;
@@ -15,9 +14,6 @@ use App\TruckTract;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
-use Illuminate\Foundation\Testing\WithFaker;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Punksolid\Wialon\Resource;
 use Tests\Tenants\TestCase;
 
 class TripsTest extends TestCase
@@ -470,7 +466,6 @@ class TripsTest extends TestCase
         $call->assertJsonMissing([
             'id' => $mazatlan->id
         ]);
-        $call->dump();
         $call->assertJsonFragment([
             "id" => $trip_modified['trailers_ids'][0]
         ]);
@@ -480,6 +475,31 @@ class TripsTest extends TestCase
         return $call->getOriginalContent();
     }
 
+    public function test_editar_las_fechas_reales_de_entrada_y_salida_a_cualquier_lugar_del_timeline()
+    {
+        $trip = factory(Trip::class)->create();
+        $trip->setOrigin( $place1 = factory(Place::class)->create(),now(), now());
+        $trip->addIntermediate( $place2 = factory(Place::class)->create(),now(), now());
+        $trip->addIntermediate( $place3 = factory(Place::class)->create(),now(), now());
+        $trip->addIntermediate( $place4 = factory(Place::class)->create(),now(), now());
+        $trip->setDestination( $place5 = factory(Place::class)->create(),now(), now());
+
+        $checkpoint = $trip->places()->findOrFail($place1->id);
+        $form = [
+            'real_at_time' => now()->addDays(1)->toDateTimeString(),
+            'real_exiting' => now()->addDays(1)->toDateTimeString(),
+        ];
+
+        $call = $this->patchJson("/api/v1/checkpoints/{$checkpoint->pivot->id}", $form);
+
+        $call->assertJson([
+            'data' => [
+                'name' => $place1->name,
+                'real_at_time' => $form['real_at_time'],
+                'real_exiting' => $form['real_exiting']
+            ]
+        ]);
+    }
 
     public function test_usuario_elimina_viaje()
     {

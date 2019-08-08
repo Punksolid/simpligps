@@ -115,6 +115,18 @@ class TripModelTest extends TestCase
 
     }
 
+    public function test_setDestination_method()
+    {
+        $trip = factory(Trip::class)->create();
+        $arrays = $trip->setDestination($place = factory(Place::class)->create(), now(), now());
+        dump($arrays);
+        $this->assertDatabaseHas('places_trips',[
+            'trip_id' => $trip->id,
+            'place_id' => $place->id,
+            'type' => 'destination'
+        ],'tenant');
+    }
+
     public function test_getWialonParamsText_accepts_optional_fields()
     {
         $trip = factory(Trip::class)->create();
