@@ -29,9 +29,9 @@ class AccountsController extends Controller
      *  "roles": ["admin"]
      * }
      */
-    public function index()
+    public function index(Request $request)
     {
-        $request = request();
+
         $account_query = Account::query()->orderByDesc('created_at');
         if ($request->filled('easyname')) {
             $account_query->where('easyname', $request->easyname);
@@ -85,7 +85,7 @@ class AccountsController extends Controller
      */
     public function show(Account $account)
     {
-        $account->load(['users', 'licenses']);
+        $account->load(['users', 'licenses', 'activeLicenses']);
         if ($account->hasDatabaseAccesible()) {
             $account->wialon_key = $account->getTenantData(Setting::class)->getWialonToken();
         }
@@ -107,33 +107,21 @@ class AccountsController extends Controller
 
     /**
      * Elimina cuenta.
-     *
-     * @param int $id
-     *
+     * @param Account $account
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(Account $account)
+    public function destroy(Account $account, Request $request)
     {
+        if ($request->force_destroy === true){
+            $this->validate($request,[
+                'uuid' => 'required'
+            ]);
+            $account->deleteWithDatabase();
+        }
         $account->delete();
 
         return AccountResource::make($account);
-    }
-
-    public function forceDestroy(Request $request, Account $account)
-    {
-        $validated = $this->validate($request, [
-            'uuid' => 'required',
-        ]);
-
-        if ($account->delete()) {
-            \Artisan::call('trm:delete_account', [
-                'uuid' => $validated['uuid'],
-            ]);
-
-            return AccountResource::make($account);
-        }
-
-        return new \Exception('An error ocurred');
     }
 
     /**
@@ -245,17 +233,4 @@ class AccountsController extends Controller
         }
     }
 
-    public function getSettings(Account $account)
-    {
-        $environment = app(\Hyn\Tenancy\Environment::class);
-        $environment->tenant($account);
-
-        $settings = Setting::all();
-
-        return response([
-            'data' => [
-                'wialon_key' => $settings->where('key', 'wialon_key')->first()->value,
-            ],
-        ]);
-    }
 }

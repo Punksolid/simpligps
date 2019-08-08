@@ -47,20 +47,17 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
         return null;
     }
 
-    //region Relationships
+    #region Relationships
 
-    public function scopeActive($query)
+    public function users()
     {
-        return $query->whereHas('activeLicenses');
+        return $this->belongsToMany(User::class, 'users_accounts');
     }
 
-    public function scopeNearToExpire($query)
-    {
-        return $query->whereHas('nearToExpireLicenses');
-    }
-
-    //endregion
-
+    /**
+     * @param int $days
+     * @return BelongsToMany
+     */
     public function nearToExpireLicenses($days = 7)
     {
         $now = Carbon::now();
@@ -71,15 +68,18 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             ->wherePivot('expires_at', '<=', $now->addDays($days)->toDateTimeString());
     }
 
-    // region Scopes
+    #endregion
 
-    /**
-     * Revisa si la cuenta tiene una licencia con periodo activo.
-     * @return bool
-     */
-    public function isActive(): bool
+    #region Scopes
+
+    public function scopeNearToExpire($query)
     {
-        return (bool)$this->activeLicenses()->first();
+        return $query->whereHas('nearToExpireLicenses');
+    }
+
+    public function scopeActive($query)
+    {
+        return $query->whereHas('activeLicenses');
     }
 
     /**
@@ -95,14 +95,19 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             ->wherePivot('expires_at', '>=', $now);
     }
 
-    // endregion
+    #endregion
 
-    public function createAccount()
+    #region Actions
+    /**
+     * Deletes everything, this is a NOT RECOVERY ACTION
+     * @throws Exception
+     */
+    public function deleteWithDatabase()
     {
-        app(WebsiteRepository::class)->create($this);
-        config(['database.default' => 'system']);
-
-        return $this;
+        \Artisan::call('trm:delete_account', [
+            'uuid' => $this->uuid,
+        ]);
+        $this->delete();
     }
 
     public function addUser(User $user): bool
@@ -120,11 +125,12 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
         }
     }
 
-    //region Actions
-
-    public function users()
+    public function createAccount()
     {
-        return $this->belongsToMany(User::class, 'users_accounts');
+        app(WebsiteRepository::class)->create($this);
+        config(['database.default' => 'system']);
+
+        return $this;
     }
 
     /**
@@ -198,9 +204,18 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             );
     }
 
-    //endregion
+    #endregion
 
-    //region Info
+    #region Info
+
+    /**
+     * Revisa si la cuenta tiene una licencia con periodo activo.
+     * @return bool
+     */
+    public function isActive(): bool
+    {
+        return (bool)$this->activeLicenses()->first();
+    }
 
     public function getTenantData($model): Model
     {
@@ -242,5 +257,5 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
         )->exists();
     }
 
-    //endregion
+    #endregion
 }
