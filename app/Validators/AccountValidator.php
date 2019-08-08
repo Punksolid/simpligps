@@ -1,5 +1,4 @@
 <?php
-
 /*
  * This file is part of the hyn/multi-tenant package.
  *

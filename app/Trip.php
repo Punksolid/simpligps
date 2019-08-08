@@ -3,23 +3,28 @@
 namespace App;
 
 use App\Exceptions\MalformedTrip;
+use App\Traits\ModelLogger;
 use Carbon\Carbon;
+use Exception;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
+use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\MessageBag;
 use Illuminate\Validation\ValidationException;
-use Punksolid\Wialon\Geofence;
+use Psr\Log\LoggerInterface;
+use Psr\Log\LoggerTrait;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Unit;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Tags\HasTags;
-use App\Traits\ModelLogger;
-use Psr\Log\LoggerInterface;
-use Psr\Log\LoggerTrait;
 
 class Trip extends Model implements LoggerInterface
 {
@@ -29,6 +34,38 @@ class Trip extends Model implements LoggerInterface
     use LoggerTrait;
     use LogsActivity;
 
+    private const DEBUG = 100;
+    /**
+     * Interesting events.
+     * Examples: User logs in, SQL logs.
+     */
+    private const INFO = 200;
+    private const NOTICE = 250;
+    /**
+     * Exceptional occurrences that are not errors.
+     * Examples: Use of deprecated APIs, poor use of an API,
+     * undesirable things that are not necessarily wrong.
+     */
+    private const WARNING = 300;
+
+    // Detailed debug information
+    private const ERROR = 400;
+    /**
+     * Critical conditions.
+     * Example: Application component unavailable, unexpected exception.
+     */
+    private const CRITICAL = 500;
+
+    // Uncommon events
+    /**
+     * Action must be taken immediately.
+     * Example: Entire website down, database unavailable, etc.
+     * This should trigger the SMS alerts and wake you up.
+     */
+    private const ALERT = 550;
+    private const EMERGENCY = 600;
+
+    //Runtime Errors
     protected static $logAttributes = [
         'rp',
         'invoice',
@@ -40,60 +77,10 @@ class Trip extends Model implements LoggerInterface
         'georoute_ref',
         'operator_id',
     ];
-
-    public function getDescriptionForEvent(string $eventName): string
-    {
-//        return "The trip was $eventName";
-        return "The trip :subject.rp was $eventName";
-//        return 'The subject name is :subject.rp, the causer name is :causer.name and Laravel is :properties.attributes';
-    }
-
     protected static $submitEmptyLogs = false;
-
     protected static $logOnlyDirty = true;
 
-    // Detailed debug information
-    private const DEBUG = 100;
-
-    /**
-     * Interesting events.
-     *
-     * Examples: User logs in, SQL logs.
-     */
-    private const INFO = 200;
-
-    // Uncommon events
-    private const NOTICE = 250;
-
-    /**
-     * Exceptional occurrences that are not errors.
-     *
-     * Examples: Use of deprecated APIs, poor use of an API,
-     * undesirable things that are not necessarily wrong.
-     */
-    private const WARNING = 300;
-
-    //Runtime Errors
-    private const ERROR = 400;
-
-    /**
-     * Critical conditions.
-     *
-     * Example: Application component unavailable, unexpected exception.
-     */
-    private const CRITICAL = 500;
-
-    /**
-     * Action must be taken immediately.
-     *
-     * Example: Entire website down, database unavailable, etc.
-     * This should trigger the SMS alerts and wake you up.
-     */
-    private const ALERT = 550;
-
     // Urgent alert.
-    private const EMERGENCY = 600;
-
     protected $fillable = [
         'rp',
         'invoice',
@@ -105,11 +92,9 @@ class Trip extends Model implements LoggerInterface
         'georoute_ref',
         'operator_id',
     ];
-
     protected $casts = [
         'bulk' => 'array',
     ];
-
     protected $dates = [
         'scheduled_load',
         'scheduled_departure',
@@ -119,16 +104,47 @@ class Trip extends Model implements LoggerInterface
         'real_arrival',
     ];
 
+    public function getDescriptionForEvent(string $eventName): string
+    {
+//        return "The trip was $eventName";
+        return "The trip :subject.rp was $eventName";
+//        return 'The subject name is :subject.rp, the causer name is :causer.name and Laravel is :properties.attributes';
+    }
+
     //region Relationships
 
     /**
      * Devuelve modelo del Origin.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function getOrigin()
     {
         return $this->places()->wherePivot('type', '=', 'origin')->first();
+    }
+
+    /**
+     * Relacion muchos a muchos, puntos intermedios.
+     */
+    public function places()
+    {
+        return $this->belongsToMany(
+            Place::class,
+            'places_trips',
+            'trip_id',
+            'place_id'
+        )
+            ->using(Timeline::class)
+            ->withPivot(
+                [
+                    'id',
+                    'order',
+                    'at_time',
+                    'exiting',
+                    'type',
+                    'real_at_time',
+                    'real_exiting',
+                ]
+            );
     }
 
     public function origin()
@@ -148,17 +164,16 @@ class Trip extends Model implements LoggerInterface
 
     public function setOrigin(Place $place, $at_time, $exiting)
     {
-        return $this->places()->sync([$place->id => [
-            'type' => 'origin',
-            'at_time' => $at_time,
-            'exiting' => $exiting,
-            'order' => 0,
-        ]]);
-    }
-
-    public function getDestination()
-    {
-        return $this->places()->wherePivot('type', '=', 'destination')->first();
+        return $this->places()->sync(
+            [
+                $place->id => [
+                    'type' => 'origin',
+                    'at_time' => $at_time,
+                    'exiting' => $exiting,
+                    'order' => 0,
+                ],
+            ]
+        );
     }
 
     public function destination()
@@ -172,31 +187,37 @@ class Trip extends Model implements LoggerInterface
      * @param $exiting
      * @param Carbon|null $real_at_time
      * @param Carbon|null $real_exiting
-     *
      * @return array
      */
-    public function setDestination(Place $place, $at_time, $exiting, Carbon $real_at_time = null, Carbon $real_exiting = null)
-    {
+    public function setDestination(
+        Place $place,
+        $at_time,
+        $exiting,
+        Carbon $real_at_time = null,
+        Carbon $real_exiting = null
+    ) {
         $last = count($this->places) + 1;
 
         return $this->places()->wherePivot(
             'type',
             '=',
             'destination'
-        )->attach($place->id, [
-            'type' => 'destination',
-            'at_time' => $at_time,
-            'exiting' => $exiting,
-            'real_at_time' => $real_at_time,
-            'real_exiting' => $real_exiting,
-            'order' => $last,
-        ]);
+        )->attach(
+            $place->id,
+            [
+                'type' => 'destination',
+                'at_time' => $at_time,
+                'exiting' => $exiting,
+                'real_at_time' => $real_at_time,
+                'real_exiting' => $real_exiting,
+                'order' => $last,
+            ]
+        );
     }
 
     /**
      * Traces son todos los registros que va dejando el plan de viaje, antes Bitacora.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
     public function traces()
     {
@@ -210,33 +231,14 @@ class Trip extends Model implements LoggerInterface
             ->orderBy('order_column');
     }
 
-    /**
-     * Relacion muchos a muchos, puntos intermedios.
-     */
-    public function places()
+    public static function getTagClassName(): string
     {
-        return $this->belongsToMany(
-            Place::class,
-            'places_trips',
-            'trip_id',
-            'place_id'
-        )
-            ->using(Timeline::class)
-            ->withPivot([
-                'id',
-                'order',
-                'at_time',
-                'exiting',
-                'type',
-                'real_at_time',
-                'real_exiting',
-            ]);
+        return MariadbTag::class;
     }
 
     /**
      * Alias de Places con pivot intermediate.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
     public function intermediates()
     {
@@ -244,36 +246,8 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * Un viaje puede tener varias Cajas (TrailerBoxes), el campo order en pivot representa el orden de las cajas.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
-     */
-    public function trailers()
-    {
-        return $this->belongsToMany(
-            'App\TrailerBox',
-            'trailer_boxes_trips',
-            'trip_id',
-            'trailer_box_id'
-        )->withPivot([
-            'order',
-        ]);
-    }
-
-    /**
-     * Un viaje puede tener un tracto.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function truck()
-    {
-        return $this->belongsTo(TruckTract::class, 'truck_tract_id');
-    }
-
-    /**
      * Un viaje tiene un operador asignado al viaje.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
     public function operator()
     {
@@ -282,12 +256,11 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Trip tiene muchos logs.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
     public function logs()
     {
-        return $this->morphMany(\App\Log::class, 'loggable');
+        return $this->morphMany(Log::class, 'loggable');
     }
 
     /**
@@ -298,13 +271,13 @@ class Trip extends Model implements LoggerInterface
         return $this->belongsTo(Client::class, 'client_id');
     }
 
-    //endregion
-
-    //region actions
+    public function syncIntermediate($place, $at_time, $exiting)
+    {
+        return $this->addIntermediate($place, $at_time, $exiting, true);
+    }
 
     /**
      * Add Intermediate Places points.
-     *
      * @param Place $place
      */
     public function addIntermediate($place_id, $at_time, $exiting, $sync = false)
@@ -323,27 +296,50 @@ class Trip extends Model implements LoggerInterface
         return $this->places()->attach($place_id, $attributes);
     }
 
-    public function syncIntermediate($place, $at_time, $exiting)
+    //endregion
+
+    //region actions
+
+    public function syncTrailerBox(int $trailer_box_id)
     {
-        return $this->addIntermediate($place, $at_time, $exiting, true);
+        $this->addTrailerBox($trailer_box_id, true);
     }
 
     public function addTrailerBox(int $trailer_box_id, $sync = false)
     {
         if ($sync) {
-            return $this->trailers()->sync($trailer_box_id, [
-                'order' => 0,
-            ]);
+            return $this->trailers()->sync(
+                $trailer_box_id,
+                [
+                    'order' => 0,
+                ]
+            );
         }
 
-        $this->trailers()->attach($trailer_box_id, [
-            'order' => 0,
-        ]);
+        $this->trailers()->attach(
+            $trailer_box_id,
+            [
+                'order' => 0,
+            ]
+        );
     }
 
-    public function syncTrailerBox(int $trailer_box_id)
+    /**
+     * Un viaje puede tener varias Cajas (TrailerBoxes), el campo order en pivot representa el orden de las cajas.
+     * @return BelongsToMany
+     */
+    public function trailers()
     {
-        $this->addTrailerBox($trailer_box_id, true);
+        return $this->belongsToMany(
+            'App\TrailerBox',
+            'trailer_boxes_trips',
+            'trip_id',
+            'trailer_box_id'
+        )->withPivot(
+            [
+                'order',
+            ]
+        );
     }
 
     /**
@@ -380,50 +376,22 @@ class Trip extends Model implements LoggerInterface
          */
         $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
 
-        $wialon_notifications = $wialon_notifications->map(function ($wnotify) use ($resource) {
-            return "{$resource->id}_$wnotify->id";
-        });
+        $wialon_notifications = $wialon_notifications->map(
+            function ($wnotify) use ($resource) {
+                return "{$resource->id}_$wnotify->id";
+            }
+        );
 
         return $wialon_notifications->toArray();
     }
 
-    public function updateTimeline($action, $timeline_id, $timestamp = null)
+    public function getTenantUuid()
     {
-        $timestamp = $timestamp ?: now()->toDateTimeString();
-
-        $action = 'entering' == $action ? 'real_at_time' : 'real_exiting';
-        $attributes = [
-            $action => $timestamp,
-        ];
-
-        $timeline = Timeline::find($timeline_id);
-        $timeline->update($attributes);
-//        $this->places()->updateExistingPivot($place_id, $attributes);
-
-        return $attributes;
-    }
-
-    //endregion
-    //region Getters
-
-    /**
-     * Devuelve todos los Ids de Geofences de wialon en formato resourceId_localId.
-     *
-     * @return array
-     */
-    public function getAllPlacesGeofences(): array
-    {
-        return $this->getAllPlaces()->pluck('geofence_ref')->toArray();
-    }
-
-    public function getAllPlaces(): Collection
-    {
-        return $this->places()->get();
+        return config('database.connections.tenant.database');
     }
 
     /**
      * Devuelve los ids de wialon_id.
-     *
      * @return Collection
      */
     public function getExternalWialonUnitsIds(): Collection
@@ -439,49 +407,90 @@ class Trip extends Model implements LoggerInterface
     }
 
     //endregion
-    //    Override Tag class para aceptar mariadb
-    public static function getTagClassName(): string
+    //region Getters
+
+    /**
+     * Un viaje puede tener un tracto.
+     * @return BelongsTo
+     */
+    public function truck()
     {
-        return MariadbTag::class;
+        return $this->belongsTo(TruckTract::class, 'truck_tract_id');
+    }
+
+    /**
+     * @return GeofenceControlType
+     */
+    private function getControlType(): GeofenceControlType
+    {
+        $control_type = new GeofenceControlType(); // Inicializar control types
+
+        $all_geofences = $this->getAllPlacesGeofences();
+        foreach ($all_geofences as $geofence) {
+            $control_type->addGeozoneId($geofence);
+        }
+
+        return $control_type;
+    }
+
+    /**
+     * Devuelve todos los Ids de Geofences de wialon en formato resourceId_localId.
+     * @return array
+     */
+    public function getAllPlacesGeofences(): array
+    {
+        return $this->getAllPlaces()->pluck('geofence_ref')->toArray();
+    }
+
+    //endregion
+    //    Override Tag class para aceptar mariadb
+
+    public function getAllPlaces(): Collection
+    {
+        return $this->places()->get();
     }
 
     //region Scopes
-    public function scopeOnlyOngoing($query)
-    {
-        return $query->select([
-            'trips.*',
-            'origin.id as origin_id',
-            'origin.type as type',
-            'origin.order as order',
-            'origin.at_time as origin_at_time',
-            'origin.exiting as origin_exiting',
 
-            'destination.id as destination_id',
-            'destination.type as destination type',
-            'destination.order as destination order',
-            'destination.at_time as destination_at_time',
-            'destination.exiting as destination_exiting',
-        ])
-            ->join('places_trips as origin', function ($join) {
-                $join->on('trips.id', '=', 'origin.trip_id')
-                    ->where('origin.type', '=', 'origin')
-                    ->where('origin.at_time', '<', now()->toDateTimeString());
-            })
-            ->join('places_trips as destination', function ($join) {
-                $join->on('trips.id', '=', 'destination.trip_id')
-                    ->where('destination.type', '=', 'destination')
-                    ->where('destination.exiting', '>', now()->toDateTimeString());
-            });
+    /**
+     * @param Repository $tenant_uuid
+     * @return Notification\Action
+     */
+    private function getAction($tenant_uuid): Notification\Action
+    {
+        $action = new Notification\Action(
+            'push_messages', [
+                'url' => url(config('app.url')."api/v1/$tenant_uuid/alert/trips/".$this->id),
+            ]
+        );
+
+        return $action;
     }
 
     //endregion
 
     /**
+     * @return mixed
+     */
+    public function getDevices(): Collection
+    {
+        $trailers = $this->trailers()
+            ->whereHas('device')
+            ->with('device')->get();
+
+        $devices = $trailers->pluck('device');
+
+        return $devices->push($this->truck->device);
+
+//        $device_id = $this->truck->device->id;
+////        // @TODO Agregar los ids de los devices de las cajas (trailerboxes) del viaje
+//        return $device_id;
+    }
+
+    /**
      * El texto del formulario que devolverá wialon.
-     *
-     * @param \Illuminate\Config\Repository $tenant_uuid
+     * @param Repository $tenant_uuid
      * @param $device
-     *
      * @return string
      */
     public function getWialonParamsText($tenant_uuid, $device, $place_id = null, $timeline_id = null): string
@@ -530,95 +539,20 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * @param \Illuminate\Config\Repository $tenant_uuid
-     *
-     * @return resource|null
-     */
-    public function findOrCreateWialonResource(string $name)
-    {
-        $resource = Resource::findByName($name);
-        if (!$resource) {
-            $resource = Resource::make($name);
-        }
-        return $resource;
-    }
-
-    /**
-     * @param resource|null       $resource
-     * @param Collection          $wialon_units
      * @param GeofenceControlType $control_type
+     * @param resource|null $resource
+     * @param Collection $wialon_units
      * @param Notification\Action $action
-     * @param string              $text
-     *
-     * @return Notification|null
-     *
-     * @throws \Exception
-     */
-    public function createWialonNotification(Collection $wialon_units, GeofenceControlType $control_type, $name, Notification\Action $action, string $text)
-    {
-        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
-
-        return Notification::make($resource, $wialon_units, $control_type, $name, $action, [
-            'txt' => $text,
-        ]);
-    }
-
-    /**
-     * @param \Illuminate\Config\Repository $tenant_uuid
-     *
-     * @return Notification\Action
-     */
-    private function getAction($tenant_uuid): Notification\Action
-    {
-        $action = new Notification\Action('push_messages', [
-            'url' => url(config('app.url')."api/v1/$tenant_uuid/alert/trips/".$this->id),
-        ]);
-        return $action;
-    }
-
-    /**
-     * @return GeofenceControlType
-     */
-    private function getControlType(): GeofenceControlType
-    {
-        $control_type = new GeofenceControlType(); // Inicializar control types
-
-        $all_geofences = $this->getAllPlacesGeofences();
-        foreach ($all_geofences as $geofence) {
-            $control_type->addGeozoneId($geofence);
-        }
-        return $control_type;
-    }
-
-    /**
-     * WTF! @deprecated.
-     */
-    private function nameToDefine()
-    {
-        $all_geofences = $this->getAllPlacesGeofences();
-        foreach ($all_geofences as $geofence) {
-            $control_type = new GeofenceControlType($geofence); // Inicializar control types
-            $control_type->setType(0); // enter
-//            $this->createWialonNotification($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, $text)); // Notificacion de entradas
-
-            $this->createWialonNotification();
-//            $control_type->addGeozoneId($geofence);
-        }
-    }
-
-    /**
-     * @param GeofenceControlType $control_type
-     * @param resource|null       $resource
-     * @param Collection          $wialon_units
-     * @param Notification\Action $action
-     * @param string              $text
-     *
+     * @param string $text
      * @return Collection
-     *
-     * @throws \Exception
+     * @throws Exception
      */
-    private function createWialonNotifications(GeofenceControlType $control_type, Collection $wialon_units, Notification\Action $action, string $text)
-    {
+    private function createWialonNotifications(
+        GeofenceControlType $control_type,
+        Collection $wialon_units,
+        Notification\Action $action,
+        string $text
+    ) {
         $wialon_notifications = collect();
         $places = $this->places;
 
@@ -628,40 +562,148 @@ class Trip extends Model implements LoggerInterface
             $control_type->addGeozoneId($place->geofence_ref);
 
             $control_type->setType(0); // modificar control_type entrada
-            $text = $this->getWialonParamsText($this->getTenantUuid(), $this->getDevices()->first()->id, $place->id, $place->pivot->id);
+            $text = $this->getWialonParamsText(
+                $this->getTenantUuid(),
+                $this->getDevices()->first()->id,
+                $place->id,
+                $place->pivot->id
+            );
             $wialon_notifications->push(
-                $this->createWialonNotification($wialon_units, $control_type, "{$this->id}.entering.{$place->id}", $action, $text) // Notificacion de entradas
+                $this->createWialonNotification(
+                    $wialon_units,
+                    $control_type,
+                    "{$this->id}.entering.{$place->id}",
+                    $action,
+                    $text
+                ) // Notificacion de entradas
             );
 
             $control_type->setType(1); // salida
             $wialon_notifications->push(
-                $this->createWialonNotification($wialon_units, $control_type, "{$this->id}.leaving.{$place->id}", $action, $text) // Notificacion de salidas
+                $this->createWialonNotification(
+                    $wialon_units,
+                    $control_type,
+                    "{$this->id}.leaving.{$place->id}",
+                    $action,
+                    $text
+                ) // Notificacion de salidas
             );
         }
+
         return $wialon_notifications;
     }
 
     /**
-     * @return mixed
+     * @param resource|null $resource
+     * @param Collection $wialon_units
+     * @param GeofenceControlType $control_type
+     * @param Notification\Action $action
+     * @param string $text
+     * @return Notification|null
+     * @throws Exception
      */
-    public function getDevices(): Collection
-    {
-        $trailers = $this->trailers()
-            ->whereHas('device')
-            ->with('device')->get();
+    public function createWialonNotification(
+        Collection $wialon_units,
+        GeofenceControlType $control_type,
+        $name,
+        Notification\Action $action,
+        string $text
+    ) {
+        $resource = $this->findOrCreateWialonResource("trm.trips.{$this->id}.{$this->getTenantUuid()}");
 
-        $devices = $trailers->pluck('device');
-
-        return $devices->push($this->truck->device);
-
-//        $device_id = $this->truck->device->id;
-////        // @TODO Agregar los ids de los devices de las cajas (trailerboxes) del viaje
-//        return $device_id;
+        return Notification::make(
+            $resource,
+            $wialon_units,
+            $control_type,
+            $name,
+            $action,
+            [
+                'txt' => $text,
+            ]
+        );
     }
 
-    public function getTenantUuid()
+    /**
+     * @param Repository $tenant_uuid
+     * @return resource|null
+     */
+    public function findOrCreateWialonResource(string $name)
     {
-        return config('database.connections.tenant.database');
+        $resource = Resource::findByName($name);
+        if (!$resource) {
+            $resource = Resource::make($name);
+        }
+
+        return $resource;
+    }
+
+    public function updateTimeline($action, $timeline_id, $timestamp = null)
+    {
+        $timestamp = $timestamp ?: now()->toDateTimeString();
+
+        $action = $this->getFieldToUpdate($action);
+
+        $attributes = [
+            $action => $timestamp,
+        ];
+
+        $timeline = Timeline::find($timeline_id);
+        $timeline->update($attributes);
+
+//        $this->places()->updateExistingPivot($place_id, $attributes);
+
+        return $attributes;
+    }
+
+    /**
+     * Las notificaciones pueden avisar que entraron "entering" o que salieron "exiting" segun las acciones se deben
+     * actualizar los campos en la base datos.
+     * @param $action
+     * @return string
+     */
+    public function getFieldToUpdate($action): string
+    {
+        if ('entering' === $action) {
+            return 'real_at_time';
+        }
+
+        return 'real_exiting';
+    }
+
+    public function scopeOnlyOngoing($query)
+    {
+        return $query->select(
+            [
+                'trips.*',
+                'origin.id as origin_id',
+                'origin.type as type',
+                'origin.order as order',
+                'origin.at_time as origin_at_time',
+                'origin.exiting as origin_exiting',
+
+                'destination.id as destination_id',
+                'destination.type as destination type',
+                'destination.order as destination order',
+                'destination.at_time as destination_at_time',
+                'destination.exiting as destination_exiting',
+            ]
+        )
+            ->join(
+                'places_trips as origin',
+                function ($join) {
+                    $join->on('trips.id', '=', 'origin.trip_id')
+                        ->where('origin.type', '=', 'origin')
+                        ->where('origin.at_time', '<', now()->toDateTimeString());
+                }
+            )
+            ->join(
+                'places_trips as destination',
+                function ($join) {
+                    $join->on('trips.id', '=', 'destination.trip_id')
+                        ->where('destination.type', '=', 'destination')
+                        ->where('destination.exiting', '>', now()->toDateTimeString());
+                }
+            );
     }
 
     public function deleteWialonNotificationsForTrips()
@@ -672,6 +714,7 @@ class Trip extends Model implements LoggerInterface
         if ($resource) {
             $destroy = $resource->destroy();
             info($destroy);
+
             return $destroy;
         }
 
@@ -681,8 +724,7 @@ class Trip extends Model implements LoggerInterface
     /**
      * Valida que todos los elementos del viaje están correctos y se puede crear el recurso con sus notificaciones
      * en la plataforma de wialon.
-     *
-     * @throws \Exception
+     * @throws Exception
      */
     public function validateWialonReferrals(): void
     {
@@ -703,10 +745,32 @@ class Trip extends Model implements LoggerInterface
         $trailers = $this->trailers()->whereDoesntHave('device')->get();
         if ($trailers) {
             foreach ($trailers as $trailer) {
-                $bag->add('trailer', "Trailer Box with internal number $trailer->internal_number doesn't have a device");
+                $bag->add(
+                    'trailer',
+                    "Trailer Box with internal number $trailer->internal_number doesn't have a device"
+                );
             }
         }
 
+        if ($bag->isNotEmpty()) {
+            throw ValidationException::withMessages($bag->getMessages());
+        }
+    }
+
+    private function validatePlacesConnection(): void
+    {
+        //Validar que todos los lugares tienen geocercas conectados
+        $places = $this->places;
+        if ($places->count() <= 1) {
+            throw new Exception('Trip needs at least origin and destination.');
+        }
+        $bag = new MessageBag();
+        foreach ($places as $place) {
+            if (!$place->verifyConnection()) {
+                $bag->add('place', "The place $place->name can't connect to wialon.");
+//                throw new WialonConnectionErrorException("place","The place $place->name can't connect to wialon.");
+            }
+        }
         if ($bag->isNotEmpty()) {
             throw ValidationException::withMessages($bag->getMessages());
         }
@@ -728,41 +792,42 @@ class Trip extends Model implements LoggerInterface
         }
     }
 
-    private function validatePlacesConnection(): void
-    {
-        //Validar que todos los lugares tienen geocercas conectados
-        $places = $this->places;
-        if ($places->count() <= 1) {
-            throw new \Exception('Trip needs at least origin and destination.');
-        }
-        $bag = new MessageBag();
-        foreach ($places as $place) {
-            if (!$place->verifyConnection()) {
-                $bag->add('place', "The place $place->name can't connect to wialon.");
-//                throw new WialonConnectionErrorException("place","The place $place->name can't connect to wialon.");
-            }
-        }
-        if ($bag->isNotEmpty()) {
-            throw ValidationException::withMessages($bag->getMessages());
-        }
-    }
-
     public function getWialonResourceNameAttribute(): string
     {
         return "trm.trips.{$this->id}.{$this->getTenantUuid()}";
     }
 
     /**
-     * @param Trip $trip
-     *
      * @return mixed
+     * @throws MalformedTrip
      */
     public function canCloseTrip(): bool
     {
         try {
-            return (bool) $this->getDestination()->pivot->real_exiting;
-        } catch (\Exception $exception) {
+            return (bool)$this->getDestination()->pivot->real_exiting;
+        } catch (Exception $exception) {
             throw new MalformedTrip("Trip can't retrieve the real exiting field.");
+        }
+    }
+
+    public function getDestination()
+    {
+        return $this->places()->wherePivot('type', '=', 'destination')->first();
+    }
+
+    /**
+     * WTF! @deprecated.
+     */
+    private function nameToDefine()
+    {
+        $all_geofences = $this->getAllPlacesGeofences();
+        foreach ($all_geofences as $geofence) {
+            $control_type = new GeofenceControlType($geofence); // Inicializar control types
+            $control_type->setType(0); // enter
+//            $this->createWialonNotification($resource, $wialon_units, $control_type, "entering.{$this->id}", $action, $text)); // Notificacion de entradas
+
+            $this->createWialonNotification();
+//            $control_type->addGeozoneId($geofence);
         }
     }
 }
