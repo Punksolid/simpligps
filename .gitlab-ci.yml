@@ -9,7 +9,7 @@ variables:
   MYSQL_ROOT_PASSWORD: root
   MYSQL_DATABASE: neotrm
   MYSQL_USER: punksolid
-  MYSQL_PASSWORD: 123qwe
+  MYSQL_PASSWORD: 123qwe123
 
 # This folder is cached between builds
 # http://docs.gitlab.com/ce/ci/yaml/README.html#cache
