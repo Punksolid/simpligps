@@ -51,6 +51,10 @@ class Role extends SpatieRole
         $permissions = collect($permissions)
             ->flatten()
             ->map(function ($permission) {
+                if (empty($permission)) {
+                    return false;
+                }
+
                 return $this->getStoredPermission($permission);
             })
             ->filter(function ($permission) {
@@ -90,6 +94,7 @@ class Role extends SpatieRole
 
     /**
      * @param string|array|\Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection $permissions
+     *
      * @return \Spatie\Permission\Contracts\Permission|\Illuminate\Support\Collection
      */
     protected function getStoredPermission($permissions)

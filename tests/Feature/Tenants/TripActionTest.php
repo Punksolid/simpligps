@@ -24,6 +24,7 @@ class TripActionTest extends TestCase
 
     public function test_stop_actualizaciones_automaticas_de_un_viaje()
     {
+        $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create();
         $truck = factory(TruckTract::class)->create();
         $truck->assignDevice(factory(Device::class)->create(['wialon_id' => '17471332']));
@@ -31,16 +32,16 @@ class TripActionTest extends TestCase
         $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
         $trip->update(['truck_tract_id' => $truck->id]);
 
-        $trip->createWialonNotificationsForTrips();
-        $resource = Resource::findByName($trip->wialon_resource_name);
+        $trip->wialon_trips->createWialonNotificationsForTrips();
+        $resource = Resource::findByName($trip->wialon_trips->resource_name);
 
-        $this->assertEquals($trip->wialon_resource_name,$resource->nm);
+        $this->assertEquals($trip->wialon_trips->resource_name,$resource->nm);
 
         $call = $this->deleteJson("/api/v1/trips/$trip->id/automatic_updates");
 
         $call->assertSuccessful();
 
-        $resource = Resource::findByName($trip->wialon_resource_name);
+        $resource = Resource::findByName($trip->wialon_trips->resource_name);
 
         $this->assertNull($resource);
     }

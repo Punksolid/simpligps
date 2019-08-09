@@ -57,7 +57,7 @@ class TenantTinkerCommand extends TinkerParentCommand
             parent::handle();
 
             $this->connection->purge();
-        } catch (ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $exception) {
             throw new RuntimeException(sprintf('The tenancy account_id=%d does not exist.', $account_id));
         }
     }

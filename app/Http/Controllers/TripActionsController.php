@@ -6,48 +6,50 @@ use App\Trip;
 use http\Env\Response;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
-use Punksolid\Wialon\Resource;
 
 class TripActionsController extends Controller
 {
     /**
      * Dar salida a un viaje, verifica que se cumplan las condiciones de los elementos que pudieran estar asociados a
-     * wialon
-     * @param Trip $trip
+     * wialon.
+     *
+     * @param Trip    $trip
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
+     *
      * @throws \Illuminate\Validation\ValidationException
      */
     public function giveExit(Trip $trip, Request $request)
     {
         $this->validate($request, [
-            'enable_automatic_updates' => 'required|bool'
+            'enable_automatic_updates' => 'required|bool',
         ]);
 
-        $trip->validateWialonReferrals();
+        $trip->wialon_trips->validateWialonReferrals();
 
         if ($request->enable_automatic_updates) {
-            $array_wialon_notifications_ids = $trip->createWialonNotificationsForTrips();
+            $array_wialon_notifications_ids = $trip->wialon_trips->createWialonNotificationsForTrips();
             if (count($array_wialon_notifications_ids) >= 1) {
                 return response()->json([
-                    'data' => 'Exit with automatic updates were created succesfully.'
+                    'data' => 'Exit with automatic updates were created succesfully.',
                 ]);
             }
         }
 
-        return \response()->json(['data' => "No data were validated"]);
+        return \response()->json(['data' => 'No data were validated']);
     }
 
     public function destroy(Trip $trip)
     {
-        if ($trip->deleteWialonNotificationsForTrips()) {
+        if ($trip->wialon_trips->deleteWialonNotificationsForTrips()) {
             return \response()->json([
-                'message' => 'Automatic Updates Deactivated.'
+                'message' => 'Automatic Updates Deactivated.',
             ]);
         }
 
         return \response()->json([
-            'message' => 'An Error Ocurred or Did Not Have Automatic Updates Activated.'
+            'message' => 'An Error Ocurred or Did Not Have Automatic Updates Activated.',
         ]);
     }
 
@@ -55,18 +57,19 @@ class TripActionsController extends Controller
     {
         if (!$trip->canCloseTrip()) {
             throw  ValidationException::withMessages([
-                'real_exiting' => "The Real Schedule Unload is not yet defined, in order to close the trip you need to specify it."
+                'real_exiting' => 'The Real Schedule Unload is not yet defined, in order to close the trip you need to specify it.',
             ]);
         }
 
         if ($trip->canCloseTrip()) {
             try {
-                $trip->deleteWialonNotificationsForTrips();
+                $trip->wialon_trips->deleteWialonNotificationsForTrips();
             } catch (\Exception $exception) {
-                info("Closing Trips That Wialon Notifications Thrown an exception: $exception->getMessage()");
+                info("Closing Trips That Wialon Notifications Thrown an exception: {$exception->getMessage()}");
             }
+
             return \response()->json([
-                "message" => "Trip $trip->id Closed"
+                'message' => "Trip $trip->id Closed",
             ]);
         }
     }

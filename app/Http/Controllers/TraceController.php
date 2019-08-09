@@ -8,8 +8,8 @@ use App\Trip;
 use Illuminate\Http\Request;
 
 /**
- * Class TraceController
- * @package App\Http\Controllers
+ * Class TraceController.
+ *
  * @resource Trace
  */
 class TraceController extends Controller
@@ -24,18 +24,17 @@ class TraceController extends Controller
         return TraceResource::collection($trip->traces);
     }
 
-
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Trip $trip)
     {
         $trace = $trip->traces()->create([
-            "content" => $request->all()
+            'content' => $request->all(),
             ]);
 
         return TraceResource::make($trace);

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Client;
 use App\Http\Requests\ClientRequest;
 use App\Http\Resources\ClientResource;
-use App\Http\Resources\ContactResource;
 use Illuminate\Http\Request;
 use App\Interfaces\Search;
 
@@ -23,11 +22,11 @@ class ClientController extends Controller implements Search
         return ClientResource::collection($clients);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(ClientRequest $request)
@@ -40,7 +39,8 @@ class ClientController extends Controller implements Search
     /**
      * Display the specified resource.
      *
-     * @param  \App\Client  $clientModel
+     * @param \App\Client $clientModel
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($client_id)
@@ -50,13 +50,12 @@ class ClientController extends Controller implements Search
         return response()->json($client);
     }
 
-
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Client  $clientModel
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Client              $clientModel
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(ClientRequest $request, $client_id)
@@ -70,7 +69,8 @@ class ClientController extends Controller implements Search
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Client  $clientModel
+     * @param \App\Client $clientModel
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($client_id)
@@ -85,17 +85,17 @@ class ClientController extends Controller implements Search
     public function search(\Illuminate\Http\Request $request)
     {
         $clients = Client::query();
-        
+
         if ($request->filled('company_name')) {
             $clients->where('company_name', 'LIKE', "%{$request->company_name}%");
         }
-        
+
         if ($request->filled('person_name')) {
             $clients->where('person_name', 'LIKE', "%{$request->person_name}%");
         }
-        
+
         $clients = $clients->paginate(50);
-        
+
         return ClientResource::collection($clients);
     }
 }

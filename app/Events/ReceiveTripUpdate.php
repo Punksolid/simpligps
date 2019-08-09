@@ -3,17 +3,16 @@
 namespace App\Events;
 
 use App\Trip;
-use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
 class ReceiveTripUpdate
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable;
+    use InteractsWithSockets;
+    use SerializesModels;
     /**
      * @var Trip
      */
@@ -25,8 +24,6 @@ class ReceiveTripUpdate
 
     /**
      * Create a new event instance.
-     *
-     * @return void
      */
     public function __construct(Trip $trip, $context = [])
     {

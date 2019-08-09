@@ -111,7 +111,7 @@ class PermissionRegistrar
                     return $user->hasPermissionTo($ability) ?: null;
                 }
             } catch (PermissionDoesNotExist $exception) {
-                \Log::error('Permission does not exists '. $exception->getMessage());
+                \Log::error('Permission does not exists '.$exception->getMessage());
             }
         });
 

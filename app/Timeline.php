@@ -7,10 +7,9 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 /**
  * Este es un MODELO ESPECIAL, es un PIVOT de Trips y Places
- * Util para toda la logica que tenga que ver con Origen, Destino e Intermedios
+ * Util para toda la logica que tenga que ver con Origen, Destino e Intermedios.
  *
  * Class Timeline
- * @package App
  */
 class Timeline extends Pivot
 {
@@ -30,7 +29,7 @@ class Timeline extends Pivot
         'real_at_time',
         'real_exiting',
         'type',
-        'order'
+        'order',
     ];
 
     public function place()

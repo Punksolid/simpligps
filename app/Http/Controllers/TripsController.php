@@ -24,7 +24,7 @@ class TripsController extends Controller
     public function index(Request $request)
     {
         $query = Trip::query()
-            ->with(['places','origin','destination','intermediates','tags'])
+            ->with(['places', 'origin', 'destination', 'intermediates', 'tags'])
             ->orderByDesc('created_at');
         if ($request->has('filter')) {
             $query = $query->withAnyTags($request->filter);
@@ -54,7 +54,7 @@ class TripsController extends Controller
     public function assignTag(Trip $trip, Request $request)
     {
         $request->validate([
-            'tags' => 'present|array'
+            'tags' => 'present|array',
         ]);
         $trip->syncTags($request->tags); //TODO update mariadb to 10.2 actualmente tiene 10.1
         $trip->load('tags');
@@ -92,14 +92,11 @@ class TripsController extends Controller
 
         $trip->setDestination($destination = Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
 
-        if ($request->filled('trailers_ids')) {
-            foreach ($request->trailers_ids as $trailers_id) {
-                $trip->addTrailerBox($trailers_id);
-            }
+        if ($request->has('trailers_ids')){
+            $trip->syncTrailerBox($request->trailers_ids);
         }
 
         $trip->load('client', 'intermediates', 'origin', 'destination');
-//        dd($trip->fresh('destination'));
         return TripResource::make($trip);
     }
 
@@ -148,10 +145,7 @@ class TripsController extends Controller
         }
 
         $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
-
-        foreach ($request->trailers_ids as $trailers_id) {
-            $trip->syncTrailerBox($trailers_id);
-        }
+        $trip->syncTrailerBox($request->trailers_ids);
 
         $trip->update($request->all());
 
@@ -178,9 +172,7 @@ class TripsController extends Controller
         }
 
         if ($request->has('trailers_ids')) {
-            foreach ($request->trailers_ids as $trailers_id) {
-                $trip->syncTrailerBox($trailers_id);
-            }
+            $trip->syncTrailerBox($request->trailers_ids);
         }
 
         $trip->update($request->all());
@@ -197,7 +189,7 @@ class TripsController extends Controller
      */
     public function destroy(Trip $trip)
     {
-        $trip->deleteWialonNotificationsForTrips();
+        $trip->wialon_trips->deleteWialonNotificationsForTrips();
 
         if ($trip->delete()) {
             return response([

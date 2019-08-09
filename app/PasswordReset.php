@@ -11,13 +11,12 @@ class PasswordReset extends Model
 
     protected $primary_key = 'email';
 
-
     protected $fillable = [
-        'email', 'token'
+        'email', 'token',
     ];
 
     public $timestamps = [
-        "created_at"
+        'created_at',
     ];
 
     public function setUpdatedAtAttribute($value)

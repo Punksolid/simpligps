@@ -12,9 +12,9 @@ use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
 
 class Kernel extends HttpKernel
 {
-
     /**
-     * Added to apply model binding to Tenants
+     * Added to apply model binding to Tenants.
+     *
      * @var array
      */
     protected $middlewarePriority = [
@@ -56,7 +56,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\VerifyCsrfToken::class,
 
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            CreateFreshApiToken::class
+            CreateFreshApiToken::class,
         ],
 
         'api' => [
@@ -64,7 +64,7 @@ class Kernel extends HttpKernel
 //            \Illuminate\Session\Middleware\StartSession::class,
             'throttle:60,1',
             'bindings',
-            HandleCors::class
+            HandleCors::class,
         ],
     ];
 
@@ -85,8 +85,7 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'limit_simoultaneous_access' => LimitSimoultaneousAccess::class,
-        "limit_expired_license_access" => LimitExpiredLicenseAccess::class,
-        'verified' => EnsureEmailIsVerified::class
-
+        'limit_expired_license_access' => LimitExpiredLicenseAccess::class,
+        'verified' => EnsureEmailIsVerified::class,
     ];
 }

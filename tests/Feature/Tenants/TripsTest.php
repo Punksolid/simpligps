@@ -26,7 +26,6 @@ class TripsTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, "api");
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
-
     }
 
     public function test_ver_listado_de_viajes()
@@ -211,6 +210,7 @@ class TripsTest extends TestCase
 
     public function test_se_pueden_crear_viajes_sin_intermediates()
     {
+        $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->raw([
             "scheduled_load" => now()->addDays(1)->toDateTimeString(),
             "scheduled_departure" => now()->addDays(2)->toDateTimeString(),
@@ -369,9 +369,8 @@ class TripsTest extends TestCase
         ]);
     }
 
-    public function test_editar_viaje_enviando_todos_los_elementos()
+    public function test_usuario_puede_editar_viaje_enviando_todos_los_elementos()
     {
-        $this->withoutExceptionHandling();
         $original_trip = factory(Trip::class)->create();
         $original_trip->addIntermediate($mazatlan = factory(Place::class)->create(), now(), now());
 

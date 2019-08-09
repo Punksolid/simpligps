@@ -9,8 +9,8 @@ use Illuminate\Http\Request;
 use App\Role;
 
 /**
- * Class RolesController
- * @package App\Http\Controllers
+ * Class RolesController.
+ *
  * @resource Role
  */
 class RolesController extends Controller
@@ -30,77 +30,87 @@ class RolesController extends Controller
     /**
      * Store a newly created Role in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $role = Role::create(["name" => $request->name]);
+        $role = Role::create(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
-        $role = $role->fresh("permissions");
+        $role = $role->fresh('permissions');
+
         return response()->json([
-            "name" => $role->name,
-            "permissions" => PermissionResource::collection($role->permissions)
+            'name' => $role->name,
+            'permissions' => PermissionResource::collection($role->permissions),
         ]);
     }
 
     /**
      * Display the specified Role.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        $role = Role::with("permissions")->findOrFail($id);
+        $role = Role::with('permissions')->findOrFail($id);
+
         return response()->json([
-            "name" => $role->name,
-            "permissions" => PermissionResource::collection($role->permissions)
+            'name' => $role->name,
+            'permissions' => PermissionResource::collection($role->permissions),
         ]);
     }
 
     /**
      * Update the specified Role in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(RoleRequest $request, $id)
     {
-        $role = Role::findById($id, "api");
+        $role = Role::findById($id, 'api');
         $role->name = $request->name;
         $role->save();
         $role->syncPermissions($request->permissions);
-        $role = $role->fresh("permissions");
+        $role = $role->fresh('permissions');
+
         return response()->json([
-            "name" => $role->name,
-            "permissions" => PermissionResource::collection($role->permissions)
+            'name' => $role->name,
+            'permissions' => PermissionResource::collection($role->permissions),
         ]);
     }
 
     /**
-     * Elimina rol aka perfiles de permisos
+     * Elimina rol aka perfiles de permisos.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Role $role)
     {
         if ($role->delete()) {
             return response([
-                "message" => "rol eliminado"
+                'message' => 'rol eliminado',
             ]);
         }
+
         return response([
-            "message" => "falló al eliminar el rol"
+            'message' => 'falló al eliminar el rol',
         ]); //todo cambiar por thwrow exception
     }
 
     /**
-     * Asigna rol a usuario
-     * @param Role $role
+     * Asigna rol a usuario.
+     *
+     * @param Role    $role
      * @param Request $request
+     *
      * @return \Illuminate\Http\JsonResponse
      */
     public function assignToUser(Role $role, Request $request)

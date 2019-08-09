@@ -9,28 +9,30 @@ use Punksolid\Wialon\Geofence;
 
 class Place extends Model
 {
-    use UsesTenantConnection, SoftDeletes;
+    use UsesTenantConnection;
+    use SoftDeletes;
 
-    protected $table = "places";
+    protected $table = 'places';
 
     protected $fillable = [
-        "name",
-        "person_in_charge",
-        "address",
-        "phone",
-        "geofence_ref",
-        "high_risk"
+        'name',
+        'person_in_charge',
+        'address',
+        'phone',
+        'geofence_ref',
+        'high_risk',
     ];
 
     protected $cast = [
-        "high_risk" => 'bool'
+        'high_risk' => 'bool',
     ];
 
-    #Relationships
+    //Relationships
 
     /**
      * Devuelve todos los viajes con sus checkpoints en los pivots, un lugar puede estar en muchos viajes, a su vez
      * puede estar presente varias veces en un solo viaje, como por ejemplo cuando es origen y destino.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function trips()
@@ -49,7 +51,7 @@ class Place extends Model
                 'exiting',
                 'type',
                 'real_at_time',
-                'real_exiting'
+                'real_exiting',
             ]);
     }
 
@@ -57,16 +59,19 @@ class Place extends Model
     {
         return $this->hasMany(Timeline::class);
     }
-    #endregion
-    #region Actions
-    public function verifyConnection():bool
+
+    //endregion
+    //region Actions
+    public function verifyConnection(): bool
     {
         if (is_null($this->geofence_ref)) {
             return false;
         }
 
-        [$resource, $id] = explode("_", $this->geofence_ref);
+        [$resource, $id] = explode('_', $this->geofence_ref);
+
         return (bool) Geofence::findById($id, $resource);
     }
-    #endregion
+
+    //endregion
 }

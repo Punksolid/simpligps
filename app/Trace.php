@@ -10,10 +10,10 @@ class Trace extends Model
     use UsesTenantConnection;
 
     protected $fillable = [
-      'content',
+        'content',
     ];
 
     protected $casts = [
-      'content' => 'array',
+        'content' => 'array',
     ];
 }

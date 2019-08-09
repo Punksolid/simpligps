@@ -14,7 +14,10 @@ use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    use HasRoles, Notifiable, HasApiTokens, UsesSystemConnection;
+    use HasRoles;
+    use Notifiable;
+    use HasApiTokens;
+    use UsesSystemConnection;
 
     protected $guard_name = 'api'; // changed from web to api bcz permissions sync using default
     /**
@@ -67,7 +70,7 @@ class User extends Authenticatable implements CanResetPassword
      * @param Account|null $account
      * @return Collection
      */
-    public function getColleagues(Account $account = null, $me_too = true): Collection
+    public function getColleagues(?Account $account = null, $me_too = true): Collection
     {
         $user = $this;
         if (is_null($account)) {
@@ -84,10 +87,9 @@ class User extends Authenticatable implements CanResetPassword
             return $colleagues;
         } else {
             return $colleagues->filter(function ($colleague) use ($user) {
-                return $colleague->email != $user->email;
+                return $colleague->email !== $user->email;
             });
         }
-
     }
 
     /**
@@ -103,8 +105,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Checks if user exists in account.
      *
-     * @param int $account_id
-     *
+     * @param int $account_id*
      * @return bool
      */
     public function isInAccount(int $account_id): bool
@@ -114,15 +115,15 @@ class User extends Authenticatable implements CanResetPassword
         })->exists();
     }
 
-    #region scopes
+    //region scopes
     public function scopeTenant($query, $tenant_uuid = null)
     {
-        $tenant_uuid = $tenant_uuid ?: request()->header('X-Tenant-id');
+        $tenant_uuid = $tenant_uuid ? $tenant_uuid : request()->header('X-Tenant-id');
 
         return $query->whereHas('accounts', function ($account_query) use ($tenant_uuid) {
             $account_query->where('uuid', $tenant_uuid);
         });
     }
 
-    #endregion
+    //endregion
 }

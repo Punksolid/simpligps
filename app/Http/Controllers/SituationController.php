@@ -8,13 +8,11 @@ use App\Situation;
 use Illuminate\Http\Request;
 
 /**
- *
  * @todo Revisar si este modulo de tipo de situacion es realmente necesario, una relacion solamente para agregar una lectura
  * no parece tener mucho sentido, sobre todo si no hay otros usos para complementarlo. Sin embargo, esta en los requerimentos
  * iniciales
  *
  * Class SituationController
- * @package App\Http\Controllers
  */
 class SituationController extends Controller
 {
@@ -34,11 +32,11 @@ class SituationController extends Controller
         return SituationResource::collection($situations);
     }
 
-
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(SituationRequest $request)
@@ -48,12 +46,12 @@ class SituationController extends Controller
         return SituationResource::make($situation);
     }
 
-
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Situation  $situation
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Situation           $situation
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(SituationRequest $request, $situation)
@@ -68,7 +66,8 @@ class SituationController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Situation  $situation
+     * @param \App\Situation $situation
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy(Situation $situation)

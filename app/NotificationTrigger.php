@@ -10,12 +10,13 @@ use Punksolid\Wialon\ControlType;
 use Punksolid\Wialon\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
-use Punksolid\Wialon\Unit;
 use Punksolid\Wialon\SensorControlType;
+use Punksolid\Wialon\Unit;
 
 class NotificationTrigger extends Model
 {
-    use UsesTenantConnection, SoftDeletes;
+    use UsesTenantConnection;
+    use SoftDeletes;
 
     /**
      * lista de level
@@ -199,19 +200,22 @@ class NotificationTrigger extends Model
 
         $text = str_replace(["\r", "\n", ' '], '', $text);
 
-        Log::alert('ConnectionName', [
+        Log::alert(
+            'ConnectionName',
+            [
                 'ConnectionName' => $this->getConnectionName(),
-            ]);
-        $notification = Notification::make($resource, $units, $control_type, $this->name, $action, [
+            ]
+        );
+        $notification = Notification::make(
+            $resource,
+            $units,
+            $control_type,
+            $this->name,
+            $action,
+            [
                 'txt' => $text,
-            ]);
-        // } catch (\Exception $exception) {
-        //     Log::error('ERROR EXTERNAL NOTIFICATION CREATION', [
-        //         "resource wialon"  => $resource,
-        //         'ConnectionName' => $this->getConnectionName()
-        //     ]);
-        //     throw new \Exception("Fallo creacion de notification external");
-        // }
+            ]
+        );
 
         $this->control_type_obj = $control_type;
         $this->wialon_id = "{$resource->id}_{$notification->id}";

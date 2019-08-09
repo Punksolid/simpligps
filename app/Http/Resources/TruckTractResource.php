@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources;
 
-use App\Carrier;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class TruckTractResource extends JsonResource
@@ -10,7 +9,8 @@ class TruckTractResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return array
      */
     public function toArray($request)
@@ -28,17 +28,15 @@ class TruckTractResource extends JsonResource
             'device_id' => $this->device_id,
             'operator_id' => $this->operator_id,
 
-            "carrier" => CarrierResource::make($this->whenLoaded('carrier')),
-            "device" => DeviceResource::make($this->whenLoaded('device')),
-            "operators" => OperatorResource::collection($this->whenLoaded('operators')),
-            "current_operator" => OperatorResource::make(optional($this->currentOperator)->first()),
+            'carrier' => CarrierResource::make($this->whenLoaded('carrier')),
+            'device' => DeviceResource::make($this->whenLoaded('device')),
+            'operators' => OperatorResource::collection($this->whenLoaded('operators')),
+            'current_operator' => OperatorResource::make(optional($this->currentOperator)->first()),
 
             'created_at' => $this->when($request->routeIs('trucks.show'), $this->created_at->toDateTimeString()),
             'updated_at' => $this->when($request->routeIs('trucks.show'), $this->updated_at->toDateTimeString()),
 
             'position' => $this->when($request->route()->named('trucks.show'), $this->position),
-
-
         ];
     }
 }

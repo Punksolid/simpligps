@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Traits;
 
 use App\Device;
@@ -25,7 +24,7 @@ trait Deviceable
 //        return $this->update(['device_id' => $device->id]);
     }
 
-    public function getLocation():array
+    public function getLocation(): array
     {
         if ($this->device) {
             return $this->device->getLocation();
@@ -33,7 +32,7 @@ trait Deviceable
 
         return [
             'lat' => null,
-            'lon' => null
+            'lon' => null,
         ];
     }
 

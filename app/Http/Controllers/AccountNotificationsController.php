@@ -11,7 +11,9 @@ class AccountNotificationsController extends Controller
 {
     /**
      * Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel.
+     *
      * @todo Pasar getNotifications al index, revisar si en los test se esta ejecutando
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
@@ -30,9 +32,12 @@ class AccountNotificationsController extends Controller
 
         return \response()->json(['data' => 'ok']);
     }
+
     /**
-     * Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel
+     * Devuelve las notificaciones internas del sistema del usuario, las estandar de Laravel.
+     *
      * @deprecated Pasar pasar logica de este al index por ser listado
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function getNotifications(Request $request)
@@ -44,11 +49,11 @@ class AccountNotificationsController extends Controller
 
         return InternalNotificationResource::collection($notifications);
     }
-    
+
     public function getAccount(): ?Account
     {
         $account_uuid = \request()->header('X-Tenant-Id', null);
-     
+
         return \request()->user()->accounts()->where('uuid', $account_uuid)->firstOrFail();
     }
 

@@ -5,11 +5,11 @@ namespace App;
 use App\Traits\Deviceable;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Carbon;
 
 class TruckTract extends Model
 {
-    use UsesTenantConnection, Deviceable;
+    use UsesTenantConnection;
+    use Deviceable;
 
     protected $fillable = [
         'name',
@@ -17,7 +17,7 @@ class TruckTract extends Model
         'model',
         'internal_number',
         'brand',
-        'color'
+        'color',
     ];
 
     protected $guarded = [
@@ -25,7 +25,8 @@ class TruckTract extends Model
         'carrier_id',  // linea
     ];
 
-    #region Relationships
+    //region Relationships
+
     /**
      * Un Tracto tiene un carrier.
      *
@@ -49,7 +50,6 @@ class TruckTract extends Model
         return $this->belongsToMany(Operator::class, 'trips', 'truck_tract_id', 'operator_id');
     }
 
-
     public function currentOperator()
     {
 //        $ongoing_trip = $this
@@ -65,5 +65,5 @@ class TruckTract extends Model
             ->take(1);
     }
 
-    #endregion
+    //endregion
 }

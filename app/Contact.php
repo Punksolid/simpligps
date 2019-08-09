@@ -9,21 +9,21 @@ use Spatie\Tags\HasTags;
 
 class Contact extends Model
 {
-    use HasTags, UsesTenantConnection;
+    use HasTags;
+    use UsesTenantConnection;
 
     protected $fillable = [
-        "name",
-        "company",
-        "phone",
-        "email",
-        "address",
-        "localization"
+        'name',
+        'company',
+        'phone',
+        'email',
+        'address',
+        'localization',
     ];
 
     protected $casts = [
-        "bulk" => "array"
+        'bulk' => 'array',
     ];
-
 
     //    Override Tag class para aceptar mariadb
     public static function getTagClassName(): string

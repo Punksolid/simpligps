@@ -44,8 +44,8 @@ class EventServiceProvider extends ServiceProvider
             DeleteExternalNotification::class,
         ],
         ReceiveTripUpdate::class => [
-            UpdateTripTravel::class
-        ]
+            UpdateTripTravel::class,
+        ],
     ];
 
     /**

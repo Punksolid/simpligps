@@ -23,7 +23,7 @@ class TripsEventsController extends Controller
     public function store(Trip $trip, Request $request)
     {
         $data = $request->validate([
-            'message' => 'required|min:5'
+            'message' => 'required|min:5',
         ]);
         activity()
             ->performedOn($trip)

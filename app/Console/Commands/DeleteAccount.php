@@ -24,8 +24,6 @@ class DeleteAccount extends Command
 
     /**
      * Create a new command instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -34,16 +32,19 @@ class DeleteAccount extends Command
 
     /**
      * Execute the console command.
+     *
      * @deprecated
+     *
      * @return mixed
      */
     public function handle()
     {
-        $uuid = $this->argument("uuid");
-        $account = Account::where("uuid", $uuid)->first();
+        $uuid = $this->argument('uuid');
+        $account = Account::where('uuid', $uuid)->first();
         $account->delete();
 
-        \DB::connection("mysql")->statement("DROP DATABASE $account->uuid;");
+        \DB::connection('mysql')->statement("DROP DATABASE $account->uuid;");
+
         return true;
     }
 }

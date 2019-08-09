@@ -9,14 +9,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class TrailerBox extends Model
 {
-    use UsesTenantConnection,SoftDeletes, Deviceable;
+    use UsesTenantConnection;
+    use SoftDeletes;
+    use Deviceable;
 
     protected $fillable = [
         'internal_number',
-        'plate'
+        'plate',
     ];
 
-    #region Relationships
+    //region Relationships
     public function trips()
     {
         return $this->belongsToMany(
@@ -34,5 +36,5 @@ class TrailerBox extends Model
         return $this->belongsTo(Carrier::class);
     }
 
-    #endregion
+    //endregion
 }

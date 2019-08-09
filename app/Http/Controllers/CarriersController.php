@@ -3,20 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Carrier;
-use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Requests\CarrierRequest;
 use App\Http\Resources\CarrierResource;
 use Illuminate\Http\Request;
 use App\Interfaces\Search;
 
 /**
- * Class CarriersController
- * @package App\Http\Controllers
+ * Class CarriersController.
+ *
  * @resource Carrier
  */
 class CarriersController extends Controller implements Search
 {
-
     /**
      * Display a listing of the CARRIER.
      *
@@ -25,13 +23,15 @@ class CarriersController extends Controller implements Search
     public function index(Request $request)
     {
         $carriers = Carrier::paginate();
+
         return CarrierResource::collection($carriers);
     }
 
     /**
      * Store a newly created CARRIER in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CarrierRequest $request)
@@ -44,7 +44,8 @@ class CarriersController extends Controller implements Search
     /**
      * Display the specified CARRIER.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($carrier)
@@ -57,8 +58,9 @@ class CarriersController extends Controller implements Search
     /**
      * Update the specified CARRIER in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(CarrierRequest $request, $carrier)
@@ -69,13 +71,14 @@ class CarriersController extends Controller implements Search
             return CarrierResource::make($carrier);
         }
 
-        return response("Aconteció un error, no se pudo actualizar.");
+        return response('Aconteció un error, no se pudo actualizar.');
     }
 
     /**
      * Remove the specified CARRIER from storage.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($carrier)
@@ -84,11 +87,11 @@ class CarriersController extends Controller implements Search
 
         if ($carrier->delete()) {
             return response([
-                "message" => "Se eliminó la linea transportista."
+                'message' => 'Se eliminó la linea transportista.',
             ]);
         }
 
-        return response("Aconteció un error");
+        return response('Aconteció un error');
     }
 
     public function search(\Illuminate\Http\Request $request)

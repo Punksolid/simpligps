@@ -14,7 +14,8 @@ use Spatie\Activitylog\Traits\LogsActivity;
 
 class Device extends Model implements LoggerInterface
 {
-    use LoggerTrait, ModelLogger;
+    use LoggerTrait;
+    use ModelLogger;
     /**
      * Detailed debug information.
      */
@@ -65,7 +66,10 @@ class Device extends Model implements LoggerInterface
      */
     private const EMERGENCY = 600;
 
-    use UsesTenantConnection, Notifiable, SoftDeletes, LogsActivity;
+    use UsesTenantConnection;
+    use Notifiable;
+    use SoftDeletes;
+    use LogsActivity;
 
     protected $fillable = [
         'name',
@@ -78,7 +82,7 @@ class Device extends Model implements LoggerInterface
         'reference_data',
         'bulk',
         'deviceable_id',
-        'deviceable_type'
+        'deviceable_type',
     ];
     protected static $logFillable = true;
     protected static $submitEmptyLogs = false;
@@ -90,6 +94,7 @@ class Device extends Model implements LoggerInterface
     ];
 
     //region Relationships
+
     /**
      * Relación, un dispositivo pertenece a un carrier, antes linea.
      *
@@ -122,7 +127,9 @@ class Device extends Model implements LoggerInterface
     {
         return $this->morphTo('deviceable');
     }
+
     //endregion
+
     /**
      * Liga a una unidad de wialon.
      *
@@ -157,24 +164,26 @@ class Device extends Model implements LoggerInterface
         if ($this->linked()) {
             // TODO REFACTOR Unit Find para que use las flags con los detalles, this is a performance issue
             $unit = Unit::all()->where('id', $this->wialon_id)->first();
+
             return [
                 'lat' => optional($unit)->lat,
-                'lon' => optional($unit)->lon
+                'lon' => optional($unit)->lon,
             ];
         }
 
         // ugly code
         return [
             'lat' => null,
-            'lon' => null
+            'lon' => null,
         ];
     }
 
     /**
-     * Verifica si el dispositivo tiene conexión externa
+     * Verifica si el dispositivo tiene conexión externa.
+     *
      * @return bool
      */
-    public function verifyConnection():bool
+    public function verifyConnection(): bool
     {
         if (is_null($this->wialon_id)) {
             return false;

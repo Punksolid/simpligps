@@ -7,7 +7,6 @@ use App\Http\Requests\TruckTractRequest;
 use App\Http\Resources\TruckTractResource;
 use App\TruckTract;
 use Illuminate\Http\Request;
-use Tests\Feature\TruckTractTest;
 use App\Interfaces\Search;
 
 class TruckTractController extends Controller implements Search
@@ -27,7 +26,8 @@ class TruckTractController extends Controller implements Search
     /**
      * Store a newly created TruckTract in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(TruckTractRequest $request)
@@ -38,13 +38,15 @@ class TruckTractController extends Controller implements Search
 
         $truck->save();
         $truck->assignDevice(Device::findOrFail($request->device_id));
+
         return TruckTractResource::make($truck);
     }
 
     /**
      * Display the specified TruckTract.
      *
-     * @param  \App\TruckTract  $truckTract
+     * @param \App\TruckTract $truckTract
+     *
      * @return \Illuminate\Http\Response
      */
     public function show($truckTract)
@@ -53,18 +55,20 @@ class TruckTractController extends Controller implements Search
             'device',
             'carrier',
             'currentOperator',
-            'operators'
+            'operators',
         ])->findOrFail($truckTract);
 
         $truckTract->position = $truckTract->getLocation();
+
         return TruckTractResource::make($truckTract);
     }
 
     /**
      * Update the specified TruckTract in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\TruckTract  $truckTract
+     * @param \Illuminate\Http\Request $request
+     * @param \App\TruckTract          $truckTract
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(TruckTractRequest $request, $truckTract)
@@ -83,7 +87,8 @@ class TruckTractController extends Controller implements Search
     /**
      * Remove the specified TruckTract from storage.
      *
-     * @param  \App\TruckTract  $truckTract
+     * @param \App\TruckTract $truckTract
+     *
      * @return \Illuminate\Http\Response
      */
     public function destroy($truckTract)
@@ -92,7 +97,7 @@ class TruckTractController extends Controller implements Search
 
         if ($truckTract->delete()) {
             return response([
-                'message' => 'Deleted Succesfully'
+                'message' => 'Deleted Succesfully',
             ]);
         }
 

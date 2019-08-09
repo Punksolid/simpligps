@@ -65,7 +65,6 @@ class WebhookNotificationController extends Controller
             ->log('Update On Trip');
 //        $device->info('Update on Device', $request->all());
 
-
         \Notification::send($account, new WialonWebhookNotification(
             "Check TRIP {$request->get('unit')}",
             $request->all(),

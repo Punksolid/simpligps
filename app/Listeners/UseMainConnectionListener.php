@@ -2,7 +2,6 @@
 
 namespace App\Listeners;
 
-//use App\Events\ConfigurationLoaded;
 use Hyn\Tenancy\Events\Database\ConfigurationLoaded;
 
 class UseMainConnectionListener

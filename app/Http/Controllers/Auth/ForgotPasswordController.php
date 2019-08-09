@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Notifications\PasswordResetRequest;
-use App\PasswordReset;
 use App\User;
 use Auth;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -28,8 +26,6 @@ class ForgotPasswordController extends Controller
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -40,10 +36,12 @@ class ForgotPasswordController extends Controller
 //            ]);
 //        }
     }
+
     /**
      * Send a reset link to the given user.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
+     *
      * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function sendResetLinkEmail(Request $request)
@@ -57,13 +55,11 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        if ($response === Password::RESET_LINK_SENT) {
-            return response()->json('ok');
-        } else {
-            return response()->json([
-                "message" => "Email didn't match"
-            ]);
-        }
+        return $response === Password::RESET_LINK_SENT ? response()->json('ok') : response()->json(
+            [
+                'message' => "Email didn't match",
+            ]
+        );
 //        return
 //            ? $this->sendResetLinkResponse($request, $response)
 //            : $this->sendResetLinkFailedResponse($request, $response);

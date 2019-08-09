@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Carrier extends Model
 {
-    use UsesTenantConnection,SoftDeletes;
+    use UsesTenantConnection;
+    use SoftDeletes;
 
     protected $fillable = [
-      "carrier_name",
-      "contact_name",
-      "phone",
-      "email"
+      'carrier_name',
+      'contact_name',
+      'phone',
+      'email',
     ];
 
     public function operators()
