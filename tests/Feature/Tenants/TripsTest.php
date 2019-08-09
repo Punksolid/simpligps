@@ -26,7 +26,6 @@ class TripsTest extends TestCase
         $this->user = factory(User::class)->create();
         $this->actingAs($this->user, "api");
         $this->withoutMiddleware([LimitSimoultaneousAccess::class, LimitExpiredLicenseAccess::class]);
-
     }
 
     public function test_ver_listado_de_viajes()

@@ -88,7 +88,7 @@ class User extends Authenticatable implements CanResetPassword
             return $colleagues;
         } else {
             return $colleagues->filter(function ($colleague) use ($user) {
-                return $colleague->email != $user->email;
+                return $colleague->email !== $user->email;
             });
         }
     }

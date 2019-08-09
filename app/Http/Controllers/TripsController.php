@@ -197,7 +197,7 @@ class TripsController extends Controller
      */
     public function destroy(Trip $trip)
     {
-        $trip->deleteWialonNotificationsForTrips();
+        $trip->wialon_trips->deleteWialonNotificationsForTrips();
 
         if ($trip->delete()) {
             return response([
