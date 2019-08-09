@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Account;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-//use Hyn\Tenancy\Models\Website;
 use App\Website;
 use Illuminate\Console\Command;
 

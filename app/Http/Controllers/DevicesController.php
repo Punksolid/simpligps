@@ -74,7 +74,7 @@ class DevicesController extends Controller implements Search
             ];
         try {
             $device->is_connected = $device->linked(true);
-        } catch (\Exception $e) {
+        } catch (\Exception $exception) {
             $device->is_connected = false;
         }
 

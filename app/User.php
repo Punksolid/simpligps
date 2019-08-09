@@ -68,10 +68,9 @@ class User extends Authenticatable implements CanResetPassword
      * Obtiene todos los usuarios de una cuenta o de todas las cuentas del usuario.
      *
      * @param Account|null $account
-     *
      * @return Collection
      */
-    public function getColleagues(Account $account = null, $me_too = true): Collection
+    public function getColleagues(?Account $account = null, $me_too = true): Collection
     {
         $user = $this;
         if (is_null($account)) {
@@ -106,8 +105,7 @@ class User extends Authenticatable implements CanResetPassword
     /**
      * Checks if user exists in account.
      *
-     * @param int $account_id
-     *
+     * @param int $account_id*
      * @return bool
      */
     public function isInAccount(int $account_id): bool
@@ -120,7 +118,7 @@ class User extends Authenticatable implements CanResetPassword
     //region scopes
     public function scopeTenant($query, $tenant_uuid = null)
     {
-        $tenant_uuid = $tenant_uuid ?: request()->header('X-Tenant-id');
+        $tenant_uuid = $tenant_uuid ? $tenant_uuid : request()->header('X-Tenant-id');
 
         return $query->whereHas('accounts', function ($account_query) use ($tenant_uuid) {
             $account_query->where('uuid', $tenant_uuid);

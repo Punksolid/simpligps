@@ -51,6 +51,10 @@ class Role extends SpatieRole
         $permissions = collect($permissions)
             ->flatten()
             ->map(function ($permission) {
+                if (empty($permission)) {
+                    return false;
+                }
+
                 return $this->getStoredPermission($permission);
             })
             ->filter(function ($permission) {
@@ -73,7 +77,7 @@ class Role extends SpatieRole
             $class::saved(
                 function ($object) use ($permissions, $model) {
                     static $modelLastFiredOn;
-                    if (null !== $modelLastFiredOn && $modelLastFiredOn === $model) {
+                    if ($modelLastFiredOn !== null && $modelLastFiredOn === $model) {
                         return;
                     }
                     $object->permissions()->sync($permissions, false);

@@ -120,9 +120,9 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             $user->notify(new UserLinkedToAccountNotification($this));
 
             return true;
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             info('Error in addUser');
-            log($e);
+            log($exception);
 
             return false;
         }
@@ -162,7 +162,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
     {
         try {
             if (count($pivots)) {
-                $v = Validator::make(
+                $validator = Validator::make(
                     $pivots,
                     [
                         'expires_at' => 'required|date',
@@ -170,7 +170,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
                 );
 
                 throw_if(
-                    $v->fails(),
+                    $validator->fails(),
                     ValidationException::withMessages(
                         [
                             'error' => [

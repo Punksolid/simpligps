@@ -200,8 +200,8 @@ class Trip extends Model implements LoggerInterface
         Place $place,
         $at_time,
         $exiting,
-        Carbon $real_at_time = null,
-        Carbon $real_exiting = null
+        ?Carbon $real_at_time = null,
+        ?Carbon $real_exiting = null
     ) {
         $last = count($this->places) + 1;
 
@@ -311,23 +311,17 @@ class Trip extends Model implements LoggerInterface
     //endregion
 
     //region actions
-
-    public function syncTrailerBox(int $trailer_box_id)
+    /**
+     *
+     * @param int $trailer_box_id
+     */
+    public function syncTrailerBox(array $trailer_boxes_ids)
     {
-        $this->addTrailerBox($trailer_box_id, true);
+        return $this->trailers()->sync($trailer_boxes_ids);
     }
 
-    public function addTrailerBox(int $trailer_box_id, $sync = false)
+    public function addTrailerBox(int $trailer_box_id)
     {
-        if ($sync) {
-            return $this->trailers()->sync(
-                $trailer_box_id,
-                [
-                    'order' => 0,
-                ]
-            );
-        }
-
         $this->trailers()->attach(
             $trailer_box_id,
             [
@@ -415,7 +409,7 @@ class Trip extends Model implements LoggerInterface
 
     public function updateTimeline($action, $timeline_id, $timestamp = null)
     {
-        $timestamp = $timestamp ?: now()->toDateTimeString();
+        $timestamp = $timestamp ? $timestamp : now()->toDateTimeString();
 
         $action = $this->getFieldToUpdate($action);
 
@@ -441,7 +435,7 @@ class Trip extends Model implements LoggerInterface
      */
     public function getFieldToUpdate($action): string
     {
-        if ('entering' === $action) {
+        if ($action === 'entering') {
             return 'real_at_time';
         }
 
@@ -487,11 +481,7 @@ class Trip extends Model implements LoggerInterface
     public function validateTruckAndTrailersHaveDevices(): void
     {
         $bag = new MessageBag();
-        $truck = $this->truck()->whereDoesntHave('device')->first();
-
-        if ($truck) {
-            $bag->add('truck', "Truck Tract with name $truck->name doesn't have a device");
-        }
+        $this->validateTruck($bag);
 
         $trailers = $this->trailers()->whereDoesntHave('device')->get();
         if ($trailers) {
@@ -560,5 +550,17 @@ class Trip extends Model implements LoggerInterface
     public function getDestination()
     {
         return $this->places()->wherePivot('type', '=', 'destination')->first();
+    }
+
+    /**
+     * @param MessageBag $bag
+     */
+    public function validateTruck(MessageBag $bag): void
+    {
+        $truck = $this->truck()->whereDoesntHave('device')->first();
+
+        if ($truck) {
+            $bag->add('truck', "Truck Tract with name $truck->name doesn't have a device");
+        }
     }
 }

@@ -210,6 +210,7 @@ class TripsTest extends TestCase
 
     public function test_se_pueden_crear_viajes_sin_intermediates()
     {
+        $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->raw([
             "scheduled_load" => now()->addDays(1)->toDateTimeString(),
             "scheduled_departure" => now()->addDays(2)->toDateTimeString(),

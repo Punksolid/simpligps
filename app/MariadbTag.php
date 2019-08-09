@@ -14,7 +14,7 @@ class MariadbTag extends Tag
 
     protected $table = 'tags';
 
-    protected static function convertToTags($values, $type = null, $locale = null)
+    protected static function convertToTags($values, ?$type = null, ?$locale = null)
     {
         return collect($values)->map(function ($value) use ($type, $locale) {
             if ($value instanceof Tag) {
@@ -31,7 +31,7 @@ class MariadbTag extends Tag
         });
     }
 
-    public static function findFromString(string $name, string $type = null, string $locale = null)
+    public static function findFromString(string $name, ?string $type = null, ?string $locale = null)
     {
         $locale = $locale ?? app()->getLocale();
 

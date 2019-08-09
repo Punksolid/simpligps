@@ -92,14 +92,11 @@ class TripsController extends Controller
 
         $trip->setDestination($destination = Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
 
-        if ($request->filled('trailers_ids')) {
-            foreach ($request->trailers_ids as $trailers_id) {
-                $trip->addTrailerBox($trailers_id);
-            }
+        if ($request->has('trailers_ids')){
+            $trip->syncTrailerBox($request->trailers_ids);
         }
 
         $trip->load('client', 'intermediates', 'origin', 'destination');
-//        dd($trip->fresh('destination'));
         return TripResource::make($trip);
     }
 
@@ -148,10 +145,7 @@ class TripsController extends Controller
         }
 
         $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
-
-        foreach ($request->trailers_ids as $trailers_id) {
-            $trip->syncTrailerBox($trailers_id);
-        }
+        $trip->syncTrailerBox($request->trailers_ids);
 
         $trip->update($request->all());
 
@@ -178,9 +172,7 @@ class TripsController extends Controller
         }
 
         if ($request->has('trailers_ids')) {
-            foreach ($request->trailers_ids as $trailers_id) {
-                $trip->syncTrailerBox($trailers_id);
-            }
+            $trip->syncTrailerBox($request->trailers_ids);
         }
 
         $trip->update($request->all());

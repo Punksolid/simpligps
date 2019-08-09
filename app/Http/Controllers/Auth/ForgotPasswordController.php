@@ -55,13 +55,11 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        if (Password::RESET_LINK_SENT === $response) {
-            return response()->json('ok');
-        } else {
-            return response()->json([
+        return $response === Password::RESET_LINK_SENT ? response()->json('ok') : response()->json(
+            [
                 'message' => "Email didn't match",
-            ]);
-        }
+            ]
+        );
 //        return
 //            ? $this->sendResetLinkResponse($request, $response)
 //            : $this->sendResetLinkFailedResponse($request, $response);
