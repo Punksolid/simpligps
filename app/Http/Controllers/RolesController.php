@@ -39,6 +39,7 @@ class RolesController extends Controller
         $role = Role::create(['name' => $request->name]);
         $role->syncPermissions($request->permissions);
         $role = $role->fresh('permissions');
+
         return response()->json([
             'name' => $role->name,
             'permissions' => PermissionResource::collection($role->permissions),
@@ -55,6 +56,7 @@ class RolesController extends Controller
     public function show($id)
     {
         $role = Role::with('permissions')->findOrFail($id);
+
         return response()->json([
             'name' => $role->name,
             'permissions' => PermissionResource::collection($role->permissions),
@@ -76,6 +78,7 @@ class RolesController extends Controller
         $role->save();
         $role->syncPermissions($request->permissions);
         $role = $role->fresh('permissions');
+
         return response()->json([
             'name' => $role->name,
             'permissions' => PermissionResource::collection($role->permissions),
@@ -96,6 +99,7 @@ class RolesController extends Controller
                 'message' => 'rol eliminado',
             ]);
         }
+
         return response([
             'message' => 'falló al eliminar el rol',
         ]); //todo cambiar por thwrow exception

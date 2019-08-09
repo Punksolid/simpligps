@@ -44,6 +44,7 @@ class DeleteAccount extends Command
         $account->delete();
 
         \DB::connection('mysql')->statement("DROP DATABASE $account->uuid;");
+
         return true;
     }
 }

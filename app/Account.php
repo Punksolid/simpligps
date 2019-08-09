@@ -19,7 +19,6 @@ use Illuminate\Validation\ValidationException;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Validator;
 
-
 class Account extends \Hyn\Tenancy\Models\Website implements Website
 {
     use UsesSystemConnection;
@@ -47,7 +46,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
         return null;
     }
 
-    #region Relationships
+    //region Relationships
 
     public function users()
     {
@@ -56,6 +55,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
 
     /**
      * @param int $days
+     *
      * @return BelongsToMany
      */
     public function nearToExpireLicenses($days = 7)
@@ -68,9 +68,9 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             ->wherePivot('expires_at', '<=', $now->addDays($days)->toDateTimeString());
     }
 
-    #endregion
+    //endregion
 
-    #region Scopes
+    //region Scopes
 
     public function scopeNearToExpire($query)
     {
@@ -84,6 +84,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
 
     /**
      * Licencias por periodo activo basados en la fecha.
+     *
      * @return BelongsToMany
      */
     public function activeLicenses()
@@ -95,11 +96,13 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             ->wherePivot('expires_at', '>=', $now);
     }
 
-    #endregion
+    //endregion
 
-    #region Actions
+    //region Actions
+
     /**
-     * Deletes everything, this is a NOT RECOVERY ACTION
+     * Deletes everything, this is a NOT RECOVERY ACTION.
+     *
      * @throws Exception
      */
     public function deleteWithDatabase()
@@ -135,7 +138,9 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
 
     /**
      * Detachs user from account.
+     *
      * @param User $user
+     *
      * @return bool
      */
     public function removeUser(User $user): bool
@@ -145,9 +150,12 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
 
     /**
      * Adds license to an account.
+     *
      * @param License $license
      * @param $pivots array atributos del pivote para modificar los originales
+     *
      * @return bool
+     *
      * @throws Exception
      */
     public function addLicense(License $license, array $pivots = []): bool
@@ -191,6 +199,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
 
     /**
      * An account has some licenses.
+     *
      * @return BelongsToMany
      */
     public function licenses()
@@ -204,17 +213,18 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             );
     }
 
-    #endregion
+    //endregion
 
-    #region Info
+    //region Info
 
     /**
      * Revisa si la cuenta tiene una licencia con periodo activo.
+     *
      * @return bool
      */
     public function isActive(): bool
     {
-        return (bool)$this->activeLicenses()->first();
+        return (bool) $this->activeLicenses()->first();
     }
 
     public function getTenantData($model): Model
@@ -228,6 +238,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
     /**
      * Devuelve si la cuenta puede conectarse a su propia base de datos
      * util para revisar integridad de cuentas.
+     *
      * @return bool
      */
     public function hasDatabaseAccesible(): bool
@@ -239,12 +250,14 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
             return false;
         }
 
-        return (bool)$database_response;
+        return (bool) $database_response;
     }
 
     /**
      * Checks if the given user exists or has access to the account.
+     *
      * @param User $user
+     *
      * @return bool
      */
     public function userExists(User $user): bool
@@ -257,5 +270,5 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
         )->exists();
     }
 
-    #endregion
+    //endregion
 }

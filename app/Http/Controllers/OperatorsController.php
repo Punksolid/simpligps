@@ -39,6 +39,7 @@ class OperatorsController extends Controller implements Search
         $operator = Operator::create($request->all());
         $operator->carrier_id = $request->carrier_id;
         $operator->save();
+
         return response($operator);
     }
 

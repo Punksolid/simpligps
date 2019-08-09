@@ -69,6 +69,7 @@ class Place extends Model
         }
 
         [$resource, $id] = explode('_', $this->geofence_ref);
+
         return (bool) Geofence::findById($id, $resource);
     }
 

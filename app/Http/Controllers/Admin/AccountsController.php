@@ -31,7 +31,6 @@ class AccountsController extends Controller
      */
     public function index(Request $request)
     {
-
         $account_query = Account::query()->orderByDesc('created_at');
         if ($request->filled('easyname')) {
             $account_query->where('easyname', $request->easyname);
@@ -107,15 +106,18 @@ class AccountsController extends Controller
 
     /**
      * Elimina cuenta.
+     *
      * @param Account $account
+     *
      * @return \Illuminate\Http\Response
+     *
      * @throws \Exception
      */
     public function destroy(Account $account, Request $request)
     {
-        if ($request->force_destroy === true){
-            $this->validate($request,[
-                'uuid' => 'required'
+        if (true === $request->force_destroy) {
+            $this->validate($request, [
+                'uuid' => 'required',
             ]);
             $account->deleteWithDatabase();
         }
@@ -232,5 +234,4 @@ class AccountsController extends Controller
             return response('Aconteció un error');
         }
     }
-
 }

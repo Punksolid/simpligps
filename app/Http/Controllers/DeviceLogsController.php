@@ -12,6 +12,7 @@ class DeviceLogsController extends Controller
     {
 //        $logs = $device->logs()->orderByDesc('created_at')->paginate(500);
         $logs = $device->activities()->orderByDesc('created_at')->paginate(100);
+
         return LogResource::collection($logs);
     }
 
@@ -25,6 +26,7 @@ class DeviceLogsController extends Controller
             ->performedOn($device)
             ->withProperty('level', 'info')
             ->log($data['message']);
+
         return response()->json('ok');
 //        return LogResource::make($log);
     }

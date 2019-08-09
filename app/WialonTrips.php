@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App;
-
 
 use Exception;
 use Illuminate\Config\Repository;
@@ -15,7 +13,6 @@ use Punksolid\Wialon\Unit;
 
 class WialonTrips
 {
-
     /**
      * @var Trip
      */
@@ -39,7 +36,6 @@ class WialonTrips
      */
     public function createWialonNotificationsForTrips(): array
     {
-
         $unit_id = $this->getExternalWialonUnitsIds();
 
         $wialon_units = Unit::findMany($unit_id->toArray());
@@ -76,6 +72,7 @@ class WialonTrips
 
     /**
      * Devuelve los ids de wialon_id.
+     *
      * @return Collection
      */
     public function getExternalWialonUnitsIds(): Collection
@@ -96,6 +93,7 @@ class WialonTrips
      * @param $device
      * @param null $place_id
      * @param null $timeline_id
+     *
      * @return string
      */
     public function getWialonParamsText($device, $place_id = null, $timeline_id = null): string
@@ -146,6 +144,7 @@ class WialonTrips
 
     /**
      * @param Repository $tenant_uuid
+     *
      * @return resource|null
      */
     public function findOrCreateWialonResource(string $name)
@@ -179,11 +178,13 @@ class WialonTrips
 
     /**
      * @param GeofenceControlType $control_type
-     * @param resource|null $resource
-     * @param Collection $wialon_units
+     * @param resource|null       $resource
+     * @param Collection          $wialon_units
      * @param Notification\Action $action
-     * @param string $text
+     * @param string              $text
+     *
      * @return Collection
+     *
      * @throws Exception
      */
     private function createWialonNotifications(
@@ -245,12 +246,14 @@ class WialonTrips
     }
 
     /**
-     * @param resource|null $resource
-     * @param Collection $wialon_units
+     * @param resource|null       $resource
+     * @param Collection          $wialon_units
      * @param GeofenceControlType $control_type
      * @param Notification\Action $action
-     * @param string $text
+     * @param string              $text
+     *
      * @return Notification|null
+     *
      * @throws Exception
      */
     public function createWialonNotification(
@@ -275,7 +278,7 @@ class WialonTrips
     }
 
     /**
-     * Devuelve objeto Action para crear Notification
+     * Devuelve objeto Action para crear Notification.
      *
      * @return Notification\Action
      */

@@ -3,6 +3,7 @@
 namespace App\Validators;
 
 use Hyn\Tenancy\Validators\WebsiteValidator;
+
 /*
  * This file is part of the hyn/multi-tenant package.
  *

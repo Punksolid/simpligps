@@ -77,6 +77,7 @@ class DevicesController extends Controller implements Search
         } catch (\Exception $e) {
             $device->is_connected = false;
         }
+
         return DeviceResource::make($device);
     }
 

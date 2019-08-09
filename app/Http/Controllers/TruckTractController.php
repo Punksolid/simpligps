@@ -38,6 +38,7 @@ class TruckTractController extends Controller implements Search
 
         $truck->save();
         $truck->assignDevice(Device::findOrFail($request->device_id));
+
         return TruckTractResource::make($truck);
     }
 
@@ -58,6 +59,7 @@ class TruckTractController extends Controller implements Search
         ])->findOrFail($truckTract);
 
         $truckTract->position = $truckTract->getLocation();
+
         return TruckTractResource::make($truckTract);
     }
 

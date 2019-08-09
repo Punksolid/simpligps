@@ -67,6 +67,7 @@ class TripActionsController extends Controller
             } catch (\Exception $exception) {
                 info("Closing Trips That Wialon Notifications Thrown an exception: {$exception->getMessage()}");
             }
+
             return \response()->json([
                 'message' => "Trip $trip->id Closed",
             ]);

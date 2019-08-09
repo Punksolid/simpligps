@@ -36,6 +36,7 @@ class SettingsController extends Controller
                 $wialon->import();
 //                $wialon->importNotifications(); //como existe una capa intermedia de validacion, no es necesario importar notificaciones
             }
+
             return response([
                 'data' => [
                     'message' => 'Se actualizó correctamente',

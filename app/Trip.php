@@ -7,7 +7,6 @@ use App\Traits\ModelLogger;
 use Carbon\Carbon;
 use Exception;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
-use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -19,8 +18,6 @@ use Illuminate\Support\MessageBag;
 use Illuminate\Validation\ValidationException;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LoggerTrait;
-use Punksolid\Wialon\GeofenceControlType;
-use Punksolid\Wialon\Notification;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\Tags\HasTags;
 
@@ -123,6 +120,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Devuelve modelo del Origin.
+     *
      * @return BelongsTo
      */
     public function getOrigin()
@@ -195,6 +193,7 @@ class Trip extends Model implements LoggerInterface
      * @param $exiting
      * @param Carbon|null $real_at_time
      * @param Carbon|null $real_exiting
+     *
      * @return array
      */
     public function setDestination(
@@ -225,6 +224,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Traces son todos los registros que va dejando el plan de viaje, antes Bitacora.
+     *
      * @return HasMany
      */
     public function traces()
@@ -246,6 +246,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Alias de Places con pivot intermediate.
+     *
      * @return BelongsToMany
      */
     public function intermediates()
@@ -255,6 +256,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Un viaje tiene un operador asignado al viaje.
+     *
      * @return BelongsTo
      */
     public function operator()
@@ -264,6 +266,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Trip tiene muchos logs.
+     *
      * @return MorphMany
      */
     public function logs()
@@ -286,6 +289,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Add Intermediate Places points.
+     *
      * @param Place $place
      */
     public function addIntermediate($place_id, $at_time, $exiting, $sync = false)
@@ -334,6 +338,7 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Un viaje puede tener varias Cajas (TrailerBoxes), el campo order en pivot representa el orden de las cajas.
+     *
      * @return BelongsToMany
      */
     public function trailers()
@@ -356,10 +361,11 @@ class Trip extends Model implements LoggerInterface
     }
 
     //endregion
-    #region Getters
+    //region Getters
 
     /**
      * Un viaje puede tener un tracto.
+     *
      * @return BelongsTo
      */
     public function truck()
@@ -367,10 +373,9 @@ class Trip extends Model implements LoggerInterface
         return $this->belongsTo(TruckTract::class, 'truck_tract_id');
     }
 
-
-
     /**
      * Devuelve todos los Ids de Geofences de wialon en formato resourceId_localId.
+     *
      * @return array
      */
     public function getAllPlacesGeofences(): array
@@ -378,7 +383,7 @@ class Trip extends Model implements LoggerInterface
         return $this->getAllPlaces()->pluck('geofence_ref')->toArray();
     }
 
-    #endregion
+    //endregion
     //    Override Tag class para aceptar mariadb
 
     public function getAllPlaces(): Collection
@@ -387,8 +392,6 @@ class Trip extends Model implements LoggerInterface
     }
 
     //region Scopes
-
-
 
     //endregion
 
@@ -433,6 +436,7 @@ class Trip extends Model implements LoggerInterface
      * actualizar los campos en la base datos.
      *
      * @param $action
+     *
      * @return string
      */
     public function getFieldToUpdate($action): string
@@ -541,12 +545,13 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * @return mixed
+     *
      * @throws MalformedTrip
      */
     public function canCloseTrip(): bool
     {
         try {
-            return (bool)$this->getDestination()->pivot->real_exiting;
+            return (bool) $this->getDestination()->pivot->real_exiting;
         } catch (Exception $exception) {
             throw new MalformedTrip("Trip can't retrieve the real exiting field.");
         }
@@ -556,5 +561,4 @@ class Trip extends Model implements LoggerInterface
     {
         return $this->places()->wherePivot('type', '=', 'destination')->first();
     }
-
 }
