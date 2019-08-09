@@ -369,9 +369,8 @@ class TripsTest extends TestCase
         ]);
     }
 
-    public function test_editar_viaje_enviando_todos_los_elementos()
+    public function test_usuario_puede_editar_viaje_enviando_todos_los_elementos()
     {
-        $this->withoutExceptionHandling();
         $original_trip = factory(Trip::class)->create();
         $original_trip->addIntermediate($mazatlan = factory(Place::class)->create(), now(), now());
 

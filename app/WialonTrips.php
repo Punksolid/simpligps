@@ -21,12 +21,21 @@ class WialonTrips
      * @var string
      */
     public $resource_name;
+    /**
+     * @var Action
+     */
+    private $action;
+    /**
+     * @var Repository
+     */
+    private $tenant_uuid;
 
     public function __construct(Trip $trip)
     {
         $this->trip = $trip;
         $this->resource_name = $this->getWialonResourceNameAttribute();
         $this->tenant_uuid = $this->trip->getTenantUuid();
+        $this->action = $this->getAction();
     }
 
     /**
@@ -38,10 +47,10 @@ class WialonTrips
     {
         $unit_id = $this->getExternalWialonUnitsIds();
         $wialon_units = Unit::findMany($unit_id->toArray());
-        $action = $this->getAction();
+
         $device_id = $this->trip->getDevices()->first()->id;
 //        $device_id = $this->trip->truck->device->id;
-        $wialon_notifications = $this->createWialonNotifications($wialon_units, $action);
+        $wialon_notifications = $this->createWialonNotifications($wialon_units);
 
         /**
          * @todo se necesita el resource id para buscar las notificaciones en el futuro.
@@ -165,19 +174,17 @@ class WialonTrips
 
     /**
      * @param Collection $wialon_units
-     * @param Notification\Action $action
      * @return Collection
      * @throws Exception
      */
     private function createWialonNotifications(
-        Collection $wialon_units,
-        Action $action
+        Collection $wialon_units
     ) {
         $wialon_notifications = collect();
         $places = $this->trip->places;
 
         foreach ($places as $place) {
-            $this->createNotificationsForEnterExitForPlace($wialon_units, $action, $place, $wialon_notifications);
+            $this->createNotificationsForEnterExitForPlace($wialon_units, $place, $wialon_notifications);
         }
 
         return $wialon_notifications;
@@ -262,14 +269,12 @@ class WialonTrips
      * Cada notificacion lleva solo 1 geocerca
      *
      * @param Collection $wialon_units
-     * @param Action $action
      * @param $place
      * @param Collection $wialon_notifications
      * @throws Exception
      */
     private function createNotificationsForEnterExitForPlace(
         Collection $wialon_units,
-        Action $action,
         $place,
         Collection $wialon_notifications
     ): void {
@@ -289,7 +294,7 @@ class WialonTrips
                 $wialon_units,
                 $control_type,
                 "{$this->trip->id}.entering.{$place->id}",
-                $action,
+                $this->action,
                 $text
             ) // Notificacion de entradas
         );
@@ -300,7 +305,7 @@ class WialonTrips
                 $wialon_units,
                 $control_type,
                 "{$this->trip->id}.leaving.{$place->id}",
-                $action,
+                $this->action,
                 $text
             ) // Notificacion de salidas
         );
