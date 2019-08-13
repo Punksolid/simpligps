@@ -26,6 +26,7 @@ class DevicesController extends Controller implements Search
     public function index(Request $request)
     {
         $devices = Device::query();
+
         if ($request->has('name')) {
             $devices->where('name', 'LIKE', "$request->name%");
         }

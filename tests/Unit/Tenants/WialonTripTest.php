@@ -2,14 +2,22 @@
 
 namespace Tests\Unit;
 
+use App\Device;
 use App\TrailerBox;
 use App\Trip;
+use App\WialonParamText;
 use App\WialonTrips;
 use Illuminate\Validation\ValidationException;
 use Punksolid\Wialon\Notification;
 use Tests\Tenants\TestCase;
 use Tests\Unit\Tenants\TripModelTest;
 
+/**
+ * Class WialonTripTest
+ *
+ * @group trips
+ * @package Tests\Unit
+ */
 class WialonTripTest extends TestCase
 {
     /**
@@ -91,6 +99,12 @@ class WialonTripTest extends TestCase
         $trip = factory(Trip::class)->create();
         $wialon_trip = new WialonTrips($trip);
         $this->assertFalse($wialon_trip->deleteWialonNotificationsForTrips());
+    }
+
+    public function test_wialonText_encodes_as_wialon_asks()
+    {
+        $text = new WialonParamText();
+        $this->assertStringContainsString("timestamp=%CURR_TIME%", $text->getText());
     }
 
     protected function setUp(): void

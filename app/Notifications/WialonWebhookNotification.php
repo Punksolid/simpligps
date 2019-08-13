@@ -35,7 +35,7 @@ class WialonWebhookNotification extends Notification
      *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return [
             'database',
@@ -50,7 +50,7 @@ class WialonWebhookNotification extends Notification
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail()
     {
         return (new MailMessage())
             ->line('The introduction to the notification.')
@@ -93,7 +93,7 @@ class WialonWebhookNotification extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray()
     {
         return array_merge(
             ['message' => $this->message],
@@ -111,7 +111,7 @@ class WialonWebhookNotification extends Notification
      *
      * @return BroadcastMessage
      */
-    public function toBroadcast($notifiable)
+    public function toBroadcast()
     {
         return new BroadcastMessage(array_merge(['message' => $this->message], $this->contextual_data));
     }

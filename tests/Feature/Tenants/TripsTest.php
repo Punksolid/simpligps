@@ -16,6 +16,12 @@ use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Tests\Tenants\TestCase;
 
+/**
+ * Class TripsTest
+ *
+ * @group trips
+ * @package Tests\Feature
+ */
 class TripsTest extends TestCase
 {
     var $user;
@@ -131,8 +137,6 @@ class TripsTest extends TestCase
             "scheduled_unload" => Carbon::now()->addDays(8)->toDateString()
 
         ];
-
-
 
         $call = $this->postJson("/api/v1/trips", $trip);
         $call->assertSuccessful();
@@ -417,7 +421,6 @@ class TripsTest extends TestCase
         $call->assertJsonMissing([
            'id' => $mazatlan->id
         ]);
-        $call->dump();
         $call->assertJsonFragment([
              "id" => $trip_modified['trailers_ids'][0]
         ]);

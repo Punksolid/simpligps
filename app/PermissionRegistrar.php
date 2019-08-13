@@ -86,7 +86,7 @@ class PermissionRegistrar
         $cacheDriver = config('permission.cache.store', 'default');
 
         // when 'default' is specified, no action is required since we already have the default instance
-        if ($cacheDriver === 'default') {
+        if ('default' === $cacheDriver) {
             return $this->cacheManager->store();
         }
 

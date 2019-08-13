@@ -48,8 +48,6 @@ class WialonTrips
         $unit_id = $this->getExternalWialonUnitsIds();
         $wialon_units = Unit::findMany($unit_id->toArray());
 
-        $device_id = $this->trip->getDevices()->first()->id;
-//        $device_id = $this->trip->truck->device->id;
         $wialon_notifications = $this->createWialonNotifications($wialon_units);
 
         /**
@@ -65,7 +63,6 @@ class WialonTrips
                 return "{$resource->id}_$wnotify->id";
             }
         )->toArray();
-
     }
 
     /**
@@ -91,59 +88,34 @@ class WialonTrips
      * @param $device
      * @param null $place_id
      * @param null $timeline_id
+     *
      * @return string
      */
     public function getWialonParamsText($device, $place_id = null, $timeline_id = null): string
     {
-        $repository = $this->tenant_uuid;
-        $text = 'unit=%UNIT%&
-        timestamp=%CURR_TIME%&
-        location=%LOCATION%&
-        last_location=%LAST_LOCATION%&
-        locator_link=%LOCATOR_LINK(60,T)%&
-        smallest_geofence_inside=%ZONE_MIN%&
-        all_geofences_inside=%ZONES_ALL%&
-        UNIT_GROUP=%UNIT_GROUP%&
-        SPEED=%SPEED%&
-        POS_TIME=%POS_TIME%&
-        MSG_TIME=%MSG_TIME%&
-        DRIVER=%DRIVER%&
-        DRIVER_PHONE=%DRIVER_PHONE%&
-        TRAILER=%TRAILER%&
-        SENSOR=%SENSOR(*)%&
-        ENGINE_HOURS=%ENGINE_HOURS%&
-        MILEAGE=%MILEAGE%&
-        LAT=%LAT%&
-        LON=%LON%&
-        LATD=%LATD%&
-        LOND=%LOND%&
-        GOOGLE_LINK=%GOOGLE_LINK%&
-        CUSTOM_FIELD=%CUSTOM_FIELD(*)%&
-        UNIT_ID=%UNIT_ID%&
-        MSG_TIME_INT=%MSG_TIME_INT%&
-        NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id='.$repository.'&
-        trip_id='.$this->trip->id.'&
-        device_id='.$device;
+        $text = new WialonParamText([
+            'X-Tenant-Id' => $this->tenant_uuid,
+            'trip_id' => $this->trip->id,
+            'device_id' => $device,
+        ]);
         if ($place_id) {
-            $text .= "&place_id=$place_id";
+            $text->addParameter('place_id', $place_id);
         }
         if ($timeline_id) {
-            $text .= "&timeline_id=$timeline_id";
+            $text->addParameter('timeline_id', $timeline_id);
         }
 
-        $text = '"'.$text.'"';
-
-        $text = str_replace(["\r", "\n", ' '], '', $text);
-
-        return $text;
+        return '"'.$text->getText().'"';
     }
 
     /**
+     * Devuelve un resource.
+     *
      * @param Repository $tenant_uuid
+     *
      * @return resource|null
      */
-    public function findOrCreateWialonResource(string $name)
+    public function findOrCreateWialonResource(string $name): Resource
     {
         $resource = Resource::findByName($name);
         if (!$resource) {
@@ -174,7 +146,9 @@ class WialonTrips
 
     /**
      * @param Collection $wialon_units
+     *
      * @return Collection
+     *
      * @throws Exception
      */
     private function createWialonNotifications(
@@ -204,12 +178,16 @@ class WialonTrips
     }
 
     /**
+     * Crea una notificacion en wialon.
+     *
      * @param resource|null       $resource
      * @param Collection          $wialon_units
      * @param GeofenceControlType $control_type
      * @param Notification\Action $action
-     * @param string              $text
+     * @param string              $text*
+     *
      * @return Notification|null
+     *
      * @throws Exception
      */
     public function createWialonNotification(
@@ -220,7 +198,6 @@ class WialonTrips
         string $text
     ) {
         $resource = $this->findOrCreateWialonResource($this->resource_name);
-
 
         return Notification::make(
             $resource,
@@ -242,7 +219,8 @@ class WialonTrips
     public function getAction(): Notification\Action
     {
         return new Notification\Action(
-            'push_messages', [
+            'push_messages',
+            [
                 'url' => url(config('app.url')."api/v1/$this->tenant_uuid/alert/trips/".$this->trip->id),
             ]
         );
@@ -266,19 +244,16 @@ class WialonTrips
     /**
      * Crea las dos notificaciones necesarias para avisar que entró y salió de un checkpoint.
      * Para que reporten entradas y salidas en wialon son necesarias dos notificaciones, una para entrada y otra salida
-     * Cada notificacion lleva solo 1 geocerca
+     * Cada notificacion lleva solo 1 geocerca.
      *
      * @param Collection $wialon_units
      * @param $place
      * @param Collection $wialon_notifications
+     *
      * @throws Exception
      */
-    private function createNotificationsForEnterExitForPlace(
-        Collection $wialon_units,
-        $place,
-        Collection $wialon_notifications
-    ): void {
-
+    private function createNotificationsForEnterExitForPlace(Collection $wialon_units, $place, Collection $wialon_notifications): void
+    {
         $control_type = new GeofenceControlType();
 
         $control_type->addGeozoneId($place->geofence_ref);
@@ -289,6 +264,7 @@ class WialonTrips
             $place->id,
             $place->pivot->id
         );
+
         $wialon_notifications->push(
             $this->createWialonNotification(
                 $wialon_units,

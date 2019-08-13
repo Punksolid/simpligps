@@ -10,6 +10,12 @@ use App\TruckTract;
 use Punksolid\Wialon\Resource;
 use Tests\Tenants\TestCase;
 
+/**
+ * Class TripActionTest
+ *
+ * @group trips
+ * @package Tests\Feature
+ */
 class TripActionTest extends TestCase
 {
     protected function setUp(): void

@@ -55,7 +55,7 @@ class ForgotPasswordController extends Controller
             $request->only('email')
         );
 
-        return $response === Password::RESET_LINK_SENT ? response()->json('ok') : response()->json(
+        return Password::RESET_LINK_SENT === $response ? response()->json('ok') : response()->json(
             [
                 'message' => "Email didn't match",
             ]

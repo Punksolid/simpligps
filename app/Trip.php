@@ -4,14 +4,11 @@ namespace App;
 
 use App\Exceptions\MalformedTrip;
 use App\Traits\ModelLogger;
+use App\Traits\TripRelationships;
 use Carbon\Carbon;
 use Exception;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\MessageBag;
@@ -28,37 +25,7 @@ class Trip extends Model implements LoggerInterface
     use ModelLogger;
     use LoggerTrait;
     use LogsActivity;
-
-    private const DEBUG = 100;
-    /**
-     * Interesting events.
-     * Examples: User logs in, SQL logs.
-     */
-    private const INFO = 200;
-    private const NOTICE = 250;
-    /**
-     * Exceptional occurrences that are not errors.
-     * Examples: Use of deprecated APIs, poor use of an API,
-     * undesirable things that are not necessarily wrong.
-     */
-    private const WARNING = 300;
-
-    // Detailed debug information
-    private const ERROR = 400;
-    /**
-     * Critical conditions.
-     * Example: Application component unavailable, unexpected exception.
-     */
-    private const CRITICAL = 500;
-
-    // Uncommon events
-    /**
-     * Action must be taken immediately.
-     * Example: Entire website down, database unavailable, etc.
-     * This should trigger the SMS alerts and wake you up.
-     */
-    private const ALERT = 550;
-    private const EMERGENCY = 600;
+    use TripRelationships;
 
     //Runtime Errors
     protected static $logAttributes = [
@@ -73,6 +40,7 @@ class Trip extends Model implements LoggerInterface
         'operator_id',
     ];
     protected static $submitEmptyLogs = false;
+
     protected static $logOnlyDirty = true;
 
     // Urgent alert.
@@ -103,6 +71,13 @@ class Trip extends Model implements LoggerInterface
      */
     public $wialon_trips;
 
+    public function tags(): MorphToMany
+    {
+        return $this
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
+    }
+
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -117,46 +92,6 @@ class Trip extends Model implements LoggerInterface
     }
 
     //region Relationships
-
-    /**
-     * Devuelve modelo del Origin.
-     *
-     * @return BelongsTo
-     */
-    public function getOrigin()
-    {
-        return $this->places()->wherePivot('type', '=', 'origin')->first();
-    }
-
-    /**
-     * Relacion muchos a muchos, puntos intermedios.
-     */
-    public function places()
-    {
-        return $this->belongsToMany(
-            Place::class,
-            'places_trips',
-            'trip_id',
-            'place_id'
-        )
-            ->using(Timeline::class)
-            ->withPivot(
-                [
-                    'id',
-                    'order',
-                    'at_time',
-                    'exiting',
-                    'type',
-                    'real_at_time',
-                    'real_exiting',
-                ]
-            );
-    }
-
-    public function origin()
-    {
-        return $this->places()->wherePivot('type', '=', 'origin');
-    }
 
     public function getOriginAttribute()
     {
@@ -180,11 +115,6 @@ class Trip extends Model implements LoggerInterface
                 ],
             ]
         );
-    }
-
-    public function destination()
-    {
-        return $this->places()->wherePivot('type', '=', 'destination');
     }
 
     /**
@@ -222,64 +152,9 @@ class Trip extends Model implements LoggerInterface
         );
     }
 
-    /**
-     * Traces son todos los registros que va dejando el plan de viaje, antes Bitacora.
-     *
-     * @return HasMany
-     */
-    public function traces()
-    {
-        return $this->hasMany(Trace::class, 'trip_id');
-    }
-
-    public function tags(): MorphToMany
-    {
-        return $this
-            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-            ->orderBy('order_column');
-    }
-
     public static function getTagClassName(): string
     {
         return MariadbTag::class;
-    }
-
-    /**
-     * Alias de Places con pivot intermediate.
-     *
-     * @return BelongsToMany
-     */
-    public function intermediates()
-    {
-        return $this->places()->wherePivot('type', '=', 'intermediate');
-    }
-
-    /**
-     * Un viaje tiene un operador asignado al viaje.
-     *
-     * @return BelongsTo
-     */
-    public function operator()
-    {
-        return $this->belongsTo(Operator::class);
-    }
-
-    /**
-     * Trip tiene muchos logs.
-     *
-     * @return MorphMany
-     */
-    public function logs()
-    {
-        return $this->morphMany(Log::class, 'loggable');
-    }
-
-    /**
-     * Un Trip tiene un cliente asignado.
-     */
-    public function client()
-    {
-        return $this->belongsTo(Client::class, 'client_id');
     }
 
     public function syncIntermediate($place, $at_time, $exiting)
@@ -288,9 +163,31 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
+     * Sincroniza todos los lugares intermedios.
+     * Quita los que no están presentes y agrega los nuevos, los que ya están los actualiza
+     * @param array $intermediates
+     */
+    public function syncIntermediates(array $intermediates)
+    {
+        $index = 1;
+        foreach ($intermediates as &$intermediate) {
+            $intermediate['type'] = 'intermediate';
+            $intermediate['at_time'] = new Carbon($intermediate['at_time']);
+            $intermediate['exiting'] = new Carbon($intermediate['exiting']);
+            $intermediate['order'] = $index;
+
+            $index++;
+        }
+        return $this->intermediates()->sync($intermediates);
+
+    }
+
+    /**
      * Add Intermediate Places points.
      *
      * @param Place $place
+     *
+     * @return
      */
     public function addIntermediate($place_id, $at_time, $exiting, $sync = false)
     {
@@ -311,40 +208,30 @@ class Trip extends Model implements LoggerInterface
     //endregion
 
     //region actions
+
     /**
+     * Sincroniza los trailers agregados y elimina los que ya estaban.
      *
      * @param int $trailer_box_id
+     *
+     * @return array
      */
     public function syncTrailerBox(array $trailer_boxes_ids)
     {
         return $this->trailers()->sync($trailer_boxes_ids);
     }
 
+    /**
+     * Agrega caja de trailer al viaje.
+     *
+     * @param int $trailer_box_id
+     */
     public function addTrailerBox(int $trailer_box_id)
     {
         $this->trailers()->attach(
             $trailer_box_id,
             [
                 'order' => 0,
-            ]
-        );
-    }
-
-    /**
-     * Un viaje puede tener varias Cajas (TrailerBoxes), el campo order en pivot representa el orden de las cajas.
-     *
-     * @return BelongsToMany
-     */
-    public function trailers()
-    {
-        return $this->belongsToMany(
-            'App\TrailerBox',
-            'trailer_boxes_trips',
-            'trip_id',
-            'trailer_box_id'
-        )->withPivot(
-            [
-                'order',
             ]
         );
     }
@@ -356,16 +243,6 @@ class Trip extends Model implements LoggerInterface
 
     //endregion
     //region Getters
-
-    /**
-     * Un viaje puede tener un tracto.
-     *
-     * @return BelongsTo
-     */
-    public function truck()
-    {
-        return $this->belongsTo(TruckTract::class, 'truck_tract_id');
-    }
 
     /**
      * Devuelve todos los Ids de Geofences de wialon en formato resourceId_localId.
@@ -435,7 +312,7 @@ class Trip extends Model implements LoggerInterface
      */
     public function getFieldToUpdate($action): string
     {
-        if ($action === 'entering') {
+        if ('entering' === $action) {
             return 'real_at_time';
         }
 
@@ -444,23 +321,20 @@ class Trip extends Model implements LoggerInterface
 
     public function scopeOnlyOngoing($query)
     {
-        return $query->select(
-            [
-                'trips.*',
-                'origin.id as origin_id',
-                'origin.type as type',
-                'origin.order as order',
-                'origin.at_time as origin_at_time',
-                'origin.exiting as origin_exiting',
+        return $query->select([
+            'trips.*',
+            'origin.id as origin_id',
+            'origin.type as type',
+            'origin.order as order',
+            'origin.at_time as origin_at_time',
+            'origin.exiting as origin_exiting',
 
-                'destination.id as destination_id',
-                'destination.type as destination type',
-                'destination.order as destination order',
-                'destination.at_time as destination_at_time',
-                'destination.exiting as destination_exiting',
-            ]
-        )
-            ->join(
+            'destination.id as destination_id',
+            'destination.type as destination type',
+            'destination.order as destination order',
+            'destination.at_time as destination_at_time',
+            'destination.exiting as destination_exiting',
+        ])->join(
                 'places_trips as origin',
                 function ($join) {
                     $join->on('trips.id', '=', 'origin.trip_id')

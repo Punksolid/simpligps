@@ -28,3 +28,5 @@ graph\.png
 \.phpstorm\.meta\.php
 
 storage/clockwork/index
+
+\.php_cs\.cache

@@ -11,6 +11,12 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Support\Facades\Event;
 use Tests\Tenants\TestCase;
 
+/**
+ * Class TripsNotificationsTest
+ *
+ * @package Tests\Feature
+ * @group trips
+ */
 class TripsNotificationsTest extends TestCase
 {
     public function test_usuario_puede_activar_alerta_de_detalle_en_viaje()
