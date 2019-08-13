@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
  */
 class TripsController extends Controller
 {
+
     /**
      * Lista todos los viajes sin filtros.
      *
@@ -71,30 +72,7 @@ class TripsController extends Controller
      */
     public function store(TripRequest $request)
     {
-        $trip = Trip::make($request->except([
-            'scheduled_load',
-            'scheduled_departure',
-            'scheduled_arrival',
-            'scheduled_unload',
-            ]));
-        $trip->carrier_id = $request->carrier_id;
-        $trip->truck_tract_id = $request->truck_tract_id;
-        $trip->operator_id = $request->operator_id;
-        $trip->client_id = $request->client_id;
-        $trip->save();
-        $trip->setOrigin(Place::findOrFail($request->origin_id), new Carbon($request->scheduled_load), new Carbon($request->scheduled_departure));
-
-        foreach ($request->intermediates as $intermediate) {
-            $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
-            $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format to carbon
-            $trip->addIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
-        }
-
-        $trip->setDestination($destination = Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
-
-        if ($request->has('trailers_ids')){
-            $trip->syncTrailerBox($request->trailers_ids);
-        }
+        $trip = Trip::CreateNewTrip($request);
 
         $trip->load('client', 'intermediates', 'origin', 'destination');
         return TripResource::make($trip);
@@ -134,16 +112,8 @@ class TripsController extends Controller
     public function update(TripRequest $request, $trip)
     {
         $trip = Trip::findOrFail($trip);
-
         $trip->setOrigin(Place::findOrFail($request->origin_id), new Carbon($request->scheduled_load), new Carbon($request->scheduled_departure));
-
-        foreach ($request->intermediates as $intermediate) {
-            $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
-            $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format 2019-05-25T14:35:00.000Z
-
-            $trip->syncIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
-        }
-
+        $trip->syncIntermediates($request->intermediates);
         $trip->setDestination(Place::findOrFail($request->destination_id), new Carbon($request->scheduled_arrival), new Carbon($request->scheduled_unload));
         $trip->syncTrailerBox($request->trailers_ids);
 
@@ -159,12 +129,7 @@ class TripsController extends Controller
         }
 
         if ($request->has('intermediates')) {
-            foreach ($request->intermediates as $intermediate) {
-                $intermediate['at_time'] = new Carbon($intermediate['at_time']); // format 2019-05-25T14:35:00.000Z
-                $intermediate['exiting'] = new Carbon($intermediate['exiting']); // format 2019-05-25T14:35:00.000Z
-
-                $trip->syncIntermediate($intermediate['place_id'], $intermediate['at_time'], $intermediate['exiting']);
-            }
+            $trip->syncIntermediates($request->intermediates);
         }
 
         if ($request->has('destination_id')) {
@@ -197,8 +162,7 @@ class TripsController extends Controller
             ]);
         }
 
-        return response([
-            'message' => 'falló al eliminar el viaje',
-        ]); //todo cambiar por thwrow exception
+        throw new \Exception("Couldn't delete trip");
+
     }
 }

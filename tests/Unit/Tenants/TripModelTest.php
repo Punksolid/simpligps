@@ -11,6 +11,12 @@ use App\TruckTract;
 use Carbon\Carbon;
 use Tests\Tenants\TestCase;
 
+/**
+ * Class TripModelTest
+ *
+ * @group trips
+ * @package Tests\Unit\Tenants
+ */
 class TripModelTest extends TestCase
 {
     public function test_get_all_wialon_geozones()
