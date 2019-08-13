@@ -11,8 +11,7 @@ class LogsTest extends TestCase
     public function test_registrar_una_linea_para_trips_en_logs()
     {
         $trip = factory(Trip::class)->create();
-        $log =
-            [
+        $log = [
             'unit' =>"PTS003",
             'timestamp' =>"2019-05-02 01:58:08",
             'location' =>"Calle Río Del Carmen 1058, Industrial Bravo, Culiacán, Sinaloa 80120, Mexico",
@@ -42,13 +41,19 @@ class LogsTest extends TestCase
             'X-Tenant-Id' =>"f1b45786af864c1f813187bb0b18f540",
             'trip_id' =>"49",
             'device' =>"6"
-            ];
+        ];
 
 
         // $trip->logs()->create(['data' => $log]); // @deprecated
-        $trip->info("Trip Updated", $log);
-        $log = $trip->logs()->first();
-        $this->assertEquals("PTS003", $log->context['unit']);
+//        $trip->info("Trip Updated", $log);
+        activity()
+            ->performedOn($trip)
+            ->withProperties($log)
+            ->log('Trip Updated');
+
+//        $log = $trip->logs()->first(); // @deprecated por la libreria de activities
+        $log = $trip->activities()->get()->last();
+        $this->assertEquals("PTS003", $log['properties']['unit']);
     }
 
     public function test_listar_logs_de_un_viaje()

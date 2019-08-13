@@ -115,7 +115,7 @@ class AccountsController extends Controller
      */
     public function destroy(Account $account, Request $request)
     {
-        if ($request->force_destroy === true) {
+        if (true === $request->force_destroy) {
             $this->validate($request, [
                 'uuid' => 'required',
             ]);

@@ -3,7 +3,6 @@
 namespace App;
 
 use App\Exceptions\MalformedTrip;
-use App\Http\Requests\TripRequest;
 use App\Traits\ModelLogger;
 use App\Traits\TripRelationships;
 use Carbon\Carbon;
@@ -79,59 +78,10 @@ class Trip extends Model implements LoggerInterface
             ->orderBy('order_column');
     }
 
-
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
         $this->wialon_trips = new WialonTrips($this);
-    }
-
-    /**
-     * @param TripRequest $request
-     * @return mixed
-     */
-    public static function CreateNewTrip(TripRequest $request)
-    {
-        $trip = Trip::make(
-            $request->except(
-                [
-                    'scheduled_load',
-                    'scheduled_departure',
-                    'scheduled_arrival',
-                    'scheduled_unload',
-                ]
-            )
-        );
-        $trip->carrier_id = $request->carrier_id;
-        $trip->truck_tract_id = $request->truck_tract_id;
-        $trip->operator_id = $request->operator_id;
-        $trip->client_id = $request->client_id;
-        $trip->save();
-        $trip->setOrigin(
-            Place::findOrFail($request->origin_id),
-            new Carbon($request->scheduled_load),
-            new Carbon($request->scheduled_departure)
-        );
-
-        foreach ($request->intermediates as $intermediate) {
-            $trip->addIntermediate(
-                $intermediate['place_id'],
-                new Carbon($intermediate['at_time']),
-                new Carbon($intermediate['exiting']) // format 2019-05-25T14:35:00.000Z
-            );
-        }
-
-        $trip->setDestination(
-            $destination = Place::findOrFail($request->destination_id),
-            new Carbon($request->scheduled_arrival),
-            new Carbon($request->scheduled_unload)
-        );
-
-        if ($request->has('trailers_ids')) {
-            $trip->syncTrailerBox($request->trailers_ids);
-        }
-
-        return $trip;
     }
 
     public function getDescriptionForEvent(string $eventName): string
@@ -166,7 +116,6 @@ class Trip extends Model implements LoggerInterface
             ]
         );
     }
-
 
     /**
      * @param Place $place
@@ -214,23 +163,30 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * Sincroniza todos los lugares intermedios
+     * Sincroniza todos los lugares intermedios.
+     * Quita los que no están presentes y agrega los nuevos, los que ya están los actualiza
      * @param array $intermediates
      */
     public function syncIntermediates(array $intermediates)
     {
-        foreach ($intermediates as $intermediate) {
-            $this->syncIntermediate($intermediate['place_id'],
-                new Carbon( $intermediate['at_time']),
-                new Carbon($intermediate['exiting'])
-            );
+        $index = 1;
+        foreach ($intermediates as &$intermediate) {
+            $intermediate['type'] = 'intermediate';
+            $intermediate['at_time'] = new Carbon($intermediate['at_time']);
+            $intermediate['exiting'] = new Carbon($intermediate['exiting']);
+            $intermediate['order'] = $index;
+
+            $index++;
         }
+        return $this->intermediates()->sync($intermediates);
+
     }
 
     /**
      * Add Intermediate Places points.
      *
      * @param Place $place
+     *
      * @return
      */
     public function addIntermediate($place_id, $at_time, $exiting, $sync = false)
@@ -252,10 +208,12 @@ class Trip extends Model implements LoggerInterface
     //endregion
 
     //region actions
+
     /**
-     * Sincroniza los trailers agregados y elimina los que ya estaban
+     * Sincroniza los trailers agregados y elimina los que ya estaban.
      *
      * @param int $trailer_box_id
+     *
      * @return array
      */
     public function syncTrailerBox(array $trailer_boxes_ids)
@@ -264,7 +222,8 @@ class Trip extends Model implements LoggerInterface
     }
 
     /**
-     * Agrega caja de trailer al viaje
+     * Agrega caja de trailer al viaje.
+     *
      * @param int $trailer_box_id
      */
     public function addTrailerBox(int $trailer_box_id)
@@ -353,7 +312,7 @@ class Trip extends Model implements LoggerInterface
      */
     public function getFieldToUpdate($action): string
     {
-        if ($action === 'entering') {
+        if ('entering' === $action) {
             return 'real_at_time';
         }
 
@@ -362,23 +321,20 @@ class Trip extends Model implements LoggerInterface
 
     public function scopeOnlyOngoing($query)
     {
-        return $query->select(
-            [
-                'trips.*',
-                'origin.id as origin_id',
-                'origin.type as type',
-                'origin.order as order',
-                'origin.at_time as origin_at_time',
-                'origin.exiting as origin_exiting',
+        return $query->select([
+            'trips.*',
+            'origin.id as origin_id',
+            'origin.type as type',
+            'origin.order as order',
+            'origin.at_time as origin_at_time',
+            'origin.exiting as origin_exiting',
 
-                'destination.id as destination_id',
-                'destination.type as destination type',
-                'destination.order as destination order',
-                'destination.at_time as destination_at_time',
-                'destination.exiting as destination_exiting',
-            ]
-        )
-            ->join(
+            'destination.id as destination_id',
+            'destination.type as destination type',
+            'destination.order as destination order',
+            'destination.at_time as destination_at_time',
+            'destination.exiting as destination_exiting',
+        ])->join(
                 'places_trips as origin',
                 function ($join) {
                     $join->on('trips.id', '=', 'origin.trip_id')

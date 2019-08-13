@@ -35,13 +35,8 @@ class Wialon
             $device = Device::create([
                 'name' => $wialon_unit->nm,
             ]);
-
             $device->linkUnit($wialon_unit);
-            Truck::create([
-                'name' => $device->name,
-                'device_id' => $device->id,
-                'internal_number' => $device->uacl,
-            ]);
+            $this->createTruckAndAttachDevice($device);
 
             $devices->push($device);
         }
@@ -81,5 +76,19 @@ class Wialon
         }
 
         return $notifications_triggers;
+    }
+
+    /**
+     * @param $device
+     */
+    public function createTruckAndAttachDevice($device): void
+    {
+        Truck::create(
+            [
+                'name' => $device->name,
+                'device_id' => $device->id,
+                'internal_number' => $device->uacl,
+            ]
+        );
     }
 }

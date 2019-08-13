@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\CreateTrip;
 use App\Http\Requests\TripRequest;
 use App\Http\Resources\TripResource;
 use App\Place;
@@ -16,7 +17,6 @@ use Illuminate\Http\Request;
  */
 class TripsController extends Controller
 {
-
     /**
      * Lista todos los viajes sin filtros.
      *
@@ -72,9 +72,10 @@ class TripsController extends Controller
      */
     public function store(TripRequest $request)
     {
-        $trip = Trip::CreateNewTrip($request);
+        $trip = CreateTrip::createNewTrip($request);
 
         $trip->load('client', 'intermediates', 'origin', 'destination');
+
         return TripResource::make($trip);
     }
 
@@ -163,6 +164,5 @@ class TripsController extends Controller
         }
 
         throw new \Exception("Couldn't delete trip");
-
     }
 }

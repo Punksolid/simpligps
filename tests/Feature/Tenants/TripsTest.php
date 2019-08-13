@@ -138,8 +138,6 @@ class TripsTest extends TestCase
 
         ];
 
-
-
         $call = $this->postJson("/api/v1/trips", $trip);
         $call->assertSuccessful();
 

@@ -12,6 +12,7 @@ use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\SensorControlType;
 use Punksolid\Wialon\Unit;
+use Punksolid\Wialon\WialonErrorException;
 
 class NotificationTrigger extends Model
 {
@@ -159,7 +160,7 @@ class NotificationTrigger extends Model
         }
 
         if (!$this->hasDevices()) {
-            throw new \Exception('No hay dispositivos');
+            throw new WialonErrorException('No hay dispositivos');
         }
 
         //        $units = Unit::findMany($request->units); // Devuelve Colleccion de objetos Unit de Punksolid/Wialon/Unit
@@ -168,44 +169,12 @@ class NotificationTrigger extends Model
                 'url' => url(config('app.url').'api/v1/webhook/alert'),
             ]);
 
-        $text = '"unit=%UNIT%&
-        timestamp=%CURR_TIME%&
-        location=%LOCATION%&
-        last_location=%LAST_LOCATION%&
-        locator_link=%LOCATOR_LINK(60,T)%&
-        smallest_geofence_inside=%ZONE_MIN%&
-        all_geofences_inside=%ZONES_ALL%&
-        UNIT_GROUP=%UNIT_GROUP%&
-        SPEED=%SPEED%&
-        POS_TIME=%POS_TIME%&
-        MSG_TIME=%MSG_TIME%&
-        DRIVER=%DRIVER%&
-        DRIVER_PHONE=%DRIVER_PHONE%&
-        TRAILER=%TRAILER%&
-        SENSOR=%SENSOR(*)%&
-        ENGINE_HOURS=%ENGINE_HOURS%&
-        MILEAGE=%MILEAGE%&
-        LAT=%LAT%&
-        LON=%LON%&
-        LATD=%LATD%&
-        LOND=%LOND%&
-        GOOGLE_LINK=%GOOGLE_LINK%&
-        CUSTOM_FIELD=%CUSTOM_FIELD(*)%&
-        UNIT_ID=%UNIT_ID%&
-        MSG_TIME_INT=%MSG_TIME_INT%&
-        NOTIFICATION=%NOTIFICATION%&
-        X-Tenant-Id='.$tenant_uuid.'&
-        notification_id='.$this->id.'
-        "';
+        $text = (new WialonParamText([
+            'X-Tenant-Id' => $tenant_uuid,
+            'notification_id' => $this->id,
+        ]))->getText();
+        $text = '"'.$text.'"';
 
-        $text = str_replace(["\r", "\n", ' '], '', $text);
-
-        Log::alert(
-            'ConnectionName',
-            [
-                'ConnectionName' => $this->getConnectionName(),
-            ]
-        );
         $notification = Notification::make(
             $resource,
             $units,

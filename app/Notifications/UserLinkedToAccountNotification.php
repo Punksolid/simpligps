@@ -27,7 +27,7 @@ class UserLinkedToAccountNotification extends Notification
      *
      * @return array
      */
-    public function via($notifiable)
+    public function via()
     {
         return ['mail'];
     }
@@ -39,7 +39,7 @@ class UserLinkedToAccountNotification extends Notification
      *
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable)
+    public function toMail()
     {
         return (new MailMessage())
                     ->line("You've been linked to the {$this->account->easyname} account in TRM System")
@@ -54,7 +54,7 @@ class UserLinkedToAccountNotification extends Notification
      *
      * @return array
      */
-    public function toArray($notifiable)
+    public function toArray()
     {
         return [
         ];
