@@ -96,7 +96,8 @@ class WialonTripTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        config(["services.wialon.token" => "5dce19710a5e26ab8b7b8986cb3c49e58C291791B7F0A7AEB8AFBFCEED7DC03BC48FF5F8"]);
+        config(["services.wialon.token" => env("WIALON_SECRET")]);
+
         $this->trip = TripModelTest::prepareTripObject();
     }
 }
