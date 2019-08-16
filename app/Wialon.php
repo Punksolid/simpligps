@@ -15,7 +15,7 @@ use App\TruckTract as Truck;
 
 class Wialon
 {
-    public $token;
+    private $token;
 
     public function __construct($token)
     {

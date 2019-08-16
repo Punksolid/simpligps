@@ -23,7 +23,7 @@
     "makeabledk/laravel-factory-enhanced": "^1.1",
     "monolog/monolog": "^1.24",
     "predis/predis": "^1.1",
-    "punksolid/laravel-wialon": "dev-master",
+    "punksolid/laravel-wialon": "1.1",
     "pusher/pusher-php-server": "~3.0",
     "spatie/geocoder": "^3.4",
     "spatie/laravel-activitylog": "^3.7",

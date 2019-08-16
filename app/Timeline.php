@@ -21,7 +21,7 @@ class Timeline extends Pivot
 
     protected $table = 'places_trips';
 
-    public $incrementing = true;
+    protected $incrementing = true;
 
     protected $fillable = [
         'place_id',
@@ -36,5 +36,10 @@ class Timeline extends Pivot
     public function place()
     {
         return $this->belongsTo(Place::class);
+    }
+
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class);
     }
 }

@@ -4,9 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Device;
 use App\Http\Requests\DeviceRequest;
-use App\Http\Requests\UpdateLocalizationRequest;
 use App\Http\Resources\DeviceResource;
-use App\Point;
 use Illuminate\Http\Request;
 use Punksolid\Wialon\Unit;
 use App\Interfaces\Search;
@@ -21,7 +19,7 @@ class DevicesController extends Controller implements Search
     /**
      * Display a listing of the Devices.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
     public function index(Request $request)
     {
@@ -53,14 +51,11 @@ class DevicesController extends Controller implements Search
 
         try {
             $unit = Unit::make($request->name);
+            $device->update(['reference_data' => $unit]);
         } catch (\Exception $exception) {
             \Log::warning('Couldnt create a unit in wialon', [
                 'device' => $device->toArray(),
             ]);
-        }
-
-        if (isset($unit)) {
-            $device->update(['reference_data' => $unit]);
         }
 
         return DeviceResource::make($device);
@@ -117,18 +112,6 @@ class DevicesController extends Controller implements Search
         return response('Aconteció un error');
     }
 
-    public function updateLocalization(Device $device, UpdateLocalizationRequest $request)
-    {
-        //        $point = new Point();
-
-        $device->points()->create([
-            'lat' => $request->lat,
-            'lon' => $request->lon,
-        ]);
-
-        return response()->json($device->load('points'));
-    }
-
     /**
      * Liga unidad a dispositivos existentes.
      *
@@ -141,14 +124,19 @@ class DevicesController extends Controller implements Search
     {
         $unit = Unit::find($request->unit_id);
         if ($device->linkUnit($unit)) {
-            return response()->json([
-                'data' => $device,
-            ]);
+            return DeviceResource::make($device);
         }
 
         abort(500);
     }
 
+    /**
+     * @deprecated Usar index
+     *
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function search(Request $request)
     {
         $devices = Device::query()

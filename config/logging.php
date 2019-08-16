@@ -43,7 +43,8 @@ return [
             'channels' => [
                 'tenant', 
                 'bugsnag',
-                'syslog'
+                'syslog',
+                'single'
             ],
         ],
         'single' => [

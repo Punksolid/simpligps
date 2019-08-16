@@ -4,6 +4,7 @@ namespace App\Traits;
 
 use Carbon\Carbon;
 use App\Log;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * Model logger.
@@ -12,21 +13,10 @@ trait ModelLogger
 {
     public function log($log_level, $message = '', array $context = [], array $extra = [])
     {
-        $level = [
-            'emergency' => self::EMERGENCY,
-            'alert' => self::ALERT,
-            'critical' => self::CRITICAL,
-            'error' => self::ERROR,
-            'warning' => self::WARNING,
-            'notice' => self::NOTICE,
-            'info' => self::INFO,
-            'debug' => self::DEBUG,
-        ];
-
         $data = [
             'message' => $message,
             'channel' => 'devices',
-            'level' => $level[$log_level],
+            'level' => $this->levelNumber($log_level),
             'level_name' => $log_level,
             'context' => $context,
             'datetime' => Carbon::now(),
@@ -35,5 +25,21 @@ trait ModelLogger
         $log = new Log($data);
 
         return $this->logs()->save($log);
+    }
+
+    public function levelNumber($level_name): integer
+    {
+        $level = [
+            'emergency' => 600, //  Urgent alert.
+            'alert' => 550,  //  Action must be taken immediately.
+            'critical' => 500, // Critical conditions.
+            'error' => 400, //  Runtime errors.
+            'warning' => 300, //Exceptional occurrences that are not errors.
+            'notice' => 250, //  Uncommon events.
+            'info' => 200, //Interesting events.
+            'debug' => 100, // Detailed debug information.
+        ];
+
+        return $level[$level_name];
     }
 }

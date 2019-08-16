@@ -16,8 +16,8 @@ class WialonResourceResource extends JsonResource
     public function toArray($request)
     {
         return [
-          'name' => $this->nm,
-          'id' => $this->id,
+            'name' => $this->nm,
+            'id' => $this->id,
         ];
     }
 }

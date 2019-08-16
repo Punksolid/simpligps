@@ -3,12 +3,18 @@
 namespace Tests\Unit;
 
 use App\Device;
+use App\Http\Middleware\SetWialonTokenMiddleware;
+use App\Place;
+use App\Timeline;
 use App\TrailerBox;
 use App\Trip;
+use App\Wialon;
 use App\WialonParamText;
 use App\WialonTrips;
 use Illuminate\Validation\ValidationException;
+use Psy\Util\Str;
 use Punksolid\Wialon\Notification;
+use Punksolid\Wialon\Resource;
 use Tests\Tenants\TestCase;
 use Tests\Unit\Tenants\TripModelTest;
 
@@ -25,18 +31,17 @@ class WialonTripTest extends TestCase
      */
     public $trip;
 
-    public function test_get_wialon_devices()
-    {
-
-        $wialon_ids = $this->trip->wialon_trips->getExternalWialonUnitsIds()->toArray();
-        $this->assertIsArray($wialon_ids);
-        $this->assertEquals("17471332", $wialon_ids[0]);
-    }
-
     public function test_create_wialon_notification_without_trailer_boxes()
     {
-        $notifications_wialon_ids = (new WialonTrips($this->trip))->createWialonNotificationsForTrips();
 
+        $checkpoints = factory(Timeline::class,2)->create();
+        $wialon_trips = new WialonTrips(
+            $checkpoints->first()->trip,
+            factory(Device::class)->state('in_truck')->create(),
+            $checkpoints
+        );
+
+        $notifications_wialon_ids = $wialon_trips->createNotificationsForTrips();
         $this->assertIsArray($notifications_wialon_ids);
         $this->assertIsObject(Notification::findByUniqueId($notifications_wialon_ids[0]));
     }
@@ -44,53 +49,55 @@ class WialonTripTest extends TestCase
     public function test_validateWialonReferrals()
     {
         $trip = $this->trip->fresh('places');
-        $this->assertNull($trip->wialon_trips->validateWialonReferrals());
+        $wialon_trips = new WialonTrips($trip);
+        $this->assertNull($wialon_trips->validateReferrals());
 
     }
 
     public function test_create_wialon_external_notifications()
     {
-
-        $notifications_wialon_ids = (new WialonTrips($this->trip))->createWialonNotificationsForTrips();
+        $wialon_trips = new WialonTrips($this->trip);
+        $notifications_wialon_ids = $wialon_trips->createNotificationsForTrips();
 
         $this->assertIsArray($notifications_wialon_ids);
         $this->assertIsObject(Notification::findByUniqueId($notifications_wialon_ids[0]));
 
     }
 
-    public function test_getWialonParamsText_accepts_optional_fields()
+    public function test_getParamsText_accepts_optional_fields()
     {
-        $trip = factory(Trip::class)->create();
 
-        $wialon_trips = new WialonTrips($trip);
-        $text = $wialon_trips->getWialonParamsText( 10);
-        $this->assertStringNotContainsString("&place_id=", $text);
-
-        $text = $wialon_trips->getWialonParamsText(000, 222, 111);
-
+        $text = new Notification\WialonText();
+        $this->assertStringNotContainsString("&place_id=", $text->getText());
+        $text->addParameter('place_id' , 222);
+        $text->addParameter('timeline_id' , 111);
+        $text = $text->getText();
 
         $this->assertStringContainsString("&place_id=222", $text);
         $this->assertStringContainsString("&timeline_id=111", $text);
 
     }
 
-    public function test_validateWialonReferrals_throws_if_a_truck_orTrailer_doesnt_have_a_device()
+    public function test_validateReferrals_throws_if_a_truck_orTrailer_doesnt_have_a_device()
     {
         $this->expectException(ValidationException::class);
 
         $trailer = factory(TrailerBox::class)->create();
         $this->trip->addTrailerBox($trailer->id);
         $wialon_trips = new WialonTrips($this->trip);
-        $wialon_trips->validateWialonReferrals();
+        $wialon_trips->validateReferrals();
 
     }
 
     public function test_trip_deactivateNotifications_should_delete_wialon_notifications()
     {
-        $wialon_trips_handler = new WialonTrips($this->trip);
-        $notifications_wialon_ids = $wialon_trips_handler->createWialonNotificationsForTrips();
 
-        $this->assertTrue($wialon_trips_handler->deleteWialonNotificationsForTrips());
+        $wialon_trips_handler = new WialonTrips($this->trip, factory(Device::class)->state('in_truck')->create());
+
+//        $wialon_trips_handler->validateWialonReferrals();
+        $notifications_wialon_ids = $wialon_trips_handler->createNotificationsForTrips();
+
+        $this->assertTrue($wialon_trips_handler->deleteNotifications());
         $this->assertNull(Notification::findByUniqueId($notifications_wialon_ids[0]));
     }
 
@@ -98,7 +105,7 @@ class WialonTripTest extends TestCase
     {
         $trip = factory(Trip::class)->create();
         $wialon_trip = new WialonTrips($trip);
-        $this->assertFalse($wialon_trip->deleteWialonNotificationsForTrips());
+        $this->assertFalse($wialon_trip->deleteNotifications());
     }
 
     public function test_wialonText_encodes_as_wialon_asks()
@@ -110,8 +117,34 @@ class WialonTripTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->withoutMiddleware([SetWialonTokenMiddleware::class]);
         config(["services.wialon.token" => env("WIALON_SECRET")]);
 
         $this->trip = TripModelTest::prepareTripObject();
     }
+
+    public function test_getUnitIdOfTruck()
+    {
+        $trip = TripModelTest::prepareTripObject();
+
+        $wialon_trip = new WialonTrips($trip);
+
+        $this->assertEquals('17471332', $wialon_trip->device->wialon_id);
+    }
+
+//    public function test_borrar_todos_los_resources_de_cada_trip()
+//    {
+//
+//        $resources = Resource::all();
+//
+//        $filtered = $resources->filter(function ($resource) {
+//
+//           return \Illuminate\Support\Str::contains($resource->nm,'6149');
+//        });
+//        foreach ($filtered as $resource) {
+//            dump($resource->nm);
+//            $resource->destroy();
+//        }
+//
+//    }
 }

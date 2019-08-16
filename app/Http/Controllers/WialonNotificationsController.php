@@ -31,13 +31,14 @@ class WialonNotificationsController extends Controller
      *
      * @return WialonNotificationResource|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      *
+     * @deprecated Ya no se crean notificaciones directamente, se crean por NotificationTriggers y ellas crean en wialon
+     * su propio manejador
+     *
      * @throws \Punksolid\Wialon\WialonErrorException
      * @throws \Exception
      */
     public function store(WialonNotificationRequest $request)
     {
-        //        $validatedData = $request->validate();
-
         $resource = Resource::find($request->resource_id);
         if ('geofence' === $request->control_type) {
             $control_type = new GeofenceControlType();
