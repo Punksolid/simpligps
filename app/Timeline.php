@@ -21,7 +21,7 @@ class Timeline extends Pivot
 
     protected $table = 'places_trips';
 
-    protected $incrementing = true;
+    public $incrementing = true;
 
     protected $fillable = [
         'place_id',

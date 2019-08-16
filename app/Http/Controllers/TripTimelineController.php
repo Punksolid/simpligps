@@ -6,6 +6,7 @@ use App\Http\Resources\CheckpointResource;
 use App\Timeline;
 use App\Trip;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class TripTimelineController extends Controller
 {
@@ -28,16 +29,16 @@ class TripTimelineController extends Controller
         $checkpoint = Timeline::with('place')->findOrFail($checkpoint);
 
         if ($request->filled('at_time')) {
-            $checkpoint->at_time = $request->at_time;
+            $checkpoint->at_time = new Carbon( $request->at_time);
         }
         if ($request->filled('exiting')) {
-            $checkpoint->exiting = $request->exiting;
+            $checkpoint->exiting = new Carbon( $request->exiting);
         }
         if ($request->filled('real_at_time')) {
-            $checkpoint->real_at_time = $request->real_at_time;
+            $checkpoint->real_at_time = new Carbon( $request->real_at_time);
         }
         if ($request->filled('real_exiting')) {
-            $checkpoint->real_exiting = $request->real_exiting;
+            $checkpoint->real_exiting = new Carbon( $request->real_exiting);
         }
         if ($request->filled('order')) {
             $checkpoint->order = $request->order;
