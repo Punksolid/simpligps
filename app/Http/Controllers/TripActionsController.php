@@ -26,12 +26,14 @@ class TripActionsController extends Controller
             'enable_automatic_updates' => 'required|bool',
         ]);
 
-        $trip->wialon_trips->validateWialonReferrals();
+        $trip->wialon()->validateReferrals();
 
         if ($request->enable_automatic_updates) {
-            $array_wialon_notifications_ids = $trip->wialon_trips->createWialonNotificationsForTrips();
+            $array_wialon_notifications_ids = $trip->wialon()->createNotificationsForTrips();
             if (count($array_wialon_notifications_ids) >= 1) {
                 return response()->json([
+                    'notifications_total' => count($array_wialon_notifications_ids),
+                    'notifications' => $array_wialon_notifications_ids,
                     'data' => 'Exit with automatic updates were created succesfully.',
                 ]);
             }
@@ -42,7 +44,7 @@ class TripActionsController extends Controller
 
     public function destroy(Trip $trip)
     {
-        if ($trip->wialon_trips->deleteWialonNotificationsForTrips()) {
+        if ($trip->wialon()->deleteNotifications()) {
             return \response()->json([
                 'message' => 'Automatic Updates Deactivated.',
             ]);
@@ -63,7 +65,7 @@ class TripActionsController extends Controller
 
         if ($trip->canCloseTrip()) {
             try {
-                $trip->wialon_trips->deleteWialonNotificationsForTrips();
+                $trip->wialon()->deleteNotifications();
             } catch (\Exception $exception) {
                 info("Closing Trips That Wialon Notifications Thrown an exception: {$exception->getMessage()}");
             }

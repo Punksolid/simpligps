@@ -16,12 +16,10 @@ class InternalNotificationResource extends JsonResource
     public function toArray($request)
     {
         // return parent::toArray($request);
-        return array_merge(
-            [
+        return array_merge([
             'id' => $this->id,
             'time_ago' => $this->created_at->diffForHumans(),
-        ],
-            $this->data
+        ], $this->data
         );
     }
 }

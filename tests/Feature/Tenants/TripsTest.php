@@ -505,7 +505,7 @@ class TripsTest extends TestCase
 
     public function test_usuario_elimina_viaje()
     {
-
+        $this->withoutExceptionHandling();
         $trip_arr = factory(Trip::class)->create();
 
         $call = $this->deleteJson("/api/v1/trips/" . $trip_arr["id"]);
@@ -517,6 +517,7 @@ class TripsTest extends TestCase
 
     public function test_crear_importacion_de_plan_de_viaje()
     {
+        $this->markTestIncomplete('agregar');
         $user = factory(User::class)->create();
         $trip = [
             "rp" => $this->faker->name,

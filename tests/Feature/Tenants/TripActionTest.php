@@ -38,16 +38,16 @@ class TripActionTest extends TestCase
         $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
         $trip->update(['truck_tract_id' => $truck->id]);
 
-        $trip->wialon_trips->createWialonNotificationsForTrips();
-        $resource = Resource::findByName($trip->wialon_trips->resource_name);
+        $trip->wialon()->createNotificationsForTrips();
+        $resource = Resource::findByName($trip->wialon()->resource_name);
 
-        $this->assertEquals($trip->wialon_trips->resource_name,$resource->nm);
+        $this->assertEquals($trip->wialon()->resource_name,$resource->nm);
 
         $call = $this->deleteJson("/api/v1/trips/$trip->id/automatic_updates");
 
         $call->assertSuccessful();
 
-        $resource = Resource::findByName($trip->wialon_trips->resource_name);
+        $resource = Resource::findByName($trip->wialon()->resource_name);
 
         $this->assertNull($resource);
     }
@@ -116,6 +116,7 @@ class TripActionTest extends TestCase
 
     public function test_cerrar_viaje()
     {
+        $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create();
         $trip->setDestination(
             factory(Place::class)->create(),

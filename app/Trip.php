@@ -78,10 +78,15 @@ class Trip extends Model implements LoggerInterface
             ->orderBy('order_column');
     }
 
-    public function __construct(array $attributes = [])
+    /**
+     * Todas las conexiones automaticas pasan por aqui, cuando se quiera usar drivers nuevos  se tendr[a que crear otra
+     * clase para ellas.
+     *
+     * @return WialonTrips
+     */
+    public function wialon()
     {
-        parent::__construct($attributes);
-        $this->wialon_trips = new WialonTrips($this);
+        return  new WialonTrips( $this);
     }
 
     public function getDescriptionForEvent(string $eventName): string
@@ -133,7 +138,8 @@ class Trip extends Model implements LoggerInterface
         ?Carbon $real_at_time = null,
         ?Carbon $real_exiting = null
     ) {
-        $last = count($this->places) + 1;
+//        $last = count($this->places) + 1;
+        $last = $this->places()->count() + 1; // Refactor if performance is needed
 
         return $this->places()->wherePivot(
             'type',
@@ -164,7 +170,8 @@ class Trip extends Model implements LoggerInterface
 
     /**
      * Sincroniza todos los lugares intermedios.
-     * Quita los que no están presentes y agrega los nuevos, los que ya están los actualiza
+     * Quita los que no están presentes y agrega los nuevos, los que ya están los actualiza.
+     *
      * @param array $intermediates
      */
     public function syncIntermediates(array $intermediates)
@@ -176,10 +183,10 @@ class Trip extends Model implements LoggerInterface
             $intermediate['exiting'] = new Carbon($intermediate['exiting']);
             $intermediate['order'] = $index;
 
-            $index++;
+            ++$index;
         }
-        return $this->intermediates()->sync($intermediates);
 
+        return $this->intermediates()->sync($intermediates);
     }
 
     /**
@@ -297,8 +304,6 @@ class Trip extends Model implements LoggerInterface
         $timeline = Timeline::find($timeline_id);
         $timeline->update($attributes);
 
-//        $this->places()->updateExistingPivot($place_id, $attributes);
-
         return $attributes;
     }
 
@@ -312,7 +317,7 @@ class Trip extends Model implements LoggerInterface
      */
     public function getFieldToUpdate($action): string
     {
-        if ('entering' === $action) {
+        if ($action === 'entering') {
             return 'real_at_time';
         }
 
@@ -357,14 +362,13 @@ class Trip extends Model implements LoggerInterface
         $bag = new MessageBag();
         $this->validateTruck($bag);
 
-        $trailers = $this->trailers()->whereDoesntHave('device')->get();
-        if ($trailers) {
-            foreach ($trailers as $trailer) {
-                $bag->add(
-                    'trailer',
-                    "Trailer Box with internal number $trailer->internal_number doesn't have a device"
-                );
-            }
+        $trailers_without_devices = $this->trailers()->whereDoesntHave('device')->get() ?: [];
+
+        foreach ($trailers_without_devices as $trailer) {
+            $bag->add(
+                'trailer',
+                "Trailer Box with internal number $trailer->internal_number doesn't have a device"
+            );
         }
 
         if ($bag->isNotEmpty()) {
@@ -375,7 +379,7 @@ class Trip extends Model implements LoggerInterface
     public function validatePlacesConnection(): void
     {
         //Validar que todos los lugares tienen geocercas conectados
-        $places = $this->places;
+        $places = $this->places()->get();
         if ($places->count() <= 1) {
             throw new Exception('Trip needs at least origin and destination.');
         }

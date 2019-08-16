@@ -30,3 +30,5 @@ graph\.png
 storage/clockwork/index
 
 \.php_cs\.cache
+
+*.cache

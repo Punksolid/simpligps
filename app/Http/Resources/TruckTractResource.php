@@ -20,7 +20,7 @@ class TruckTractResource extends JsonResource
             'name' => $this->name,
             'plate' => $this->plate,
             'model' => $this->model,
-            'internal_number' => $this->internal_number,
+            'internal_number' => (string) $this->internal_number,
             'brand' => $this->brand,
             'gps' => $this->gps,
             'color' => $this->color,

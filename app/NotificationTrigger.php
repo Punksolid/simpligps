@@ -6,11 +6,10 @@ use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Log;
-use Punksolid\Wialon\ControlType;
-use Punksolid\Wialon\GeofenceControlType;
+use Punksolid\Wialon\Notification\GeofenceControlType;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
-use Punksolid\Wialon\SensorControlType;
+use Punksolid\Wialon\Notification\SensorControlType;
 use Punksolid\Wialon\Unit;
 use Punksolid\Wialon\WialonErrorException;
 
@@ -114,50 +113,11 @@ class NotificationTrigger extends Model
 
         // try {
         // $tenant_uuid = str_replace("-","", $tenant_uuid);
-        $resource = Resource::findByName('trm.notify.'.$tenant_uuid);
-        Log::info('Busca un resource existente', [
-                'resource buscado' => $resource,
-            ]);
-        if (!$resource) {
-            Log::warning('Alerta:intenta crear Resource con el nombre', [
-                    'trm.notify.'.$tenant_uuid,
-                    ]);
-            $resource = Resource::make('trm.notify.'.$tenant_uuid);
+//        $resource = Resource::findByName('trm.notify.'.$tenant_uuid);
 
-            Log::warning('Alerta: se supone que creó un resource nuevo', [
-                    'resourece' => $resource,
-                ]);
-        }
+        $resource = Resource::firstOrCreate(['name' => 'trm.notify.'.$tenant_uuid]);
 
-        if ($control_type === 'geofence') {
-            $control_type = new GeofenceControlType();
-            $control_type->addGeozoneId($params['geofence_id']);
-        } elseif ($control_type === 'sensor') {
-            // dd($params);
-                $control_type = new SensorControlType($params); // no necesita enviarse pero en un refactor quedaria listo
-                /*
-                 *  public $sensor_type = ""; // when empty, means "any"
-                    public $sensor_name_mask = '*';
-                    public $lower_bound = -1; //value_from
-                    public $upper_bound = 1;   // value_to
-                    public $prev_msg_diff = 0; //@Todo what does it means
-                    public $merge = 1; //@Todo what does it means
-                    public $type = 0; // "trigger when" for 0 = "in range" 1 = "out of range"
-                 */
-            if ($params['sensor_type'] === null) {
-                $params['sensor_type'] = '';
-            }
-
-            $control_type->sensor_name_mask = $params['sensor_name'];
-            $control_type->sensor_type = $params['sensor_type'];
-            $control_type->type = $params['trigger_when'];
-            $control_type->lower_bound = $params['value_from'];
-            $control_type->upper_bound = $params['value_to'];
-            $control_type->merge = $params['similar_sensor'];
-        // dd($control_type->getTrg());
-        } else {
-            $control_type = new ControlType($control_type, $params);
-        }
+        $control_type = $this->resolveControlType($control_type, $params);
 
         if (!$this->hasDevices()) {
             throw new WialonErrorException('No hay dispositivos');
@@ -165,15 +125,13 @@ class NotificationTrigger extends Model
 
         //        $units = Unit::findMany($request->units); // Devuelve Colleccion de objetos Unit de Punksolid/Wialon/Unit
             $units = $this->prepareUnitsColectionFromDevices(); // @TODO Como esto es especifico de wialon, debe ser desacoplado de esta clase
-            $action = new Notification\Action('push_messages', [
-                'url' => url(config('app.url').'api/v1/webhook/alert'),
-            ]);
+            $action = new Notification\Action('push_messages', url(config('app.url').'api/v1/webhook/alert'));
 
-        $text = (new WialonParamText([
+        $wialon_text = new Notification\WialonText([
             'X-Tenant-Id' => $tenant_uuid,
             'notification_id' => $this->id,
-        ]))->getText();
-        $text = '"'.$text.'"';
+        ]);
+//        $text = '"'.$text.'"';
 
         $notification = Notification::make(
             $resource,
@@ -181,9 +139,7 @@ class NotificationTrigger extends Model
             $control_type,
             $this->name,
             $action,
-            [
-                'txt' => $text,
-            ]
+            $wialon_text
         );
 
         $this->control_type_obj = $control_type;
@@ -193,6 +149,58 @@ class NotificationTrigger extends Model
         $this->save();
 
         return $notification;
+    }
+
+    /**
+     * @param string $control_type
+     * @param $params
+     *
+     * @return Notification\PanicButtonControlType
+     */
+    public function resolveControlType(string $control_type, $params): Notification\PanicButtonControlType
+    {
+        if ($control_type === 'geofence') {
+            $control_type = new GeofenceControlType();
+            $control_type->addGeozoneId($params['geofence_id']);
+
+            return $control_type;
+        }
+
+        if ($control_type === 'sensor') {
+            // dd($params);
+            $control_type = new SensorControlType(); // no necesita enviarse pero en un refactor quedaria listo
+            /*
+             *  public $sensor_type = ""; // when empty, means "any"
+                public $sensor_name_mask = '*';
+                public $lower_bound = -1; //value_from
+                public $upper_bound = 1;   // value_to
+                public $prev_msg_diff = 0; //@Todo what does it means
+                public $merge = 1; //@Todo what does it means
+                public $type = 0; // "trigger when" for 0 = "in range" 1 = "out of range"
+             */
+            if (null === $params['sensor_type']) {
+                $params['sensor_type'] = '';
+            }
+
+            $control_type->sensor_name_mask = $params['sensor_name'];
+            $control_type->sensor_type = $params['sensor_type'];
+            $control_type->type = $params['trigger_when'];
+            $control_type->lower_bound = $params['value_from'];
+            $control_type->upper_bound = $params['value_to'];
+            $control_type->merge = $params['similar_sensor'];
+
+            return $control_type;
+        }
+
+        if ($control_type === 'panic_button') {
+            return new Notification\PanicButtonControlType();
+        }
+
+        if ($control_type === 'speed_limit') {
+            return new Notification\SpeedControlType($params['max'], $params['min']);
+        }
+
+        return new \Exception('Control Type Unknown');
     }
 
     //endregion

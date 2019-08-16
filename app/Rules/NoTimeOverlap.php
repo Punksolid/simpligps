@@ -7,7 +7,6 @@ use Illuminate\Contracts\Validation\Rule;
 
 class NoTimeOverlap implements Rule
 {
-    private $checkpoints;
 
     /**
      * Determine if the validation rule passes.

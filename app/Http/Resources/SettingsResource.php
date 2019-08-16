@@ -16,7 +16,7 @@ class SettingsResource extends JsonResource
     public function toArray($request)
     {
         return [
-          'wialon_key' => $request->wialon_key,
+            'wialon_key' => $request->wialon_key,
         ];
     }
 }

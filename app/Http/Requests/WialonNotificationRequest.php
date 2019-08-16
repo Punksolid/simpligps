@@ -53,7 +53,7 @@ class WialonNotificationRequest extends FormRequest
             ],
             'params' => [
                 Rule::requiredIf(function () {
-                    return request()->control_type !== 'panic_button';
+                    return 'panic_button' !== request()->control_type;
                 }),
             ],
             // params logic, required_if es necesario para cada tipo de control type de notificacion

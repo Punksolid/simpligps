@@ -137,4 +137,14 @@ trait TripRelationships
     {
         return $this->belongsTo(Client::class, 'client_id');
     }
+
+    /**
+     * Un trip tiene muchos checkpoints, basicamente es un alias para obtener los datos pivot de places_trips directamente.
+     *
+     * @return mixed
+     */
+    public function checkpoints()
+    {
+        return $this->hasMany(Timeline::class);
+    }
 }

@@ -105,7 +105,7 @@ class TruckTractTest extends TestCase
 
         $call->assertJsonFragment([
             "name" => $device->name,
-            "internal_number" => $device->internal_number,
+            "internal_number" => (string)$device->internal_number,
             "brand" => $device->brand,
             "model" => $device->model,
             "gps" => $device->gps
