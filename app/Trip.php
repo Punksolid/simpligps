@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UpdateCheckpoint;
 use App\Exceptions\MalformedTrip;
 use App\Traits\ModelLogger;
 use App\Traits\TripRelationships;
@@ -108,14 +109,29 @@ class Trip extends Model implements LoggerInterface
         return $this->places()->wherePivot('type', '=', 'destination')->first();
     }
 
-    public function setOrigin(Place $place, $at_time, $exiting)
+    public function setOrigin(Place $place,Carbon $at_time,Carbon $exiting, ?Carbon $real_at_time = null, ?Carbon $real_exiting = null)
     {
+                
+        try {
+            if ($this->getOrigin()->pivot->real_at_time != null)  {
+                throw ValidationException::withMessages([
+                    'origin' => [
+                        "It's not possible to update a checkpoint that were already checked."
+                    ]
+                ]);
+            }
+        } catch ( Exception $exception ) {
+            if ($exception instanceof ValidationException) throw $exception;
+        }
+
         return $this->places()->sync(
             [
                 $place->id => [
                     'type' => 'origin',
                     'at_time' => $at_time,
                     'exiting' => $exiting,
+                    'real_at_time' => $real_at_time,
+                    'real_exiting' => $real_exiting,
                     'order' => 0,
                 ],
             ]

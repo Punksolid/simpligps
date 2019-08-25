@@ -315,10 +315,10 @@ class TripsTest extends TestCase
         ]);
         $llegada_al_origen = now()->addDays(1);
         $salida_del_origen = now()->addDays(2);
-        $trip->setOrigin(factory(Place::class)->create(), $llegada_al_origen, $salida_del_origen);
+        $trip->setOrigin($origen = factory(Place::class)->create(), $llegada_al_origen, $salida_del_origen);
         $llegada_al_destino = now()->addDays(1);
         $salida_del_destino = now()->addDays(2);
-        $trip->setDestination(factory(Place::class)->create(), $llegada_al_destino, $salida_del_destino);
+        $trip->setDestination($destino = factory(Place::class)->create(), $llegada_al_destino, $salida_del_destino);
 
         $trip->addIntermediate(
                 factory(Place::class)->create()->id,
@@ -327,7 +327,6 @@ class TripsTest extends TestCase
         );
         
         $call = $this->getJson("api/v1/trips/{$trip->id}");
-        
         $call->assertSuccessful();
         $call->assertJsonFragment([
             "scheduled_load" => $llegada_al_origen->toDateTimeString(),
@@ -352,7 +351,11 @@ class TripsTest extends TestCase
                 "scheduled_unload",
                 "origin" => [
                     "id",
-                    "name"
+                    "name",
+                    "at_time",
+                    "exiting",
+                    "real_at_time",
+                    "real_exiting",
                 ],
                 "destination" => [
                     "id",
@@ -369,6 +372,17 @@ class TripsTest extends TestCase
                 'truck',
                 'operator'
 
+            ]
+        ]);
+
+        $call->assertJson([
+            "data" => [
+                "id" => $trip->id,
+                "origin" => [
+                    "id" => $origen->id,
+                    "at_time" => $llegada_al_origen->toDateTimeString(),
+                    "exiting" => $salida_del_origen->toDateTimeString(),
+                ]
             ]
         ]);
     }
@@ -428,6 +442,29 @@ class TripsTest extends TestCase
         $call->assertStatus(200);
 
         return $call->getOriginalContent();
+    }
+
+    public function test_no_puede_editar_origen_que_ya_tiene_marcado_sus_campos_reales()
+    {
+        $trip = factory(Trip::class)->create();
+        $place = factory(Place::class)->create();
+        $destination = factory(Place::class)->create();
+        $trip->setOrigin($place, now(), now(), now(), now());
+        
+        $update_form = $trip->toArray();
+        $update_form['origin_id'] = $place->id;
+        $update_form['destination_id'] = $destination->id;
+        $update_form['scheduled_load'] = now()->addHours(1)->toDateTimeString();
+        $update_form['scheduled_departure'] = now()->addDays(1)->addHours(2)->toDateTimeString();
+        $update_form['scheduled_arrival'] = now()->addDays(2)->addHours(3)->toDateTimeString();
+        $update_form['scheduled_unload'] = now()->addDays(3)->addHours(4)->toDateTimeString();
+        $update_form['intermediates'] = [];
+        $update_form['trailers_ids'] = [];
+
+        $call = $this->putJson('api/v1/trips/'. $trip->id, $update_form);
+        // $call->dump();
+        $call->assertDontSee($place->id);
+        $call->assertJsonValidationErrors('origin');
     }
 
     public function test_editar_viaje_con_patch_method()

@@ -10,7 +10,6 @@ class AccountTest extends TestCase
     {
 
         $call = $this->getJson("api/v1/account/notifications");
-
         $call->assertJsonStructure([
             "data",
             "meta",

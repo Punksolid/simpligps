@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\UpdateCheckpoint;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
@@ -33,6 +34,18 @@ class Timeline extends Pivot
         'order',
     ];
 
+    protected $dates = [
+        'at_time',
+        'exiting',
+        'real_at_time',
+        'real_exiting',
+        'created_at',
+        'updated_at',
+    ];
+    
+    // protected $dispatchesEvents = [
+    //     'updating' => UpdateCheckpoint::class
+    // ];
     public function place()
     {
         return $this->belongsTo(Place::class);
@@ -42,4 +55,6 @@ class Timeline extends Pivot
     {
         return $this->belongsTo(Trip::class);
     }
+
+
 }

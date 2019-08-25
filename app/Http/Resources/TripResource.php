@@ -33,10 +33,10 @@ class TripResource extends JsonResource
             'truck_name' => optional($this->truck)->name,
 
             'operator_id' => $this->operator_id,
-            'scheduled_load' => $this->origin ? $this->origin->pivot->at_time : null,
-            'scheduled_departure' => $this->origin ? $this->origin->pivot->exiting : null,
-            'scheduled_arrival' => $this->destination ? $this->destination->pivot->at_time : null,
-            'scheduled_unload' => $this->destination ? $this->destination->pivot->exiting : null,
+            'scheduled_load' => $this->origin ? $this->origin->pivot->at_time->toDateTimeString() : null,
+            'scheduled_departure' => $this->origin ? $this->origin->pivot->exiting->toDateTimeString() : null,
+            'scheduled_arrival' => $this->destination ? $this->destination->pivot->at_time->toDateTimeString() : null,
+            'scheduled_unload' => $this->destination ? $this->destination->pivot->exiting->toDateTimeString() : null,
 
             'real_departure' => $this->real_departure,
             'real_arrival' => $this->real_arrival,

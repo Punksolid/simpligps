@@ -120,7 +120,7 @@ class TripsController extends Controller
 
         $trip->update($request->all());
 
-        return TripResource::make($trip->load('trailers', 'intermediates'));
+        return TripResource::make($trip->load('trailers', 'origin', 'intermediates'));
     }
 
     public function patch(Trip $trip, TripRequest $request)
