@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use App\Client;
+use App\Carrier;
 use App\Log;
 use App\Operator;
 use App\Place;
@@ -99,6 +100,13 @@ trait TripRelationships
             ]
         );
     }
+
+    
+    public function carrier()
+    {
+        return $this->belongsTo(Carrier::class);
+    }
+    
 
     /**
      * Un viaje puede tener un tracto.

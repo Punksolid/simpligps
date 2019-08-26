@@ -97,6 +97,7 @@ class TripsController extends Controller
             'truck',
             'operator',
             'client',
+            'carrier'
         ])->findOrFail($trip_id);
 
         return TripResource::make($trip);

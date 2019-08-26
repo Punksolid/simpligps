@@ -8,9 +8,21 @@ use Punksolid\Wialon\Wialon;
 use Punksolid\Wialon\Resource;
 use Punksolid\Wialon\Geofence;
 use App\Http\Resources\GeofenceResource;
+use Cache;
 
 class WialonGeofencesController extends Controller
 {
+
+    public function index()
+    {
+
+        $geofences = Cache::remember('geofences', (3*60), function () {
+            return Geofence::all();
+        });
+
+        return GeofenceResource::collection($geofences);
+    }
+
     public function store(Request $request)
     {
         /**

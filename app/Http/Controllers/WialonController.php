@@ -32,10 +32,5 @@ class WialonController extends Controller
         return WialonUnitResource::collection($units);
     }
 
-    public function getGeofences()
-    {
-        $geofences = Geofence::all();
 
-        return GeofenceResource::collection($geofences);
-    }
 }

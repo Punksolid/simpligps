@@ -54,6 +54,7 @@ class TripResource extends JsonResource
             'intermediates' => PlaceResource::collection($this->whenLoaded('intermediates')),
             'trailers' => TrailerBoxResource::collection($this->whenLoaded('trailers')),
             'client' => ClientResource::make($this->whenLoaded('client')),
+            'carrier' => CarrierResource::make($this->whenLoaded('carrier')),
         ];
     }
 }

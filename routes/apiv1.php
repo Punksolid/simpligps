@@ -153,7 +153,7 @@ Route::group(
                         //WIALON SECTION
                         Route::get('wialon/resources', 'WialonController@getResources');
                         Route::get('wialon/units', 'WialonController@getUnits');
-                        Route::get('wialon/geofences', 'WialonController@getGeofences');
+                        Route::get('wialon/geofences', 'WialonGeofencesController@index');
                         Route::get('wialon/notifications', 'WialonNotificationsController@index');
                         Route::post('wialon/notifications', 'WialonNotificationsController@store');
                         Route::delete('wialon/notifications/{id}', 'WialonNotificationsController@destroy');

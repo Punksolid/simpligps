@@ -8,6 +8,7 @@ use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Operator;
 use App\Place;
+use App\Timeline;
 use App\TrailerBox;
 use App\Trip;
 use App\TruckTract;
@@ -462,9 +463,37 @@ class TripsTest extends TestCase
         $update_form['trailers_ids'] = [];
 
         $call = $this->putJson('api/v1/trips/'. $trip->id, $update_form);
-        // $call->dump();
         $call->assertDontSee($place->id);
         $call->assertJsonValidationErrors('origin');
+    }
+
+    public function test_no_puede_borrar_checkpoint_que_tiene_campo_real_de_llegada()
+    {
+        $trip = factory(Trip::class)->create();
+        dump($trip->toArray());
+        $trip->setOrigin(factory(Place::class)->create(), now(), now(), now(), now());
+        $trip->setDestination(factory(Place::class)->create(), now(), now(), now(), now());
+        $place = factory(Place::class)->create();
+        $checkpoint = factory(Timeline::class)->create([
+            'place_id' => $place->id,
+            'trip_id' => $trip->id,
+            'real_at_time' => now()
+        ]);
+        $update_form = $trip->toArray();
+        $update_form['origin_id'] = factory(Place::class)->create()->id;
+        $update_form['destination_id'] = factory(Place::class)->create()->id;;
+        $update_form['scheduled_load'] = now()->addHours(1)->toDateTimeString();
+        $update_form['scheduled_departure'] = now()->addDays(1)->addHours(2)->toDateTimeString();
+        $update_form['scheduled_arrival'] = now()->addDays(2)->addHours(3)->toDateTimeString();
+        $update_form['scheduled_unload'] = now()->addDays(3)->addHours(4)->toDateTimeString();
+        $update_form['intermediates'] = [];
+        $update_form['trailers_ids'] = [];
+
+        $call = $this->putJson('api/v1/trips/'. $trip->id, $update_form);
+        $call->dump();
+        $call->assertSee($place->name);
+
+
     }
 
     public function test_editar_viaje_con_patch_method()
