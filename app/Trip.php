@@ -109,33 +109,44 @@ class Trip extends Model implements LoggerInterface
         return $this->places()->wherePivot('type', '=', 'destination')->first();
     }
 
+    /**
+     * Agrega Origen y sus timestamps
+     * @todo REFACTORIZAR PARA QUE USE LA LOGICA DE CHECKPOINTS Y NO LA DE PLACES
+     */
     public function setOrigin(Place $place,Carbon $at_time,Carbon $exiting, ?Carbon $real_at_time = null, ?Carbon $real_exiting = null)
     {
-                
-        try {
-            if ($this->getOrigin()->pivot->real_at_time != null)  {
-                throw ValidationException::withMessages([
-                    'origin' => [
-                        "It's not possible to update a checkpoint that were already checked."
-                    ]
-                ]);
-            }
-        } catch ( Exception $exception ) {
-            if ($exception instanceof ValidationException) throw $exception;
+        if ($this->getOrigin() == null) {
+            return $this->places()->sync(
+                [
+                    $place->id => [
+                        'type' => 'origin',
+                        'at_time' => $at_time,
+                        'exiting' => $exiting,
+                        'real_at_time' => $real_at_time,
+                        'real_exiting' => $real_exiting,
+                        'order' => 0,
+                    ],
+                ]
+            );
+        } 
+        
+        if ($this->getOrigin()->pivot->real_at_time == null)  {
+            return $this->places()->sync(
+                [
+                    $place->id => [
+                        'type' => 'origin',
+                        'at_time' => $at_time,
+                        'exiting' => $exiting,
+                        'real_at_time' => $real_at_time,
+                        'real_exiting' => $real_exiting,
+                        'order' => 0,
+                    ],
+                ]
+            );
         }
 
-        return $this->places()->sync(
-            [
-                $place->id => [
-                    'type' => 'origin',
-                    'at_time' => $at_time,
-                    'exiting' => $exiting,
-                    'real_at_time' => $real_at_time,
-                    'real_exiting' => $real_exiting,
-                    'order' => 0,
-                ],
-            ]
-        );
+
+
     }
 
     /**
@@ -144,6 +155,7 @@ class Trip extends Model implements LoggerInterface
      * @param $exiting
      * @param Carbon|null $real_at_time
      * @param Carbon|null $real_exiting
+     * @todo Refactorizar para usar la logica de checkpoints
      *
      * @return array
      */
@@ -155,23 +167,39 @@ class Trip extends Model implements LoggerInterface
         ?Carbon $real_exiting = null
     ) {
 //        $last = count($this->places) + 1;
-        $last = $this->places()->count() + 1; // Refactor if performance is needed
+        // $last = $this->places()->count() + 1; // Refactor if performance is needed
+        $destination_checkpoint = $this->checkpoints()->where('type','destination')->first();
+        if($destination_checkpoint) {
+            if($destination_checkpoint->real_at_time == null) {
+                $destination_checkpoint->update(['place_id' => $place->id,
+                    'type' => 'destination',
+                    'at_time' => $at_time,
+                    'exiting' => $exiting,
+                    'real_at_time' => $real_at_time,
+                    'real_exiting' => $real_exiting,
+                    'order' => 1
+                ]);
+            }
+        } else {
+            $this->checkpoints()->create([
+                    'place_id' => $place->id,
+                    'type' => 'destination',
+                    'at_time' => $at_time,
+                    'exiting' => $exiting,
+                    'real_at_time' => $real_at_time,
+                    'real_exiting' => $real_exiting,
+                    'order' => 1,
+                ]);
+        }
 
-        return $this->places()->wherePivot(
-            'type',
-            '=',
-            'destination'
-        )->attach(
-            $place->id,
-            [
-                'type' => 'destination',
-                'at_time' => $at_time,
-                'exiting' => $exiting,
-                'real_at_time' => $real_at_time,
-                'real_exiting' => $real_exiting,
-                'order' => $last,
-            ]
-        );
+        // return $this->places()->wherePivot(
+        //     'type',
+        //     '=',
+        //     'destination'
+        // )->sync(
+        //     $place->id,
+            
+        // );
     }
 
     public static function getTagClassName(): string
@@ -193,6 +221,7 @@ class Trip extends Model implements LoggerInterface
     public function syncIntermediates(array $intermediates)
     {
         $index = 1;
+        dump('tres veces');
         foreach ($intermediates as &$intermediate) {
             $intermediate['type'] = 'intermediate';
             $intermediate['at_time'] = new Carbon($intermediate['at_time']);
@@ -200,6 +229,17 @@ class Trip extends Model implements LoggerInterface
             $intermediate['order'] = $index;
 
             ++$index;
+        }
+        $places_ids = $this->checkpoints()->where('real_at_time', '<>', 'null')
+            ->pluck('place_id');
+        $places_ids = $places_ids->toArray();
+//        dump($places_ids);
+//            ->toArray();
+//        dump($places_ids);
+        foreach ($intermediates as $key => $item) {
+            if (in_array($key,$places_ids)) {
+                unset($intermediates[$key]);
+            }
         }
 
         return $this->intermediates()->sync($intermediates);
@@ -441,8 +481,13 @@ class Trip extends Model implements LoggerInterface
         }
     }
 
+    /**
+    *  @todo Refactorizar para usar concepto de checkpoints
+     */
     public function getDestination()
     {
+        // return $this->checkpoints()->where('type','destination')->first()
+        
         return $this->places()->wherePivot('type', '=', 'destination')->first();
     }
 
