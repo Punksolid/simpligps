@@ -194,28 +194,45 @@ class TripModelTest extends TestCase
         $place2 = factory(Place::class)->create();
         dump($trip->id);
         $trip = $trip->fresh();
-
-        $trip->syncIntermediates([
-            $place1->id => [
-                'at_time' => now(),
-                'exiting' => now()
-            ], $place2->id => [
-                'at_time' => now(),
-                'exiting' => now()
+        dump([
+            [
+                'place_id' => $place1->id, 
+                'at_time' => now()->toDateTimeString(),
+                'exiting' => now()->toDateTimeString()
+            ], 
+            [   
+                'place_id' => $place2->id,
+                'at_time' => now()->toDateTimeString(),
+                'exiting' => now()->toDateTimeString()
             ]
         ]);
+        $trip->syncIntermediates([
+            [
+                'place_id' => $place1->id, 
+                'at_time' => now()->toDateTimeString(),
+                'exiting' => now()->toDateTimeString()
+            ], 
+            [   
+                'place_id' => $place2->id,
+                'at_time' => now()->toDateTimeString(),
+                'exiting' => now()->toDateTimeString()
+            ]
+        ]);
+        dump($place1->name, $place2->name, $trip->fresh()->intermediates()->get()->toArray());
         $this->assertEquals($place1->name,$trip->fresh()->intermediates->first()->name);
         $this->assertEquals($place2->name,$trip->fresh()->intermediates->last()->name);
-
+            
         $place3 = factory(Place::class)->create();
         $place4 = factory(Place::class)->create();
         $trip->syncIntermediates([
-            $place3->id => [
+             [
+                'place_id' => $place3->id,
                 'at_time' => now(),
                 'exiting' => now(),
                 'real_at_time' => now(),
                 'real_exiting' => now()
-            ], $place4->id => [
+            ], [
+                'place_id' => $place4->id,
                 'at_time' => now(),
                 'exiting' => now(),
                 'real_at_time' => now(),
@@ -228,12 +245,14 @@ class TripModelTest extends TestCase
         $place5 = factory(Place::class)->create();
         $place6 = factory(Place::class)->create();
         $trip->syncIntermediates([
-            $place5->id => [
+              [
+                'place_id' => $place5->id,
                 'at_time' => now(),
                 'exiting' => now(),
                 'real_at_time' => now(),
                 'real_exiting' => now()
-            ], $place6->id => [
+            ],  [
+                'place_id'=> $place6->id,
                 'at_time' => now(),
                 'exiting' => now(),
                 'real_at_time' => now(),
@@ -243,8 +262,8 @@ class TripModelTest extends TestCase
         /**
          * Verificamos que 3 y 4 sean los mismos por que ya tienen fechas reales
          */
-        $this->assertEquals($place3->name,$trip->fresh()->intermediates->first()->name);
-        $this->assertEquals($place4->name,$trip->fresh()->intermediates->last()->name);
+        $this->assertEquals($place3->name,$trip->fresh()->intermediates[0]->name);
+        $this->assertEquals($place4->name,$trip->fresh()->intermediates[1]->name);
 
     }
 }

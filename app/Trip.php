@@ -221,7 +221,7 @@ class Trip extends Model implements LoggerInterface
     public function syncIntermediates(array $intermediates)
     {
         $index = 1;
-        dump('tres veces');
+
         foreach ($intermediates as &$intermediate) {
             $intermediate['type'] = 'intermediate';
             $intermediate['at_time'] = new Carbon($intermediate['at_time']);
@@ -230,17 +230,24 @@ class Trip extends Model implements LoggerInterface
 
             ++$index;
         }
-        $places_ids = $this->checkpoints()->where('real_at_time', '<>', 'null')
-            ->pluck('place_id');
-        $places_ids = $places_ids->toArray();
-//        dump($places_ids);
-//            ->toArray();
-//        dump($places_ids);
+        $places_ids = $this->checkpoints()
+            ->where('type','intermediate')
+            ->where('real_at_time', '<>', 'null')
+            ->get();
+        $black_list = $places_ids->pluck('place_id')->toArray();
+        
+        $places_ids = $places_ids->pluck('place_id')->toArray();
         foreach ($intermediates as $key => $item) {
-            if (in_array($key,$places_ids)) {
+            if (in_array($key,$black_list)) { // Si quiere actualizar un lugar existente lo quita
                 unset($intermediates[$key]);
-            }
+            } 
+            // Si no está presente en los intermediates del parametro definido pero si tiene un checkpoint
+            // registrado, debe mantenerlo
         }
+
+        $intermediates = array_merge_recursive($intermediates, $black_list); 
+
+        
 
         return $this->intermediates()->sync($intermediates);
     }

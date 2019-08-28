@@ -45,7 +45,7 @@ class WialonTrips
      */
     private $checkpoints;
 
-    private $device;
+    public $device;
     private $wialon_units;
     private $resource;
 

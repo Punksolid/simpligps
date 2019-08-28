@@ -20,10 +20,11 @@ class DeviceModelTest extends TestCase
 
     public function test_getLocation_returns_wialon_gps_data()
     {
+        $this->markTestSkipped('Necesita token original');
         $unit = Unit::all()->first();
         $device = factory(Device::class)->create();
         $device->linkUnit($unit);
-
+        
         $this->assertEquals($unit->lat,$device->getLocation()['lat']);
         $this->assertEquals($unit->lon,$device->getLocation()['lon']);
     }

@@ -24,10 +24,10 @@ class CheckpointResource extends JsonResource
             'phone' => $this->place->phone,
             'high_risk' => $this->place->high_risk,
             'geofence_ref' => $this->place->geofence_ref,
-            'at_time' => $this->at_time,
-            'exiting' => $this->exiting,
-            'real_at_time' => $this->real_at_time,
-            'real_exiting' => $this->real_exiting,
+            'at_time' => $this->at_time->toDateTimeString(),
+            'exiting' => $this->exiting->toDateTimeString(),
+            'real_at_time' => $this->real_at_time->toDateTimeString(),
+            'real_exiting' => $this->real_exiting->toDateTimeString(),
             'status' => $this->getStatus(),
         ];
     }

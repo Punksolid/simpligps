@@ -27,7 +27,7 @@ trait ModelLogger
         return $this->logs()->save($log);
     }
 
-    public function levelNumber($level_name): integer
+    public function levelNumber($level_name): int
     {
         $level = [
             'emergency' => 600, //  Urgent alert.

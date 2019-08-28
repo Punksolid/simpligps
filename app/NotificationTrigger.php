@@ -167,7 +167,6 @@ class NotificationTrigger extends Model
         }
 
         if ($control_type === 'sensor') {
-            // dd($params);
             $control_type = new SensorControlType(); // no necesita enviarse pero en un refactor quedaria listo
             /*
              *  public $sensor_type = ""; // when empty, means "any"

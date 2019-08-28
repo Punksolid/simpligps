@@ -55,7 +55,7 @@ class TrailerTest extends TestCase
         $new_trailer = factory(TrailerBox::class)->raw([
             'device_id' => factory(Device::class)->create()->id
         ]);
-
+                
         $call = $this->putJson('api/v1/trailers/'.$trailer->id, $new_trailer);
         unset($new_trailer['device_id']);
 
