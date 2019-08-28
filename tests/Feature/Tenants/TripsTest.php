@@ -457,7 +457,6 @@ class TripsTest extends TestCase
         $call = $this->putJson('api/v1/trips/'.$trip->id, $update_form);
         $call->assertJsonMissing(['name' => $new_origin->name]);
         $call->assertJsonFragment(['name' => $original_origin->name]);
-        $call->dump();
         $call->assertJsonFragment(['name' => $new_destination->name]);
     }
 

@@ -69,7 +69,6 @@ class TruckTractTest extends TestCase
         ];
 
         $call = $this->postJson('api/v1/trucks', $form);
-        $call->dump();
         $call->assertSuccessful();
     }
 

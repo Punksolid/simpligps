@@ -115,7 +115,6 @@ class LoginTest extends TestCase
             "Authorization" => "Bearer $token",
             "X-Tenant-Id" => $account->uuid
         ]);
-        $call->dump();
         $call->assertSuccessful();
     }
 }

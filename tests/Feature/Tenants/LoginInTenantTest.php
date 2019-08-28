@@ -91,6 +91,5 @@ class LoginInTenantTest extends TestCase
                 ]
             ]
         ]);
-        // $call->dump();
     }
 }

@@ -23,7 +23,6 @@ class TagsTest extends TestCase
                 ]
             ]
         ]);
-        $call->dump();
         $call->assertSee('one');
         $call->assertSee('two');
     }

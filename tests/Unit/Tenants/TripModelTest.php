@@ -192,20 +192,8 @@ class TripModelTest extends TestCase
         $trip = factory(Trip::class)->create();
         $place1 = factory(Place::class)->create();
         $place2 = factory(Place::class)->create();
-        dump($trip->id);
         $trip = $trip->fresh();
-        dump([
-            [
-                'place_id' => $place1->id, 
-                'at_time' => now()->toDateTimeString(),
-                'exiting' => now()->toDateTimeString()
-            ], 
-            [   
-                'place_id' => $place2->id,
-                'at_time' => now()->toDateTimeString(),
-                'exiting' => now()->toDateTimeString()
-            ]
-        ]);
+
         $trip->syncIntermediates([
             [
                 'place_id' => $place1->id, 
@@ -218,7 +206,6 @@ class TripModelTest extends TestCase
                 'exiting' => now()->toDateTimeString()
             ]
         ]);
-        dump($place1->name, $place2->name, $trip->fresh()->intermediates()->get()->toArray());
         $this->assertEquals($place1->name,$trip->fresh()->intermediates->first()->name);
         $this->assertEquals($place2->name,$trip->fresh()->intermediates->last()->name);
             
