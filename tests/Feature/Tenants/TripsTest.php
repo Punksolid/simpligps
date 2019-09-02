@@ -489,6 +489,60 @@ class TripsTest extends TestCase
         $call->assertJsonMissing(['name' => $new_destination->name]);
     }
 
+    public function test_tiene_dos_intermediate_uno_marcado_otro_sin_marcar_debe_borrar_el_sin_marcar()
+    {
+//        $this->withoutExceptionHandling();
+        $trip = factory(Trip::class)->create();
+        $trip->setDestination($destination = factory(Place::class)->create(), now(), now());
+        $trip->setOrigin($destination = factory(Place::class)->create(), now(), now());
+        $checkpoint_marcado = factory(Timeline::class)->create([
+            'trip_id' => $trip->id,
+            'place_id' => factory(Place::class)->create(),
+            'real_at_time' => now()
+        ]);
+        $place2 = factory(Place::class)->create();
+        $checkpoint_a_borrar = factory(Timeline::class)->create([
+            'trip_id' => $trip->id,
+            'place_id' => $place2
+        ]);
+        $this->assertDatabaseHas('places_trips', [
+            'trip_id' => $trip->id,
+            'place_id' => $place2->id,
+        ], 'tenant');
+
+        dd($trip->intermediates()->get()->toArray());
+        $this->assertCount(2,$trip->intermediates()->get());
+        $update_form = [
+            'client_id' => $trip->client_id,
+            'origin_id' => $destination->id,
+            'destination_id' => $trip->getDestination()->id,
+            'scheduled_load' => now()->toDateTimeString(),
+            'scheduled_departure' => now()->addHour(1)->toDateTimeString(),
+            'intermediates' => [
+                [
+                    'id' => $checkpoint_marcado->id,
+                    'place_id' => $checkpoint_marcado->place_id,
+                    'at_time' => Carbon::now()->addHour(2)->toDateTimeString(),
+                    'exiting' => Carbon::now()->addHour(3)->toDateTimeString()
+                ]
+            ],
+            'scheduled_arrival' => now()->addHour(4)->toDateTimeString(),
+            'scheduled_unload' => now()->addHour(5)->toDateTimeString(),
+            'mon_type' => 'askljdh',
+            'carrier_id' => factory(Carrier::class)->create()->id,
+            'trailers_ids' => []
+        ];
+
+        $call = $this->putJson('api/v1/trips/'.$trip->id, $update_form);
+        $call->dump();
+        $call->assertSuccessful();
+        $call->assertJsonMissing([
+           'name' => $checkpoint_a_borrar
+        ]);
+        $this->assertCount(1,$trip->checkpoints()->get());
+
+    }
+
     public function test_editar_viaje_con_patch_method()
     {
         $original_trip = factory(Trip::class)->create();

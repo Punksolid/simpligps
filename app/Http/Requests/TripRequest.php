@@ -28,10 +28,7 @@ class TripRequest extends FormRequest
 //            'rp' => 'required', // No requerido en plan de viaje, si para inicializar el viaje
 //            'invoice' => 'required', // No requerido para el plan de viaje, si para inicializar el viaje
             'client_id' => 'required|integer',
-            'intermediates' => [
-                'array',
-                new NoTimeOverlap(),
-            ],
+
             'intermediates.*.place_id' => [
                 'integer',
                 'filled',
@@ -49,6 +46,10 @@ class TripRequest extends FormRequest
                 'filled',
                 'after:scheduled_load',
                 'before:scheduled_arrival',
+            ],
+            'intermediates' => [
+                'array',
+                new NoTimeOverlap(),
             ],
             'origin_id' => 'required|integer',
             'destination_id' => 'required|integer',
@@ -77,6 +78,10 @@ class TripRequest extends FormRequest
             ],
             'scheduled_arrival' => 'required|date|after:scheduled_departure',
             'scheduled_unload' => 'required|date|after:scheduled_arrival',
+            'trailers_ids' => [
+                'array',
+                'nullable'
+            ]
         ];
     }
 }
