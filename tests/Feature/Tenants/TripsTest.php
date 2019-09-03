@@ -493,13 +493,15 @@ class TripsTest extends TestCase
     {
 //        $this->withoutExceptionHandling();
         $trip = factory(Trip::class)->create();
-        $trip->setDestination($destination = factory(Place::class)->create(), now(), now());
         $trip->setOrigin($destination = factory(Place::class)->create(), now(), now());
+        $trip->setDestination($destination = factory(Place::class)->create(), now(), now());
+        dump($trip->id);
         $checkpoint_marcado = factory(Timeline::class)->create([
             'trip_id' => $trip->id,
             'place_id' => factory(Place::class)->create(),
             'real_at_time' => now()
         ]);
+        dd($checkpoint_marcado->trip_id);
         $place2 = factory(Place::class)->create();
         $checkpoint_a_borrar = factory(Timeline::class)->create([
             'trip_id' => $trip->id,
@@ -510,8 +512,9 @@ class TripsTest extends TestCase
             'place_id' => $place2->id,
         ], 'tenant');
 
-        dd($trip->intermediates()->get()->toArray());
+        dump($trip->id);
         $this->assertCount(2,$trip->intermediates()->get());
+        dd('aa');
         $update_form = [
             'client_id' => $trip->client_id,
             'origin_id' => $destination->id,
