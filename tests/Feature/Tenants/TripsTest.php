@@ -495,26 +495,27 @@ class TripsTest extends TestCase
         $trip = factory(Trip::class)->create();
         $trip->setOrigin($destination = factory(Place::class)->create(), now(), now());
         $trip->setDestination($destination = factory(Place::class)->create(), now(), now());
-        dump($trip->id);
         $checkpoint_marcado = factory(Timeline::class)->create([
             'trip_id' => $trip->id,
-            'place_id' => factory(Place::class)->create(),
-            'real_at_time' => now()
+            'place_id' => factory(Place::class)->create()->id,
+            'real_at_time' => now(),
+            'type' => 'intermediate'
         ]);
-        dd($checkpoint_marcado->trip_id);
+
         $place2 = factory(Place::class)->create();
         $checkpoint_a_borrar = factory(Timeline::class)->create([
             'trip_id' => $trip->id,
-            'place_id' => $place2
+            'place_id' => $place2->id,
+            'type' => 'intermediate'
         ]);
         $this->assertDatabaseHas('places_trips', [
             'trip_id' => $trip->id,
             'place_id' => $place2->id,
+            'type' => 'intermediate',
         ], 'tenant');
 
-        dump($trip->id);
         $this->assertCount(2,$trip->intermediates()->get());
-        dd('aa');
+
         $update_form = [
             'client_id' => $trip->client_id,
             'origin_id' => $destination->id,
@@ -537,12 +538,14 @@ class TripsTest extends TestCase
         ];
 
         $call = $this->putJson('api/v1/trips/'.$trip->id, $update_form);
-        $call->dump();
         $call->assertSuccessful();
         $call->assertJsonMissing([
-           'name' => $checkpoint_a_borrar
+           'name' => $checkpoint_a_borrar->place->name
         ]);
-        $this->assertCount(1,$trip->checkpoints()->get());
+        $call->assertJsonFragment([
+            'name' => $checkpoint_marcado->place->name
+        ]);
+        $this->assertCount(1,$trip->intermediates()->get());
 
     }
 
