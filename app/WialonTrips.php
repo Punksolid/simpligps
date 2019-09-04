@@ -154,7 +154,8 @@ class WialonTrips
             $control_type,
             $name,
             $this->action,
-            $wialon_text
+            $wialon_text,
+            ['fl' => 0]
         );
     }
 
