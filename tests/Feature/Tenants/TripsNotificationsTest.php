@@ -129,11 +129,12 @@ class TripsNotificationsTest extends TestCase
         $trip->setDestination($catedral, now()->addDay(1), now()->addDays(2));
         $payload = [
             "NOTIFICATION" => "$trip->id.entering.$catedral->id",
-            "X-Tenant-Id" => "b51db8d2-a890-4629-9350-502fe18739c9",
+            "X-Tenant-Id" => "01b421a3055f4e9bab1d5a3e186a6149",
             "trip_id" => $trip->id,
             "timeline_id" => $trip->origin->pivot->id,
             "timestamp" => now()->toDateTimeString()
         ];
+
         $call = $this->postJson(
             "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
             $payload
@@ -276,7 +277,7 @@ class TripsNotificationsTest extends TestCase
             'UNIT_ID' => '17471332',
             'MSG_TIME_INT' => '1558711494',
             'NOTIFICATION' => $trip->id.'.'.$action.'.'.$place->id,
-            'X-Tenant-Id' => 'b51db8d2-a890-4629-9350-502fe18739c9',
+            'X-Tenant-Id' => '01b421a3055f4e9bab1d5a3e186a6149',
             'notification_id' => '5',
             'trip_id' => $trip->id,
             'device_id' => optional($device)->id,
