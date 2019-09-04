@@ -16,6 +16,10 @@ class WialonWebhookNotification extends Notification
     use Queueable;
     public $contextual_data;
     public $device;
+    /**
+     * @var string|null
+     */
+    public $message;
 
     /**
      * Create a new notification instance.

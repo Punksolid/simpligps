@@ -50,26 +50,7 @@ class WebhookNotificationController extends Controller
         $environment->tenant($account);
         $trip = Trip::findOrFail($trip_id);
 
-        $device = $trip->truck->device()->firstOrFail();
-//        $trip->info('Update on Trip', $request->all());
-        activity()
-            ->performedOn($trip)
-            ->withProperties($request->all())
-            ->withProperty('level', 'info')
-            ->log('Update On Trip');
         event(new ReceiveTripUpdate($trip, $request->all()));
-        activity()
-            ->performedOn($device)
-            ->withProperties($request->all())
-            ->withProperty('level', 'info')
-            ->log('Update On Trip');
-//        $device->info('Update on Device', $request->all());
-
-        \Notification::send($account, new WialonWebhookNotification(
-            "Check TRIP {$request->get('unit')}",
-            $request->all(),
-            $device
-        ));
 
         return response()->json('ok');
     }
