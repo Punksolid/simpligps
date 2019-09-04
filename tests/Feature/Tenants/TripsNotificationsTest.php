@@ -4,7 +4,12 @@ namespace Tests\Feature;
 
 use App\Device;
 use App\Events\ReceiveTripUpdate;
+use App\Listeners\CreateLogForDevice;
+use App\Listeners\CreateLogForTrip;
+use App\Listeners\SendNotificationOnTripUpdate;
+use App\Listeners\UpdateTripTravel;
 use App\Place;
+use App\Timeline;
 use App\Trip;
 use App\TruckTract;
 use Illuminate\Notifications\DatabaseNotification;
@@ -279,4 +284,27 @@ class TripsNotificationsTest extends TestCase
         ];
     }
 
+    public function test_listener_were_fired()
+    {
+//        $this->markTestIncomplete('No encontré como hacer assertions en listeners ');
+
+        Event::fake();
+//        $this->withoutExceptionHandling();
+        $trip = factory(Trip::class)->create();
+        $checkpoint = factory(Timeline::class)->create([
+            'trip_id' => $trip->id
+        ]);
+        $payload = $this->getPayload($trip, null, $checkpoint->id, 'exiting');
+        $call = $this->postJson(
+            "api/v1/{$this->account->uuid}/alert/trips/$trip->id",
+            $payload
+        );
+        Event::assertDispatched(ReceiveTripUpdate::class);
+
+//        $this->expectsJobs(CreateLogForDevice::class);
+//        $this->expectsJobs(CreateLogForTrip::class);
+//        $this->expectsJobs(SendNotificationOnTripUpdate::class);
+//        $this->expectsJobs(UpdateTripTravel::class);
+
+    }
 }

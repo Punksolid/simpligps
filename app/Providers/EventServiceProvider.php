@@ -8,8 +8,11 @@ use App\Events\NotificationTriggerDeleted;
 use App\Events\ReceiveTripUpdate;
 use App\Events\UserCreated;
 use App\Listeners\CreateExternalNotification;
+use App\Listeners\CreateLogForDevice;
+use App\Listeners\CreateLogForTrip;
 use App\Listeners\DeleteExternalNotification;
 use App\Listeners\SendAccountSetPasswordEmail;
+use App\Listeners\SendNotificationOnTripUpdate;
 use App\Listeners\SendUserActivationLink;
 use App\Listeners\UpdateTripTravel;
 use App\Listeners\UseMainConnectionListener;
@@ -45,6 +48,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         ReceiveTripUpdate::class => [
             UpdateTripTravel::class,
+            CreateLogForTrip::class,
+            CreateLogForDevice::class,
+            SendNotificationOnTripUpdate::class
         ],
     ];
 
