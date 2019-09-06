@@ -18,15 +18,19 @@ class PlaceController extends Controller implements Search
     /**
      * Display a listing of the PLACE.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        if ($request->has('all')) {
+        $query = Place::query();
+        if ($request->has('all')) { //@todo eliminar esta opcion, implementar remote search
             return PlaceResource::collection(Place::all());
         }
+        if ($request->has('name')) {
+            $query = $query->where('name', 'LIKE',"%{$request->get('name')}%");
+        }
 
-        $places = Place::paginate();
+        $places = $query->paginate();
 
         return PlaceResource::collection($places);
     }

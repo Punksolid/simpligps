@@ -18,11 +18,15 @@ class CarriersController extends Controller implements Search
     /**
      * Display a listing of the CARRIER.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Request $request)
     {
-        $carriers = Carrier::paginate();
+        $query = Carrier::query();
+        if ($request->filled('carrier_name')) {
+            $query = $query->where('carrier_name','LIKE',$request->get('carrier_name')."%");
+        }
+        $carriers = $query->paginate();
 
         return CarrierResource::collection($carriers);
     }
