@@ -333,7 +333,24 @@ class Trip extends Model implements LoggerInterface
     }
 
     //region Scopes
+    public function scopeByOriginId($query, $origin_id)
+    {
 
+        return $query->whereHas('checkpoints', function ($q_checkpoints) use($origin_id){
+            return $q_checkpoints
+                ->where('place_id',$origin_id)
+                ->where('type','origin');
+        });
+    }
+    public function scopeByDestinationId($query, $destination_id)
+    {
+
+        return $query->whereHas('checkpoints', function ($q_checkpoints) use($destination_id){
+            return $q_checkpoints
+                ->where('place_id',$destination_id)
+                ->where('type','destination');
+        });
+    }
     //endregion
 
     /**
@@ -389,6 +406,29 @@ class Trip extends Model implements LoggerInterface
 
     public function scopeOnlyOngoing($query)
     {
+        return $this->scopeBetweenDates($query, now()->toDateTimeString(), now()->toDateTimeString());
+    }
+
+    /**
+     * Obtiene todos los trips que se encuentran en el periodo especificado de inicio a fin.
+     * Por ejemplo
+     * Busqueda $start_date                                      $end_date
+     *      |------------------------------------------------------|
+     *          |--------------|     |---------|
+     *          Origen       Destino O         D
+     * |---------|  <---Este no lo encontraría por que su origen está fuera del rango
+     * O        D
+     * @param $query
+     * @param null $start_date
+     * @param null $end_date
+     *
+     * @return mixed
+     */
+    public function scopeBetweenDates($query,$start_date = null, $end_date = null)
+    {
+        $start_date = $start_date ?? now()->toDateTimeString();
+        $end_date = $end_date ?? now()->toDateTimeString();
+
         return $query->select([
             'trips.*',
             'origin.id as origin_id',
@@ -403,19 +443,19 @@ class Trip extends Model implements LoggerInterface
             'destination.at_time as destination_at_time',
             'destination.exiting as destination_exiting',
         ])->join(
-                'places_trips as origin',
-                function ($join) {
-                    $join->on('trips.id', '=', 'origin.trip_id')
-                        ->where('origin.type', '=', 'origin')
-                        ->where('origin.at_time', '<', now()->toDateTimeString());
-                }
-            )
+            'places_trips as origin',
+            function ($join) use($start_date) {
+                $join->on('trips.id', '=', 'origin.trip_id')
+                    ->where('origin.type', '=', 'origin')
+                    ->where('origin.at_time', '>', $start_date);
+            }
+        )
             ->join(
                 'places_trips as destination',
-                function ($join) {
+                function ($join) use($end_date) {
                     $join->on('trips.id', '=', 'destination.trip_id')
                         ->where('destination.type', '=', 'destination')
-                        ->where('destination.exiting', '>', now()->toDateTimeString());
+                        ->where('destination.exiting', '<', $end_date);
                 }
             );
     }

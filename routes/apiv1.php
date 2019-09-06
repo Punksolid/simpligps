@@ -98,6 +98,7 @@ Route::group(
                     ->except(['create', 'edit', 'show']);
                 //endregion
                 //region Trips
+                Route::any('reports', 'TripsReportsController@index');
                 //CONVOYS
                 Route::post('trips/convoys', 'ConvoyController@store');
                 Route::get('trips/convoys', 'ConvoyController@index');
