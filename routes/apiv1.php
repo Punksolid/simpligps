@@ -99,6 +99,7 @@ Route::group(
                 //endregion
                 //region Trips
                 Route::any('reports', 'TripsReportsController@index');
+                Route::post('imports', 'TripsImportsController@store');
                 //CONVOYS
                 Route::post('trips/convoys', 'ConvoyController@store');
                 Route::get('trips/convoys', 'ConvoyController@index');

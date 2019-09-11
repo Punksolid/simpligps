@@ -4,6 +4,7 @@ namespace App;
 
 use App\Http\Requests\TripRequest;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 
 class CreateTrip
 {
@@ -12,8 +13,9 @@ class CreateTrip
      *
      * @return mixed
      */
-    public static function createNewTrip(TripRequest $request)
+    public static function createNewTrip(Request $request)
     {
+
         $trip = new Trip(
             $request->except(
                 [

@@ -65,10 +65,10 @@ class TripsTest extends TestCase
             'destination_id' => factory(Place::class)->create()->id,
             'georoute_ref' => $this->faker->shuffleString('alskdjzxcvnmflaskj'),
             'mon_type' => $this->faker->randomNumber(1), // tipo de monitoreo es una relacion
-            'scheduled_load' => Carbon::now()->toDateString(),
-            'scheduled_departure' => Carbon::now()->addDays(1)->toDateString(),
-            'scheduled_arrival' => Carbon::now()->addDays(7)->toDateString(),
-            'scheduled_unload' => Carbon::now()->addDays(8)->toDateString(),
+            'scheduled_load' => Carbon::now()->toDateTimeString(),
+            'scheduled_departure' => Carbon::now()->addDays(1)->toDateTimeString(),
+            'scheduled_arrival' => Carbon::now()->addDays(7)->toDateTimeString(),
+            'scheduled_unload' => Carbon::now()->addDays(8)->toDateTimeString(),
 
             // optionals
             'rp' => '',
