@@ -112,14 +112,26 @@ class MeController extends Controller
         return AccountResource::make($account);
     }
 
+    /**
+     * @todo Considerar mover para otro controlador para mantener consistencia sobre encapsulacion
+     * al seleccionar la cuenta en lugar de ponerlo en una tabla general debe de almacenarse en la 
+     * base de datos tenant, por lo que la seleccion del environment podria estar en otro controlador
+     * mas acoplado al tenant y no al mecontroller que debe de ser preferentemente para asuntos del usuario
+     */
     public function enterAccountSession(Request $request)
     {
+        
+
+        // if ($request->tenant_account) {
         $account = Account::where('uuid', $request->uuid)->firstOrFail();
+        $environment = app(\Hyn\Tenancy\Environment::class);
+        $environment->tenant($account);
         activity('access_log')
             ->causedBy(auth()->user())
             ->performedOn($account)
             ->log('User Access');
         // ->withProperties(['key' => 'value'])
+        
 
         return AccountResource::make($account);
     }

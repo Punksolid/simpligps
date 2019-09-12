@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Resources\AccessLogResource;
 use App\Account;
 use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
+use Spatie\Activitylog\Models\Activity;
 
 class AccountController extends Controller
 {
@@ -17,17 +18,12 @@ class AccountController extends Controller
 
     public function accessLogs(Request $request)
     {
+        
         $logs = $request->tenant_account->activities()
             ->where('log_name', 'access_log')
             ->orderBy('id', 'DESC')
             ->paginate();
-        // $logs = \Spatie\Activitylog\Models\Activity::
-        //         where('log_name', 'access_log')
-        //         // @TODO: select by account
-        //         ->paginate();
-        // $logs = $account->activities()
-        // ->where('log_name', 'access_log')
-        // ->paginate();
+
         return AccessLogResource::collection($logs);
     }
 
