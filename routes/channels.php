@@ -22,3 +22,11 @@ Broadcast::channel('App.Account.{id}', function ($user, $id) {
     $account  = \App\Account::findOrFail($id);
     return $user->isInAccount($account->id);
 });
+// 
+Broadcast::channel('chat.{roomId}', function ($user, $roomId) {
+    
+    $account  = \App\Account::findOrFail($roomId);
+    if($user->isInAccount($account->id)) {
+        return ['id' => $user->id, 'email' => $user->email];
+    }
+});
