@@ -94,7 +94,6 @@ class WialonTripTest extends TestCase
 
         $wialon_trips_handler = new WialonTrips($this->trip, factory(Device::class)->state('in_truck')->create());
 
-//        $wialon_trips_handler->validateWialonReferrals();
         $notifications_wialon_ids = $wialon_trips_handler->createNotificationsForTrips();
 
         $this->assertTrue($wialon_trips_handler->deleteNotifications());

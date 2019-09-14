@@ -38,6 +38,6 @@ class ReceiveTripUpdate
      */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new PrivateChannel('trip-update');
     }
 }

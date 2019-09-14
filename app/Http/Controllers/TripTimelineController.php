@@ -8,8 +8,14 @@ use App\Trip;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
+/**
+ * Administra funciones de los checkpoints
+ */
 class TripTimelineController extends Controller
 {
+    /**
+     * Lista todos los lugares de un viaje
+     */
     public function index(Trip $trip)
     {
         $places = $trip->places()->get();
@@ -17,6 +23,10 @@ class TripTimelineController extends Controller
         return response()->json($places);
     }
 
+    /**
+     * Actualiza los valores del checkpoint, util para cuando se quiere cerrar un viaje de forma manual
+     * 
+     */
     public function patch($checkpoint, Request $request)
     {
         $this->validate($request, [

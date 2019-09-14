@@ -19,7 +19,7 @@ Route::post('continue_registration', 'Auth\RegisterController@continueRegistrati
 //@todo proteger con autenticacion
 Route::post('webhook/alert', 'WebhookNotificationController@simpleAlert');
 // api/v1/$tenant_uuid/alert/trips/".$this->id
-Route::post('{tennant_id}/alert/trips/{trip}', 'WebhookNotificationController@tripAlert');
+Route::post('{tennant_id}/alert/trips/{trip}', 'TripActionsController@exceptionUpdate');
 
 Route::group(
     [

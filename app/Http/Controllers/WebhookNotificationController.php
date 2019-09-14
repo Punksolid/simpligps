@@ -38,20 +38,5 @@ class WebhookNotificationController extends Controller
         return response()->json('ok');
     }
 
-    /*
-    * Aqui se reciben los webhooks de los trips, está separado de los de las notificaciones sencillas
-    *
-    **/
-    public function tripAlert(Request $request, $tenant_uuid, $trip_id)
-    {
-        $account = Account::whereUuid($tenant_uuid)->firstOrFail();
 
-        $environment = app(\Hyn\Tenancy\Environment::class);
-        $environment->tenant($account);
-        $trip = Trip::findOrFail($trip_id);
-
-        event(new ReceiveTripUpdate($trip, $request->all()));
-
-        return response()->json('ok');
-    }
 }

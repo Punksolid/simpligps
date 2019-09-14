@@ -383,7 +383,9 @@ class Trip extends Model implements LoggerInterface
 
         $timeline = Timeline::find($timeline_id);
         $timeline->update($attributes);
-
+        if ($timeline->type === 'destination' AND !is_null($timeline->real_exiting)) {
+            $this->wialon()->deleteNotifications();
+        }
         return $attributes;
     }
 

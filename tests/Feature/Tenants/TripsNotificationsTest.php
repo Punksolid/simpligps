@@ -307,4 +307,5 @@ class TripsNotificationsTest extends TestCase
 //        $this->expectsJobs(UpdateTripTravel::class);
 
     }
+    
 }
