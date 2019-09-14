@@ -14,6 +14,7 @@ use App\Trip;
 use App\TruckTract;
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Tests\Tenants\TestCase;
 
@@ -25,6 +26,7 @@ use Tests\Tenants\TestCase;
 class TripsTest extends TestCase
 {
     public $user;
+    use DatabaseTransactions;
 
     protected function setUp(): void
     {
@@ -36,22 +38,37 @@ class TripsTest extends TestCase
 
     public function test_ver_listado_de_viajes()
     {
-        $call = $this->getJson('api/v1/trips');
+        $this->withoutExceptionHandling();
+        $call = $this->getJson('api/v2/trips'); // V2 ⚠️
+        $call->assertSuccessful();
         $call->assertJsonStructure([
             'data' => [
                 '*' => [
                     'id',
                     'rp',
                     'invoice',
-                    'origin_name',
-                    'destination_name',
-                    'client_name',
-                    'truck_name',
-                    'scheduled_load',
-                    'scheduled_departure',
-                    'scheduled_arrival',
-                    'real_departure',
-                    'real_arrival',
+                    'truck' => [
+                        'name'
+                    ],
+                    'client' => [
+                        'company_name'
+                    ],
+                    'origin' => [
+                        'id',
+                          'name',
+                          'at_time',
+                          'exiting',
+                          'real_at_time',
+                          'real_exiting'
+                    ],
+                    'destination' => [
+                        'id',
+                        'name',
+                        'at_time',
+                        'exiting',
+                        'real_at_time',
+                        'real_exiting'
+                    ]
                 ],
             ],
         ]);

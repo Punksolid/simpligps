@@ -79,9 +79,8 @@ class PlacesTest extends TestCase
     public function test_usuario_debe_poder_eliminar_lugares_que_tengan_relaciones_usa_softdelete()
     {
         $place = factory(Place::class)->create();
-        $trip = factory(Trip::class)->create([
-           'origin_id' => $place->id
-        ]);
+        $trip = factory(Trip::class)->create();
+        $trip->setOrigin($place, now(), now());
 
         $call = $this->deleteJson("api/v1/places/$place->id");
 

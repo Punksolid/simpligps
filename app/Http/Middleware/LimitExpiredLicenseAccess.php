@@ -8,7 +8,8 @@ use Closure;
 class LimitExpiredLicenseAccess
 {
     /**
-     * Handle an incoming request.
+     * Revisa que la cuenta se activa, este middleware solo va despu[es del identificador de tenant provisto por
+     * Capas superiores de middlewares
      *
      * @param \Illuminate\Http\Request $request
      * @param \Closure                 $next
@@ -17,11 +18,8 @@ class LimitExpiredLicenseAccess
      */
     public function handle($request, Closure $next)
     {
-//        $account = \Auth::user()->accounts()->first();
-        $account = Account::whereUuid($request->header('X-Tenant-Id'))->first();
 
-        //TODO Revisar todas las licencias ahora solo revisa una
-        abort_unless($account->isActive(), 401, 'No tiene una licencia activa');
+        abort_unless($request->tenant_account->isActive(), 401, 'No tiene una licencia activa');
 
         return $next($request);
     }

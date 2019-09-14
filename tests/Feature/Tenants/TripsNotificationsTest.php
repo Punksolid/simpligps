@@ -231,7 +231,6 @@ class TripsNotificationsTest extends TestCase
         );
 
         $call = $this->getJson('api/v1/trips/'.$trip->id);
-
         $call->assertJsonFragment(
             [
                 'at_time' => $fecha_hora_programada_llegada->toDateTimeString(),
