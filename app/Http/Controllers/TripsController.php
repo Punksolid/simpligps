@@ -25,14 +25,23 @@ class TripsController extends Controller
     public function index(Request $request)
     {
         $query = Trip::query()
-            ->with(['places', 'origin', 'destination', 'intermediates', 'tags'])
+            ->withCount('checkpoints')
+            ->with([
+                'client:id,company_name',
+                'truck:id,name,created_at,updated_at',
+                'checkpoints.place',
+                'places',
+                'origin',
+                'destination',
+                'tags'
+            ])
             ->orderByDesc('created_at');
         if ($request->has('filter')) {
             $query = $query->withAnyTags($request->filter);
         }
 
         $trips = $query->paginate();
-
+//        return $trips;
         return TripResource::collection($trips);
     }
 
@@ -88,6 +97,7 @@ class TripsController extends Controller
      */
     public function show($trip_id)
     {
+
         $trip = Trip::with([
             'origin',
             'destination',

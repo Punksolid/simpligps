@@ -1,7 +1,15 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\V2;
 
+use App\Http\Resources\CarrierResource;
+use App\Http\Resources\CheckpointResource;
+use App\Http\Resources\ClientResource;
+use App\Http\Resources\DeviceResource;
+use App\Http\Resources\OperatorResource;
+use App\Http\Resources\TagResource;
+use App\Http\Resources\TrailerBoxResource;
+use App\Http\Resources\TruckTractResource;
 use App\Log;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,45 +28,31 @@ class TripResource extends JsonResource
         return [
             'id' => $this->id,
             'rp' => $this->rp,
-
             'invoice' => $this->invoice,
-            'client_id' => $this->client_id,
-            'client_name' => optional($this->client)->company_name,
-
-            'origin_name' => optional($this->origin)->name,
-
-            'destination_name' => optional($this->destination)->name,
-            'stops' => $this->checkpoints_count,
             'mon_type' => $this->mon_type,
+
+            'stops' => $this->checkpoints_count,
+
+            'client_id' => $this->client_id,
             'carrier_id' => $this->carrier_id,
             'truck_tract_id' => $this->truck_tract_id,
-//            'truck_name' => optional($this->truck)->name,
-
             'operator_id' => $this->operator_id,
-            'scheduled_load' => $this->origin ? $this->origin->pivot->at_time->toDateTimeString() : null,
-            'scheduled_departure' => $this->origin ? $this->origin->pivot->exiting->toDateTimeString() : null,
-            'scheduled_arrival' => $this->destination ? $this->destination->pivot->at_time->toDateTimeString() : null,
-            'scheduled_unload' => $this->destination ? $this->destination->pivot->exiting->toDateTimeString() : null,
-
-//            'real_departure' => $this->real_departure,
-//            'real_arrival' => $this->real_arrival,
             'bulk' => $this->bulk,
-//            'tag' => $this->tag,
             'convoy_id' => $this->convoy_id,
             'georoute_ref' => $this->georoute_ref,
+
             // Relationship Objects
             'tags' => TagResource::collection($this->whenLoaded('tags')),
             'truck' => TruckTractResource::make($this->whenLoaded('truck')),
             'operator' => OperatorResource::make($this->whenLoaded('operator')),
-            'origin' => PlaceResource::make($this->whenLoaded('origin')),
-            'destination' => PlaceResource::make($this->whenLoaded('destination')),
+            'origin' => CheckpointResource::make($this->whenLoaded('originCheckpoint')),
+            'destination' => CheckpointResource::make($this->whenLoaded('destinationCheckpoint')),
             'device' => DeviceResource::make($this->whenLoaded('device')),
-            'intermediates' => PlaceResource::collection($this->whenLoaded('intermediates')),
+            'intermediates' => CheckpointResource::collection($this->whenLoaded('checkpoints')),
             'trailers' => TrailerBoxResource::collection($this->whenLoaded('trailers')),
             'client' => ClientResource::make($this->whenLoaded('client')),
             'carrier' => CarrierResource::make($this->whenLoaded('carrier')),
         ];
-
 
     }
 }

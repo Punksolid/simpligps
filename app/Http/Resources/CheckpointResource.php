@@ -16,20 +16,22 @@ class CheckpointResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->place->id,
-            'name' => $this->place->name,
-            'person_in_charge' => $this->place->person_in_charge,
-            'address' => $this->place->address,
-            'phone' => $this->place->phone,
-            'high_risk' => $this->place->high_risk,
-            'geofence_ref' => $this->place->geofence_ref,
-            'at_time' => $this->at_time->toDateTimeString(),
-            'exiting' => $this->exiting->toDateTimeString(),
-            'real_at_time' => $this->real_at_time->toDateTimeString(),
-            'real_exiting' => $this->real_exiting->toDateTimeString(),
-            'status' => $this->getStatus(),
-        ];
+            return [
+                'id' => $this->id,
+                'name' => $this->place->name,
+                'person_in_charge' => $this->place->person_in_charge,
+                'address' => $this->place->address,
+                'phone' => $this->place->phone,
+                'high_risk' => $this->place->high_risk,
+                'geofence_ref' => $this->place->geofence_ref,
+                'at_time' => optional($this->at_time)->toDateTimeString(),
+                'exiting' => optional($this->exiting)->toDateTimeString(),
+                'real_at_time' => optional($this->real_at_time)->toDateTimeString(),
+                'real_exiting' => optional($this->real_exiting)->toDateTimeString(),
+                'status' => $this->getStatus(),
+            ];
+
+
     }
 
     public function getStatus()

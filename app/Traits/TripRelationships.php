@@ -54,12 +54,54 @@ trait TripRelationships
 
     public function origin()
     {
-        return $this->places()->wherePivot('type', '=', 'origin');
+        return $this->places()->wherePivot('type', '=', 'origin')->take(1);
+    }
+    public function originCheckpoint()
+    {
+        return $this->hasOne(Timeline::class)
+            ->with('place')
+            ->where('type','origin')
+            ->withDefault([
+                'id' => null,
+                'place' => (object)[
+                    'name' => null,
+                    'person_in_charge' => null,
+                    'address' => null,
+                    'phone' => null,
+                    'high_risk' => null,
+                    'geofence_ref' => null
+                ],
+                'at_time' => null,
+                'exiting' => null,
+                'real_at_time' => null,
+                'real_exiting' => null
+            ]);
+    }
+    public function destinationCheckpoint()
+    {
+        return $this->hasOne(Timeline::class)
+            ->with('place')
+            ->where('type','destination')
+            ->withDefault([
+                'id' => null,
+                'place' => (object)[
+                    'name' => null,
+                    'person_in_charge' => null,
+                    'address' => null,
+                    'phone' => null,
+                    'high_risk' => null,
+                    'geofence_ref' => null
+                ],
+                'at_time' => null,
+                'exiting' => null,
+                'real_at_time' => null,
+                'real_exiting' => null
+            ]);
     }
 
     public function destination()
     {
-        return $this->places()->wherePivot('type', '=', 'destination');
+        return $this->places()->wherePivot('type', '=', 'destination')->take(1);
     }
 
     /**

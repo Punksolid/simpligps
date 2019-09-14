@@ -33,7 +33,7 @@ class TagsTest extends TestCase
         $trip = factory(Trip::class)->create([
             'tags' => [$tag, 'two']
         ]);
-        $call = $this->getJson('api/v1/trips');
+        $call = $this->getJson('api/v2/trips');
 
         $call->assertSee($tag);
 

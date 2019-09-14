@@ -55,14 +55,12 @@ class TripsImportsTest extends TestCase
             "place_id" => $trip['destination_id'],
             "at_time" => $trip['scheduled_arrival'],
             "exiting" => $trip['scheduled_unload'],
-//            'type' => 'destination'
         ],'tenant');
 
     }
 
     public function test_lanza_errores_cuando_cualquier_fila_tiene_error_y_no_salva_ninguna_otra_fila()
     {
-//        $this->withoutExceptionHandling();
 
         $form = [
             'trips' => new UploadedFile(
@@ -74,5 +72,11 @@ class TripsImportsTest extends TestCase
         $call = $this->postJson('api/v1/imports', $form);
 
         $call->assertJsonValidationErrors('0');
+    }
+
+    public function test_puede_descargar_el_layout()
+    {
+        $call = $this->getJson('api/v1/download_layout');
+        $call->assertSuccessful();
     }
 }
