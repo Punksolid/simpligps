@@ -3,6 +3,8 @@
 namespace Tests\Feature;
 
 use App\Account;
+use App\Http\Middleware\IdentifyTenantConnection;
+use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\License;
@@ -54,15 +56,20 @@ class LoginInTenantTest extends TestCase
      */
     public function test_denegar_acceso_sin_licencia_activa()
     {
-        $this->withMiddleware(LimitExpiredLicenseAccess::class);
+        $this->withMiddleware([
+            IdentifyTenantConnection::class,
+            IsUserPermittedInAccountMiddleware::class,
+            LimitExpiredLicenseAccess::class
+        ]);
+
         $this->withoutExceptionHandling();
 
         $license = factory(License::class)->create();
+        $account = factory(Account::class)->create();
+        $account->addLicense($license, ["expires_at" => Carbon::yesterday()->toDateTimeString()]);
+        $this->user->attachAccount($account);
 
-        $this->account->addLicense($license, ["expires_at" => Carbon::yesterday()->toDateTimeString()]);
-        $this->user->attachAccount($this->account);
-
-        $call = $this->getJson("api/v1/devices");
+        $call = $this->setAccount($account)->getJson("api/v1/devices");
         $call->assertStatus(403); // code for logged but not authorized
         \Cache::flush();
     }

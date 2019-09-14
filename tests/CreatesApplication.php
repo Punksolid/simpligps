@@ -58,4 +58,13 @@ trait CreatesApplication
         $environment->tenant($this->account);
     }
 
+    public function setAccount(Account $account)
+    {
+        $environment = app(Environment::class);
+
+        $environment->tenant($account);
+        $this->withHeader('X-Tenant-Id',$account->uuid);
+        return $this;
+    }
+
 }
