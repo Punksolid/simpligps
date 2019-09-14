@@ -12,6 +12,8 @@ class TripResource extends JsonResource
      * Transform the resource into an array.
      *
      * @param Request $request
+     * @deprecated Cambiar por la version 2 que tiene las relaciones bien establecidas de
+     * checkpoints
      * @return array
      */
     public function toArray($request)
@@ -29,6 +31,7 @@ class TripResource extends JsonResource
 
             'destination_name' => optional($this->destination)->name,
             'stops' => $this->checkpoints_count,
+            'activated' => $this->wialon()->hasResource(),
             'mon_type' => $this->mon_type,
             'carrier_id' => $this->carrier_id,
             'truck_tract_id' => $this->truck_tract_id,

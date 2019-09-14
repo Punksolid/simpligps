@@ -96,6 +96,16 @@ class WialonTrips
         return $resource;
     }
 
+    /**
+     * Devuelve si existe un resource creado para el viaje en Gurtam Wialon
+     *
+     * @return bool
+     */
+    public function hasResource()
+    {
+        return (bool)Resource::findByName($this->resource_name);
+    }
+
     public function deleteNotifications()
     {
         $name = $this->resource_name;
