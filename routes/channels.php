@@ -16,12 +16,23 @@ Broadcast::channel('App.User.{id}', function ($user, $id) {
 //    return true;
     return (int) $user->id === (int) $id;
 });
+
+/**
+ * Presence channel
+ */
 Broadcast::channel('App.Account.{id}', function ($user, $id) {
 //    Log::info('websoket',[ $user, $id ]);
 //    return true;
     $account  = \App\Account::findOrFail($id);
-    return $user->isInAccount($account->id);
+    if ($user->isInAccount($account->id)) {
+        return [
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email
+        ];
+    }
 });
+
 // 
 Broadcast::channel('chat.{roomId}', function ($user, $roomId) {
     
