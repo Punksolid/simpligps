@@ -11,13 +11,6 @@ variables:
   MYSQL_USER: punksolid
   MYSQL_PASSWORD: 123qwe123
 
-# This folder is cached between builds
-# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
-cache:
-  key: ${CI_BUILD_REF_NAME}
-  paths:
-    - vendor/
-
 before_script:
   # Update Composer
   - composer self-update
