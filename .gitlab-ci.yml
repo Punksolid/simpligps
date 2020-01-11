@@ -1,5 +1,5 @@
 # docker image
-image: laradock/workspace:2.6.1-7.4
+image: laradock/workspace:2.6.1-7.3
 
 # Pick zero or more services to be used on all builds.
 services:
