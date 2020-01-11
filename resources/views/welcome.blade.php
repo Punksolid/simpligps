@@ -88,14 +88,13 @@
                 <h6>Branch
                     {!! exec("git branch | grep \* | cut -d ' ' -f2", $output); !!}
                 </h6>
+                <h2>Latest changes:</h2>
+                <h3> {!! exec("git log -1 "); !!}</h3>
                 <h2> COUNTDOWN
                     {!!
-                        \Carbon\Carbon::now()->diffInDays( \Carbon\Carbon::createFromDate(2019, 01, 31) )
+                        \Carbon\Carbon::now()->diffInDays( \Carbon\Carbon::createFromDate(2020, 03, 10) )
 
                     !!}
-                </h2>
-                <h2>
-                    {!! \Carbon\Carbon::now()->diffForHumans( \Carbon\Carbon::createFromDate(2019, 01, 31) ) !!}
                 </h2>
                 <div class="links">
 
