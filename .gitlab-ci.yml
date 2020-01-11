@@ -1,5 +1,5 @@
 # docker image
-image: composer:latest
+image: laradock/workspace
 
 # Pick zero or more services to be used on all builds.
 services:
