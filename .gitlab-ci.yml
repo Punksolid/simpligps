@@ -1,5 +1,5 @@
 # docker image
-image: php:latest
+image: composer:latest
 
 # Pick zero or more services to be used on all builds.
 services:
