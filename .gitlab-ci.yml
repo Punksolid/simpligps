@@ -32,9 +32,6 @@ before_script:
   # Run database migrations.
   - php artisan migrate
 
-  # Other configurations
-  - start-nginx-ci-project
-
 test:
   script:
     # run tests
