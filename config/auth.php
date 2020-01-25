@@ -112,6 +112,7 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'email' => 'auth.password', // here you change the path by 'emails.password'
             'table' => 'password_resets',
             'expire' => 120,
         ],

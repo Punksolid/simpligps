@@ -47,3 +47,7 @@ Auth::routes(
 ); // comentado por que truena comando route:list y descomentado por que se necesita para la auth de los websockets
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

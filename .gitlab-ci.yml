@@ -1,5 +1,5 @@
 # docker image
-image: chilio/laravel-dusk-ci:stable
+image: laradock/workspace:2.6.1-7.3
 
 # Pick zero or more services to be used on all builds.
 services:
@@ -10,13 +10,6 @@ variables:
   MYSQL_DATABASE: neotrm
   MYSQL_USER: punksolid
   MYSQL_PASSWORD: 123qwe123
-
-# This folder is cached between builds
-# http://docs.gitlab.com/ce/ci/yaml/README.html#cache
-cache:
-  key: ${CI_BUILD_REF_NAME}
-  paths:
-    - vendor/
 
 before_script:
   # Update Composer
@@ -38,9 +31,6 @@ before_script:
 
   # Run database migrations.
   - php artisan migrate
-
-  # Other configurations
-  - start-nginx-ci-project
 
 test:
   script:
