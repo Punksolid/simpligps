@@ -32,7 +32,20 @@ before_script:
   # Run database migrations.
   - php artisan migrate
 
+larastan:
+  stage: code quality
+  script:
+    - echo "Running PHPUnit with mysql8"
+    - php vendor/bin/phpstan analyse
+
+  artifacts:
+    paths:
+      - ./storage/logs # for debugging
+    expire_in: 1 days
+    when: always
+
 test:
+  stage: testing
   script:
     # run tests
     - echo "Running PHPUnit Tests"
@@ -51,6 +64,7 @@ test:
 
 
 test_mysql8:
+  stage: testing
   script:
     - echo "Running PHPUnit with mysql8"
     - php vendor/bin/phpunit --coverage-text --colors
