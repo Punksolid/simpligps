@@ -35,8 +35,8 @@ before_script:
 larastan:
   stage: .pre
   script:
-    - echo "Running PHPUnit with mysql8"
-    - php vendor/bin/phpstan analyse
+    - echo "Running PHPStan"
+    - php vendor/bin/phpstan analyse /var/www/
 
   artifacts:
     paths:
@@ -50,9 +50,6 @@ test:
     # run tests
     - echo "Running PHPUnit Tests"
     - php vendor/bin/phpunit --coverage-text --colors
-
-  # - echo "Running Laravel Dusk"
-  # - php artisan dusk --colors --debug
 
   artifacts:
     paths:
