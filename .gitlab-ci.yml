@@ -46,5 +46,18 @@ test:
       - ./storage/logs # for debugging
       # - ./tests/Browser/screenshots
       # - ./tests/Browser/console
-    expire_in: 7 days
+    expire_in: 3 days
     when: always
+
+
+test_mysql8:
+  script:
+    - echo "Running PHPUnit with mysql8"
+    - php vendor/bin/phpunit --coverage-text --colors
+
+  artifacts:
+    paths:
+      - ./storage/logs # for debugging
+    expire_in: 1 days
+    when: always
+
