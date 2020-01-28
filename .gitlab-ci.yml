@@ -33,7 +33,7 @@ before_script:
   - php artisan migrate
 
 larastan:
-  stage: code quality
+  stage: .pre
   script:
     - echo "Running PHPUnit with mysql8"
     - php vendor/bin/phpstan analyse
@@ -45,7 +45,7 @@ larastan:
     when: always
 
 test:
-  stage: testing
+  stage: test
   script:
     # run tests
     - echo "Running PHPUnit Tests"
@@ -64,7 +64,7 @@ test:
 
 
 test_mysql8:
-  stage: testing
+  stage: test
   script:
     - echo "Running PHPUnit with mysql8"
     - php vendor/bin/phpunit --coverage-text --colors
