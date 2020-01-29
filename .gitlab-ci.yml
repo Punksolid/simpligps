@@ -32,11 +32,12 @@ before_script:
   # Run database migrations.
   - php artisan migrate
 
-larastan:
+code quality:
   stage: .pre
   script:
     - echo "Running PHPStan"
-    - php vendor/bin/phpstan analyse /var/www/
+    - ls
+    - php vendor/bin/phpstan analyse ./
 
   artifacts:
     paths:
