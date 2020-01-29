@@ -37,7 +37,7 @@ code quality:
   script:
     - echo "Running PHPStan"
     - ls
-    - php vendor/bin/phpstan analyse ./
+    - php vendor/bin/phpstan analyse --error-format=gitlab ./
 
   artifacts:
     paths:
