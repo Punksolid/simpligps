@@ -37,7 +37,7 @@ code quality:
   script:
     - echo "Running PHPStan"
     - ls
-    - php artisan insights --no-interaction --min-quality=70 --min-complexity=70 --min-architecture=70 --min-style=55
+    - ./vendor/bin/phpstan --no-interaction --min-quality=70 --min-complexity=70 --min-architecture=70 --min-style=55
 
 
   artifacts:
