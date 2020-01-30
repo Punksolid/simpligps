@@ -37,7 +37,8 @@ code quality:
   script:
     - echo "Running PHPStan"
     - ls
-    - php vendor/bin/phpstan analyse --error-format=gitlab ./
+    - php artisan insights --no-interaction --min-quality=70 --min-complexity=70 --min-architecture=70 --min-style=55
+
 
   artifacts:
     paths:
