@@ -115,7 +115,7 @@ class NotificationTrigger extends Model
         // $tenant_uuid = str_replace("-","", $tenant_uuid);
 //        $resource = Resource::findByName('trm.notify.'.$tenant_uuid);
 
-        $resource = Resource::firstOrCreate(['name' => 'trm.notify.'.$tenant_uuid]);
+        $resource = Resource::firstOrCreate(['name' => 'simpligps.notify.'.$tenant_uuid]);
 
         $control_type = $this->resolveControlType($control_type, $params);
 

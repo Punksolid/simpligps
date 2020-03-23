@@ -40,7 +40,7 @@ class WialonGeofencesController extends Controller
         $wialon_api = new Wialon();
         // $resource = $wialon_api->createResource();
         //TODO resource puede ser creado si no es especificado o usar uno preexistente
-        $resource = Resource::make('trm.gfence.'.$uuid);
+        $resource = Resource::make('simpligps.gfence.'.$uuid);
         $geofence = $wialon_api->createGeofence( // deprecar en favor de Geofence::make el cual no funciona correctamente
             $resource->id,
             $validated_request['name'],

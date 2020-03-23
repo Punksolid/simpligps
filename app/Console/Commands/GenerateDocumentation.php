@@ -17,7 +17,7 @@ class GenerateDocumentation extends Command
      *
      * @var string
      */
-    protected $signature = 'trms:documentation';
+    protected $signature = 'simpligps:documentation';
 
     /**
      * The console command description.

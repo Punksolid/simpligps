@@ -52,7 +52,7 @@ class WialonTrips
     public function __construct(Trip $trip, Device $device = null, ?Collection $checkpoints = null)
     {
         $this->trip = $trip;
-        $this->resource_name = "trm.trips.{$this->trip->id}.{$this->trip->getTenantUuid()}";
+        $this->resource_name = "simpligps.trips.{$this->trip->id}.{$this->trip->getTenantUuid()}";
         $this->tenant_uuid = $this->trip->getTenantUuid();
         $this->action = $this->getAction();
 

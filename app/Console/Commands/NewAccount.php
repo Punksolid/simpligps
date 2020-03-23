@@ -14,7 +14,7 @@ class NewAccount extends Command
      *
      * @var string
      */
-    protected $signature = 'trm:new_account';
+    protected $signature = 'simpligps:new_account';
 
     /**
      * The console command description.

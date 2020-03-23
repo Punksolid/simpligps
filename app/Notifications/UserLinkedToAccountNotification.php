@@ -42,7 +42,7 @@ class UserLinkedToAccountNotification extends Notification
     public function toMail()
     {
         return (new MailMessage())
-                    ->line("You've been linked to the {$this->account->easyname} account in TRM System")
+                    ->line("You've been linked to the {$this->account->easyname} account in SIMPLIGPS System")
                     ->action('Go and try it', url(config('app.frontend_url')))
                     ->line('Thank you for using our application!');
     }

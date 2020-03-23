@@ -11,7 +11,7 @@ $iterator = Symfony\Component\Finder\Finder::create()
 
 $options = [
     'theme'                => 'default',
-    'title'                => 'TRM PHP Documentation',
+    'title'                => 'Simpligps PHP Documentation',
     'build_dir'            => __DIR__ . '/storage/app/public/docs/php',
     'cache_dir'            => __DIR__ . '/storage/app/public/docs/php',
 ];

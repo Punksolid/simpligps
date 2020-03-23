@@ -13,7 +13,7 @@ class DeleteAccount extends Command
      *
      * @var string
      */
-    protected $signature = 'trm:delete_account {uuid}';
+    protected $signature = 'simpligps:delete_account {uuid}';
 
     /**
      * The console command description.
