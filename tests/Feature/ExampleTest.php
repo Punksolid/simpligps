@@ -19,11 +19,4 @@ class ExampleTest extends TestCase
         $response->assertStatus(200);
     }
 
-    public function testFrontend()
-    {
-        $call = $this->get("https://testing.dogoit.com");
-        $call->assertSuccessful();
-    }
-
-
 }

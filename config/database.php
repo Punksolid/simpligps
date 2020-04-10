@@ -100,6 +100,7 @@ return [
     | provides a richer set of commands than a typical key-value systems
     | such as APC or Memcached. Laravel makes it easy to dig right in.
     |
+    * https://laravel.com/docs/6.x/upgrade#redis-default-client
     */
 
     'redis' => [
