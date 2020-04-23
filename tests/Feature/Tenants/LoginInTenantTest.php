@@ -11,6 +11,7 @@ use App\License;
 use App\User;
 use Carbon\Carbon;
 use Spatie\Activitylog\Models\Activity;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Tests\Tenants\TestCase;
 
 class LoginInTenantTest extends TestCase
@@ -21,12 +22,11 @@ class LoginInTenantTest extends TestCase
         $this->withHeader("X-Tenant-Id", $this->account->uuid);
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\HttpException
-     */
+
     public function test_cuenta_no_puede_tener_mas_de_2_sesiones_activas()
     {
         $this->markTestIncomplete('TODO! BAJA PRIORIDAD');
+        $this->expectException(HttpException::class);
         $this->withoutExceptionHandling();
         $this->withMiddleware(LimitSimoultaneousAccess::class);
         $user1 = factory(User::class)->create(["name" => "pedro"]);
@@ -52,11 +52,9 @@ class LoginInTenantTest extends TestCase
         $call2->assertSuccessful();
     }
 
-    /**
-     * @expectedException Symfony\Component\HttpKernel\Exception\HttpException
-     */
     public function test_denegar_acceso_sin_licencia_activa()
     {
+        $this->expectException(HttpException::class);
         $this->withMiddleware([
             IdentifyTenantConnection::class,
             IsUserPermittedInAccountMiddleware::class,
