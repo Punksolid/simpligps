@@ -18,8 +18,8 @@ class AddForeignKeysToPlacesTripsPivotTableStep2 extends Migration
         DB::statement('SET FOREIGN_KEY_CHECKS=0');
         Schema::connection('tenant')
             ->table('places_trips', function (Blueprint $table) {
-                $table->integer('trip_id')->unsigned()->change();
-                $table->integer('place_id')->unsigned()->change();
+                $table->foreignId('trip_id')->change();
+                $table->foreignId('place_id')->change();
 
                 $table->unique(['trip_id','place_id','type']);
             });

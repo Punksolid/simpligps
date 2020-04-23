@@ -39,9 +39,9 @@ abstract class TestCase extends BaseTestCase
     protected function setUp():void
     {
         parent::setUp();
-        
+
         $this->withoutMiddleware([
-            LimitSimoultaneousAccess::class, 
+            LimitSimoultaneousAccess::class,
             LimitExpiredLicenseAccess::class,
             RefreshPersonalAccessTokenMiddleware::class,
             IsUserPermittedInAccountMiddleware::class
@@ -58,7 +58,7 @@ abstract class TestCase extends BaseTestCase
         $this->setWebsiteEnvironment();
 
         $this->withHeader('X-Tenant-Id', $this->account->uuid);
-        
+
 
     }
 

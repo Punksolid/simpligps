@@ -20,8 +20,8 @@ class CreateTruckTractsTable extends Migration
                 $table->string('internal_number');
                 $table->string('brand');
                 $table->string('gps');
-                $table->integer('carrier_id')->unsigned()->nullable();
-                $table->integer('device_id')->unsigned()->nullable();
+                $table->bigInteger('carrier_id')->unsigned()->nullable();
+                $table->bigInteger('device_id')->unsigned()->nullable();
                 $table->string('color');
             $table->timestamps();
         });

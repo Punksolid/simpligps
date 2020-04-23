@@ -16,23 +16,37 @@ class AddCarrierRelationToTripsTable extends Migration
 
         Schema::table('trips', function (Blueprint $table) {
 
-            $table->integer('carrier_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('carrier_id')->nullable();
             $table->dropColumn('line');
 
         });
 
         Schema::table('trips', function (Blueprint $table) {
 
-            $table->integer('origin_id')->unsigned()->change();
-            $table->integer('destination_id')->unsigned()->change();
-            $table->integer('device_id')->unsigned()->change();
+            $table->bigInteger('origin_id')->unsigned()->change();
+        });
+
+        Schema::table('trips', function (Blueprint $table) {
+
+            $table->bigInteger('destination_id')->unsigned()->change();
+            $table->bigInteger('device_id')->unsigned()->change();
         });
 
         Schema::table('trips', function (Blueprint $table) {
 
             $table->foreign('origin_id')->references('id')->on('places');
             $table->foreign('destination_id')->references('id')->on('places');
+
+        });
+
+        Schema::table('trips', function (Blueprint $table) {
+
             $table->foreign('carrier_id')->references('id')->on('carriers');
+
+        });
+
+        Schema::table('trips', function (Blueprint $table) {
+
             $table->foreign('device_id')->references('id')->on('devices');
 
         });

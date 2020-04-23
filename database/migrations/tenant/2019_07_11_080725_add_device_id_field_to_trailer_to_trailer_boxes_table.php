@@ -15,7 +15,7 @@ class AddDeviceIdFieldToTrailerToTrailerBoxesTable extends Migration
     {
         if (!Schema::hasColumn('trailer_boxes','device_id')){
             Schema::table('trailer_boxes', function (Blueprint $table) {
-                $table->unsignedInteger('device_id')->nullable();
+                $table->unsignedBigInteger('device_id')->nullable();
                 $table->foreign('device_id')->references('id')->on('devices');
             });
         }

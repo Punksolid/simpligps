@@ -10,6 +10,7 @@ use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\License;
 use App\User;
 use Carbon\Carbon;
+use Spatie\Activitylog\Models\Activity;
 use Tests\Tenants\TestCase;
 
 class LoginInTenantTest extends TestCase
@@ -78,13 +79,7 @@ class LoginInTenantTest extends TestCase
     {
 
         $this->account->addUser($this->user);
-        factory(\Spatie\Activitylog\Models\Activity::class)->create([
-            'description' => "what",
-            'log_name' => 'access_log',
-            'causer_id' => $this->user->id,
-            'causer_type' => 'App\User'
-         ]);
-        // dd($this->account->uuid);
+
         $call = $this->getJson("api/v1/account/access_logs", [
             "X-Tenant-Id" => $this->account->uuid
         ]);

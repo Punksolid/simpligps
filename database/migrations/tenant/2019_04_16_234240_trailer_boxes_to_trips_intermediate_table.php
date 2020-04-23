@@ -15,8 +15,8 @@ class TrailerBoxesToTripsIntermediateTable extends Migration
     {
         Schema::create('trailer_boxes_trips', function (Blueprint $table) {
             $table->increments('id')->unsigned();
-            $table->bigInteger('trailer_box_id')->unsigned();
-            $table->integer('trip_id')->unsigned();
+            $table->foreignId('trailer_box_id');
+            $table->foreignId('trip_id');
             $table->tinyInteger('order')->nullable();
             $table->timestamps();
         });

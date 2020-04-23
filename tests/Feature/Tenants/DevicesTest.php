@@ -89,7 +89,7 @@ class DevicesTest extends TestCase
 
     public function test_usuario_puede_ver_truck_del_dispositivo_cuando_esta_asignado()
     {
-        
+        $this->withoutExceptionHandling();
         $device = factory(Device::class)->create();
         $truck = factory(TruckTract::class)->create();
         $truck->assignDevice($device);

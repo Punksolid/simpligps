@@ -1,116 +1,427 @@
 <?php
 
-declare(strict_types=1);
+/*
+ * This file is part of the hyn/multi-tenant package.
+ *
+ * (c) Daniël Klabbers <daniel@klabbers.email>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ *
+ * @see https://laravel-tenancy.com
+ * @see https://github.com/hyn/multi-tenant
+ */
+
+use App\Account;
+use App\Operator;
+use App\PasswordReset;
+use Hyn\Tenancy\Database\Connection;
 
 return [
-    'storage_driver' => 'db',
-    'storage_drivers' => [
-        'db' => [
-            'driver' => Stancl\Tenancy\StorageDrivers\Database\DatabaseStorageDriver::class,
-            'data_column' => 'data',
-            'custom_columns' => [
-                // 'plan',
-            ],
-            'connection' => null, // Your central database connection. Set to null to use the default connection.
-            'table_names' => [
-                'tenants' => 'tenants',
-                'domains' => 'domains',
-            ],
-            'cache_store' => null, // What store should be used to cache tenant resolution. Set to null to disable cache or a string with a specific cache store name.
-            'cache_ttl' => 3600, // seconds
-        ],
-        'redis' => [
-            'driver' => Stancl\Tenancy\StorageDrivers\RedisStorageDriver::class,
-            'connection' => 'tenancy',
-        ],
-    ],
-    'tenant_route_namespace' => 'App\Http\Controllers',
-    'exempt_domains' => [ // e.g. domains which host landing pages, sign up pages, etc
-        // 'localhost',
-    ],
-    'database' => [
-        'based_on' => null, // The connection that will be used as a base for the dynamically created tenant connection. Set to null to use the default connection.
-        'prefix' => 'tenant',
-        'suffix' => '',
-        'separate_by' => 'database', // database or schema (only supported by pgsql)
-    ],
-    'redis' => [
-        'prefix_base' => 'tenant',
-        'prefixed_connections' => [
-            // 'default',
-        ],
-    ],
-    'cache' => [
-        'tag_base' => 'tenant',
-    ],
-    'filesystem' => [ // https://tenancy.samuelstancl.me/docs/v2/filesystem-tenancy/
-        'suffix_base' => 'tenant',
-        'suffix_storage_path' => true, // Note: Disabling this will likely break local disk tenancy. Only disable this if you're using an external file storage service like S3.
-        'asset_helper_tenancy' => true, // should asset() be automatically tenant-aware. You may want to disable this if you use tools like Horizon.
-        // Disks which should be suffixed with the suffix_base + tenant id.
-        'disks' => [
-            'local',
-            'public',
-            // 's3',
-        ],
-        'root_override' => [
-            // Disks whose roots should be overriden after storage_path() is suffixed.
-            'local' => '%storage_path%/app/',
-            'public' => '%storage_path%/app/public/',
-        ],
-    ],
-    'database_managers' => [
-        // Tenant database managers handle the creation & deletion of tenant databases.
-        'sqlite' => Stancl\Tenancy\TenantDatabaseManagers\SQLiteDatabaseManager::class,
-        'mysql' => Stancl\Tenancy\TenantDatabaseManagers\MySQLDatabaseManager::class,
-        'pgsql' => Stancl\Tenancy\TenantDatabaseManagers\PostgreSQLDatabaseManager::class,
-        // 'pgsql' => Stancl\Tenancy\TenantDatabaseManagers\PostgreSQLSchemaManager::class, // Separate by schema instead of database
-    ],
-    'database_manager_connections' => [
-        // Connections used by TenantDatabaseManagers. This tells, for example, the
-        // MySQLDatabaseManager to use the mysql connection to create databases.
-        'sqlite' => 'sqlite',
-        'mysql' => 'mysql',
-        'pgsql' => 'pgsql',
-    ],
-    'bootstrappers' => [
-        // Tenancy bootstrappers are executed when tenancy is initialized.
-        // Their responsibility is making Laravel features tenant-aware.
-        'database' => Stancl\Tenancy\TenancyBootstrappers\DatabaseTenancyBootstrapper::class,
-        'cache' => Stancl\Tenancy\TenancyBootstrappers\CacheTenancyBootstrapper::class,
-        'filesystem' => Stancl\Tenancy\TenancyBootstrappers\FilesystemTenancyBootstrapper::class,
-        'queue' => Stancl\Tenancy\TenancyBootstrappers\QueueTenancyBootstrapper::class,
-        // 'redis' => Stancl\Tenancy\TenancyBootstrappers\RedisTenancyBootstrapper::class, // Note: phpredis is needed
-    ],
-    'features' => [
-        // Features are classes that provide additional functionality
-        // not needed for tenancy to be bootstrapped. They are run
-        // regardless of whether tenancy has been initialized.
+    /**
+     * Random key used for tenant database user password
+     */
+    'key' => env('TENANCY_KEY', env('APP_KEY')),
 
-        // Stancl\Tenancy\Features\Timestamps::class,
-        // Stancl\Tenancy\Features\TenantConfig::class,
-        // Stancl\Tenancy\Features\TelescopeTags::class,
-        // Stancl\Tenancy\Features\TenantRedirect::class,
+    'models' => [
+        /**
+         * Specify different models to be used for the global, system database
+         * connection. These are also used in their relationships. Models
+         * used have to implement their respective contracts and
+         * either extend the SystemModel or use the trait
+         * UsesSystemConnection.
+         */
+
+        // Must implement \Hyn\Tenancy\Contracts\Hostname
+        'hostname' => \Hyn\Tenancy\Models\Hostname::class,
+
+//        'website' => \Hyn\Tenancy\Models\Website::class // original
+        'website' => Account::class //  local personalized
     ],
-    'storage_to_config_map' => [ // Used by the TenantConfig feature
-        // 'paypal_api_key' => 'services.paypal.api_key',
+    /**
+     * The package middleware. Removing a middleware here will disable it.
+     * You can of course extend/replace them or add your own.
+     */
+    'middleware' => [
+        // The eager identification middleware.
+        \Hyn\Tenancy\Middleware\EagerIdentification::class,
+
+        // The hostname actions middleware (redirects, https, maintenance).
+        \Hyn\Tenancy\Middleware\HostnameActions::class,
     ],
-    'home_url' => '/app',
-    'create_database' => true,
-    'queue_database_creation' => false,
-    'migrate_after_creation' => false, // run migrations after creating a tenant
-    'migration_parameters' => [
-        // '--force' => true, // force database migrations
+    'website' => [
+        /**
+         * Each website has a short random hash that identifies this entity
+         * to the application. By default this id is randomized and fully
+         * auto-generated. In case you want to force your own logic for
+         * when you need to have a better overview of the complete
+         * tenant folder structure, disable this and implement
+         * your own id generation logic.
+         */
+        'disable-random-id' => false,
+
+        /**
+         * The random Id generator is responsible for creating the hash as mentioned
+         * above. You can override what generator to use by modifying this value
+         * in the configuration.
+         *
+         * @warn This won't work if disable-random-id is true.
+         */
+        'random-id-generator' => Hyn\Tenancy\Generators\Uuid\ShaGenerator::class,
+
+        /**
+         * Enable this flag in case you're using a driver that does not support
+         * database username or database name with a length of more than 32 characters.
+         *
+         * This should be enabled for MySQL, but not for MariaDB and PostgreSQL.
+         */
+        'uuid-limit-length-to-32' => env('LIMIT_UUID_LENGTH_32', false),
+
+        /**
+         * Specify the disk you configured in the filesystems.php file where to store
+         * the tenant specific files, including media, packages, routes and other
+         * files for this particular website.
+         *
+         * @info If not set, will revert to the default filesystem.
+         * @info If set to false will disable all tenant specific filesystem auto magic
+         *       like the config, vendor overrides.
+         */
+        'disk' => null,
+
+        /**
+         * Automatically generate a tenant directory based on the random id of the
+         * website. Uses the above disk to store files to override system-wide
+         * files.
+         *
+         * @info set to false to disable.
+         */
+        'auto-create-tenant-directory' => true,
+
+        /**
+         * Automatically rename the tenant directory when the random id of the
+         * website changes. This should not be too common, but in case it happens
+         * we automatically want to move files accordingly.
+         *
+         * @info set to false to disable.
+         */
+        'auto-rename-tenant-directory' => true,
+
+        /**
+         * Automatically deletes the tenant specific directory and all files
+         * contained within.
+         *
+         * @see
+         * @info set to true to enable.
+         */
+        'auto-delete-tenant-directory' => false,
+
+        /**
+         * Time to cache websites in minutes. Set to false to disable.
+         */
+        'cache' => 10,
     ],
-    'seed_after_migration' => false, // should the seeder run after automatic migration
-    'seeder_parameters' => [
-        '--class' => 'DatabaseSeeder', // root seeder class, e.g.: 'DatabaseSeeder'
-        // '--force' => true, // force database seeder
+    'hostname' => [
+        /**
+         * If you want the multi tenant application to fall back to a default
+         * hostname/website in case the requested hostname was not found
+         * in the database, complete in detail the default hostname.
+         *
+         * @warn this must be a FQDN, these have no protocol or path!
+         */
+        'default' => env('TENANCY_DEFAULT_HOSTNAME'),
+        /**
+         * The package is able to identify the requested hostname by itself,
+         * disable to get full control (and responsibility) over hostname
+         * identification. The hostname identification is needed to
+         * set a specific website as currently active.
+         *
+         * @see src/Jobs/HostnameIdentification.php
+         */
+        'auto-identification' => env('TENANCY_AUTO_HOSTNAME_IDENTIFICATION', true),
+
+        /**
+         * In case you want to have the tenancy environment set up early,
+         * enable this flag. This will run the tenant identification
+         * inside a middleware. This will eager load tenancy.
+         *
+         * A good use case is when you have set "tenant" as the default
+         * database connection.
+         */
+        'early-identification' => env('TENANCY_EARLY_IDENTIFICATION', true),
+
+        /**
+         * Abort application execution in case no hostname was identified. This will throw a
+         * 404 not found in case the tenant hostname was not resolved.
+         */
+        'abort-without-identified-hostname' => env('TENANCY_ABORT_WITHOUT_HOSTNAME', false),
+
+        /**
+         * Time to cache hostnames in minutes. Set to false to disable.
+         */
+        'cache' => 10,
+
+        /**
+         * Automatically update the app.url configured inside Laravel to match
+         * the tenant FQDN whenever a hostname/tenant was identified.
+         *
+         * This will resolve issues with password reset mails etc using the
+         * correct domain.
+         */
+        'update-app-url' => false,
     ],
-    'queue_database_deletion' => false,
-    'delete_database_after_tenant_deletion' => false, // delete the tenant's database after deleting the tenant
-    'unique_id_generator' => Stancl\Tenancy\UniqueIDGenerators\UUIDGenerator::class,
-    'global_middleware' => [
-        Stancl\Tenancy\Middleware\InitializeTenancy::class,
+    'db' => [
+        /**
+         * The default connection to use; this overrules the Laravel database.default
+         * configuration setting. In Laravel this is normally configured to 'mysql'.
+         * You can set a environment variable to override the default database
+         * connection to - for instance - the tenant connection 'tenant'.
+         */
+        'default' => env('TENANCY_DEFAULT_CONNECTION'),
+        /**
+         * Used to give names to the system and tenant database connections. By
+         * default we configure 'system' and 'tenant'. The tenant connection
+         * is set up automatically by this package.
+         *
+         * @see src/Database/Connection.php
+         * @var system-connection-name The database connection name to use for the global/system database.
+         * @var tenant-connection-name The database connection name to use for the tenant database.
+         */
+        'system-connection-name' => env('TENANCY_SYSTEM_CONNECTION_NAME', Connection::DEFAULT_SYSTEM_NAME),
+        'tenant-connection-name' => env('TENANCY_TENANT_CONNECTION_NAME', Connection::DEFAULT_TENANT_NAME),
+
+        /**
+         * The tenant division mode specifies to what database websites will be
+         * connecting. The default setup is to use a new database per tenant.
+         * If using PostgreSQL, a new schema per tenant in the same database can
+         * be setup, by optionally setting division mode to 'schema'.
+         * In case you prefer to use the same database with a table prefix,
+         * set the mode to 'prefix'.
+         * To implement a custom division mode, set this to 'bypass'.
+         *
+         * @see src/Database/Connection.php
+         */
+        'tenant-division-mode' => env('TENANCY_DATABASE_DIVISION_MODE', 'database'),
+
+        /**
+         * The database password generator takes care of creating a valid hashed
+         * string used for tenants to connect to the specific database. Do
+         * note that this will only work in 'division modes' that set up
+         * a connection to a separate database.
+         */
+        'password-generator' => Hyn\Tenancy\Generators\Database\DefaultPasswordGenerator::class,
+
+        /**
+         * The tenant migrations to be run during creation of a tenant. Specify a directory
+         * to run the migrations from. If specified these migrations will be executed
+         * whenever a new tenant is created.
+         *
+         * @info set to false to disable auto migrating.
+         *
+         * @warn this has to be an absolute path, feel free to use helper methods like
+         * base_path() or database_path() to set this up.
+         */
+        'tenant-migrations-path' => database_path('migrations/tenant'),
+//        'tenant-migrations-path' => false,
+
+        /**
+         * The default Seeder class used on newly created databases and while
+         * running artisan commands that fire seeding.
+         *
+         * @info requires tenant-migrations-path in order to seed newly created websites.
+         * @info seeds stored in `database/seeds/tenants` need to be configured in your composer.json classmap.
+         *
+         * @warn specify a valid fully qualified class name.
+         */
+
+        'tenant-seed-class' => CreateTenantPermissionsSeeder::class,
+//        'tenant-seed-class' => MainSeedTenants::class,
+//      eg an admin seeder under `app/Seeders/AdminSeeder.php`:
+//        'tenant-seed-class' => App\Seeders\AdminSeeder::class,
+
+        /**
+         * Automatically generate a tenant database based on the random id of the
+         * website.
+         *
+         * @info set to false to disable.
+         */
+        'auto-create-tenant-database' => true,
+
+        /**
+         * Automatically generate the user needed to access the database.
+         *
+         * @info Useful in case you use root or another predefined user to access the
+         *       tenant database.
+         * @info Only creates in case tenant databases are set to be created.
+         *
+         * @info set to false to disable.
+         */
+        'auto-create-tenant-database-user' => false,
+
+        /**
+         * Set of database privileges to give to the tenant database user.
+         *
+         * @info Useful in case your database restricts the privileges you
+         *       can set (for example AWS RDS).
+         * @info These privileges are only used in case tenant database users
+         *       are set to be created.
+         *
+         * @info null by default means "ALL PRIVILEGES". Override with a list
+         *       of privileges as a string, e.g. 'SELECT, UPDATE'.
+         */
+        'tenant-database-user-privileges' => null,
+
+        /**
+         * Automatically rename the tenant database when the random id of the
+         * website changes. This should not be too common, but in case it happens
+         * we automatically want to move databases accordingly.
+         *
+         * @info set to false to disable.
+         */
+        'auto-rename-tenant-database' => true,
+
+        /**
+         * Automatically deletes the tenant specific database and all data
+         * contained within.
+         *
+         * @info set to true to enable.
+         */
+        'auto-delete-tenant-database' => env('TENANCY_DATABASE_AUTO_DELETE', false),
+
+        /**
+         * Automatically delete the user needed to access the tenant database.
+         *
+         * @info Set to false to disable.
+         * @info Only deletes in case tenant database is set to be deleted.
+         */
+        'auto-delete-tenant-database-user' => env('TENANCY_DATABASE_AUTO_DELETE_USER', false),
+
+        /**
+         * Define a list of classes that you wish to force onto the tenant or system connection.
+         * The connection will be forced when the Model has booted.
+         *
+         * @info Useful for overriding the connection of third party packages.
+         */
+        'force-tenant-connection-of-models' => [
+            App\Role::class,
+            App\Permission::class,
+            Spatie\Permission\Models\Role::class,
+            Spatie\Permission\Models\Permission::class,
+            Operator::class,
+            \Spatie\Tags\Tag::class,
+            \App\Tag::class
+        ],
+        'force-system-connection-of-models' => [
+            App\User::class,
+            Account::class,
+            PasswordReset::class,
+            \Illuminate\Notifications\DatabaseNotification::class
+        ],
     ],
+
+    /**
+     * Global tenant specific routes.
+     * Making it easier to distinguish between landing and tenant routing.
+     *
+     * @info only works with `tenancy.hostname.auto-identification` or identification happening
+     *       before the application is booted (eg inside middleware or the register method of
+     *       service providers).
+     */
+    'routes' => [
+        /**
+         * Routes file to load whenever a tenant was identified.
+         *
+         * @info Set to false or null to disable.
+         */
+        'path' => base_path('routes/tenants.php'),
+
+        /**
+         * Set to true to flush all global routes before setting the routes from the
+         * tenants.php routes file.
+         */
+        'replace-global' => false,
+    ],
+
+    /**
+     * Folders configuration specific per tenant.
+     * The following section relates to configuration to files inside the tenancy/<uuid>
+     * tenant directory.
+     */
+    'folders' => [
+        'config' => [
+            /**
+             * Merge configuration files from the config directory
+             * inside the tenant directory with the global configuration files.
+             */
+            'enabled' => true,
+
+            /**
+             * List of configuration files to ignore, preventing override of crucial
+             * application configurations.
+             */
+            'blacklist' => ['database', 'tenancy', 'webserver'],
+        ],
+        'routes' => [
+            /**
+             * Allows adding and overriding URL routes inside the tenant directory.
+             */
+            'enabled' => true,
+
+            /**
+             * Prefix all tenant routes.
+             */
+            'prefix' => null,
+        ],
+        'trans' => [
+            /**
+             * Allows reading translation files from a trans directory inside
+             * the tenant directory.
+             */
+            'enabled' => true,
+
+            /**
+             * Will override the global translations with the tenant translations.
+             * This is done by overriding the laravel default translator with the new path.
+             */
+            'override-global' => true,
+
+            /**
+             * In case you disabled global override, specify a namespace here to load the
+             * tenant translation files with.
+             */
+            'namespace' => 'tenant',
+        ],
+        'vendor' => [
+            /**
+             * Allows using a custom vendor (composer driven) folder inside
+             * the tenant directory.
+             */
+            'enabled' => true,
+        ],
+        'media' => [
+            /**
+             * Mounts the assets directory with (static) files for public use.
+             */
+            'enabled' => true,
+        ],
+        'views' => [
+            /**
+             * Enables reading views from tenant directories.
+             */
+            'enabled' => true,
+
+            /**
+             * Specify a namespace to use with which to load the views.
+             *
+             * @eg setting `tenant` will allow you to use `tenant::some.blade.php`
+             * @info set to null to add to the global namespace.
+             */
+            'namespace' => null,
+
+            /**
+             * If `namespace` is set to null (thus using the global namespace)
+             * make it override the global views. Disable by setting to false.
+             */
+            'override-global' => true,
+        ]
+    ]
 ];

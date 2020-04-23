@@ -17,16 +17,16 @@ class CreateCarrierTable extends Migration
     public function up()
     {
         Schema::create('carriers', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string("carrier_name");
             $table->string("contact_name");
             $table->string("phone");
             $table->string("email");
-            $table->text("bulk")->nullable(); //TODO cambiar a Json
+            $table->json("bulk")->nullable();
             $table->timestamps();
         });
         Schema::table("operators", function (Blueprint $table){
-            $table->unsignedInteger('carrier_id')->nullable();
+            $table->unsignedBigInteger('carrier_id')->nullable();
             $table->foreign('carrier_id')->references('id')->on('carriers');
         });
 

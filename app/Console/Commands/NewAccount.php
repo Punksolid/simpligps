@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Account;
-use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-use App\Website;
+//use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+//use App\Website;
 use Illuminate\Console\Command;
 
 class NewAccount extends Command
@@ -40,7 +40,7 @@ class NewAccount extends Command
     {
 //        $website = new Website();
         $website = new Account(['easyname' => 'temp_name']);
-        app(WebsiteRepository::class)->create($website);
+//        app(WebsiteRepository::class)->create($website);
 
         $this->info('Account Id: '.$website->id);
         $this->info('Uuid: '.$website->uuid);

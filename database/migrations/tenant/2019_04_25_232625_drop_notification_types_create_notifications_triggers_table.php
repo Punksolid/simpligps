@@ -37,7 +37,7 @@ class DropNotificationTypesCreateNotificationsTriggersTable extends Migration
         Schema::create('notification_triggers_devices', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('notification_trigger_id')->unsigned();
-            $table->integer('device_id')->unsigned(); // @todo cambiar a BigInteger de ser posible
+            $table->unsignedBigInteger('device_id');
             $table->foreign('notification_trigger_id')->references('id')->on('notification_triggers');
             $table->foreign('device_id')->references('id')->on('devices');
             $table->softDeletes();

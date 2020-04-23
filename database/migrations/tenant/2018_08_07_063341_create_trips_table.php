@@ -14,17 +14,17 @@ class CreateTripsTable extends Migration
     public function up()
     {
         Schema::create('trips', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
 
             $table->string("rp")->nullable();
             $table->string("invoice")->nullable();
             $table->string("client")->nullable();
             $table->json("intermediary")->nullable();
 
-            $table->string("origin_id")
+            $table->bigInteger("origin_id")
                 ->nullable();
 
-            $table->string("destination_id")
+            $table->bigInteger("destination_id")
                 ->nullable();
 
             $table->string("mon_type")->nullable();

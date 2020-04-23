@@ -18,7 +18,7 @@ class CreateTrailerBoxesTable extends Migration
             $table->string('plate');
             $table->string('internal_number');
             $table->string('gps');
-            $table->integer('carrier_id')->unsigned()->nullable();
+            $table->unsignedBigInteger('carrier_id')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

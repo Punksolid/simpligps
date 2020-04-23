@@ -4,8 +4,8 @@ namespace App\Console\Commands;
 
 use App\Account;
 use App\Traits\MutatesTinkerCommand;
-use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
-use Hyn\Tenancy\Database\Connection;
+//use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+//use Hyn\Tenancy\Database\Connection;
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\Console\Exception\RuntimeException;
@@ -35,8 +35,8 @@ class TenantTinkerCommand extends TinkerParentCommand
     public function __construct()
     {
         parent::__construct();
-        $this->websites = app(WebsiteRepository::class);
-        $this->connection = app(Connection::class);
+//        $this->websites = app(WebsiteRepository::class);
+//        $this->connection = app(Connection::class);
 
         $this->addArgument('include', 2, 'includes', []);
     }
