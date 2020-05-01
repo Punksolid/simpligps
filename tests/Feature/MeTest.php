@@ -40,12 +40,12 @@ class MeTest extends TestCase
     {
         $account = factory(Account::class)->create();
         $account->addUser($this->user);
-        $call = $this->getJson("/api/v1/me/accounts");
+        $call = $this->getJson('/api/v1/me/accounts');
         $call->assertJsonStructure([
-            "data" => [
-                "*" => [
-                    "easyname",
-                    "uuid"
+            'data' => [
+                '*' => [
+                    'easyname',
+                    'uuid'
                 ]
             ]
         ]);

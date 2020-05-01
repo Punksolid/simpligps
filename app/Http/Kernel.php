@@ -2,10 +2,12 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AllowCredentialsCors;
 use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
-use Barryvdh\Cors\HandleCors;
+//use Barryvdh\Cors\HandleCors;
+//use Fruitcake\Cors\HandleCors;
 use Illuminate\Auth\Middleware\EnsureEmailIsVerified;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use Laravel\Passport\Http\Middleware\CreateFreshApiToken;
@@ -18,6 +20,8 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middlewarePriority = [
+        \Fruitcake\Cors\HandleCors::class,
+
         \Illuminate\Session\Middleware\StartSession::class,
         \Illuminate\View\Middleware\ShareErrorsFromSession::class,
         \Illuminate\Session\Middleware\AuthenticateSession::class,
@@ -38,8 +42,10 @@ class Kernel extends HttpKernel
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
         \App\Http\Middleware\TrustProxies::class,
-//        \Barryvdh\Cors\HandleCors::class,
+//        Barryvdh\Cors\HandleCors::class,
         \Fruitcake\Cors\HandleCors::class,
+//        AllowCredentialsCors::class
+//        HandleCors
     ];
 
     /**
@@ -58,6 +64,7 @@ class Kernel extends HttpKernel
 
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             CreateFreshApiToken::class,
+
         ],
 
         'api' => [
@@ -66,6 +73,8 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             'bindings',
 //            HandleCors::class,
+//            \Fruitcake\Cors\HandleCors::class,
+
         ],
     ];
 
