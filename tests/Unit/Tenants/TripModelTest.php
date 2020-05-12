@@ -74,7 +74,7 @@ class TripModelTest extends TestCase
         return $trip;
     }
 
-    public function test_active_trip_by_interval_schedules_load_and_unload()
+    public function test_active_trip_by_interval_schedules_load_and_unload(): void
     {
         $ongoing_trip = factory(Trip::class)->create();
         $ongoing_trip->setOrigin(
@@ -100,7 +100,7 @@ class TripModelTest extends TestCase
 
     }
 
-    public function test_setDestination_method()
+    public function test_setDestination_method(): void
     {
         $trip = factory(Trip::class)->create();
         $arrays = $trip->setDestination($place = factory(Place::class)->create(), now(), now());
@@ -145,7 +145,7 @@ class TripModelTest extends TestCase
     }
     
 
-    public function test_cant_update_trip_origin_if_already_set()
+    public function test_cant_update_trip_origin_if_already_set(): void
     {
         $trip = factory(Trip::class)->create();
         $place = factory(Place::class)->create();
@@ -166,7 +166,7 @@ class TripModelTest extends TestCase
         
     }
 
-    public function test_cant_update_trip_destination_if_already_set()
+    public function test_cant_update_trip_destination_if_already_set(): void
     {
         $trip = factory(Trip::class)->create();
         $place = factory(Place::class)->create();
@@ -187,7 +187,7 @@ class TripModelTest extends TestCase
         $this->assertEquals($update_place->name,$trip->getDestination()->name);
     }
 
-    public function test_cant_update_intermediates_if_real_at_time_set()
+    public function test_cant_update_intermediates_if_real_at_time_set(): void
     {
         $trip = factory(Trip::class)->create();
         $place1 = factory(Place::class)->create();

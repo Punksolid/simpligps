@@ -54,7 +54,7 @@ class WialonTripTest extends TestCase
 
     }
 
-    public function test_create_wialon_external_notifications()
+    public function test_create_wialon_external_notifications(): void
     {
         $wialon_trips = new WialonTrips($this->trip);
         $notifications_wialon_ids = $wialon_trips->createNotificationsForTrips();
@@ -64,7 +64,7 @@ class WialonTripTest extends TestCase
 
     }
 
-    public function test_getParamsText_accepts_optional_fields()
+    public function test_getParamsText_accepts_optional_fields(): void
     {
 
         $text = new Notification\WialonText();
@@ -78,7 +78,7 @@ class WialonTripTest extends TestCase
 
     }
 
-    public function test_validateReferrals_throws_if_a_truck_orTrailer_doesnt_have_a_device()
+    public function test_validateReferrals_throws_if_a_truck_orTrailer_doesnt_have_a_device(): void
     {
         $this->expectException(ValidationException::class);
 

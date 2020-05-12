@@ -21,7 +21,7 @@ class TruckTractTest extends TestCase
         ]);
     }
 
-    public function test_listar_tracto_camiones()
+    public function test_listar_tracto_camiones(): void
     {
         factory(TruckTract::class)->create();
 
@@ -45,7 +45,7 @@ class TruckTractTest extends TestCase
         ]);
     }
 
-    public function test_crear_tracto()
+    public function test_crear_tracto(): void
     {
         $this->withoutExceptionHandling();
         $truck_form = factory(TruckTract::class)->raw([
@@ -58,7 +58,7 @@ class TruckTractTest extends TestCase
         $call->assertJsonFragment($truck_form);
     }
 
-    public function test_crear_tract_solo_con_campos_minimos_obligatorios()
+    public function test_crear_tract_solo_con_campos_minimos_obligatorios(): void
     {
 //        Placa, nombre, device y Carrier, internal number
         $form = [
@@ -89,10 +89,11 @@ class TruckTractTest extends TestCase
                     'color'
                 ]
         ]);
+
         $call->assertJsonFragment($truck->toArray());
     }
 
-    public function test_al_ver_detalles_del_tracto_puede_ver_dispositivo_asociado()
+    public function test_al_ver_detalles_del_tracto_puede_ver_dispositivo_asociado(): void
     {
         /** @var Unit $unit */
         $unit = $this->partialMock(Unit::class, function ($mock){

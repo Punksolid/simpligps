@@ -33,8 +33,8 @@ class TruckTractResource extends JsonResource
             'operators' => OperatorResource::collection($this->whenLoaded('operators')),
             'current_operator' => OperatorResource::make(optional($this->currentOperator)->first()),
 
-            'created_at' => $this->when($request->routeIs('trucks.show'), $this->created_at->toDateTimeString()),
-            'updated_at' => $this->when($request->routeIs('trucks.show'), $this->updated_at->toDateTimeString()),
+            'created_at' => $this->when($request->routeIs('trucks.show'), $this->created_at),
+            'updated_at' => $this->when($request->routeIs('trucks.show'), $this->updated_at),
 
             'position' => $this->when($request->route()->named('trucks.show'), $this->position),
         ];

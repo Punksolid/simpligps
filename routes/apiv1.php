@@ -94,8 +94,7 @@ Route::group(
                 Route::resource('trailers', 'TrailerBoxController')->except(['create', 'edit', 'show']);
                 //endregion
 
-                //region Situations
-                Route::resource('situations', 'SituationController')->except(['create', 'edit', 'show']);
+                //region Cancelation REasons
                 Route::resource('cancelation_reasons', 'CancelationReasonController')
                     ->except(['create', 'edit', 'show']);
                 //endregion

@@ -184,7 +184,7 @@ class DevicesTest extends TestCase
 
     }
 
-    public function test_ligar_unidad_wialon_a_device()
+    public function test_ligar_unidad_wialon_a_device(): void
     {
 
         $unit = Unit::all()->first();
@@ -211,7 +211,13 @@ class DevicesTest extends TestCase
 
     public function test_ver_posicion_de_device_ligado()
     {
-        $unit = Unit::all()->first();
+//        $unit = Unit::all()->first();
+        /** @var Unit $unit */
+        $unit = $this->partialMock(Unit::class, function ($mock){
+            $mock->id = 536;
+            $mock->lat = 52.31839;
+            $mock->lon = 9.81065;
+        });
         $device = factory(Device::class)->create();
         $device->linkUnit($unit);
 

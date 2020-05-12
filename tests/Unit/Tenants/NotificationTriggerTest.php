@@ -16,7 +16,7 @@ class NotificationTriggerTest extends TestCase
 
     }
 
-    public function testDevices()
+    public function testDevices(): void
     {
         $notification_trigger = factory(NotificationTrigger::class)->create();
         $device = factory(Device::class)->create();
@@ -28,7 +28,7 @@ class NotificationTriggerTest extends TestCase
 
     }
 
-    public function testAddDevice()
+    public function testAddDevice(): void
     {
         $notification_trigger = factory(NotificationTrigger::class)->create();
         $device = factory(Device::class)->create();
@@ -38,7 +38,7 @@ class NotificationTriggerTest extends TestCase
         $this->assertEquals($device->name, $notification_trigger->devices()->first()->name);
     }
 
-    public function testHasDevices()
+    public function testHasDevices(): void
     {
         $notification_trigger = factory(NotificationTrigger::class)->create();
         $this->assertFalse($notification_trigger->hasDevices());
@@ -47,11 +47,15 @@ class NotificationTriggerTest extends TestCase
         $this->assertTrue($notification_trigger->hasDevices());
     }
 
-    public function testCreateExternalNotification()
+    public function testCreateExternalNotification(): void
     {
         $device = factory(Device::class)->create();
 
-        $unit = Unit::all()->first();
+        /** @var Unit $unit */
+        $unit = $this->partialMock(Unit::class, function ($mock){
+            $mock->id = 536;
+        });
+
         $device->linkUnit($unit);
 
         $notification_trigger = factory(NotificationTrigger::class)->create();

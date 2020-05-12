@@ -87,7 +87,7 @@ class NotificationTrigger extends Model
         return $this->devices()->exists();
     }
 
-    public function prepareUnitsColectionFromDevices()
+    public function prepareUnitsCollectionFromDevices()
     {
         $units = collect();
         foreach ($this->devices as $device) {
@@ -121,7 +121,7 @@ class NotificationTrigger extends Model
         }
 
         //        $units = Unit::findMany($request->units); // Devuelve Colleccion de objetos Unit de Punksolid/Wialon/Unit
-            $units = $this->prepareUnitsColectionFromDevices(); // @TODO Como esto es especifico de wialon, debe ser desacoplado de esta clase
+            $units = $this->prepareUnitsCollectionFromDevices(); // @TODO Como esto es especifico de wialon, debe ser desacoplado de esta clase
             $action = new Notification\Action('push_messages', url(config('app.url').'api/v1/webhook/alert'));
 
         $wialon_text = new Notification\WialonText([

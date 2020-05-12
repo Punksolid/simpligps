@@ -25,7 +25,7 @@ class NotificationsTest extends TestCase
     /**
      * A basic test example.
      */
-    public function test_usuario_puede_crear_un_notificador_alias_notification_trigger()
+    public function test_usuario_puede_crear_un_notificador_alias_notification_trigger(): void
     {
         //        $wialon_object = \Punksolid\Wialon\Notification::all()->first();
         //        'name',
@@ -35,7 +35,13 @@ class NotificationsTest extends TestCase
         //        'active' //bool
 
         $device = factory(Device::class)->create();
-        $unit = Unit::all()->first();
+//        $unit = Unit::all()->first();
+        /** @var Unit $unit */
+        $unit = $this->partialMock(Unit::class, function ($mock){
+            $mock->id = 536;
+            $mock->lat = 52.31839;
+            $mock->lon = 9.81065;
+        });
         $device->linkUnit($unit);
         $form = [
             'name' => $this->faker->name,

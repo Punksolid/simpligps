@@ -18,9 +18,9 @@ class DeviceModelTest extends TestCase
         config(["services.wialon.token" => "11b6e71f234078f1ca9e6944705a235bB6C1D1F551E3E263783A2354A63236306018E83E"]);
     }
 
-    public function test_getLocation_returns_wialon_gps_data()
+    public function test_getLocation_returns_wialon_gps_data(): void
     {
-        $this->markTestSkipped('Necesita token original');
+        $this->markTestSkipped('Use mock, we need to way to use laravel wialon with dependency injection');
         $unit = Unit::all()->first();
         $device = factory(Device::class)->create();
         $device->linkUnit($unit);
@@ -29,7 +29,7 @@ class DeviceModelTest extends TestCase
         $this->assertEquals($unit->lon,$device->getLocation()['lon']);
     }
 
-    public function test_linked_method_verifies_on_wialon()
+    public function test_linked_method_verifies_on_wialon(): void
     {
         $device = new Device(['wialon_id' => '17471332']);
 
