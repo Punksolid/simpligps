@@ -111,9 +111,6 @@ class NotificationTrigger extends Model
         Log::info('WialonTokenSet', [config('services.wialon.token')]); // cuando es asincrono el config todavia no se ha cargado para este punto
         // $tenant_uuid = str_replace(' ', '-', $tenant_uuid); // Replaces all spaces with hyphens.
 
-        // try {
-        // $tenant_uuid = str_replace("-","", $tenant_uuid);
-//        $resource = Resource::findByName('trm.notify.'.$tenant_uuid);
 
         $resource = Resource::firstOrCreate(['name' => 'simpligps.notify.'.$tenant_uuid]);
 

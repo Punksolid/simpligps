@@ -7,6 +7,7 @@ use App\Device;
 use App\Operator;
 use App\Trip;
 use App\TruckTract;
+use Mockery;
 use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
 
@@ -93,10 +94,15 @@ class TruckTractTest extends TestCase
 
     public function test_al_ver_detalles_del_tracto_puede_ver_dispositivo_asociado()
     {
-        $device = factory(Device::class)->create();
-        $unit = Unit::all()->first();
-        $device->linkUnit($unit);
+        /** @var Unit $unit */
+        $unit = $this->partialMock(Unit::class, function ($mock){
+            $mock->id = 536;
+            $mock->lat = 52.31839;
+            $mock->lon = 9.81065;
+        });
 
+        $device = factory(Device::class)->create();
+        $device->linkUnit($unit);
         $truck = factory(TruckTract::class)->create();
         $truck->assignDevice($device);
 
