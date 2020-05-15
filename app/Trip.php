@@ -484,12 +484,14 @@ class Trip extends Model implements LoggerInterface
     public function validatePlacesConnection(): void
     {
         //Validar que todos los lugares tienen geocercas conectados
+        /** @var Place[] $places */
         $places = $this->places()->get();
         if ($places->count() <= 1) {
             throw new Exception('Trip needs at least origin and destination.');
         }
         $bag = new MessageBag();
         foreach ($places as $place) {
+
             if (!$place->verifyConnection()) {
                 $bag->add('place', "The place $place->name can't connect to wialon.");
 //                throw new WialonConnectionErrorException("place","The place $place->name can't connect to wialon.");

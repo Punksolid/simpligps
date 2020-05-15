@@ -44,7 +44,6 @@ class TripActionTest extends TestCase
         $this->assertEquals($trip->wialon()->resource_name,$resource->nm);
 
         $call = $this->deleteJson("/api/v1/trips/$trip->id/automatic_updates");
-
         $call->assertSuccessful();
 
         $resource = Resource::findByName($trip->wialon()->resource_name);

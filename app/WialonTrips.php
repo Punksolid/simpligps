@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Exceptions\TripException;
+use App\Interfaces\TripsServiceContract;
 use Exception;
 use Illuminate\Config\Repository;
 use Illuminate\Support\Collection;
@@ -17,8 +19,9 @@ use Punksolid\Wialon\Unit;
  * Se obtienen los lugares
  * Por cada checkpoint se crean DOS notificaciones, una de entrada y una de salida, a cada notificacion se le añaden metadatos
  * del device_id, timeline_id y tenant_id.
+ * @
  */
-class WialonTrips
+class WialonTrips implements TripsServiceContract
 {
     /**
      * @var Trip
@@ -33,10 +36,7 @@ class WialonTrips
      * @var Action
      */
     private $action;
-    /**
-     * @var Repository
-     */
-    private $tenant_uuid;
+
     /**
      * @var array
      */
@@ -47,17 +47,29 @@ class WialonTrips
 
     public $device;
     private $wialon_units;
+
+    /** @var Resource */
     private $resource;
 
     public function __construct(Trip $trip, Device $device = null, ?Collection $checkpoints = null)
     {
         $this->trip = $trip;
-        $this->resource_name = "simpligps.trips.{$this->trip->id}.{$this->trip->getTenantUuid()}";
-        $this->tenant_uuid = $this->trip->getTenantUuid();
-        $this->action = $this->getAction();
-
+        $this->tenant_uuid = $this->getTenantUuid();
         $this->checkpoints = $checkpoints ? $checkpoints : $this->trip->checkpoints;
+        $this->action = $this->getAction();
         $this->device = $device ? $device : optional($this->trip->truck)->device;
+    }
+
+    public function getDevice()
+    {
+        return $this->device = $device ? $device : optional($this->trip->truck)->device;
+    }
+    /**
+     * @return string
+     */
+    public function getResourceName(): string
+    {
+        return $this->resource_name = "simpligps.trips.{$this->trip->id}.{$this->getTenantUuid()}";
     }
 
     /**
@@ -69,10 +81,10 @@ class WialonTrips
     public function createNotificationsForTrips(): array
     {
         $wialon_notifications = collect();
-        $this->wialon_units = Unit::findMany([$this->device->wialon_id]);
-        $this->resource = $this->findOrCreateResource($this->resource_name);
 
-        foreach ($this->checkpoints as $checkpoint) {
+        $this->resource = $this->findOrCreateResource($this->getResourceName());
+        $checkpoints = $this->getCheckpoints();
+        foreach ($checkpoints as $checkpoint) {
             $wialon_notifications = $wialon_notifications->merge($this->createNotificationsForEnterExitForPlace($checkpoint));
         }
 
@@ -80,20 +92,38 @@ class WialonTrips
     }
 
     /**
+     * @todo Refactor, it should accept N ids
+     * @return Collection
+     */
+    public function getWialonUnits()
+    {
+        return $this->wialon_units = Unit::findMany([$this->device->wialon_id]);
+    }
+
+    /**
      * Devuelve un resource.
      *
-     * @param Repository $tenant_uuid
-     *
-     * @return resource|null
+     * @param string $name
+     * @return Resource
+     * @throws TripException
      */
     public function findOrCreateResource(string $name): Resource
     {
-        $resource = Resource::findByName($name);
-        if (!$resource) {
-            $resource = Resource::make($name);
+        try {
+            $resource = Resource::findByName($name);
+            if (!$resource) {
+                return Resource::make($name);
+            }
+        } catch (Exception $exception) {
+            throw new TripException('There was a problem with Wialon resources');
         }
 
         return $resource;
+    }
+
+    public function getResource()
+    {
+        $this->resource = $this->findOrCreateResource();
     }
 
     /**
@@ -106,6 +136,9 @@ class WialonTrips
         return (bool)Resource::findByName($this->resource_name);
     }
 
+    /**
+     * @throws \Punksolid\Wialon\WialonErrorException
+     */
     public function deleteNotifications()
     {
         $name = $this->resource_name;
@@ -123,6 +156,11 @@ class WialonTrips
     /**
      * Valida que todos los elementos del viaje están correctos y se puede crear el recurso con sus notificaciones
      * en la plataforma de wialon.
+     * @deprecated Maybe a special class for validation is needed
+     *
+     * @use $trip->validateTruckAndTrailersHaveDevices();
+     * @use $trip->validatePlacesConnection();
+     * @use $trip->validateDevicesConnection();
      *
      * @throws Exception
      */
@@ -149,12 +187,12 @@ class WialonTrips
         $name,
         Timeline $checkpoint
     ) {
-        $wialon_units = $this->wialon_units;
+        $wialon_units = $this->getWialonUnits();
         $wialon_text = new Notification\WialonText([
-            'X-Tenant-Id' => $this->tenant_uuid, //indispensables
+            'X-Tenant-Id' => $this->getTenantUuid(), //indispensables
             'timeline_id' => $checkpoint->id,
-            'trip_id' => $this->trip->id, //estos tres pueden ser utiles para evitar queries extras
-            'device_id' => $this->device->id,
+            'trip_id' => $this->getTrip()->id, //estos tres pueden ser utiles para evitar queries extras
+            'device_id' => $this->getDevice()->id,
             'place_id' => $checkpoint->place->id,
         ]);
 
@@ -178,10 +216,13 @@ class WialonTrips
     {
         return new Notification\Action(
             'push_messages',
-            url(config('app.url')."api/v1/$this->tenant_uuid/alert/trips/".$this->trip->id)
+            url(config('app.url')."api/v1/{$this->getTenantUuid()}/alert/trips/".$this->trip->id)
         );
     }
-
+    public function getTrip(): Trip
+    {
+        return $this->trip;
+    }
     /**
      * Crea las dos notificaciones necesarias para avisar que entró y salió de un checkpoint.
      * Para que reporten entradas y salidas en wialon son necesarias dos notificaciones, una para entrada y otra salida
@@ -202,11 +243,11 @@ class WialonTrips
         $control_type->addGeozoneId($checkpoint->place->geofence_ref);
 
         $control_type->setType(0); // modificar control_type entrada
-
+        $trip = $this->getTrip();
         $wialon_notifications->push(
             $this->createNotification(
                 $control_type,
-                "{$this->trip->id}.entering.{$checkpoint->place->id}",
+                "{$trip->id}.entering.{$checkpoint->place->id}",
                 $checkpoint
             ) // Notificacion de entradas
         );
@@ -215,11 +256,21 @@ class WialonTrips
         $wialon_notifications->push(
             $this->createNotification(
                 $control_type,
-                "{$this->trip->id}.leaving.{$checkpoint->place->id}",
+                "{$trip->id}.leaving.{$checkpoint->place->id}",
                 $checkpoint
             ) // Notificacion de salidas
         );
 
         return $wialon_notifications;
+    }
+
+    public function getCheckpoints()
+    {
+        return $this->checkpoints = $checkpoints ? $checkpoints : $this->trip->checkpoints;
+    }
+
+    private function getTenantUuid()
+    {
+        return config('database.connections.tenant.database');
     }
 }
