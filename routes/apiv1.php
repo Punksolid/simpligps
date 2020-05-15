@@ -1,11 +1,18 @@
 <?php
 
+use App\Account;
 use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 use App\Http\Middleware\ProfilingTestMiddleware;
 use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
 use App\Http\Middleware\SetWialonTokenMiddleware;
+use Geocoder\Query\ReverseQuery;
+use Hyn\Tenancy\Environment;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+//use Geocoder\Query\GeocodeQuery;
+//use Geocoder\Query\ReverseQuery;
 
 //ecommerce
 Route::any('ecommerce/1234567890', 'PurchaseController@storeFromEcommerce');
@@ -21,6 +28,34 @@ Route::post('webhook/alert', 'WebhookNotificationController@simpleAlert');
 // api/v1/$tenant_uuid/alert/trips/".$this->id
 Route::post('{tennant_id}/alert/trips/{trip}', 'TripActionsController@exceptionUpdate');
 
+Route::any('alexa', function (Request $request) {
+
+
+
+
+    \Illuminate\Support\Facades\Log::info('test', $request->toArray());
+//    amzn1.ask.skill.4e3f7b60-c9bc-49d3-a8f1-d48f88da7087
+    $account = Account::where("uuid", '01b421a3055f4e9bab1d5a3e186a6149')->first();
+//    dd($account);
+    $environment = app(Environment::class);
+    $environment->tenant($account);
+    /** @var \Punksolid\Wialon\Unit $device */
+    $device = \Punksolid\Wialon\Unit::all()->first();
+//    $address = app('geocoder')->reverse($device->lat,$device->lon);
+    $client = new \GuzzleHttp\Client();
+    $geocoder = new Spatie\Geocoder\Geocoder($client);
+    $geocoder->setApiKey(config('geocoder.key'));
+    $address = $geocoder->getAddressForCoordinates($device->lat, $device->lon);
+//    dd($address);
+   return new JsonResponse([
+       "response" => [
+           "outputSpeech" => [
+               "type" => "PlainText",
+               "text" => "Tu dispositivo llamado $device->nm está en {$address['formatted_address']}"
+           ]
+       ]
+   ]);
+});
 Route::group(
     [
         'middleware' => [
