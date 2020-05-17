@@ -56,9 +56,6 @@ class GenerateDocumentation extends Command
         $this->call(
             'apidoc:generate',
             [
-//                '--routePrefix' => 'api/v1/*',
-//                '--output' => 'storage/app/public/docs/user',
-//                '--header' => "Authorization:Bearer $token",
                 '--force' => false,
                 '--env' => 'documentation',
                 '--actAsUserId' => $user->id,

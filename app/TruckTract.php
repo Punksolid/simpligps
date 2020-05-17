@@ -52,15 +52,6 @@ class TruckTract extends Model
 
     public function currentOperator()
     {
-//        $ongoing_trip = $this
-//            ->trips()
-//            ->onlyOngoing()
-//            ->whereHas('operator')
-//            ->with('operator')
-//            ->take(1);
-
-//        return optional($ongoing_trip)->operator;
-
         return $this->operators()
             ->take(1);
     }
