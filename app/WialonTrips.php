@@ -56,13 +56,12 @@ class WialonTrips implements TripsServiceContract
         $this->trip = $trip;
         $this->tenant_uuid = $this->getTenantUuid();
         $this->checkpoints = $checkpoints ? $checkpoints : $this->trip->checkpoints;
-        $this->action = $this->getAction();
         $this->device = $device ? $device : optional($this->trip->truck)->device;
     }
 
     public function getDevice()
     {
-        return $this->device = $device ? $device : optional($this->trip->truck)->device;
+        return $this->device = optional($this->trip->truck)->device;
     }
     /**
      * @return string
@@ -82,7 +81,7 @@ class WialonTrips implements TripsServiceContract
     {
         $wialon_notifications = collect();
 
-        $this->resource = $this->findOrCreateResource($this->getResourceName());
+        $this->resource = $this->findOrCreateResource();
         $checkpoints = $this->getCheckpoints();
         foreach ($checkpoints as $checkpoint) {
             $wialon_notifications = $wialon_notifications->merge($this->createNotificationsForEnterExitForPlace($checkpoint));
@@ -107,16 +106,17 @@ class WialonTrips implements TripsServiceContract
      * @return Resource
      * @throws TripException
      */
-    public function findOrCreateResource(string $name): Resource
+    public function findOrCreateResource(string $name = null): Resource
     {
-        try {
-            $resource = Resource::findByName($name);
+        $resource_name = $name ?: $this->getResourceName();
+//        try {
+            $resource = Resource::findByName($resource_name);
             if (!$resource) {
-                return Resource::make($name);
+                return Resource::make($resource_name);
             }
-        } catch (Exception $exception) {
-            throw new TripException('There was a problem with Wialon resources');
-        }
+//        } catch (Exception $exception) {
+//            throw new TripException('There was a problem with Wialon resources');
+//        }
 
         return $resource;
     }
@@ -201,7 +201,7 @@ class WialonTrips implements TripsServiceContract
             $wialon_units,
             $control_type,
             $name,
-            $this->action,
+            $this->getAction(),
             $wialon_text,
             ['fl' => 0]
         );
@@ -266,7 +266,7 @@ class WialonTrips implements TripsServiceContract
 
     public function getCheckpoints()
     {
-        return $this->checkpoints = $checkpoints ? $checkpoints : $this->trip->checkpoints;
+        return $this->checkpoints = $this->trip->checkpoints;
     }
 
     private function getTenantUuid()

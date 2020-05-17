@@ -13,6 +13,7 @@ use App\WialonParamText;
 use App\WialonTrips;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\ValidationException;
+use Mockery\Mock;
 use Psy\Util\Str;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Resource;
@@ -33,19 +34,57 @@ class WialonTripTest extends TestCase
      */
     public $trip;
 
-    public function test_create_wialon_notification_without_trailer_boxes()
+    public function test_create_wialon_notification_without_trailer_boxes(): void
     {
 
+        /** @var WialonTrips $wialon_trip */
+
         $checkpoints = factory(Timeline::class, 2)->create();
-        $wialon_trips = new WialonTrips(
+
+//        $wialon_trips = new WialonTrips(
+//            $checkpoints->first()->trip,
+//            factory(Device::class)->state('in_truck')->create(),
+//            $checkpoints
+//        );
+        /** @var WialonTrips $wialon_trips */
+        $wialon_trips = \Mockery::mock(WialonTrips::class, [
             $checkpoints->first()->trip,
             factory(Device::class)->state('in_truck')->create(),
             $checkpoints
-        );
+        ])->makePartial();
+        $wialon_trips->shouldReceive('getAction')
+            ->andReturn(
+                new Notification\Action()
+            );
+        $wialon_trips->shouldReceive('findOrCreateResource')
+            ->andReturn(
+                new Resource([
+                    'nm' => random_int(11111, 99999)
+                ])
+            );
+
+        $wialon_trips->shouldReceive('getCheckpoints')
+            ->andReturn(
+                new Collection([
+                    factory(Timeline::class)->create()
+                ])
+            );
+        $wialon_trips->shouldReceive('getDevice')
+            ->andReturn(
+                factory(Device::class)->create()
+            );
+        $wialon_trips->shouldReceive('createNotification')
+            ->andReturn(
+                new Notification([
+                    'id' => random_int(1111,99999),
+                    'unique_id' => random_int(111111,999999)
+                ])
+            );
+
+
 
         $notifications_wialon_ids = $wialon_trips->createNotificationsForTrips();
         $this->assertIsArray($notifications_wialon_ids);
-        $this->assertIsObject(Notification::findByUniqueId($notifications_wialon_ids[0]));
     }
 
     public function test_validateWialonReferrals()
@@ -124,7 +163,7 @@ class WialonTripTest extends TestCase
         $this->trip = TripModelTest::prepareTripObject();
     }
 
-    public function test_getUnitIdOfTruck()
+    public function test_getUnitIdOfTruck(): void
     {
         $trip = TripModelTest::prepareTripObject();
 
@@ -188,9 +227,9 @@ class WialonTripTest extends TestCase
                     'response' => $this->faker->word,
                 ]));
         });
-        $wialon_trip->createNotificationsForTrips();
+        $notifications_ids_arr = $wialon_trip->createNotificationsForTrips();
 
-        $this->assertTrue(true);
+        $this->assertIsArray($notifications_ids_arr);
     }
 
     public function testFindOrCreateResource(): void

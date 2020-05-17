@@ -553,4 +553,20 @@ class Trip extends Model implements LoggerInterface
             $bag->add('truck', "Truck Tract with name $truck->name doesn't have a device");
         }
     }
+
+    /**
+     * @return array
+     */
+    public function createNotificationsForTrips(): array
+    {
+        return $this->wialon()->createNotificationsForTrips();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function validateReferrals(): void
+    {
+        $this->wialon()->validateReferrals();
+    }
 }
