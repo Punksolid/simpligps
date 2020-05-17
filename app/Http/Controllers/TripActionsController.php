@@ -43,9 +43,15 @@ class TripActionsController extends Controller
         return \response()->json(['data' => 'No data were validated']);
     }
 
+    /**
+     * Destroy automatic updated
+     * @param Trip $trip
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Punksolid\Wialon\WialonErrorException
+     */
     public function destroy(Trip $trip)
     {
-        if ($trip->wialon()->deleteNotifications()) {
+        if ($trip->deleteNotifications()) {
             return \response()->json([
                 'message' => 'Automatic Updates Deactivated.',
             ]);

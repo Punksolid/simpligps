@@ -569,4 +569,9 @@ class Trip extends Model implements LoggerInterface
     {
         $this->wialon()->validateReferrals();
     }
+
+    public function deleteNotifications()
+    {
+        return $this->wialon()->deleteNotifications();
+    }
 }
