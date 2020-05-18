@@ -48,13 +48,10 @@ class DevicesTest extends TestCase
      */
     public function test_registrar_un_nuevo_dispositivo()
     {
-        $this->markTestSkipped(
-            "No se puede probar con el token de wialon playground, habría que probar con un token de pruebas pero que sea real"
-        );
-        $device = $this->deviceForm();
+        $device_form = $this->deviceForm();
 
-        $call = $this->postJson("api/v1/devices", $device);
-        $call->assertJsonFragment($device);
+        $call = $this->postJson("api/v1/devices", $device_form);
+        $call->assertJsonFragment($device_form);
 
     }
 

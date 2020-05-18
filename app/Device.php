@@ -142,4 +142,16 @@ class Device extends Model implements LoggerInterface
 
         return $this->linked(true);
     }
+
+    public function createExternalDevice()
+    {
+        try {
+            $unit = Unit::make($this->name);
+            $this->update(['reference_data' => $unit]);
+        } catch (\Exception $exception) {
+            \Log::warning('Couldn\'t create a unit in wialon', [
+                'device' => $this->toArray(),
+            ]);
+        }
+    }
 }

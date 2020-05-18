@@ -71,7 +71,7 @@ class User extends Authenticatable
      *
      * @return Collection
      */
-    public function getColleagues(?Account $account = null, $me_too = true): Collection
+    public function getColleagues(?Account $account = null, $me_too = false): Collection
     {
         $user = $this;
         if (is_null($account)) {

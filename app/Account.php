@@ -43,7 +43,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
     public function hostnames(): HasMany
     {
         // TODO: Implement hostnames() method.
-        return null;
+
     }
 
     //region Relationships

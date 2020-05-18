@@ -35,6 +35,7 @@ Route::group(
         Route::get('me/notifications', 'MeController@getNotifications');
         Route::post('me/notifications/{id}/mark_as_read', 'MeController@markAsRead');
         Route::get('/me', 'MeController@meInfo');
+        Route::put('/me', 'MeController@updatePersonalInfo');
         Route::get('/download_layout','DownloadLayoutController');
 
 

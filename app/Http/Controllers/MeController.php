@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\InternalNotificationResource;
 use App\Http\Resources\UsersResource;
 use App\User;
 use http\Client\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class MeController.
@@ -134,5 +136,22 @@ class MeController extends Controller
         
 
         return AccountResource::make($account);
+    }
+
+    /**
+     * Update the info of the authenticated user
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePersonalInfo(UserRequest $request)
+    {
+        $user = Auth::user();
+        $user->update($request->all());
+        $user->save();
+
+        return UsersResource::make($user->fresh());
     }
 }

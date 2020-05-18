@@ -47,16 +47,10 @@ class DevicesController extends Controller implements Search
      */
     public function store(DeviceRequest $request)
     {
-        $device = Device::create($request->all());
-
-        try {
-            $unit = Unit::make($request->name);
-            $device->update(['reference_data' => $unit]);
-        } catch (\Exception $exception) {
-            \Log::warning('Couldnt create a unit in wialon', [
-                'device' => $device->toArray(),
-            ]);
-        }
+        /** @var Device $device */
+        $device = Device::make($request->all());
+        $device->createExternalDevice();
+        $device->save();
 
         return DeviceResource::make($device);
     }

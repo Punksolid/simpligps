@@ -76,7 +76,7 @@ class TripRequest extends FormRequest
                 'date',
                 'after:scheduled_load',
             ],
-            'scheduled_arrival' => 'required|date|after:scheduled_departure',
+            'scheduled_arrival' => 'required|date|after:scheduled_departure', // 2020-05-19T02:13:00.000Z
             'scheduled_unload' => 'required|date|after:scheduled_arrival',
             'trailers_ids' => [
                 'array',

@@ -13,9 +13,11 @@ class TripsImportsController extends Controller
 {
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'trips' => 'required|file'
-        ]);
+//        dd($request->file('trips'));
+//        $this->validate($request, [
+//            'trips' => 'required|file'
+//        ]);
+
 
         $file = $request->file('trips');
         

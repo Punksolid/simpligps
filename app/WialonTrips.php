@@ -26,7 +26,7 @@ class WialonTrips implements TripsServiceContract
     /**
      * @var Trip
      */
-    private $trip;
+    public $trip;
     /**
      * @var string
      */
@@ -81,7 +81,6 @@ class WialonTrips implements TripsServiceContract
     {
         $wialon_notifications = collect();
 
-        $this->resource = $this->findOrCreateResource();
         $checkpoints = $this->getCheckpoints();
         foreach ($checkpoints as $checkpoint) {
             $wialon_notifications = $wialon_notifications->merge($this->createNotificationsForEnterExitForPlace($checkpoint));
@@ -106,24 +105,24 @@ class WialonTrips implements TripsServiceContract
      * @return Resource
      * @throws TripException
      */
-    public function findOrCreateResource(string $name = null): Resource
+    public function findOrCreateResource(string $name = null)
     {
         $resource_name = $name ?: $this->getResourceName();
-//        try {
+        try {
             $resource = Resource::findByName($resource_name);
             if (!$resource) {
                 return Resource::make($resource_name);
             }
-//        } catch (Exception $exception) {
-//            throw new TripException('There was a problem with Wialon resources');
-//        }
+        } catch (Exception $exception) {
+            throw new TripException('There was a problem with Wialon resources');
+        }
 
         return $resource;
     }
 
     public function getResource()
     {
-        $this->resource = $this->findOrCreateResource();
+        return $this->resource ?: $this->findOrCreateResource();
     }
 
     /**
@@ -139,16 +138,20 @@ class WialonTrips implements TripsServiceContract
     /**
      * @throws \Punksolid\Wialon\WialonErrorException
      */
-    public function deleteNotifications()
+    public function deleteNotifications(): bool
     {
-        $name = $this->resource_name;
-        $resource = Resource::findByName($name);
-        if ($resource) {
-            $destroy = $resource->destroy();
-            info($destroy);
+        try {
+            $resource = $this->getResource();
+            if ($resource) {
+                $destroy = $resource->destroy();
+                info($destroy);
 
-            return $destroy;
+                return $destroy;
+            }
+        } catch (Exception $exception){
+            \Illuminate\Support\Facades\Log::warning('Couldnt delete notification', [$exception]);
         }
+        
 
         return false;
     }
@@ -197,7 +200,7 @@ class WialonTrips implements TripsServiceContract
         ]);
 
         return Notification::make(
-            $this->resource,
+            $this->getResource(),
             $wialon_units,
             $control_type,
             $name,
@@ -216,7 +219,7 @@ class WialonTrips implements TripsServiceContract
     {
         return new Notification\Action(
             'push_messages',
-            url(config('app.url')."api/v1/{$this->getTenantUuid()}/alert/trips/".$this->trip->id)
+            url(config('app.url')."api/v1/{$this->getTenantUuid()}/alert/trips/".$this->getTrip()->id)
         );
     }
     public function getTrip(): Trip

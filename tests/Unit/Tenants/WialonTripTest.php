@@ -41,11 +41,6 @@ class WialonTripTest extends TestCase
 
         $checkpoints = factory(Timeline::class, 2)->create();
 
-//        $wialon_trips = new WialonTrips(
-//            $checkpoints->first()->trip,
-//            factory(Device::class)->state('in_truck')->create(),
-//            $checkpoints
-//        );
         /** @var WialonTrips $wialon_trips */
         $wialon_trips = \Mockery::mock(WialonTrips::class, [
             $checkpoints->first()->trip,
@@ -87,21 +82,38 @@ class WialonTripTest extends TestCase
         $this->assertIsArray($notifications_wialon_ids);
     }
 
-    public function test_validateWialonReferrals()
-    {
-        $trip = $this->trip->fresh('places');
-        $wialon_trips = new WialonTrips($trip);
-        $this->assertNull($wialon_trips->validateReferrals());
-
-    }
-
     public function test_create_wialon_external_notifications(): void
     {
-        $wialon_trips = new WialonTrips($this->trip);
+//        $wialon_trips = new WialonTrips($this->trip);
+        $checkpoints = factory(Timeline::class, 2)->create();
+
+        /** @var WialonTrips $wialon_trips */
+        $wialon_trips = \Mockery::mock(WialonTrips::class, [
+            $checkpoints->first()->trip,
+            factory(Device::class)->state('in_truck')->create(),
+            $checkpoints
+        ])->makePartial();
+        $wialon_trips->shouldReceive('getDevice')
+            ->andReturn(
+                factory(Device::class)->create()
+            );
+        $wialon_trips->shouldReceive('findOrCreateResource')
+            ->andReturn(
+                new Resource([
+                    'nm' => random_int(11111, 99999)
+                ])
+            );
+        $wialon_trips->shouldReceive('createNotification')
+            ->andReturn(
+                new Notification([
+                    'id' => random_int(1111,99999),
+                    'unique_id' => random_int(111111,999999)
+                ])
+            );
+
         $notifications_wialon_ids = $wialon_trips->createNotificationsForTrips();
 
         $this->assertIsArray($notifications_wialon_ids);
-        $this->assertIsObject(Notification::findByUniqueId($notifications_wialon_ids[0]));
 
     }
 
@@ -133,12 +145,21 @@ class WialonTripTest extends TestCase
     public function test_trip_deactivateNotifications_should_delete_wialon_notifications()
     {
 
-        $wialon_trips_handler = new WialonTrips($this->trip, factory(Device::class)->state('in_truck')->create());
+        /** @var WialonTrips $wialon_trips */
+        $wialon_trips = \Mockery::mock(WialonTrips::class, [
+            factory(Trip::class)->create(),
+            factory(Device::class)->state('in_truck')->create(),
+            factory(Timeline::class, 2)->create()
+        ])->makePartial();
 
-        $notifications_wialon_ids = $wialon_trips_handler->createNotificationsForTrips();
+        $wialon_trips->shouldReceive('findOrCreateResource')
+            ->andReturn(
+                $this->mock(Resource::class, function($resource_mock){
+                    $resource_mock->shouldReceive('destroy')->andReturn(true);
+                })
+            );
 
-        $this->assertTrue($wialon_trips_handler->deleteNotifications());
-        $this->assertNull(Notification::findByUniqueId($notifications_wialon_ids[0]));
+        $this->assertTrue($wialon_trips->deleteNotifications());
     }
 
     public function test_trip_deactivateNotifications_assert_false_when_doesnt_have_notifications_outside_the_system()
@@ -227,6 +248,14 @@ class WialonTripTest extends TestCase
                     'response' => $this->faker->word,
                 ]));
         });
+        $wialon_trip->shouldReceive('createNotification')
+            ->andReturn(
+                new Notification([
+                    'id' => random_int(1111,99999),
+                    'unique_id' => random_int(111111,999999)
+                ])
+            );
+
         $notifications_ids_arr = $wialon_trip->createNotificationsForTrips();
 
         $this->assertIsArray($notifications_ids_arr);
