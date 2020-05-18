@@ -27,6 +27,7 @@ before_script:
 
   # Generate an application key. Re-cache.
   - php artisan key:generate
+  - php artisan clear:cache
   - php artisan config:cache
 
   # Run database migrations.
@@ -51,6 +52,7 @@ test:
   script:
     # run tests
     - echo "Running PHPUnit Tests"
+    - php artisan passport:install
     - php artisan key:generate
     - php vendor/bin/phpunit --colors --testdox
 
@@ -60,19 +62,6 @@ test:
       # - ./tests/Browser/screenshots
       # - ./tests/Browser/console
     expire_in: 3 days
-    when: always
-
-
-test_mysql8:
-  stage: test
-  script:
-    - echo "Running PHPUnit with mysql8"
-#    - php vendor/bin/phpunit --coverage-text --colors
-
-  artifacts:
-    paths:
-      - ./storage/logs # for debugging
-    expire_in: 1 days
     when: always
 
 deploy_to_development:
