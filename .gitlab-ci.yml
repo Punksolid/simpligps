@@ -55,6 +55,7 @@ test:
     - echo "Running PHPUnit Tests"
     - php artisan passport:install
     - php artisan key:generate
+    - php artisan config:cache
     - php vendor/bin/phpunit --colors --testdox
 
   artifacts:
