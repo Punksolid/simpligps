@@ -29,11 +29,11 @@ class TripsImportsTest extends TestCase
             "scheduled_unload" => "2019-12-11 11:11:00",
         ];
 
-        // storage/framework/testing/TripsListTest.xlsx
+        // storage/testing/TripsListTest.xlsx
 
         $form = [
           'trips' => new UploadedFile(
-              storage_path().'/framework/testing/TripsListTest.xlsx',
+              storage_path().'/testing/TripsListTest.xlsx',
               'TripsListTest.xlsx',
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
           )
@@ -65,7 +65,7 @@ class TripsImportsTest extends TestCase
     {
         $form = [
             'trips' => new UploadedFile(
-                storage_path().'/framework/testing/TripsListTestErrorLine3.xlsx',
+                storage_path().'/testing/TripsListTestErrorLine3.xlsx',
                 'TripsListTestErrorLine3.xlsx',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )
