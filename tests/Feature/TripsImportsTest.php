@@ -38,8 +38,7 @@ class TripsImportsTest extends TestCase
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
           )
         ];
-        $call = $this->postJson('api/v1/imports', $form)->dump()
-        ;
+        $call = $this->postJson('api/v1/imports', $form);
         $call->assertSuccessful();
         $this->assertDatabaseHas('trips',[
             "client_id" => 1,

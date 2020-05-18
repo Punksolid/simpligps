@@ -151,7 +151,7 @@ class WialonTrips implements TripsServiceContract
         } catch (Exception $exception){
             \Illuminate\Support\Facades\Log::warning('Couldnt delete notification', [$exception]);
         }
-        
+
 
         return false;
     }

@@ -153,7 +153,7 @@ class TripsTest extends TestCase
             'scheduled_unload' => Carbon::now()->addDays(8)->toDateTimeString(),
         ];
 
-        $call = $this->postJson('/api/v1/trips', $trip)->dump();
+        $call = $this->postJson('/api/v1/trips', $trip);
         $call->assertSuccessful();
 
         $call->assertJsonFragment([
