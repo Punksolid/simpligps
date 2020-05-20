@@ -48,14 +48,14 @@ code quality:
     expire_in: 1 days
     when: always
 
-test:
+testing PHPUnit:
   stage: test
   script:
     # run tests
     - echo "Running PHPUnit Tests"
     - php artisan passport:install
     - php artisan key:generate
-    - php artisan config:cache
+    - php artisan config:clear
     - php vendor/bin/phpunit --colors --testdox
 
   artifacts:
