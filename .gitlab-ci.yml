@@ -33,6 +33,7 @@ before_script:
 
   # Run database migrations.
   - php artisan migrate
+  - php artisan deploy:log:environment
 
 code quality:
   stage: .pre
