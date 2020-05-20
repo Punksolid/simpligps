@@ -1,5 +1,5 @@
 <?php
-namespace App\Migrations\Tenant;
+
  /** @noinspection PhpUndefinedClassInspection */
 
 use Illuminate\Database\Migrations\Migration;
