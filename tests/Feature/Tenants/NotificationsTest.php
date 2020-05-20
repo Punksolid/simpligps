@@ -150,32 +150,6 @@ class NotificationsTest extends TestCase
         $call->assertSuccessful();
     }
 
-    public function test_crear_notificacion_wialon()
-    {
-        $this->markTestIncomplete('DEPRECADO, no se usa mas acceso directo a wialon, Librería Wialon Fallando Refactorizar');
-        $units_id = [
-            '17471332',
-        ];
-        $resource = Resource::all()->first();
-        $call = $this->postJson(
-            'api/v1/wialon/notifications',
-            [
-            'resource_id' => $resource->id,
-            'name' => $this->faker->name,
-            'control_type' => 'panic_button',
-            'units' => $units_id,
-            'params' => [],
-            ]
-        );
-
-        $call->assertSuccessful();
-        $call->assertJsonFragment(
-            [
-            'data',
-            ]
-        );
-    }
-
     public function test_activate_maximum_alert_notification()
     {
         $this->withoutExceptionHandling();
