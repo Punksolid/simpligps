@@ -3,7 +3,7 @@ image: laradock/workspace:2.6.1-7.3
 
 # Pick zero or more services to be used on all builds.
 services:
-  - mariadb:latest
+  - mariadb:10.4
 
 variables:
   MYSQL_ROOT_PASSWORD: root
