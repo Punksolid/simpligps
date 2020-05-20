@@ -8,8 +8,8 @@ services:
 variables:
   MYSQL_ROOT_PASSWORD: root
   MYSQL_DATABASE: default
-  MYSQL_USER: punksolid
-  MYSQL_PASSWORD: 123qwe123
+  MYSQL_USER: root
+  MYSQL_PASSWORD: root
 
 before_script:
   # Update Composer
