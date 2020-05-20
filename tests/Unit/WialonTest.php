@@ -50,15 +50,16 @@ class WialonTest extends TestCase
         $this->assertFalse($device->linked());
     }
 
-    public function test_device_linked_to_an_existing_wialon_unit()
+    public function test_device_linked_to_an_existing_wialon_unit(): void
     {
-        $this->markAsRisky("Solo funciona con tokens originales, no de playground");
-        $this->markTestSkipped("saltar");
         $this->setWebsiteEnvironment();
         $device = factory(Device::class)->create();
 
-        $unit = Unit::make($this->faker->name.Str::random(6));
-        
+        $unit = new Unit([
+            'id' => 11111,
+            'reference_data' => 11111
+        ]);
+
         $device->linkUnit($unit);
 
         $this->assertTrue($device->linked());
