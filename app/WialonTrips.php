@@ -76,6 +76,9 @@ class WialonTrips implements TripsServiceContract
      * con nombre entering.tripID y leaving.tripID
      * Devuelve array con los ids de las notificaciones wialon creadas.
      * Punto de entrada.
+     * @return array
+     *
+     * @throws Exception
      */
     public function createNotificationsForTrips(): array
     {
