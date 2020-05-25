@@ -162,7 +162,13 @@ return [
                 ],
             ],
         ],
-        */
+        'tenant' => [
+            'type' => 'apiKey',
+            'name' => 'X-Tenant-Id',
+            'description' => 'Each account is a tenant and has an UUID that needs to be attached in each request',
+            'in' => 'header'
+        ]
+
     ],
 
     /*

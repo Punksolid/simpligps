@@ -26,7 +26,7 @@ class IdentifyTenantConnection
         $uuid = $request->header('X-Tenant-id');
 
         // $request->tenant_account = $user->accounts()->whereUuid($uuid)->first();
-        $request->tenant_account = Account::whereUuid($uuid)->first();
+        $request->tenant_account = Account::whereUuid($uuid)->firstOrFail();
 
         // if ($request->tenant_account) {
         $environment = app(\Hyn\Tenancy\Environment::class);

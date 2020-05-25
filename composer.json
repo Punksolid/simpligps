@@ -11,15 +11,15 @@
   "require": {
     "php": "^7.2.5",
     "bugsnag/bugsnag-laravel": "^2.0",
+    "darkaonline/l5-swagger": "^7.0",
     "fideloper/proxy": "^4.0",
     "fruitcake/laravel-cors": "2.0.0-beta3",
     "hyn/multi-tenant": "^5.6",
     "laravel/framework": "^7.0",
-    "laravel/passport": "^7.0",
+    "laravel/passport": "^9.2",
     "laravel/telescope": "^3.0",
     "laravel/ui": "^2.0",
     "maatwebsite/excel": "^3.1",
-    "mpociot/laravel-apidoc-generator": "^4.8",
     "predis/predis": "^1.1",
     "punksolid/laravel-wialon": "^7.0",
     "pusher/pusher-php-server": "~3.0",
@@ -32,7 +32,6 @@
   "require-dev": {
     "barryvdh/laravel-ide-helper": "^2.4",
     "beyondcode/laravel-er-diagram-generator": "^1.1",
-    "codedungeon/phpunit-result-printer": "^0.9",
     "facade/ignition": "^2.0",
     "filp/whoops": "^2.0",
     "fzaninotto/faker": "^1.9.1",
@@ -42,8 +41,7 @@
     "nunomaduro/collision": "^4.1",
     "nunomaduro/larastan": "^0.5.8",
     "phpunit/phpunit": "^8.5",
-    "squizlabs/php_codesniffer": "^3.4",
-    "zircote/swagger-php": "3.*"
+    "squizlabs/php_codesniffer": "^3.4"
   },
   "autoload": {
     "classmap": [

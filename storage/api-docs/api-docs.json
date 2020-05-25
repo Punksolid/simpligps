@@ -1,14 +1,78 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My First API",
-        "version": "0.1"
+        "title": "SimpliGPS API",
+        "version": "1.0"
     },
     "paths": {
-        "/api/sysadminv1/dashboard/accounts": {
+        "/api/v1/devices": {
             "get": {
-                "summary": "Store a newly created resource in storage.",
-                "operationId": "App\\Http\\Controllers\\Admin\\DashboardController::accounts",
+                "summary": "Display a listing of the Devices.",
+                "operationId": "App\\Http\\Controllers\\DevicesController::index",
+                "requestBody": {
+                    "content": {
+                        "application/json": {}
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Display a paginated response of devices",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/device"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    },
+                    {
+                        "tenant": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/me/accounts": {
+            "get": {
+                "summary": "Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant.",
+                "operationId": "App\\Http\\Controllers\\MeController::accounts",
+                "responses": {
+                    "200": {
+                        "description": "Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant.",
+                        "content": {
+                            "application/json": {}
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "passport": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/login": {
+            "post": {
+                "summary": "Gives access by retrieving the Bearer Token aka Login.",
+                "operationId": "login",
+                "parameters": [
+                    {
+                        "name": "email",
+                        "in": "query"
+                    },
+                    {
+                        "name": "password",
+                        "in": "query"
+                    },
+                    {
+                        "name": "remember_me",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Numero de cuentas instaladas",
@@ -17,6 +81,67 @@
                         }
                     }
                 }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "device": {
+                "properties": {
+                    "id": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "name": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "gps": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "brand": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "model": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "internal_number": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "truck": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "position": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "reference_data": {
+                        "description": "Transform the resource into an array."
+                    },
+                    "is_connected": {
+                        "description": "Transform the resource into an array."
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "passport": {
+                "type": "oauth2",
+                "description": "Laravexl passport oauth2 security.",
+                "in": "header",
+                "scheme": "https",
+                "flows": {
+                    "password": {
+                        "authorizationUrl": "http://api.simpligps.test/oauth/authorize",
+                        "tokenUrl": "http://api.simpligps.test/oauth/token",
+                        "refreshUrl": "http://api.simpligps.test/token/refresh",
+                        "scopes": []
+                    }
+                }
+            },
+            "tenant": {
+                "type": "apiKey",
+                "name": "X-Tenant-Id",
+                "description": "Each account is a tenant and has an UUID that needs to be attached in each request",
+                "in": "header"
             }
         }
     }

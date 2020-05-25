@@ -6,6 +6,12 @@ use App\Device;
 use App\Http\Requests\DeviceRequest;
 use App\Http\Resources\DeviceResource;
 use Illuminate\Http\Request;
+use OpenApi\Annotations\Get;
+use OpenApi\Annotations\MediaType;
+use OpenApi\Annotations\OpenApi;
+use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Punksolid\Wialon\Unit;
 use App\Interfaces\Search;
 
@@ -20,6 +26,26 @@ class DevicesController extends Controller implements Search
      * Display a listing of the Devices.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
+     *
+     * @Get(
+     *     path="/api/v1/devices",
+     *     security={{
+     *     "passport":{}
+     *     },{
+     *     "tenant":{}
+     *     }},
+     *     @RequestBody(
+     *          @MediaType(mediaType="application/json")
+     *     ),
+     *     @Response(
+     *      response="200",
+     *      description="Display a paginated response of devices",
+     *      @MediaType(
+     *          mediaType="application/json",
+     *          @Schema(ref="#/components/schemas/device"),
+     *      )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
