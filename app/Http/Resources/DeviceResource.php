@@ -3,6 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Schema;
 
 class DeviceResource extends JsonResource
 {
@@ -12,6 +14,20 @@ class DeviceResource extends JsonResource
      * @param \Illuminate\Http\Request $request
      *
      * @return array
+     *
+     * @Schema(
+     *     schema="device",
+     *     @Property(property="id"),
+     *     @Property(property="name"),
+     *     @Property(property="gps"),
+     *     @Property(property="brand"),
+     *     @Property(property="model"),
+     *     @Property(property="internal_number"),
+     *     @Property(property="truck"),
+     *     @Property(property="position"),
+     *     @Property(property="reference_data"),
+     *     @Property(property="is_connected")
+     * )
      */
     public function toArray($request)
     {

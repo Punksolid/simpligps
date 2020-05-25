@@ -94,6 +94,25 @@ class MeController extends Controller
      * Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @OA\Get(
+     *     path="/api/v1/me/accounts",
+     *     security={
+     *      {
+     *       "passport": {}
+     *      }
+     *     },
+     *       @OA\Response(
+     *         response=200,
+     *         description="Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant.",
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *         ),
+     *         @OA\Schema(
+     *             type="json",
+     *             @OA\Items(type="string"),
+     *         )
+     *     )
+     * )
      */
     public function accounts()
     {

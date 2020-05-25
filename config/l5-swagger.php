@@ -147,7 +147,7 @@ return [
         ],
         */
 
-        /* Open API 3.0 support
+        /* Open API 3.0 support */
         'passport' => [ // Unique name of security
             'type' => 'oauth2', // The type of the security scheme. Valid values are "basic", "apiKey" or "oauth2".
             'description' => 'Laravel passport oauth2 security.',
@@ -162,7 +162,13 @@ return [
                 ],
             ],
         ],
-        */
+        'tenant' => [
+            'type' => 'apiKey',
+            'name' => 'X-Tenant-Id',
+            'description' => 'Each account is a tenant and has an UUID that needs to be attached in each request',
+            'in' => 'header'
+        ]
+
     ],
 
     /*
