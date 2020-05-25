@@ -7,6 +7,7 @@ use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
 use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Support\Facades\Route;
 
+
 //ecommerce
 Route::any('ecommerce/1234567890', 'PurchaseController@storeFromEcommerce');
 

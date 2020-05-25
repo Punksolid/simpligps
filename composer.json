@@ -15,6 +15,7 @@
     "fideloper/proxy": "^4.0",
     "fruitcake/laravel-cors": "2.0.0-beta3",
     "hyn/multi-tenant": "^5.6",
+    "javleds/traccar-api": "dev-master",
     "laravel/framework": "^7.0",
     "laravel/passport": "^9.2",
     "laravel/telescope": "^3.0",
