@@ -54,34 +54,6 @@
                     }
                 ]
             }
-        },
-        "/api/v1/login": {
-            "post": {
-                "summary": "Gives access by retrieving the Bearer Token aka Login.",
-                "operationId": "login",
-                "parameters": [
-                    {
-                        "name": "email",
-                        "in": "query"
-                    },
-                    {
-                        "name": "password",
-                        "in": "query"
-                    },
-                    {
-                        "name": "remember_me",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Numero de cuentas instaladas",
-                        "content": {
-                            "application/json": {}
-                        }
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -125,7 +97,7 @@
         "securitySchemes": {
             "passport": {
                 "type": "oauth2",
-                "description": "Laravexl passport oauth2 security.",
+                "description": "Laravel passport oauth2 security.",
                 "in": "header",
                 "scheme": "https",
                 "flows": {
