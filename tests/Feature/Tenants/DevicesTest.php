@@ -46,7 +46,7 @@ class DevicesTest extends TestCase
      *
      * @return void
      */
-    public function test_registrar_un_nuevo_dispositivo()
+    public function test_registrar_un_nuevo_dispositivo(): void
     {
         $device_form = $this->deviceForm();
 
@@ -54,6 +54,7 @@ class DevicesTest extends TestCase
         $call->assertJsonFragment($device_form);
 
     }
+
 
     public function test_usuario_puede_ver_detalles_de_un_solo_dispositivo()
     {

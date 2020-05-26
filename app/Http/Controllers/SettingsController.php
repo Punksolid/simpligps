@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SettingResource;
+use App\Http\Resources\SettingsResourceCollection;
 use App\Setting;
 use App\Wialon;
 use Illuminate\Http\Request;
@@ -57,5 +59,22 @@ class SettingsController extends Controller
                 'wialon_key' => $settings->where('key', 'wialon_key')->first()->value,
             ],
         ]);
+    }
+
+    public function putUpdate(Request $request)
+    {
+        foreach ($request->all() as $key => $value){
+            Setting::where('key', $key)->updateOrCreate([
+                'key' => $key
+            ], [
+                'value' => $value,
+                'description' => "$key:$value"
+            ]);
+        }
+        $settings = Setting::all();
+        return SettingResource::collection($settings);
+//        return response()->json([
+//            'data' => Setting::all()
+//        ]);
     }
 }

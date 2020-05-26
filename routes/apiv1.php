@@ -186,6 +186,7 @@ Route::group(
                 // Settings
                 Route::post('settings', 'SettingsController@general');
                 Route::get('settings', 'SettingsController@getSettings');
+                Route::put('settings', 'SettingsController@putUpdate');
 
                 Route::group(
                     [
