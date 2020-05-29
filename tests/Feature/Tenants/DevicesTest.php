@@ -6,6 +6,7 @@ use App\Carrier;
 use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
+use App\Services\RegisterDevice;
 use App\User;
 use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
@@ -48,6 +49,11 @@ class DevicesTest extends TestCase
      */
     public function test_registrar_un_nuevo_dispositivo(): void
     {
+        $this->withoutExceptionHandling();
+        $register_device = \Mockery::mock(RegisterDevice::class)->makePartial();
+        $register_device->shouldReceive('__invoke')->andReturn([]);
+        $this->app->instance(RegisterDevice::class,$register_device);
+
         $device_form = $this->deviceForm();
 
         $call = $this->postJson("api/v1/devices", $device_form);
@@ -56,10 +62,11 @@ class DevicesTest extends TestCase
     }
 
 
-    public function test_usuario_puede_ver_detalles_de_un_solo_dispositivo()
+    public function test_usuario_puede_ver_detalles_de_un_solo_dispositivo(): void
     {
         $this->withoutExceptionHandling();
         $device = factory(Device::class)->create();
+
         $call = $this->getJson("api/v1/devices/$device->id");
 
         $call->assertJson([

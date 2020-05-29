@@ -5,9 +5,11 @@ namespace App\Services;
 
 
 use App\Device;
+use Faker\Generator;
 use GuzzleHttp\Client as GuzzleClient;
 use Illuminate\Support\Str;
 use Javleds\Traccar\Facades\Client;
+use Javleds\Traccar\Models\Device as TraccarDevice;
 use Punksolid\Wialon\WialonErrorException;
 
 class RegisterDevice
@@ -20,12 +22,9 @@ class RegisterDevice
 
     /**
      * RegisterDevice constructor.
-     * @param array $all
-     * @param GuzzleClient $client
      */
-    public function __construct(array $all )
+    public function __construct()
     {
-        $this->attributes = $all;
 
     }
 
@@ -33,59 +32,33 @@ class RegisterDevice
      * @return Device
      * @throws \Exception
      */
-    public function __invoke()
+    public function __invoke(array $all)
     {
+        if (config('traccar.base_url')) {
 
-        $device = new Device($this->attributes);
-        $this->createExternalDevice($device);
-        $device->save();
-
-        return $device;
-    }
-
-    private function createExternalDevice($device)
-    {
-        if (env('TRACCAR_BASE_URL')) {
-            $body = [
-                'id' => -1,
-                'name' => $this->attributes['name'],
-                'uniqueId' => Str::uuid(),
-                "phone" => '',
-                "model" => '',
-                "contact" => '',
-                "category" => null,
-                "status" => null,
-                "lastUpdate" => null,
-                "groupId" => 0,
-                "disabled" => false,
-            ];
-
-            $result = $this->getClient()->post('/api/devices',[
-                'body' => json_encode($body),
-                'headers' => [
-                    'Content-Type' => 'application/json'
-                ]
-            ]);
-
-            return json_decode($result->getBody()->getContents());
+            return TraccarDevice::store($all['name'], $all['uniqueId'] ?? null);
 
         }
         if (config('services.wialon.token') !== null) {
+            /** @var Device $device */
+            $device = new Device($all);
+
             return $device->createExternalDevice();
         }
 
         throw new \Exception('No service is configured');
+
     }
 
     private function getClient()
     {
-        if ($this->client !== null){
+        if ($this->client !== null) {
             return $this->client;
         }
 
         return $this->client = new GuzzleClient([
             'base_uri' => config('traccar.base_url'),
-            'auth'     => [config('traccar.auth.username'), config('traccar.auth.password')],
+            'auth' => [config('traccar.auth.username'), config('traccar.auth.password')],
         ]);
     }
 

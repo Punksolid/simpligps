@@ -4,6 +4,7 @@ use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 use App\Http\Middleware\ProfilingTestMiddleware;
 use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
+use App\Http\Middleware\SetTraccarConfigurations;
 use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -53,6 +54,7 @@ Route::group(
                     'limit_expired_license_access',
                     IsUserPermittedInAccountMiddleware::class,
                     SetWialonTokenMiddleware::class,
+                    SetTraccarConfigurations::class,
                     'limit_simoultaneous_access',
                 ],
             ],

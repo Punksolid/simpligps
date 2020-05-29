@@ -3,10 +3,10 @@
 namespace Tests\Unit\Tenants;
 
 
-use App\Device;
 use App\Services\RegisterDevice;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
+use Javleds\Traccar\Models\Device;
 use Mockery;
 use Tests\Tenants\TestCase;
 
@@ -25,9 +25,7 @@ class RegisterDeviceTest extends TestCase
     public function test_can_register_device_on_traccar(): void
     {
 
-        $handler = new RegisterDevice([
-            'name' => $this->faker->company
-        ]);
+        $handler = new RegisterDevice();
         /**
          * Mocking so do not do a real call
          */
@@ -36,7 +34,9 @@ class RegisterDeviceTest extends TestCase
         $guzzleClient->shouldReceive('post')->andReturn(new Response(200,[]));
         $handler->setClient($guzzleClient);
 
-        $device = $handler->__invoke();
+        $device = $handler->__invoke([
+            'name' => $this->faker->company
+        ]);
 
         $this->assertInstanceOf(Device::class, $device);
     }

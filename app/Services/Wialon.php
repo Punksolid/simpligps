@@ -31,7 +31,7 @@ class Wialon
             if ($this->deviceExists($wialon_unit)) {
                 continue;
             } // pasa a siguiente ciclo
-
+            /** @var Device $device */
             $device = Device::create([
                 'name' => $wialon_unit->nm,
             ]);

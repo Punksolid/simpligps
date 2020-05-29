@@ -58,12 +58,13 @@ class SettingsTest extends TestCase
     public function test_save_traccar_settings()
     {
         $call = $this->putJson('api/v1/settings', [
-            'traccar_base_url'=> "http://localhost:8082/",
+            'traccar_base_url'=> "http://localhost:8082/api/",
             'traccar_username'=> "admin",
-            'traccar_password'=> "admin"
+            'traccar_password'=> "admin",
+            'traccar_import' => false
         ]);
 
-        $call->assertJsonFragment(['traccar_base_url' => "http://localhost:8082/"]);
+        $call->assertJsonFragment(['traccar_base_url' => "http://localhost:8082/api/"]);
         $call->assertJsonFragment(['traccar_username' => "admin"]);
         $call->assertJsonFragment(['traccar_password' => "admin"]);
     }

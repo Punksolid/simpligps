@@ -28,7 +28,7 @@ class Device extends Model implements LoggerInterface
         'brand',
         'model',
         'gps',
-        'wialon_id',
+        'wialon_id', // @todo Refactor, should be external_id and another field for the driver used
         'group_id',
         'reference_data',
         'bulk',
