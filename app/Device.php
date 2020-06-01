@@ -121,8 +121,7 @@ class Device extends Model implements LoggerInterface
         if ($this->wialon_id !== null && $traccar_handler->isConfigured()){
             try {
 
-                $unique_id = $this->wialon_id;
-                $traccar = TraccarDevice::find($unique_id);
+                $traccar = TraccarDevice::find($this->internal_number);
                 $position = $traccar_handler->getPosition($traccar->positionId);
                 $positionObj = $position[0];
 
@@ -133,7 +132,7 @@ class Device extends Model implements LoggerInterface
             } catch (\Exception $exception) {
                 logger()->warning('Couldn figure traccar position', [
                     $exception->getMessage(),
-                    '$unique_id' => $unique_id
+                    '$unique_id' => $this->internal_number
                 ]);
             }
 
