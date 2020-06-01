@@ -1,36 +1,42 @@
 <?php
 
+namespace App\Services;
 
-namespace App;
 
-
-use App\Device;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Config;
+use Javleds\Traccar\Exceptions\TraccarApiCallException;
 use Javleds\Traccar\Facades\Client;
 
 class Traccar
 {
-    public function import(): Collection
+
+    public function isConfigured(): bool
     {
-        $wialon_units = Unit::all();
-        $devices = collect();
-        foreach ($wialon_units as $wialon_unit) {
-            if ($this->deviceExists($wialon_unit)) {
-                continue;
-            } // pasa a siguiente ciclo
-
-            $device = Device::create([
-                'name' => $wialon_unit->nm,
-            ]);
-            $device->linkUnit($wialon_unit);
-            $this->createTruckAndAttachDevice($device);
-
-            $devices->push($device);
+        if (!\config('traccar.base_url')){
+            return false;
+        }
+        if (!\config('traccar.auth.username')){
+            return false;
+        }
+        if (!\config('traccar.auth.password')){
+            return false;
         }
 
-        return $devices;
+        return true;
     }
 
+    public function getPosition($position_id)
+    {
+        $position = Client::get('positions', [
+            'id' => $position_id
+        ]);
 
+        return $position;
+    }
+
+    public function getConfigurations()
+    {
+        return \config('traccar');
+    }
 }

@@ -2,10 +2,13 @@
 
 namespace App;
 
+use App\Services\Traccar;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Javleds\Traccar\Exceptions\TraccarApiCallException;
+use Javleds\Traccar\Models\Device as TraccarDevice;
 use Punksolid\Wialon\Unit;
 use Psr\Log\LoggerTrait;
 use Psr\Log\LoggerInterface;
@@ -112,6 +115,26 @@ class Device extends Model implements LoggerInterface
 
     public function getLocation(): array
     {
+        $traccar_handler = resolve(Traccar::class);
+
+        if ($this->wialon_id !== null && $traccar_handler->isConfigured()){
+            try {
+
+                $unique_id = $this->wialon_id;
+                $traccar = TraccarDevice::find($unique_id);
+                $position = $traccar_handler->getPosition($traccar->positionId);
+                $positionObj = $position[0];
+
+                return [
+                    'lat' => $positionObj->latitude,
+                    'lon' => $positionObj->longitude,
+                ];
+            } catch (\Exception $exception) {
+                logger()->warning('Couldn figure traccar position', [$exception->getMessage()]);
+            }
+
+        }
+
         if ($this->linked()) {
             // TODO REFACTOR Unit Find para que use las flags con los detalles, this is a performance issue
             $unit = Unit::all()->where('id', $this->wialon_id)->first();

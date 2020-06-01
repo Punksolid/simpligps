@@ -6,8 +6,9 @@
  * Time: 11:11 PM.
  */
 
-namespace App;
+namespace App\Services;
 
+use App\Device;
 use Illuminate\Support\Collection;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Unit;

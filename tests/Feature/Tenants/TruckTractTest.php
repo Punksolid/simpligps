@@ -5,8 +5,10 @@ namespace Tests\Feature;
 use App\Carrier;
 use App\Device;
 use App\Operator;
+use App\Services\Traccar;
 use App\Trip;
 use App\TruckTract;
+use Composer\Config;
 use Mockery;
 use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
@@ -95,12 +97,16 @@ class TruckTractTest extends TestCase
 
     public function test_al_ver_detalles_del_tracto_puede_ver_dispositivo_asociado(): void
     {
+        $this->withoutExceptionHandling();
         /** @var Unit $unit */
         $unit = $this->partialMock(Unit::class, function ($mock){
             $mock->id = 536;
             $mock->lat = 52.31839;
             $mock->lon = 9.81065;
         });
+        $traccar_handler = $this->mock(Traccar::class)->makePartial();
+        $traccar_handler->shouldReceive('isConfigured')->andReturnFalse();
+        $this->app->instance(Traccar::class,$traccar_handler);
 
         $device = factory(Device::class)->create();
         $device->linkUnit($unit);

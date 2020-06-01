@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Services\Traccar;
 use App\Validators\AccountValidator;
 use Hyn\Tenancy\Validators\WebsiteValidator;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -33,6 +34,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }
 
-        app()->singleton(WebsiteValidator::class, AccountValidator::class);
+        $this->app->singleton(Traccar::class, function ($app) {
+            return new Traccar();
+        });
+
     }
 }
