@@ -7,6 +7,7 @@ use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
 use App\Services\RegisterDevice;
+use App\Services\Traccar;
 use App\User;
 use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
@@ -214,8 +215,15 @@ class DevicesTest extends TestCase
         ]);
     }
 
-    public function test_ver_posicion_de_device_ligado()
+    public function test_ver_posicion_de_device_ligado(): void
     {
+        $this->withoutExceptionHandling();
+        $traccar = $this->mock(Traccar::class)
+            ->makePartial();
+        $traccar->shouldReceive('isConfigured')->andReturnFalse();
+
+        $this->app->instance(Traccar::class, $traccar);
+
 //        $unit = Unit::all()->first();
         /** @var Unit $unit */
         $unit = $this->partialMock(Unit::class, function ($mock){
@@ -223,6 +231,7 @@ class DevicesTest extends TestCase
             $mock->lat = 52.31839;
             $mock->lon = 9.81065;
         });
+
         $device = factory(Device::class)->create();
         $device->linkUnit($unit);
 

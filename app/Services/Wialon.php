@@ -9,6 +9,7 @@
 namespace App\Services;
 
 use App\Device;
+use App\NotificationTrigger;
 use Illuminate\Support\Collection;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Unit;
