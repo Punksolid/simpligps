@@ -118,12 +118,10 @@ class Device extends Model implements LoggerInterface
     {
         /** @var Traccar $traccar_handler */
         $traccar_handler = resolve(Traccar::class);
-
         if ($this->wialon_id !== null && $traccar_handler->isConfigured()){
             try {
-
                 $traccar = TraccarDevice::find($this->internal_number);
-                $position = $traccar_handler->getPosition($traccar->positionId);
+                $position = $traccar_handler->getPosition(optional($traccar)->positionId);
                 $positionObj = $position[0];
 
                 return [

@@ -1,12 +1,18 @@
 <?php
 
+use App\Account;
 use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 use App\Http\Middleware\ProfilingTestMiddleware;
 use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
 use App\Http\Middleware\SetTraccarConfigurations;
 use App\Http\Middleware\SetWialonTokenMiddleware;
+use Hyn\Tenancy\Environment;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+//use Geocoder\Query\GeocodeQuery;
+//use Geocoder\Query\ReverseQuery;
 
 
 //ecommerce
@@ -23,6 +29,7 @@ Route::post('webhook/alert', 'WebhookNotificationController@simpleAlert');
 // api/v1/$tenant_uuid/alert/trips/".$this->id
 Route::post('{tennant_id}/alert/trips/{trip}', 'TripActionsController@exceptionUpdate');
 
+Route::any('alexa/{tenant_id?}', AlexaController::class);
 Route::group(
     [
         'middleware' => [
