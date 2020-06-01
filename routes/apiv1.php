@@ -53,7 +53,7 @@ Route::group(
                     IdentifyTenantConnection::class,
                     'limit_expired_license_access',
                     IsUserPermittedInAccountMiddleware::class,
-//                    SetWialonTokenMiddleware::class,
+                    SetWialonTokenMiddleware::class,
                     SetTraccarConfigurations::class,
                     'limit_simoultaneous_access',
                 ],
