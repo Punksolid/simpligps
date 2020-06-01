@@ -3,10 +3,10 @@
 namespace Tests\Unit\Tenants;
 
 
+use App\Device;
 use App\Services\RegisterDevice;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Response;
-use Javleds\Traccar\Models\Device;
 use Mockery;
 use Tests\Tenants\TestCase;
 
@@ -33,10 +33,8 @@ class RegisterDeviceTest extends TestCase
         $guzzleClient = $this->mock(Client::class)->makePartial();
         $guzzleClient->shouldReceive('post')->andReturn(new Response(200,[]));
         $handler->setClient($guzzleClient);
-
-        $device = $handler->__invoke([
-            'name' => $this->faker->company
-        ]);
+        $device = factory(Device::class)->make();
+        $device = $handler->__invoke($device);
 
         $this->assertInstanceOf(Device::class, $device);
     }

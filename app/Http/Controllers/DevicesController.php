@@ -77,10 +77,7 @@ class DevicesController extends Controller implements Search
 
         /** @var Device $device */
         $device = Device::make($request->all());
-        $traccar_device = $registerDevice->__invoke($request->all());
-        $device->update([
-            'wialon_id' => $traccar_device->getId()
-        ]);
+        $device = $registerDevice->__invoke($device);
         $device->save();
 
         return DeviceResource::make($device);

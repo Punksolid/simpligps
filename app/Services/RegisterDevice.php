@@ -32,18 +32,20 @@ class RegisterDevice
      * @return Device
      * @throws \Exception
      */
-    public function __invoke(array $all)
+    public function __invoke(Device $device)
     {
         if (config('traccar.base_url')) {
 
-            return TraccarDevice::store($all['name'], $all['internal_number'] ?? null);
-
+            $traccar_device = TraccarDevice::store($device->name, $device->internal_number ?? null);
+            $device->wialon_id = $traccar_device->getId();
+            $device->reference_data = $traccar_device;
+            return $device;
         }
         if (config('services.wialon.token') !== null) {
-            /** @var Device $device */
-            $device = new Device($all);
+            $device->createExternalDevice();
 
-            return $device->createExternalDevice();
+            return $device;
+
         }
 
         throw new \Exception('No service is configured');
