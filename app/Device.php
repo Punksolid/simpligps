@@ -131,7 +131,10 @@ class Device extends Model implements LoggerInterface
                     'lon' => $positionObj->longitude,
                 ];
             } catch (\Exception $exception) {
-                logger()->warning('Couldn figure traccar position', [$exception->getMessage()]);
+                logger()->warning('Couldn figure traccar position', [
+                    $exception->getMessage(),
+                    '$unique_id' => $unique_id
+                ]);
             }
 
         }
