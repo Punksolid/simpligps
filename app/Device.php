@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Services\Traccar;
+use App\Services\Wialon;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -134,8 +135,9 @@ class Device extends Model implements LoggerInterface
             }
 
         }
-
-        if ($this->linked()) {
+        /** @var Wialon $wialon_handler */
+        $wialon_handler = resolve(Wialon::class);
+        if ($this->linked() && $wialon_handler->isConfigured()) {
             // TODO REFACTOR Unit Find para que use las flags con los detalles, this is a performance issue
             $unit = Unit::all()->where('id', $this->wialon_id)->first();
 

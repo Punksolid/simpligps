@@ -17,12 +17,14 @@ use App\TruckTract as Truck;
 
 class Wialon
 {
-    private $token;
 
-    public function __construct($token)
+    public function isConfigured(): bool
     {
-        $this->token = $token;
-        config(['services.wialon.token' => $token]);
+        if (!\config('services.wialon.token')){
+            return false;
+        }
+
+        return true;
     }
 
     public function import(): Collection

@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Traccar;
+use App\Services\Wialon;
 use App\Validators\AccountValidator;
 use Hyn\Tenancy\Validators\WebsiteValidator;
 use Illuminate\Database\Eloquent\Relations\Relation;
@@ -38,5 +39,8 @@ class AppServiceProvider extends ServiceProvider
             return new Traccar();
         });
 
+        $this->app->singleton(Wialon::class, function ($app) {
+            return new Wialon();
+        });
     }
 }
