@@ -32,12 +32,15 @@ trait CreatesApplication
         /***WEBSITE CREATION***/
         if (Account::where("uuid", '01b421a3055f4e9bab1d5a3e186a6149')->exists()) {
             $this->account = Account::where("uuid", '01b421a3055f4e9bab1d5a3e186a6149')->first();
+//            dd($this->account->toArray());
         } else {
             $this->account = new Account();
             $this->account->uuid = "01b421a3055f4e9bab1d5a3e186a6149";
             $this->account->easyname = "unittest_tenant_account";
+            app(WebsiteRepository::class)->create($this->account);
+
         }
-        app(WebsiteRepository::class)->create($this->account);
+
 
         $environment = app(Environment::class);
         $environment->tenant($this->account);

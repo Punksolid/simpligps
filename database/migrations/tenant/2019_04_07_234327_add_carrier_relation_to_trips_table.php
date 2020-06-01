@@ -1,8 +1,10 @@
-<?php /** @noinspection PhpUndefinedClassInspection */
+<?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
+ /** @noinspection PhpUndefinedClassInspection */
+
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
 class AddCarrierRelationToTripsTable extends Migration
 {

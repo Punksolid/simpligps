@@ -26,7 +26,7 @@ class MeTest extends TestCase
             ]);
     }
 
-    public function test_usuario_loggeado_debe_poder_cambiar_su_contrasenha()
+    public function test_usuario_loggeado_debe_poder_cambiar_su_contrasenha(): void
     {
         $user = factory(User::class)->create();
         $call = $this->actingAs($user)->postJson("/api/v1/me/change_password", [
@@ -34,6 +34,21 @@ class MeTest extends TestCase
             "password_confirmation" => "321321321"
         ]);
         $call->assertStatus(200);
+    }
+
+    public function test_user_can_change_its_own_lastname(): void
+    {
+
+        $user = factory(User::class)->create();
+        $new_data = [
+            "name" => $this->faker->name,
+            "lastname" => $this->faker->lastName,
+            "email" => $this->faker->email,
+        ];
+
+        $call = $this->actingAs($user)->putJson("api/v1/me", $new_data);
+
+        $call->assertJsonFragment($new_data);
     }
 
     public function test_usuario_puede_acceder_a_sus_cuentas()

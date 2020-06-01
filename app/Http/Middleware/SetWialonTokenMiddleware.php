@@ -16,8 +16,13 @@ class SetWialonTokenMiddleware
      */
     public function handle($request, Closure $next)
     {
-        $token = (new \App\Setting())->getWialonToken();
-        config(['services.wialon.token' => $token]);
+        try {
+            $token = (new \App\Setting())->getWialonToken();
+            config(['services.wialon.token' => $token]);
+        }catch (\Exception $exception) {
+            info('setting wialon token unsuccesful');
+        }
+
 
         return $next($request);
     }

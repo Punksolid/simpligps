@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Exports\TripsReport;
 use App\Place;
 use App\Trip;
+use App\User;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -13,9 +14,10 @@ use Tests\Tenants\TestCase;
 
 class TripsReportsTest extends TestCase
 {
-    public function test_should_generate_a_general_report_of_trips()
+    public function test_should_generate_a_general_report_of_trips(): void
     {
 //        Excel::fake();
+        $this->markTestIncomplete('Need to understand right the response object');
         $trip = factory(Trip::class)->create();
         $trip->setOrigin(factory(Place::class)->create(), now(), now());
         $trip->setDestination(factory(Place::class)->create(), now()->addHour(), now()->addDays(1));
@@ -32,8 +34,9 @@ class TripsReportsTest extends TestCase
             'carrier' => null
         ];
 
-        $call = $this->post('api/v1/reports', $form);
-        $call->dump();
+//        $call = $this->post('api/v1/reports', $form);
+//        $call->get
+//        dd($call);
 //        $call->dump();
 ////        $call->dump();
 //        $call->assertJsonFragment([
@@ -42,13 +45,13 @@ class TripsReportsTest extends TestCase
 //        $call->assertJsonMissing([
 //            'rp' => $trip_should_not_see->rp
 //        ]);
-//
-//
-//        $this->actingAs($this->givenUser())
-//            ->get('/invoices/download/xlsx');
 
+
+        $xx = $this->actingAs(factory(User::class)->create())
+            ->get('/invoices/download/xlsx');
+//        dd($xx->dump());
 //        Excel::assertDownloaded('general_report.xlsx', function(TripsReport $export) use ($trip){
-//            // Assert that the correct export is downloaded.
+//             Assert that the correct export is downloaded.
 //            return $export->collection()->contains($trip->rp);
 //        });
 

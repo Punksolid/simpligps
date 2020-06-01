@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\SettingResource;
+use App\Http\Resources\SettingsResourceCollection;
+use App\Jobs\Traccar\ImportDevices;
 use App\Setting;
 use App\Wialon;
 use Illuminate\Http\Request;
@@ -57,5 +60,40 @@ class SettingsController extends Controller
                 'wialon_key' => $settings->where('key', 'wialon_key')->first()->value,
             ],
         ]);
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function putUpdate(Request $request)
+    {
+        foreach ($request->all() as $key => $value){
+            Setting::where('key', $key)->updateOrCreate([
+                'key' => $key
+            ], [
+                'value' => $value,
+                'description' => "$key:$value"
+            ]);
+        }
+
+        $this->proccessImports();
+
+
+        $settings = Setting::all();
+
+        return SettingResource::collection($settings);
+
+    }
+
+    private function proccessImports()
+    {
+        $traccar_import = Setting::query()->where('key', 'traccar_import')->firstOrFail();
+
+        if ($traccar_import->value) {
+            $this->dispatch(ImportDevices::class);
+        }
+
     }
 }

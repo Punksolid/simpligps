@@ -33,21 +33,6 @@ class UsersTest extends TestCase
         $call->assertSuccessful();
     }
 
-    public function test_se_puede_editar_un_usuario()
-    {
-        $user = factory(User::class)->create();
-        $new_data = [
-            "name" => $this->faker->name,
-            "lastname" => $this->faker->lastName,
-            "email" => $this->faker->email,
-        ];
-
-        $call = $this->putJson("api/v1/users/{$user->id}", $new_data);
-
-        $call->assertJsonFragment($new_data);
-
-    }
-
     public function test_listar_usuarios()
     {
         $users = factory(User::class, 2)->create();

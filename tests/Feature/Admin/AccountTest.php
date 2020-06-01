@@ -7,6 +7,7 @@ use App\License;
 use App\Sysadmin;
 use App\User;
 use Hyn\Tenancy\Contracts\Repositories\WebsiteRepository;
+use Mockery\Mock;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -31,8 +32,12 @@ class AccountTest extends TestCase
      *
      * @return void
      */
-    public function test_crear_nueva_cuenta()
+    public function test_crear_nueva_cuenta(): void
     {
+        $account = \Mockery::mock(Account::class)->makePartial();
+        $account->shouldReceive('createAccount')->andReturn(null);
+        $this->app->instance(Account::class,$account);
+
         $form = [
             "easyname" => $this->faker->unique()->word . $this->faker->unique()->word,
             "email" => $this->faker->email

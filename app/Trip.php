@@ -7,8 +7,10 @@ use App\Exceptions\MalformedTrip;
 use App\Traits\ModelLogger;
 use App\Traits\TripRelationships;
 use Carbon\Carbon;
+use Doctrine\DBAL\Query\QueryBuilder;
 use Exception;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Collection;
@@ -72,13 +74,6 @@ class Trip extends Model implements LoggerInterface
      */
     public $wialon_trips;
 
-    public function tags(): MorphToMany
-    {
-        return $this
-            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
-            ->orderBy('order_column');
-    }
-
     /**
      * Todas las conexiones automaticas pasan por aqui, cuando se quiera usar drivers nuevos  se tendr[a que crear otra
      * clase para ellas.
@@ -98,6 +93,12 @@ class Trip extends Model implements LoggerInterface
     }
 
     //region Relationships
+    public function tags(): MorphToMany
+    {
+        return $this
+            ->morphToMany(self::getTagClassName(), 'taggable', 'taggables', null, 'tag_id')
+            ->orderBy('order_column');
+    }
 
     public function getOriginAttribute()
     {
@@ -408,7 +409,7 @@ class Trip extends Model implements LoggerInterface
 
     public function scopeOnlyOngoing($query)
     {
-        return $this->scopeBetweenDates($query, now()->toDateTimeString(), now()->toDateTimeString());
+        return $this->scopeBetweenDates($query, now(), now());
     }
 
     /**
@@ -426,40 +427,26 @@ class Trip extends Model implements LoggerInterface
      *
      * @return mixed
      */
-    public function scopeBetweenDates($query,$start_date = null, $end_date = null)
+    public function scopeBetweenDates(Builder $query,Carbon $start_date = null,Carbon $end_date = null)
     {
         $start_date = $start_date ?? now()->toDateTimeString();
         $end_date = $end_date ?? now()->toDateTimeString();
 
-        return $query->select([
-            'trips.*',
-            'origin.id as origin_id',
-            'origin.type as type',
-            'origin.order as order',
-            'origin.at_time as origin_at_time',
-            'origin.exiting as origin_exiting',
+        return $query
+            ->whereHas('checkpoints', function ($q_checkpoints) use($start_date){
+                /** @var Builder $q_checkpoints */
+                return $q_checkpoints
+                    ->where('type', '=', 'origin')
+                    ->whereDate('at_time', '<', $start_date);
 
-            'destination.id as destination_id',
-            'destination.type as destination type',
-            'destination.order as destination order',
-            'destination.at_time as destination_at_time',
-            'destination.exiting as destination_exiting',
-        ])->join(
-            'places_trips as origin',
-            function ($join) use($start_date) {
-                $join->on('trips.id', '=', 'origin.trip_id')
-                    ->where('origin.type', '=', 'origin')
-                    ->where('origin.at_time', '>', $start_date);
-            }
-        )
-            ->join(
-                'places_trips as destination',
-                function ($join) use($end_date) {
-                    $join->on('trips.id', '=', 'destination.trip_id')
-                        ->where('destination.type', '=', 'destination')
-                        ->where('destination.exiting', '<', $end_date);
-                }
-            );
+            })
+            ->whereHas('checkpoints', function ($q_checkpoints) use($end_date){
+                /** @var Builder $q_checkpoints */
+                return $q_checkpoints
+                    ->where('type', '=', 'destination')
+                    ->whereDate('exiting', '>', $end_date);
+            });
+
     }
 
     public function validateTruckAndTrailersHaveDevices(): void
@@ -484,12 +471,14 @@ class Trip extends Model implements LoggerInterface
     public function validatePlacesConnection(): void
     {
         //Validar que todos los lugares tienen geocercas conectados
+        /** @var Place[] $places */
         $places = $this->places()->get();
         if ($places->count() <= 1) {
             throw new Exception('Trip needs at least origin and destination.');
         }
         $bag = new MessageBag();
         foreach ($places as $place) {
+
             if (!$place->verifyConnection()) {
                 $bag->add('place', "The place $place->name can't connect to wialon.");
 //                throw new WialonConnectionErrorException("place","The place $place->name can't connect to wialon.");
@@ -551,4 +540,26 @@ class Trip extends Model implements LoggerInterface
             $bag->add('truck', "Truck Tract with name $truck->name doesn't have a device");
         }
     }
+
+    /**
+     * @return array
+     */
+    public function createNotificationsForTrips(): array
+    {
+        return $this->wialon()->createNotificationsForTrips();
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function validateReferrals(): void
+    {
+        $this->wialon()->validateReferrals();
+    }
+
+    public function deleteNotifications()
+    {
+        return $this->wialon()->deleteNotifications();
+    }
+
 }

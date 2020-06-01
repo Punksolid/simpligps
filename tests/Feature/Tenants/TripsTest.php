@@ -16,6 +16,7 @@ use App\User;
 use Carbon\Carbon;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\ValidationException;
 use Tests\Tenants\TestCase;
 
 /**
@@ -116,7 +117,7 @@ class TripsTest extends TestCase
 
     public function test_crear_nuevo_viaje_manual()
     {
-        $this->withoutExceptionHandling();
+//        $this->withoutExceptionHandling();
         $mochis = factory(Place::class)->create();
         $trip = [
             'rp' => $this->faker->name,
@@ -125,12 +126,12 @@ class TripsTest extends TestCase
             'intermediates' => [
                 [
                     'place_id' => $mochis->id,
-                    'at_time' => Carbon::now()->addDay(1)->toDateTimeString(),
-                    'exiting' => Carbon::now()->addDay(2)->toDateTimeString(),
+                    'at_time' => Carbon::now()->addDay(2)->toDateTimeString(),
+                    'exiting' => Carbon::now()->addDay(3)->toDateTimeString(),
                 ], [
                     'place_id' => factory(Place::class)->create()->id,
-                    'at_time' => Carbon::now()->addDays(3)->toDateTimeString(),
-                    'exiting' => Carbon::now()->addDays(4)->toDateTimeString(),
+                    'at_time' => Carbon::now()->addDays(4)->toDateTimeString(),
+                    'exiting' => Carbon::now()->addDays(5)->toDateTimeString(),
                 ],
             ],
             'trailers_ids' => [
@@ -146,10 +147,10 @@ class TripsTest extends TestCase
             'truck_tract_id' => factory(TruckTract::class)->create()->id,
             'operator_id' => factory(Operator::class)->create()->id,
 
-            'scheduled_load' => Carbon::now()->toDateString(),
-            'scheduled_departure' => Carbon::now()->addDays(1)->toDateString(),
-            'scheduled_arrival' => Carbon::now()->addDays(7)->toDateString(),
-            'scheduled_unload' => Carbon::now()->addDays(8)->toDateString(),
+            'scheduled_load' => Carbon::now()->toDateTimeString(),
+            'scheduled_departure' => Carbon::now()->addDays(1)->toDateTimeString(),
+            'scheduled_arrival' => Carbon::now()->addDays(7)->toDateTimeString(),
+            'scheduled_unload' => Carbon::now()->addDays(8)->toDateTimeString(),
         ];
 
         $call = $this->postJson('/api/v1/trips', $trip);

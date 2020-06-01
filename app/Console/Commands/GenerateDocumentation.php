@@ -54,11 +54,8 @@ class GenerateDocumentation extends Command
         Auth::setUser($user);
 
         $this->call(
-            'api:generate',
+            'apidoc:generate',
             [
-                '--routePrefix' => 'api/v1/*',
-//                '--output' => 'storage/app/public/docs/user',
-//                '--header' => "Authorization:Bearer $token",
                 '--force' => false,
                 '--env' => 'documentation',
                 '--actAsUserId' => $user->id,
@@ -76,9 +73,9 @@ class GenerateDocumentation extends Command
         $licence = factory(License::class)->create();
         $account = factory(Account::class)->create();
         $this->call(
-            'api:generate',
+            'apidoc:generate',
             [
-                '--routePrefix' => 'api/sysadmin/v1/*',
+//                '--routePrefix' => 'api/sysadmin/v1/*',
                 '--output' => 'storage/app/public/docs/admin/',
                 '--force' => true,
                 '--env' => 'production',

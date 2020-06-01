@@ -27,11 +27,10 @@ class TripActionsController extends Controller
         $this->validate($request, [
             'enable_automatic_updates' => 'required|bool',
         ]);
-
-        $trip->wialon()->validateReferrals();
+        $trip->validateReferrals();
 
         if ($request->enable_automatic_updates) {
-            $array_wialon_notifications_ids = $trip->wialon()->createNotificationsForTrips();
+            $array_wialon_notifications_ids = $trip->createNotificationsForTrips();
             if (count($array_wialon_notifications_ids) >= 1) {
                 return response()->json([
                     'notifications_total' => count($array_wialon_notifications_ids),
@@ -44,9 +43,15 @@ class TripActionsController extends Controller
         return \response()->json(['data' => 'No data were validated']);
     }
 
+    /**
+     * Destroy automatic updated
+     * @param Trip $trip
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Punksolid\Wialon\WialonErrorException
+     */
     public function destroy(Trip $trip)
     {
-        if ($trip->wialon()->deleteNotifications()) {
+        if ($trip->deleteNotifications()) {
             return \response()->json([
                 'message' => 'Automatic Updates Deactivated.',
             ]);

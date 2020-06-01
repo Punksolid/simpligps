@@ -6,6 +6,8 @@ use App\Carrier;
 use App\Device;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
+use App\Services\RegisterDevice;
+use App\Services\Traccar;
 use App\User;
 use Punksolid\Wialon\Unit;
 use Tests\Tenants\TestCase;
@@ -46,22 +48,26 @@ class DevicesTest extends TestCase
      *
      * @return void
      */
-    public function test_registrar_un_nuevo_dispositivo()
+    public function test_registrar_un_nuevo_dispositivo(): void
     {
-        $this->markTestSkipped(
-            "No se puede probar con el token de wialon playground, habría que probar con un token de pruebas pero que sea real"
-        );
-        $device = $this->deviceForm();
+        $this->withoutExceptionHandling();
+        $register_device = \Mockery::mock(RegisterDevice::class)->makePartial();
+        $register_device->shouldReceive('__invoke')->andReturn([]);
+        $this->app->instance(RegisterDevice::class,$register_device);
 
-        $call = $this->postJson("api/v1/devices", $device);
-        $call->assertJsonFragment($device);
+        $device_form = $this->deviceForm();
+
+        $call = $this->postJson("api/v1/devices", $device_form);
+        $call->assertJsonFragment($device_form);
 
     }
 
-    public function test_usuario_puede_ver_detalles_de_un_solo_dispositivo()
+
+    public function test_usuario_puede_ver_detalles_de_un_solo_dispositivo(): void
     {
         $this->withoutExceptionHandling();
         $device = factory(Device::class)->create();
+
         $call = $this->getJson("api/v1/devices/$device->id");
 
         $call->assertJson([
@@ -209,8 +215,15 @@ class DevicesTest extends TestCase
         ]);
     }
 
-    public function test_ver_posicion_de_device_ligado()
+    public function test_ver_posicion_de_device_ligado(): void
     {
+        $this->withoutExceptionHandling();
+        $traccar = $this->mock(Traccar::class)
+            ->makePartial();
+        $traccar->shouldReceive('isConfigured')->andReturnFalse();
+
+        $this->app->instance(Traccar::class, $traccar);
+
 //        $unit = Unit::all()->first();
         /** @var Unit $unit */
         $unit = $this->partialMock(Unit::class, function ($mock){
@@ -218,6 +231,7 @@ class DevicesTest extends TestCase
             $mock->lat = 52.31839;
             $mock->lon = 9.81065;
         });
+
         $device = factory(Device::class)->create();
         $device->linkUnit($unit);
 

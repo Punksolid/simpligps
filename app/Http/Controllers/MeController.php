@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Account;
+use App\Http\Requests\UserRequest;
 use App\Http\Resources\AccountResource;
 use App\Http\Resources\InternalNotificationResource;
 use App\Http\Resources\UsersResource;
 use App\User;
 use http\Client\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class MeController.
@@ -92,6 +94,25 @@ class MeController extends Controller
      * Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @OA\Get(
+     *     path="/api/v1/me/accounts",
+     *     security={
+     *      {
+     *       "passport": {}
+     *      }
+     *     },
+     *       @OA\Response(
+     *         response=200,
+     *         description="Devuelve todas las cuentas de un usuario, necesario para el login y la especificacion del tenant.",
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *         ),
+     *         @OA\Schema(
+     *             type="json",
+     *             @OA\Items(type="string"),
+     *         )
+     *     )
+     * )
      */
     public function accounts()
     {
@@ -134,5 +155,22 @@ class MeController extends Controller
         
 
         return AccountResource::make($account);
+    }
+
+    /**
+     * Update the info of the authenticated user
+     *
+     * @param \Illuminate\Http\Request $request
+     * @param int                      $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function updatePersonalInfo(UserRequest $request)
+    {
+        $user = Auth::user();
+        $user->update($request->all());
+        $user->save();
+
+        return UsersResource::make($user->fresh());
     }
 }

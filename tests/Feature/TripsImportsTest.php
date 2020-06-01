@@ -13,9 +13,10 @@ use Tests\Tenants\TestCase;
 
 class TripsImportsTest extends TestCase
 {
-    public function test_puede_importar_plan_de_viaje_con_datos_minimos()
+    public function test_puede_importar_plan_de_viaje_con_datos_minimos(): void
     {
 //        $this->withoutExceptionHandling();
+//        dd(now()->toDateTimeString());
         $trip = [
             "client_id" => 1,
             "origin_id" => 1,
@@ -27,11 +28,12 @@ class TripsImportsTest extends TestCase
             "scheduled_arrival" => "2019-12-02 10:10:00",
             "scheduled_unload" => "2019-12-11 11:11:00",
         ];
-                // storage/framework/testing/TripsListTest.xlsx
+
+        // storage/testing/TripsListTest.xlsx
 
         $form = [
           'trips' => new UploadedFile(
-              storage_path().'/framework/testing/TripsListTest.xlsx',
+              storage_path().'/testing/TripsListTest.xlsx',
               'TripsListTest.xlsx',
           'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
           )
@@ -59,12 +61,11 @@ class TripsImportsTest extends TestCase
 
     }
 
-    public function test_lanza_errores_cuando_cualquier_fila_tiene_error_y_no_salva_ninguna_otra_fila()
+    public function test_lanza_errores_cuando_cualquier_fila_tiene_error_y_no_salva_ninguna_otra_fila(): void
     {
-
         $form = [
             'trips' => new UploadedFile(
-                storage_path().'/framework/testing/TripsListTestErrorLine3.xlsx',
+                storage_path().'/testing/TripsListTestErrorLine3.xlsx',
                 'TripsListTestErrorLine3.xlsx',
                 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
             )

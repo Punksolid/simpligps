@@ -7,6 +7,7 @@ use App\Http\Middleware\SetWialonTokenMiddleware;
 use App\Place;
 use App\Trip;
 use App\TruckTract;
+use Mockery\Mock;
 use Punksolid\Wialon\Resource;
 use Tests\Tenants\TestCase;
 
@@ -28,44 +29,41 @@ class TripActionTest extends TestCase
 
     }
 
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function test_stop_actualizaciones_automaticas_de_un_viaje()
     {
         $this->withoutExceptionHandling();
-        $trip = factory(Trip::class)->create();
-        $truck = factory(TruckTract::class)->create();
-        $truck->assignDevice(factory(Device::class)->create(['wialon_id' => '17471332']));
-        $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
-        $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
-        $trip->update(['truck_tract_id' => $truck->id]);
-
-        $trip->wialon()->createNotificationsForTrips();
-        $resource = Resource::findByName($trip->wialon()->resource_name);
-
-        $this->assertEquals($trip->wialon()->resource_name,$resource->nm);
+        $trip = \Mockery::mock('alias:\\'.Trip::class, function ($mock){
+            $mock->id = 1000000;
+            $mock->shouldReceive('deleteNotifications')
+                ->andReturn(true);
+        })->makePartial();
+        $this->app->instance(Trip::class,$trip);
 
         $call = $this->deleteJson("/api/v1/trips/$trip->id/automatic_updates");
-
         $call->assertSuccessful();
+        $call->assertJsonFragment([
+            'message' => 'Automatic Updates Deactivated.'
+        ]);
 
-        $resource = Resource::findByName($trip->wialon()->resource_name);
-
-        $this->assertNull($resource);
     }
 
-    public function test_dar_salida_a_un_viaje()
+    /**
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function test_dar_salida_a_un_viaje(): void
     {
-        $this->withoutExceptionHandling();
-        $trip = factory(Trip::class)->create();
 
-        $truck = factory(TruckTract::class)->create();
-        $truck->assignDevice(factory(Device::class)->create(['wialon_id' => '17471332']));
-
-        $trip->setOrigin(factory(Place::class)->create(['geofence_ref' => '17471233_4']), now()->addDays(1),now()->addDays(2));
-        $trip->setDestination(factory(Place::class)->create(['geofence_ref' => '17471233_6']), now()->addDays(4),now()->addDays(5));
-
-
-        $trip->update(['truck_tract_id' => $truck->id]);
-
+        $trip = \Mockery::mock('alias:\\'.Trip::class, function ($mock){
+            $mock->id = 1000000;
+        })->makePartial();
+        $trip->shouldReceive('validateReferrals')->andReturn([]);
+        $trip->shouldReceive('createNotificationsForTrips')->andReturn(['1234567899']);
+        $this->app->instance(Trip::class,$trip);
 
         $call = $this->postJson("api/v1/trips/$trip->id/give_exit", [
             "enable_automatic_updates" => true

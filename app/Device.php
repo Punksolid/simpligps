@@ -2,10 +2,14 @@
 
 namespace App;
 
+use App\Services\Traccar;
+use App\Services\Wialon;
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
+use Javleds\Traccar\Exceptions\TraccarApiCallException;
+use Javleds\Traccar\Models\Device as TraccarDevice;
 use Punksolid\Wialon\Unit;
 use Psr\Log\LoggerTrait;
 use Psr\Log\LoggerInterface;
@@ -28,7 +32,7 @@ class Device extends Model implements LoggerInterface
         'brand',
         'model',
         'gps',
-        'wialon_id',
+        'wialon_id', // @todo Refactor, should be external_id and another field for the driver used
         'group_id',
         'reference_data',
         'bulk',
@@ -97,8 +101,8 @@ class Device extends Model implements LoggerInterface
     }
 
     /**
-     * Comprueba si tiene una ligacion a un dispositivo externo.
-     *
+     * Comprueba si tiene una ligacion a un dispositivo externo de wialon
+     * @todo Refactor to accept traccar too
      * @return bool
      */
     public function linked($verify = false): bool
@@ -112,7 +116,33 @@ class Device extends Model implements LoggerInterface
 
     public function getLocation(): array
     {
-        if ($this->linked()) {
+        /** @var Traccar $traccar_handler */
+        $traccar_handler = resolve(Traccar::class);
+
+        if ($this->wialon_id !== null && $traccar_handler->isConfigured()){
+            try {
+
+                $traccar = TraccarDevice::find($this->internal_number);
+                $position = $traccar_handler->getPosition($traccar->positionId);
+                $positionObj = $position[0];
+
+                return [
+                    'lat' => $positionObj->latitude,
+                    'lon' => $positionObj->longitude,
+                ];
+            } catch (\Exception $exception) {
+                logger()->warning('Couldn figure traccar position', [
+
+                    $exception->getMessage(),
+                    '$unique_id' => $this->internal_number,
+                    'positionId'
+                ]);
+            }
+
+        }
+        /** @var Wialon $wialon_handler */
+        $wialon_handler = resolve(Wialon::class);
+        if ($this->linked() && $wialon_handler->isConfigured()) {
             // TODO REFACTOR Unit Find para que use las flags con los detalles, this is a performance issue
             $unit = Unit::all()->where('id', $this->wialon_id)->first();
 
@@ -141,5 +171,37 @@ class Device extends Model implements LoggerInterface
         }
 
         return $this->linked(true);
+    }
+
+    /**
+     * Register a new Unit in Wialon Service
+     */
+    public function createExternalDevice()
+    {
+        try {
+            $unit = Unit::make($this->name);
+            $this->update(['reference_data' => $unit]);
+        } catch (\Exception $exception) {
+            Log::warning('Couldn\'t create a unit in wialon', [
+                'device' => $this->toArray(),
+            ]);
+        }
+    }
+
+    public function isConnected(): bool
+    {
+        if ($this->wialon_id !== null){
+            return false;
+        }
+
+        /** @var Traccar $traccar_handler */
+        $traccar_handler = resolve(Traccar::class);
+        /** @var Wialon $wialon_handler */
+        $wialon_handler = resolve(Wialon::class);
+        if ($traccar_handler->isConfigured() OR $wialon_handler->isConfigured()) {
+            return true;
+        }
+
+        throw new \Exception('Not well connected');
     }
 }

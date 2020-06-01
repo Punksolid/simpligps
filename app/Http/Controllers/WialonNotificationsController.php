@@ -13,16 +13,7 @@ use Punksolid\Wialon\GeofenceControlType;
 
 class WialonNotificationsController extends Controller
 {
-    public function index()
-    {
-        //        @todo Implementar cache para multitenant
-        //        $notifications = Cache::remember('notifications', 300, function () {
-        //            return Notification::all();
-        //        });
-        $notifications = Notification::all();
 
-        return WialonNotificationResource::collection($notifications);
-    }
 
     /**
      * Create Wialon Notification.
@@ -89,18 +80,4 @@ class WialonNotificationsController extends Controller
         return WialonNotificationResource::make($notification);
     }
 
-    public function destroy($id)
-    {
-        $notification = Notification::all()->where('id', $id)->first();
-        //        Cache::forget('notifications');
-        if ($notification->destroy()) {
-            return response()->json([
-                'message' => 'Success',
-            ]);
-        }
-
-        return response()->json([
-            'message' => 'Error deleting notification',
-        ]);
-    }
 }

@@ -57,25 +57,6 @@ class LoginTest extends TestCase
         $call->assertStatus(200);
     }
 
-    public function test_access_token_expira_a_los_15_minutos()
-    {
-        $this->markTestIncomplete("Falta agregar middleware que revisa expiracion");
-        $this->withoutExceptionHandling();
-  
-        $user = factory(User::class)->create();
-        // Personal
-        Passport::personalAccessTokensExpireIn(now()->addMinutes(15));
-  
-        $token = $user->createToken('Token TEST')->accessToken;
-        // dd($token, $token->accessToken);
-        // $token = $token->accessToken;
-        $travel_time = now()->addMinutes(25);
-        Carbon::setTestNow($travel_time);
-        $call = $this->getJson("api/v1/me", ["Authorization" => "Bearer " . $token]);
-
-        $call->assertStatus(401);
-    }
-
     public function test_check_innaccesible_endpoint_for_not_logged_users_not_authenticated()
     {
         $call = $this

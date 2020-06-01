@@ -43,7 +43,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
     public function hostnames(): HasMany
     {
         // TODO: Implement hostnames() method.
-        return null;
+
     }
 
     //region Relationships
@@ -121,8 +121,7 @@ class Account extends \Hyn\Tenancy\Models\Website implements Website
 
             return true;
         } catch (Exception $exception) {
-            info('Error in addUser');
-            log($exception);
+            info('Error in addUser', [$exception]);
 
             return false;
         }

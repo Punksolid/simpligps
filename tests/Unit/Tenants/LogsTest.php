@@ -12,9 +12,8 @@ use App\ModelLogHandler;
 
 class LogsTest extends TestCase
 {
-    public function test_register_a_log_with_monolog()
+    public function test_register_a_log_with_monolog(): void
     {
-        $this->markTestIncomplete("Monolog puede ser implementado para tener mas los automaticamente");
         // Create the logger
         $logger = new Logger('testing_channel');
         // Now add some handlers
@@ -23,9 +22,11 @@ class LogsTest extends TestCase
 
         // You can now use your logger
         $logger->info('My logger is now ready');
+
+        $this->assertDatabaseHas('logs',['message' => 'My logger is now ready'],'tenant');
     }
 
-    public function test_register_a_log_for_a_device()
+    public function test_register_a_log_for_a_device(): void
     {
         $device = factory(Device::class)->create();
         $device->emergency('help');

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use App\Account;
 use App\Http\Middleware\LimitExpiredLicenseAccess;
 use App\Http\Middleware\LimitSimoultaneousAccess;
+use App\Setting;
 use App\User;
 use Tests\Tenants\TestCase;
 
@@ -52,5 +53,38 @@ class SettingsTest extends TestCase
         ]);
         $call->assertSuccessful();
 
+    }
+
+    public function test_save_traccar_settings()
+    {
+        $call = $this->putJson('api/v1/settings', [
+            'traccar_base_url'=> "http://localhost:8082/api/",
+            'traccar_username'=> "admin",
+            'traccar_password'=> "admin",
+            'traccar_import' => false
+        ]);
+
+        $call->assertJsonFragment(['traccar_base_url' => "http://localhost:8082/api/"]);
+        $call->assertJsonFragment(['traccar_username' => "admin"]);
+        $call->assertJsonFragment(['traccar_password' => "admin"]);
+    }
+
+    public function test_update_only_traccar_username(): void
+    {
+        $old_url = $this->faker->url;
+        $settings = Setting::updateOrCreate([
+            'key' => 'traccar_base_url'
+        ], [
+            'value' => $old_url,
+            'description' => ""
+        ]);
+
+        $url = $this->faker->url;
+        $call = $this->putJson('api/v1/settings', [
+            'traccar_base_url'=> $url,
+        ]);
+
+        $call->assertJsonFragment(['traccar_base_url' => $url]);
+        $call->assertJsonMissing(['traccar_base_url' => $old_url]);
     }
 }

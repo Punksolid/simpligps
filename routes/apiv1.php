@@ -5,6 +5,7 @@ use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 use App\Http\Middleware\ProfilingTestMiddleware;
 use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
+use App\Http\Middleware\SetTraccarConfigurations;
 use App\Http\Middleware\SetWialonTokenMiddleware;
 use Hyn\Tenancy\Environment;
 use Illuminate\Http\JsonResponse;
@@ -12,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 //use Geocoder\Query\GeocodeQuery;
 //use Geocoder\Query\ReverseQuery;
+
 
 //ecommerce
 Route::any('ecommerce/1234567890', 'PurchaseController@storeFromEcommerce');
@@ -42,6 +44,7 @@ Route::group(
         Route::get('me/notifications', 'MeController@getNotifications');
         Route::post('me/notifications/{id}/mark_as_read', 'MeController@markAsRead');
         Route::get('/me', 'MeController@meInfo');
+        Route::put('/me', 'MeController@updatePersonalInfo');
         Route::get('/download_layout','DownloadLayoutController');
 
 
@@ -58,6 +61,7 @@ Route::group(
                     'limit_expired_license_access',
                     IsUserPermittedInAccountMiddleware::class,
                     SetWialonTokenMiddleware::class,
+                    SetTraccarConfigurations::class,
                     'limit_simoultaneous_access',
                 ],
             ],
@@ -164,8 +168,6 @@ Route::group(
                         Route::get('wialon/resources', 'WialonController@getResources');
                         Route::get('wialon/units', 'WialonController@getUnits');
                         Route::get('wialon/geofences', 'WialonGeofencesController@index');
-                        Route::get('wialon/notifications', 'WialonNotificationsController@index');
-                        Route::post('wialon/notifications', 'WialonNotificationsController@store');
                         Route::delete('wialon/notifications/{id}', 'WialonNotificationsController@destroy');
 
                         //Region NOTIFICATIONS
@@ -193,6 +195,7 @@ Route::group(
                 // Settings
                 Route::post('settings', 'SettingsController@general');
                 Route::get('settings', 'SettingsController@getSettings');
+                Route::put('settings', 'SettingsController@putUpdate');
 
                 Route::group(
                     [

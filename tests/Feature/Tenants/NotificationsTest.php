@@ -100,25 +100,6 @@ class NotificationsTest extends TestCase
         $call->assertStatus(200);
     }
 
-    public function test_get_wialon_notifications()
-    {
-        $this->markTestSkipped('DEPRECATED, no se utiliza más leer notificaciones directamente de wialon');
-        $call = $this->getJson('api/v1/wialon/notifications');
-
-        $call->assertSuccessful();
-        $call->assertJsonStructure([
-            'data',
-        ]);
-    }
-
-    public function test_destroy_wialon_notification()
-    {
-        $this->markAsRisky('DEPRECATED');
-        $notification = \Punksolid\Wialon\Notification::all()->first();
-        $call = $this->deleteJson("api/v1/wialon/notifications/$notification->id");
-        $call->assertSuccessful();
-    }
-
     public function test_enviar_notificacion_a_cuenta_por_webhook()
     {
         $this->withoutExceptionHandling();
@@ -167,32 +148,6 @@ class NotificationsTest extends TestCase
         );
 
         $call->assertSuccessful();
-    }
-
-    public function test_crear_notificacion_wialon()
-    {
-        $this->markTestIncomplete('DEPRECADO, no se usa mas acceso directo a wialon, Librería Wialon Fallando Refactorizar');
-        $units_id = [
-            '17471332',
-        ];
-        $resource = Resource::all()->first();
-        $call = $this->postJson(
-            'api/v1/wialon/notifications',
-            [
-            'resource_id' => $resource->id,
-            'name' => $this->faker->name,
-            'control_type' => 'panic_button',
-            'units' => $units_id,
-            'params' => [],
-            ]
-        );
-
-        $call->assertSuccessful();
-        $call->assertJsonFragment(
-            [
-            'data',
-            ]
-        );
     }
 
     public function test_activate_maximum_alert_notification()

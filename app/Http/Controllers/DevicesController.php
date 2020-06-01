@@ -5,7 +5,14 @@ namespace App\Http\Controllers;
 use App\Device;
 use App\Http\Requests\DeviceRequest;
 use App\Http\Resources\DeviceResource;
+use App\Services\RegisterDevice;
 use Illuminate\Http\Request;
+use OpenApi\Annotations\Get;
+use OpenApi\Annotations\MediaType;
+use OpenApi\Annotations\OpenApi;
+use OpenApi\Annotations\RequestBody;
+use OpenApi\Annotations\Response;
+use OpenApi\Annotations\Schema;
 use Punksolid\Wialon\Unit;
 use App\Interfaces\Search;
 
@@ -20,6 +27,26 @@ class DevicesController extends Controller implements Search
      * Display a listing of the Devices.
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection|\Illuminate\Http\Response
+     *
+     * @Get(
+     *     path="/api/v1/devices",
+     *     security={{
+     *     "passport":{}
+     *     },{
+     *     "tenant":{}
+     *     }},
+     *     @RequestBody(
+     *          @MediaType(mediaType="application/json")
+     *     ),
+     *     @Response(
+     *      response="200",
+     *      description="Display a paginated response of devices",
+     *      @MediaType(
+     *          mediaType="application/json",
+     *          @Schema(ref="#/components/schemas/device"),
+     *      )
+     *     )
+     * )
      */
     public function index(Request $request)
     {
@@ -45,18 +72,13 @@ class DevicesController extends Controller implements Search
      *
      * @return DeviceResource
      */
-    public function store(DeviceRequest $request)
+    public function store(DeviceRequest $request, RegisterDevice $registerDevice)
     {
-        $device = Device::create($request->all());
 
-        try {
-            $unit = Unit::make($request->name);
-            $device->update(['reference_data' => $unit]);
-        } catch (\Exception $exception) {
-            \Log::warning('Couldnt create a unit in wialon', [
-                'device' => $device->toArray(),
-            ]);
-        }
+        /** @var Device $device */
+        $device = Device::make($request->all());
+        $device = $registerDevice->__invoke($device);
+        $device->save();
 
         return DeviceResource::make($device);
     }
@@ -68,11 +90,6 @@ class DevicesController extends Controller implements Search
                 'lat' => $device->getLocation()['lat'],
                 'lon' => $device->getLocation()['lon'],
             ];
-        try {
-            $device->is_connected = $device->linked(true);
-        } catch (\Exception $exception) {
-            $device->is_connected = false;
-        }
 
         return DeviceResource::make($device);
     }

@@ -40,7 +40,6 @@ class AccountTest extends TestCase
         $account->addUser($colleague);
 
         $colleagues = $me->getColleagues($account);
-
         $this->assertEquals(1, $colleagues->count());
         $this->assertEquals($colleague->name, $colleagues->first()->name);
     }

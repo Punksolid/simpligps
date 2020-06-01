@@ -4,6 +4,7 @@ namespace App;
 
 use Hyn\Tenancy\Traits\UsesTenantConnection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Punksolid\Wialon\Geofence;
 
@@ -55,7 +56,7 @@ class Place extends Model
             ]);
     }
 
-    public function checkpoints()
+    public function checkpoints(): HasMany
     {
         return $this->hasMany(Timeline::class);
     }

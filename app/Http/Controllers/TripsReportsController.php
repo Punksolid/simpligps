@@ -45,9 +45,7 @@ class TripsReportsController extends Controller
                 'There are no trips with the given criteria'
             ]
         ]);
-//        return response()->json([
-//            'data' => ['There are no trips with the given criteria']
-//        ])->setStatusCode(422);
+
 
     }
 }

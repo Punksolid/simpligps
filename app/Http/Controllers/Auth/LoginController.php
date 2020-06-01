@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use OpenApi\Annotations\OpenApi as OA;
 
 class LoginController extends Controller
 {
@@ -35,21 +36,17 @@ class LoginController extends Controller
      */
     public function __construct()
     {
+        parent::__construct();
         $this->middleware('guest')->except('logout');
     }
 
     /**
-     * Login user and create token.
+     * Send a reset link to the given user.
      *
-     * Recibe 'email', 'password'
+     * @param \Illuminate\Http\Request $request
      *
-     * @param  [string] email
-     * @param  [string] password
-     * @param  [boolean] remember_me
+     * @return \Illuminate\Http\Response
      *
-     * @return [string] access_token
-     * @return [string] token_type
-     * @return [string] expires_at
      */
     public function login(Request $request)
     {
@@ -88,11 +85,26 @@ class LoginController extends Controller
     }
 
     /**
-     * Log the user out of the application.
+     * Send a reset link to the given user.
      *
      * @param \Illuminate\Http\Request $request
      *
      * @return \Illuminate\Http\Response
+     *
+     * @OA\Get(
+     *     path="/api/sysadminv1/dashb32oard/acc1asaaounts",
+     *       @OA\Response(
+     *         response=200,
+     *         description="Numero de cuentas instaladas",
+     *         @OA\MediaType(
+     *             mediaType="application/json"
+     *         ),
+     *         @OA\Schema(
+     *             type="array",
+     *             @OA\Items(type="string"),
+     *         ),
+     *     )
+     * )
      */
     public function logout(Request $request)
     {
