@@ -36,7 +36,7 @@ class RegisterDevice
     {
         if (config('traccar.base_url')) {
 
-            return TraccarDevice::store($all['name'], $all['uniqueId'] ?? null);
+            return TraccarDevice::store($all['name'], $all['internal_number'] ?? null);
 
         }
         if (config('services.wialon.token') !== null) {
