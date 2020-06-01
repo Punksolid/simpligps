@@ -90,11 +90,6 @@ class DevicesController extends Controller implements Search
                 'lat' => $device->getLocation()['lat'],
                 'lon' => $device->getLocation()['lon'],
             ];
-        try {
-            $device->is_connected = $device->linked(true);
-        } catch (\Exception $exception) {
-            $device->is_connected = false;
-        }
 
         return DeviceResource::make($device);
     }

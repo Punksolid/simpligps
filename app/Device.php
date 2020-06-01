@@ -101,8 +101,8 @@ class Device extends Model implements LoggerInterface
     }
 
     /**
-     * Comprueba si tiene una ligacion a un dispositivo externo.
-     *
+     * Comprueba si tiene una ligacion a un dispositivo externo de wialon
+     * @todo Refactor to accept traccar too
      * @return bool
      */
     public function linked($verify = false): bool
@@ -181,5 +181,22 @@ class Device extends Model implements LoggerInterface
                 'device' => $this->toArray(),
             ]);
         }
+    }
+
+    public function isConnected(): bool
+    {
+        if ($this->wialon_id !== null){
+            return false;
+        }
+
+        /** @var Traccar $traccar_handler */
+        $traccar_handler = resolve(Traccar::class);
+        /** @var Wialon $wialon_handler */
+        $wialon_handler = resolve(Wialon::class);
+        if ($traccar_handler->isConfigured() OR $wialon_handler->isConfigured()) {
+            return true;
+        }
+
+        throw new \Exception('Not well connected');
     }
 }
