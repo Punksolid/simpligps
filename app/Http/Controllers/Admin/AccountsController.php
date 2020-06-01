@@ -51,12 +51,13 @@ class AccountsController extends Controller
      *
      * @return AccountResource
      */
-    public function store(AccountRequest $request)
+    public function store(AccountRequest $request, Account $account)
     {
-        $account = new Account([
+
+        /** @var Account $request */
+        $account = $account->fill([
             'easyname' => $request->easyname,
         ]);
-
         $account->createAccount();
 
         $user = User::firstOrCreate([

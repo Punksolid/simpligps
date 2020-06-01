@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Device;
 use App\Http\Requests\DeviceRequest;
 use App\Http\Resources\DeviceResource;
+use App\Services\RegisterDevice;
 use Illuminate\Http\Request;
 use OpenApi\Annotations\Get;
 use OpenApi\Annotations\MediaType;
@@ -71,11 +72,11 @@ class DevicesController extends Controller implements Search
      *
      * @return DeviceResource
      */
-    public function store(DeviceRequest $request)
+    public function store(DeviceRequest $request, RegisterDevice $registerDevice)
     {
         /** @var Device $device */
         $device = Device::make($request->all());
-        $device->createExternalDevice();
+        $registerDevice->__invoke($request->all());
         $device->save();
 
         return DeviceResource::make($device);

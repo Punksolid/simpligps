@@ -6,8 +6,9 @@
  * Time: 11:11 PM.
  */
 
-namespace App;
+namespace App\Services;
 
+use App\Device;
 use Illuminate\Support\Collection;
 use Punksolid\Wialon\Notification;
 use Punksolid\Wialon\Unit;
@@ -31,7 +32,7 @@ class Wialon
             if ($this->deviceExists($wialon_unit)) {
                 continue;
             } // pasa a siguiente ciclo
-
+            /** @var Device $device */
             $device = Device::create([
                 'name' => $wialon_unit->nm,
             ]);

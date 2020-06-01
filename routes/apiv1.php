@@ -4,8 +4,10 @@ use App\Http\Middleware\IdentifyTenantConnection;
 use App\Http\Middleware\IsUserPermittedInAccountMiddleware;
 use App\Http\Middleware\ProfilingTestMiddleware;
 use App\Http\Middleware\RefreshPersonalAccessTokenMiddleware;
+use App\Http\Middleware\SetTraccarConfigurations;
 use App\Http\Middleware\SetWialonTokenMiddleware;
 use Illuminate\Support\Facades\Route;
+
 
 //ecommerce
 Route::any('ecommerce/1234567890', 'PurchaseController@storeFromEcommerce');
@@ -52,6 +54,7 @@ Route::group(
                     'limit_expired_license_access',
                     IsUserPermittedInAccountMiddleware::class,
                     SetWialonTokenMiddleware::class,
+                    SetTraccarConfigurations::class,
                     'limit_simoultaneous_access',
                 ],
             ],
@@ -185,6 +188,7 @@ Route::group(
                 // Settings
                 Route::post('settings', 'SettingsController@general');
                 Route::get('settings', 'SettingsController@getSettings');
+                Route::put('settings', 'SettingsController@putUpdate');
 
                 Route::group(
                     [
