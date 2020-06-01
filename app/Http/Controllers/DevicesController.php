@@ -74,9 +74,13 @@ class DevicesController extends Controller implements Search
      */
     public function store(DeviceRequest $request, RegisterDevice $registerDevice)
     {
+
         /** @var Device $device */
         $device = Device::make($request->all());
-        $registerDevice->__invoke($request->all());
+        $traccar_device = $registerDevice->__invoke($request->all());
+        $device->update([
+            'wialon_id' => $traccar_device->getId()
+        ]);
         $device->save();
 
         return DeviceResource::make($device);
