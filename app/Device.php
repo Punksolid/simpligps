@@ -116,6 +116,7 @@ class Device extends Model implements LoggerInterface
 
     public function getLocation(): array
     {
+        /** @var Traccar $traccar_handler */
         $traccar_handler = resolve(Traccar::class);
 
         if ($this->wialon_id !== null && $traccar_handler->isConfigured()){
@@ -131,8 +132,10 @@ class Device extends Model implements LoggerInterface
                 ];
             } catch (\Exception $exception) {
                 logger()->warning('Couldn figure traccar position', [
+
                     $exception->getMessage(),
-                    '$unique_id' => $this->internal_number
+                    '$unique_id' => $this->internal_number,
+                    'positionId'
                 ]);
             }
 

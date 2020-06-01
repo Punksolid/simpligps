@@ -26,10 +26,14 @@ class Traccar
         return true;
     }
 
-    public function getPosition($position_id)
+    public function getPosition($position_id = null)
     {
         $position = Client::get('positions', [
-            'id' => $position_id
+            'id' => $position_id,
+        ], [
+            'headers' => [
+                'Accept' => 'application/json'
+            ]
         ]);
 
         return $position;

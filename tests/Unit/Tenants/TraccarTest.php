@@ -53,9 +53,19 @@ class TraccarTest extends TestCase
         $this->app->instance(Traccar::class,$traccar);
 
         /** @var Device $device */
-        $device = factory(Device::class)->create(['wialon_id' => 1234]);
-
+        $device = factory(Device::class)->create([
+            'wialon_id' => 8,
+            'internal_number' => '9053130457'
+        ]);
         $this->assertNotNull($device->getLocation()['lat']);
         $this->assertNotNull($device->getLocation()['lon']);
+    }
+
+    public function testGetPosition()
+    {
+        $traccar = resolve(Traccar::class);
+        $position = $traccar->getPosition();
+
+        $this->assertNotNull($position);
     }
 }
